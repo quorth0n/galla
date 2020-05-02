@@ -1,8 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 
-import Header from "../components/header";
-
 export default function Home() {
   const posts = [
     {
@@ -74,7 +72,7 @@ export default function Home() {
   return (
     <div className="p-4 flex flex-wrap items-center justify-around leading-relaxed select-none">
       {posts.map((post) => (
-        <Link href={`/post/${post.title}`}>
+        <Link href={`/post/${post.title}`} key={post.title}>
           <div
             className="relative w-auto h-auto text-center mb-8 cursor-pointer"
             onClick={() => pushCollection(posts)}

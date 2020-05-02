@@ -106,7 +106,7 @@ const Post = () => {
         <div className="flex-col">
           <h1 className="text-2xl italic font-semibold">{id}</h1>
           <span className="opacity-75">by </span>
-          <Link href="/user/ehopper">
+          <Link href="/profile/ehopper">
             <a className="opacity-100">Edward Hopper</a>
           </Link>
         </div>

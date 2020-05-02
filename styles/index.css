@@ -9,6 +9,10 @@
   --color-accent: #c1a57b;
 }
 
+a {
+  transition: all 0.15s ease;
+}
+
 a:hover {
   opacity: 0.75;
 }
