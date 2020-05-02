@@ -6,7 +6,7 @@ import Header from "../components/header";
 export default function Home() {
   const posts = [
     {
-      title: "We are Making a New World",
+      title: "Nighthawks",
       thumb:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Nash%2C_Paul_-_We_are_Making_a_New_World_-_Google_Art_Project.jpg/307px-Nash%2C_Paul_-_We_are_Making_a_New_World_-_Google_Art_Project.jpg",
     },
