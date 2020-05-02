@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-primary: #ececec;
+  --color-secondary: #222831;
+  --color-secondary-soft: #30475e;
+  --color-accent: #c1a57b;
+}
+
+a:hover {
+  opacity: 0.75;
+}
+
+body {
+  background-color: var(--color-secondary-soft);
+}
