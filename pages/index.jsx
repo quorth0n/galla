@@ -67,8 +67,7 @@ export default function Home() {
     },
   ];
 
-  const pushCollection = (href, collection) => {
-    console.log(href);
+  const pushCollection = (collection) => {
     console.log(collection);
   };
 
@@ -78,14 +77,14 @@ export default function Home() {
         <Link href={`/post/${post.title}`}>
           <div
             className="relative w-auto h-auto text-center mb-8 cursor-pointer"
-            onClick={() => pushCollection(`/post/${post.title}`, posts)}
+            onClick={() => pushCollection(posts)}
           >
             <div className="absolute inset-0 w-full h-full block p-1 bg-black opacity-0 hover:opacity-75 transition duration-500 ease pl-0">
               <em className="relative top-0 text-lg font-semibold">
                 Sample Title
               </em>
               <p
-                className="absolute bottom-0 w-full whitespace-normal opacity-75"
+                className="absolute bottom-0 w-full whitespace-normal opacity-75 overflow-hidden"
                 style={{
                   WebkitLineClamp: 3,
                   WebkitBoxOrient: "vertical",

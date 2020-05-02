@@ -25,15 +25,18 @@ const Post = () => {
   // scale canvas and load image
   React.useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+    console.log(canvas.offsetWidth);
+    if (canvas.offsetWidth != "300") {
+      const ctx = canvas.getContext("2d");
 
-    const image = new Image();
-    const ratio = width / height;
-    canvas.width = Math.min(canvas.offsetWidth, width); // resize canvas width based on responsive CSS
-    canvas.height = canvas.width / ratio; // resize canvas height to maintain aspect ratio
-    image.onload = () =>
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height); // draw image and scale to canvas
-    image.src = thumb;
+      const image = new Image();
+      const ratio = width / height;
+      canvas.width = Math.min(canvas.offsetWidth, width); // resize canvas width based on responsive CSS
+      canvas.height = canvas.width / ratio; // resize canvas height to maintain aspect ratio
+      image.onload = () =>
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height); // draw image and scale to canvas
+      image.src = thumb;
+    }
   }, []);
 
   return (
@@ -41,7 +44,7 @@ const Post = () => {
       <div className="relative text-center align-middle navigation">
         {/* TODO: Add typing support for mobile https://codesandbox.io/s/qq7759m3lq?module=/src/Carousel.js&file=/src/Carousel.js */}
         <Link href="/">
-          <a className="absolute left-0 opacity-75 back">
+          <a className="absolute left-0 opacity-75 hover:opacity-50 back">
             <i className="fas fa-arrow-left"></i> Back
           </a>
         </Link>
@@ -55,7 +58,7 @@ const Post = () => {
         </Link>
         <canvas
           ref={canvasRef}
-          className="inline w-full lg:w-3/4"
+          className="inline img"
           onContextMenu={(e) => e.preventDefault()}
         />
         <Link href="#">
@@ -75,13 +78,26 @@ const Post = () => {
             opacity: 1;
           }
 
+          .arrow:hover {
+            opacity: 0.75 !important;
+          }
+
           .back {
             top: -1.5em;
+          }
+
+          /* .img cannot be resized through tailwind because dep CSS loads too slow for useEffect */
+          .img {
+            width: 100%;
           }
 
           @media (min-width: 1024px) {
             .back {
               top: 0;
+            }
+
+            .img {
+              width: 75%;
             }
           }
         `}</style>
