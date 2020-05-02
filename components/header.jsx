@@ -6,7 +6,7 @@ export default () => {
   const [searchOpen, setSearchOpen] = React.useState(false);
   return (
     <>
-      <nav className="fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary mb-3 z-50">
+      <nav className="fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary mb-3 z-50 shadow-2xl">
         <div
           className={`container mx-auto flex flex-wrap items-center lg:justify-between ${
             searchOpen ? "justify-center" : "" // centers search bar on mobile
@@ -61,7 +61,7 @@ export default () => {
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="nav-item">
                 <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75"
+                  className="px-4 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75"
                   href="#pablo"
                 >
                   <span>Log In</span>
@@ -69,10 +69,10 @@ export default () => {
               </li>
               <li className="nav-item">
                 <a
-                  className="lg:ml-4 px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug lg:bg-accent hover:opacity-75 rounded-lg"
-                  href="#pablo"
+                  className="lg:ml-4 bg-accent uppercase text-white font-bold hover:shadow-lg shadow text-xs px-4 py-2 rounded outline-none focus:outline-none"
+                  href="#"
                 >
-                  <span>Sign Up</span>
+                  Sign Up
                 </a>
               </li>
             </ul>

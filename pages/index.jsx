@@ -74,7 +74,7 @@ export default function Home() {
       {posts.map((post) => (
         <Link href={`/post/${post.title}`} key={post.title}>
           <div
-            className="relative w-auto h-auto text-center mb-8 cursor-pointer"
+            className="relative w-auto h-auto text-center mb-8 cursor-pointer shadow hover:shadow-xl"
             onClick={() => pushCollection(posts)}
           >
             <div className="absolute inset-0 w-full h-full block p-1 bg-black opacity-0 hover:opacity-75 transition duration-500 ease pl-0">

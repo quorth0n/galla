@@ -58,7 +58,7 @@ const Post = () => {
         </Link>
         <canvas
           ref={canvasRef}
-          className="inline img"
+          className="inline img shadow-2xl"
           onContextMenu={(e) => e.preventDefault()}
         />
         <Link href="#">
@@ -110,31 +110,22 @@ const Post = () => {
             <a className="opacity-100">Edward Hopper</a>
           </Link>
         </div>
-        <div className="flex-col select-none opacity-75">
+        <div
+          className="flex-col select-none opacity-75 hover:opacity-100"
+          style={{ transition: "all 0.15s ease" }}
+        >
           <div className="text-right">
-            <div
-              className="md:inline cursor-pointerbackground-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none"
-              type="button"
-            >
+            <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none">
               <i className="far fa-heart"></i> 34
             </div>
-            <div
-              className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none ml-1"
-              type="button"
-            >
+            <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none ml-1">
               <i className="far fa-comments"></i> 4
             </div>
-            <div
-              className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none ml-1"
-              type="button"
-            >
+            <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none ml-1">
               <i className="far fa-eye"></i> 162
             </div>
           </div>
-          <div
-            className="cursor-pointer background-transparent px-3 py-1 text-lg outline-none focus:outline-none text-center w-full"
-            type="button"
-          >
+          <div className="cursor-pointer background-transparent px-3 py-1 text-lg outline-none focus:outline-none text-center w-full">
             <i className="fab fa-creative-commons-pd"></i> Public Domain
           </div>
         </div>

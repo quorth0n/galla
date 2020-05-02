@@ -9,11 +9,14 @@
   --color-accent: #c1a57b;
 }
 
-a {
+a,
+button {
+  cursor: pointer;
   transition: all 0.15s ease;
 }
 
-a:hover {
+a:hover,
+button:hover {
   opacity: 0.75;
 }
 
