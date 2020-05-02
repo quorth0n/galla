@@ -73,37 +73,34 @@ export default function Home() {
   };
 
   return (
-    <>
-      <Header />
-      <div className="flex flex-wrap p-4 items-center justify-around h-full w-full leading-relaxed pt-32 select-none">
-        {posts.map((post) => (
-          <Link href={`/post/${post.title}`}>
-            <div
-              className="relative w-auto h-auto text-center mb-8 cursor-pointer"
-              onClick={() => pushCollection(`/post/${post.title}`, posts)}
-            >
-              <div className="absolute inset-0 w-full h-full block p-1 bg-black text-white opacity-0 hover:opacity-75 transition duration-500 ease pl-0">
-                <em className="relative top-0 text-lg font-semibold">
-                  Sample Title
-                </em>
-                <p
-                  className="absolute bottom-0 w-full whitespace-normal text-base opacity-75"
-                  style={{
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: "vertical",
-                    display: "-webkit-box",
-                  }}
-                >
-                  Esse ea Lorem elit labore nulla cupidatat commodo. Est commodo
-                  incididunt occaecat duis deserunt magna proident adipisicing
-                  est. Id incididunt amet sit pariatur.
-                </p>
-              </div>
-              <img src={post.thumb} alt={post.title} />
+    <div className="p-4 flex flex-wrap items-center justify-around leading-relaxed select-none">
+      {posts.map((post) => (
+        <Link href={`/post/${post.title}`}>
+          <div
+            className="relative w-auto h-auto text-center mb-8 cursor-pointer"
+            onClick={() => pushCollection(`/post/${post.title}`, posts)}
+          >
+            <div className="absolute inset-0 w-full h-full block p-1 bg-black opacity-0 hover:opacity-75 transition duration-500 ease pl-0">
+              <em className="relative top-0 text-lg font-semibold">
+                Sample Title
+              </em>
+              <p
+                className="absolute bottom-0 w-full whitespace-normal opacity-75"
+                style={{
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical",
+                  display: "-webkit-box",
+                }}
+              >
+                Esse ea Lorem elit labore nulla cupidatat commodo. Est commodo
+                incididunt occaecat duis deserunt magna proident adipisicing
+                est. Id incididunt amet sit pariatur.
+              </p>
             </div>
-          </Link>
-        ))}
-      </div>
-    </>
+            <img src={post.thumb} alt={post.title} />
+          </div>
+        </Link>
+      ))}
+    </div>
   );
 }

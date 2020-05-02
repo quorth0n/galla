@@ -1,18 +1,18 @@
 import React from "react";
+import Link from "next/link";
 
 export default () => {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
     <>
-      <nav className="fixed w-full flex flex-wrap items-center justify-between px-1 py-3 navbar-expand-lg bg-black mb-3 z-50">
+      <nav className="fixed w-full flex flex-wrap items-center justify-between px-1 py-3 navbar-expand-lg bg-secondary text-primary mb-3 z-50">
         <div className="container mx-auto flex flex-wrap items-center justify-between">
           <div className="w-auto relative flex justify-between lg:static lg:block lg:justify-start">
-            <a
-              className="text-xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white"
-              href="#pablo"
-            >
-              #modernism
-            </a>
+            <Link href="/">
+              <a className="text-2xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase hover:opacity-100">
+                Artify
+              </a>
+            </Link>
 
             <i className="fas fa-bars"></i>
           </div>
@@ -26,7 +26,7 @@ export default () => {
               <i className="fas fa-search"></i>
             </span>
             <button
-              className="text-white cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+              className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
               type="button"
               onClick={() => setNavbarOpen(!navbarOpen)}
             />
@@ -40,18 +40,18 @@ export default () => {
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="nav-item">
                 <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75"
                   href="#pablo"
                 >
-                  <span className="ml-2">Log In</span>
+                  <span>Log In</span>
                 </a>
               </li>
               <li className="nav-item">
                 <a
-                  className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                  className="ml-4 px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug bg-accent hover:opacity-75 rounded-lg"
                   href="#pablo"
                 >
-                  <span className="ml-2">Sign Up</span>
+                  <span>Sign Up</span>
                 </a>
               </li>
             </ul>
