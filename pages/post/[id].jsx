@@ -31,35 +31,22 @@ const Post = () => {
       image.onload = () => {
         const width = image.width;
         const height = image.height;
-        const ratio = width / height;
 
-        // set hiddenCanvas to original image width / height
-        hiddenCanvas.width = width;
-        hiddenCanvas.height = height;
+        canvas.width = width;
+        canvas.height = height;
 
-        // set canvas to scaled width / height
-        canvas.width = width; // resize canvas width based on responsive CSS
-        canvas.height = height; // resize canvas height to maintain aspect ratio
-
-        // prefilter image using steps as radius
-        const steps = (width / canvas.width) >> 1;
-        const tctx = hiddenCanvas.getContext("2d");
-        tctx.filter = `blur(${steps}px)`;
-        tctx.drawImage(image, 0, 0);
-
-        // draw on main canvas
         const ctx = canvas.getContext("2d");
         ctx.drawImage(
           image,
           0,
           0,
-          hiddenCanvas.width,
-          hiddenCanvas.height,
+          width,
+          height,
           0,
           0,
           canvas.width,
           canvas.height
-        ); // draw image and scale to canvas
+        );
       };
 
       image.src = thumb;
