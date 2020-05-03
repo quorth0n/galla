@@ -5,7 +5,7 @@ const Post = () => {
   const router = useRouter();
   const { id } = router.query; // image ID for db retrieval
 
-  const { thumb, tags, width, height } = {
+  const { thumb, tags } = {
     thumb:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/1280px-Nighthawks_by_Edward_Hopper_1942.jpg",
     tags: [
@@ -16,25 +16,52 @@ const Post = () => {
       "American",
       "Social realism",
     ],
-    width: 1280,
-    height: 698,
   }; // placeholder data
 
   const canvasRef = React.useRef(null);
+  const hiddenCanvasRef = React.useRef(null);
 
   // scale canvas and load image
   React.useEffect(() => {
     const canvas = canvasRef.current;
-    console.log(canvas.offsetWidth);
-    if (canvas.offsetWidth != "300") {
-      const ctx = canvas.getContext("2d");
+    const hiddenCanvas = hiddenCanvasRef.current;
 
+    if (canvas.offsetWidth != "300") {
       const image = new Image();
-      const ratio = width / height;
-      canvas.width = Math.min(canvas.offsetWidth, width); // resize canvas width based on responsive CSS
-      canvas.height = canvas.width / ratio; // resize canvas height to maintain aspect ratio
-      image.onload = () =>
-        ctx.drawImage(image, 0, 0, canvas.width, canvas.height); // draw image and scale to canvas
+      image.onload = () => {
+        const width = image.width;
+        const height = image.height;
+        const ratio = width / height;
+
+        // set hiddenCanvas to original image width / height
+        hiddenCanvas.width = width;
+        hiddenCanvas.height = height;
+
+        // set canvas to scaled width / height
+        canvas.width = width; // resize canvas width based on responsive CSS
+        canvas.height = height; // resize canvas height to maintain aspect ratio
+
+        // prefilter image using steps as radius
+        const steps = (width / canvas.width) >> 1;
+        const tctx = hiddenCanvas.getContext("2d");
+        tctx.filter = `blur(${steps}px)`;
+        tctx.drawImage(image, 0, 0);
+
+        // draw on main canvas
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(
+          hiddenCanvas,
+          0,
+          0,
+          hiddenCanvas.width,
+          hiddenCanvas.height,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        ); // draw image and scale to canvas
+      };
+
       image.src = thumb;
     }
   }, []);
@@ -61,6 +88,7 @@ const Post = () => {
           className="inline img shadow-2xl"
           onContextMenu={(e) => e.preventDefault()}
         />
+        <canvas ref={hiddenCanvasRef} className="hidden" />
         <Link href="#">
           <a
             className="block float-right absolute right-0 arrow"
