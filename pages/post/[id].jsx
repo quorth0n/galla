@@ -50,7 +50,7 @@ const Post = () => {
         // draw on main canvas
         const ctx = canvas.getContext("2d");
         ctx.drawImage(
-          hiddenCanvas,
+          image,
           0,
           0,
           hiddenCanvas.width,
