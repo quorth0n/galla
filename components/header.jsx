@@ -41,7 +41,7 @@ export default () => {
           </div>
           <div
             className={`w-1/2 flex-wrap items-stretch justify-between relative ${
-              searchOpen ? "flex" : "hidden"
+              searchOpen ? "flex w-full" : "hidden"
             } lg:flex`}
           >
             <input
@@ -69,7 +69,7 @@ export default () => {
               </li>
               <li className="nav-item">
                 <a
-                  className="lg:ml-4 bg-accent uppercase text-white font-bold hover:shadow-lg shadow text-xs px-4 py-2 rounded outline-none focus:outline-none"
+                  className="lg:ml-4 lg:bg-accent uppercase text-white font-bold hover:shadow-lg lg:shadow text-xs px-4 py-2 lg:rounded outline-none focus:outline-none"
                   href="#"
                 >
                   Sign Up

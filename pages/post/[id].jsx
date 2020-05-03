@@ -19,36 +19,22 @@ const Post = () => {
   }; // placeholder data
 
   const canvasRef = React.useRef(null);
-  const hiddenCanvasRef = React.useRef(null);
 
   // scale canvas and load image
   React.useEffect(() => {
     const canvas = canvasRef.current;
-    const hiddenCanvas = hiddenCanvasRef.current;
 
     if (canvas.offsetWidth != "300") {
       const image = new Image();
       image.onload = () => {
-        const width = image.width;
-        const height = image.height;
+        // TODO find better ways to resample on low res
 
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width = image.width;
+        canvas.height = image.height;
 
         const ctx = canvas.getContext("2d");
-        ctx.drawImage(
-          image,
-          0,
-          0,
-          width,
-          height,
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
+        ctx.drawImage(image, 0, 0, image.width, image.height);
       };
-
       image.src = thumb;
     }
   }, []);
@@ -56,7 +42,7 @@ const Post = () => {
   return (
     <div className="m-auto inline-flex flex-col justify-center text-left p-4 md:px-8">
       <div className="relative text-center align-middle navigation">
-        {/* TODO: Add typing support for mobile https://codesandbox.io/s/qq7759m3lq?module=/src/Carousel.js&file=/src/Carousel.js */}
+        {/* TODO: Add swiping support for mobile https://codesandbox.io/s/qq7759m3lq?module=/src/Carousel.js&file=/src/Carousel.js */}
         <Link href="/">
           <a className="absolute left-0 opacity-75 hover:opacity-50 back">
             <i className="fas fa-arrow-left"></i> Back
@@ -75,7 +61,6 @@ const Post = () => {
           className="inline img shadow-2xl"
           onContextMenu={(e) => e.preventDefault()}
         />
-        <canvas ref={hiddenCanvasRef} className="hidden" />
         <Link href="#">
           <a
             className="block float-right absolute right-0 arrow"
