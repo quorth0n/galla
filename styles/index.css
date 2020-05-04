@@ -20,6 +20,9 @@ button:hover {
   opacity: 0.75;
 }
 
-body {
-  background-color: var(--color-secondary-soft);
+html {
+  min-height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background: linear-gradient(var(--color-secondary-soft), black);
 }

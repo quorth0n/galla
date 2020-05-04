@@ -119,9 +119,9 @@ const Profile = () => {
                 </div>
               </div>
               <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                <div className="py-6 px-3 mt-32 sm:mt-0">
+                <div className="py-6 px-3 mt-32 lg:mt-0">
                   <button
-                    className="bg-accent uppercase text-white font-bold hover:shadow-lg shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
+                    className="bg-accent uppercase text-white font-bold hover:shadow-lg shadow text-xs px-4 py-2 rounded outline-none focus:outline-none mb-1"
                     type="button"
                   >
                     Follow
@@ -140,18 +140,18 @@ const Profile = () => {
                   </div>
                   <div className="mr-4 p-3 text-center">
                     <span className="text-xl font-bold block uppercase tracking-wide text-primary">
-                      10
+                      89
                     </span>
-                    <span className="text-sm text-primary opacity-75">
-                      Posts
+                    <span className="text-sm text-primary-500 opacity-75">
+                      Views/mo
                     </span>
                   </div>
                   <div className="lg:mr-4 p-3 text-center">
                     <span className="text-xl font-bold block uppercase tracking-wide text-primary">
-                      89
+                      10
                     </span>
-                    <span className="text-sm text-primary-500 opacity-75">
-                      Monthly Viewers
+                    <span className="text-sm text-primary opacity-75">
+                      Posts
                     </span>
                   </div>
                 </div>
@@ -209,10 +209,10 @@ const Profile = () => {
               className="py-10 border-t border-primary text-center bg-secondary-soft"
             >
               <h4 className="text-2xl font-semibold leading-normal mb-8 text-primary">
-                Posts
+                Top Posts
               </h4>
               <div className="inline-flex flex-row w-full pb-4 px-4 lg:px-8 items-center overflow-x-auto">
-                {posts.map((post) => (
+                {posts.slice(0, 5).map((post) => (
                   <Link href={`/post/${post.title}`} key={post.title}>
                     <div
                       className="flex flex-none pr-4 lg:pr-8 justify-center align-middle"
