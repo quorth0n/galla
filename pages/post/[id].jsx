@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Dropdown from "../../components/dropdown";
 
 const Post = () => {
   const router = useRouter();
@@ -41,13 +42,20 @@ const Post = () => {
 
   return (
     <div className="m-auto inline-flex flex-col justify-center text-left p-4 md:px-8">
-      <div className="relative text-center align-middle navigation">
-        {/* TODO: Add swiping support for mobile https://codesandbox.io/s/qq7759m3lq?module=/src/Carousel.js&file=/src/Carousel.js */}
+      <div className="flex flex-row justify-between">
         <Link href="/">
-          <a className="absolute left-0 opacity-75 hover:opacity-50 back">
+          <a className="opacity-75 hover:opacity-50 back">
             <i className="fas fa-arrow-left"></i> Back
           </a>
         </Link>
+        <Dropdown
+          size="sm"
+          options={["480p", "720p", "1080p"]}
+          handleChange={(change) => console.log(change)}
+        />
+      </div>
+      <div className="relative mt-4 text-center align-middle navigation">
+        {/* TODO: Add swiping support for mobile https://codesandbox.io/s/qq7759m3lq?module=/src/Carousel.js&file=/src/Carousel.js */}
         <Link href="#">
           <a
             className="block float-left absolute arrow"

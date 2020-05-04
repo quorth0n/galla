@@ -24,5 +24,8 @@ html {
   min-height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
-  background: linear-gradient(var(--color-secondary-soft), black);
+  background: linear-gradient(
+    var(--color-secondary-soft),
+    var(--color-secondary)
+  );
 }

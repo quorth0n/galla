@@ -72,7 +72,7 @@ export default function Home() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 px-8">
       <Dropdown
         options={["Popular", "New", "Top"]}
         handleChange={(change) => console.log(change)}
@@ -105,6 +105,74 @@ export default function Home() {
             </div>
           </Link>
         ))}
+      </div>
+      <div className="pt-4 border-primary border-t">
+        <h2 className="text-lg lg:text-left">
+          Suggested category: <strong>Photography</strong>
+        </h2>
+        <div className="mt-6 flex flex-wrap items-center justify-around leading-relaxed select-none">
+          {posts.slice(0, 3).map((post) => (
+            <Link href={`/post/${post.title}`} key={post.title}>
+              <div
+                className="relative w-auto h-auto text-center mb-8 cursor-pointer shadow hover:shadow-xl"
+                onClick={() => pushCollection(posts)}
+              >
+                <div className="absolute inset-0 w-full h-full block p-1 bg-black opacity-0 hover:opacity-75 transition duration-500 ease pl-0">
+                  <em className="relative top-0 text-lg font-semibold">
+                    Sample Title
+                  </em>
+                  <p
+                    className="absolute bottom-0 w-full whitespace-normal opacity-75 overflow-hidden"
+                    style={{
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: "vertical",
+                      display: "-webkit-box",
+                    }}
+                  >
+                    Esse ea Lorem elit labore nulla cupidatat commodo. Est
+                    commodo incididunt occaecat duis deserunt magna proident
+                    adipisicing est. Id incididunt amet sit pariatur.
+                  </p>
+                </div>
+                <img src={post.thumb} alt={post.title} />
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+      <div className="pt-4 border-primary border-t">
+        <h2 className="text-lg lg:text-left">
+          Suggested tag: <strong>#modernism</strong>
+        </h2>
+        <div className="mt-6 flex flex-wrap items-center justify-around leading-relaxed select-none">
+          {posts.slice(0, 3).map((post) => (
+            <Link href={`/post/${post.title}`} key={post.title}>
+              <div
+                className="relative w-auto h-auto text-center mb-8 cursor-pointer shadow hover:shadow-xl"
+                onClick={() => pushCollection(posts)}
+              >
+                <div className="absolute inset-0 w-full h-full block p-1 bg-black opacity-0 hover:opacity-75 transition duration-500 ease pl-0">
+                  <em className="relative top-0 text-lg font-semibold">
+                    Sample Title
+                  </em>
+                  <p
+                    className="absolute bottom-0 w-full whitespace-normal opacity-75 overflow-hidden"
+                    style={{
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: "vertical",
+                      display: "-webkit-box",
+                    }}
+                  >
+                    Esse ea Lorem elit labore nulla cupidatat commodo. Est
+                    commodo incididunt occaecat duis deserunt magna proident
+                    adipisicing est. Id incididunt amet sit pariatur.
+                  </p>
+                </div>
+                <img src={post.thumb} alt={post.title} />
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
