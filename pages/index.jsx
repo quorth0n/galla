@@ -1,69 +1,70 @@
-import Head from "next/head";
-import Link from "next/link";
+import React from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
 
-import Dropdown from "../components/dropdown";
+import Dropdown from '../components/dropdown';
 
 export default function Home() {
   const posts = [
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Nash%2C_Paul_-_We_are_Making_a_New_World_-_Google_Art_Project.jpg/307px-Nash%2C_Paul_-_We_are_Making_a_New_World_-_Google_Art_Project.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Nash%2C_Paul_-_We_are_Making_a_New_World_-_Google_Art_Project.jpg/307px-Nash%2C_Paul_-_We_are_Making_a_New_World_-_Google_Art_Project.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/320px-Nighthawks_by_Edward_Hopper_1942.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/320px-Nighthawks_by_Edward_Hopper_1942.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Les_Demoiselles_d%27Avignon.jpg/232px-Les_Demoiselles_d%27Avignon.jpg",
+        'https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Les_Demoiselles_d%27Avignon.jpg/232px-Les_Demoiselles_d%27Avignon.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/NYC_-_Guggenheim_Museum.jpg/320px-NYC_-_Guggenheim_Museum.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/NYC_-_Guggenheim_Museum.jpg/320px-NYC_-_Guggenheim_Museum.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/193px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/193px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Edouard_Manet_-_Olympia_-_Google_Art_Project_3.jpg/320px-Edouard_Manet_-_Olympia_-_Google_Art_Project_3.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Edouard_Manet_-_Olympia_-_Google_Art_Project_3.jpg/320px-Edouard_Manet_-_Olympia_-_Google_Art_Project_3.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Matissedance.jpg/320px-Matissedance.jpg",
+        'https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Matissedance.jpg/320px-Matissedance.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/en/thumb/6/68/Picasso_Portrait_of_Daniel-Henry_Kahnweiler_1910.jpg/172px-Picasso_Portrait_of_Daniel-Henry_Kahnweiler_1910.jpg",
+        'https://upload.wikimedia.org/wikipedia/en/thumb/6/68/Picasso_Portrait_of_Daniel-Henry_Kahnweiler_1910.jpg/172px-Picasso_Portrait_of_Daniel-Henry_Kahnweiler_1910.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Franz_Marc_020.jpg/221px-Franz_Marc_020.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Franz_Marc_020.jpg/221px-Franz_Marc_020.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Einsteinturm_7443a.jpg/320px-Einsteinturm_7443a.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Einsteinturm_7443a.jpg/320px-Einsteinturm_7443a.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Redon_spirit-waters.jpg/194px-Redon_spirit-waters.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Redon_spirit-waters.jpg/194px-Redon_spirit-waters.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Marcel_Duchamp%2C_1917%2C_Fountain%2C_photograph_by_Alfred_Stieglitz.jpg/184px-Marcel_Duchamp%2C_1917%2C_Fountain%2C_photograph_by_Alfred_Stieglitz.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Marcel_Duchamp%2C_1917%2C_Fountain%2C_photograph_by_Alfred_Stieglitz.jpg/184px-Marcel_Duchamp%2C_1917%2C_Fountain%2C_photograph_by_Alfred_Stieglitz.jpg',
     },
   ];
 
@@ -74,7 +75,7 @@ export default function Home() {
   return (
     <div className="p-4 px-8">
       <Dropdown
-        options={["Popular", "New", "Top"]}
+        options={['Popular', 'New', 'Top']}
         handleChange={(change) => console.log(change)}
       />
       <div className="mt-4 flex flex-wrap items-center justify-around leading-relaxed select-none">
@@ -92,8 +93,8 @@ export default function Home() {
                   className="absolute bottom-0 w-full whitespace-normal opacity-75 overflow-hidden"
                   style={{
                     WebkitLineClamp: 3,
-                    WebkitBoxOrient: "vertical",
-                    display: "-webkit-box",
+                    WebkitBoxOrient: 'vertical',
+                    display: '-webkit-box',
                   }}
                 >
                   Esse ea Lorem elit labore nulla cupidatat commodo. Est commodo
@@ -125,8 +126,8 @@ export default function Home() {
                     className="absolute bottom-0 w-full whitespace-normal opacity-75 overflow-hidden"
                     style={{
                       WebkitLineClamp: 3,
-                      WebkitBoxOrient: "vertical",
-                      display: "-webkit-box",
+                      WebkitBoxOrient: 'vertical',
+                      display: '-webkit-box',
                     }}
                   >
                     Esse ea Lorem elit labore nulla cupidatat commodo. Est
@@ -159,8 +160,8 @@ export default function Home() {
                     className="absolute bottom-0 w-full whitespace-normal opacity-75 overflow-hidden"
                     style={{
                       WebkitLineClamp: 3,
-                      WebkitBoxOrient: "vertical",
-                      display: "-webkit-box",
+                      WebkitBoxOrient: 'vertical',
+                      display: '-webkit-box',
                     }}
                   >
                     Esse ea Lorem elit labore nulla cupidatat commodo. Est

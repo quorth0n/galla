@@ -1,72 +1,74 @@
-import Link from "next/link";
+import React from 'react';
+import Link from 'next/link';
 
 const Profile = () => {
+  const pushCollection = (collection) => {};
   const posts = [
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Nash%2C_Paul_-_We_are_Making_a_New_World_-_Google_Art_Project.jpg/307px-Nash%2C_Paul_-_We_are_Making_a_New_World_-_Google_Art_Project.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Nash%2C_Paul_-_We_are_Making_a_New_World_-_Google_Art_Project.jpg/307px-Nash%2C_Paul_-_We_are_Making_a_New_World_-_Google_Art_Project.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/320px-Nighthawks_by_Edward_Hopper_1942.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/320px-Nighthawks_by_Edward_Hopper_1942.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Les_Demoiselles_d%27Avignon.jpg/232px-Les_Demoiselles_d%27Avignon.jpg",
+        'https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Les_Demoiselles_d%27Avignon.jpg/232px-Les_Demoiselles_d%27Avignon.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/NYC_-_Guggenheim_Museum.jpg/320px-NYC_-_Guggenheim_Museum.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/NYC_-_Guggenheim_Museum.jpg/320px-NYC_-_Guggenheim_Museum.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/193px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/193px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Edouard_Manet_-_Olympia_-_Google_Art_Project_3.jpg/320px-Edouard_Manet_-_Olympia_-_Google_Art_Project_3.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Edouard_Manet_-_Olympia_-_Google_Art_Project_3.jpg/320px-Edouard_Manet_-_Olympia_-_Google_Art_Project_3.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Matissedance.jpg/320px-Matissedance.jpg",
+        'https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Matissedance.jpg/320px-Matissedance.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/en/thumb/6/68/Picasso_Portrait_of_Daniel-Henry_Kahnweiler_1910.jpg/172px-Picasso_Portrait_of_Daniel-Henry_Kahnweiler_1910.jpg",
+        'https://upload.wikimedia.org/wikipedia/en/thumb/6/68/Picasso_Portrait_of_Daniel-Henry_Kahnweiler_1910.jpg/172px-Picasso_Portrait_of_Daniel-Henry_Kahnweiler_1910.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Franz_Marc_020.jpg/221px-Franz_Marc_020.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Franz_Marc_020.jpg/221px-Franz_Marc_020.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Einsteinturm_7443a.jpg/320px-Einsteinturm_7443a.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Einsteinturm_7443a.jpg/320px-Einsteinturm_7443a.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Redon_spirit-waters.jpg/194px-Redon_spirit-waters.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Redon_spirit-waters.jpg/194px-Redon_spirit-waters.jpg',
     },
     {
-      title: "Nighthawks",
+      title: 'Nighthawks',
       thumb:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Marcel_Duchamp%2C_1917%2C_Fountain%2C_photograph_by_Alfred_Stieglitz.jpg/184px-Marcel_Duchamp%2C_1917%2C_Fountain%2C_photograph_by_Alfred_Stieglitz.jpg",
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Marcel_Duchamp%2C_1917%2C_Fountain%2C_photograph_by_Alfred_Stieglitz.jpg/184px-Marcel_Duchamp%2C_1917%2C_Fountain%2C_photograph_by_Alfred_Stieglitz.jpg',
     },
   ];
 
   return (
     <main className="profile-page">
-      <section className="relative block" style={{ height: "500px" }}>
+      <section className="relative block" style={{ height: '500px' }}>
         <div
           className="absolute top-0 w-full h-full bg-center bg-cover"
           style={{
@@ -81,7 +83,7 @@ const Profile = () => {
         </div>
         <div
           className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
-          style={{ height: "70px", transform: "translateZ(0)" }}
+          style={{ height: '70px', transform: 'translateZ(0)' }}
         >
           <svg
             className="absolute bottom-0 overflow-hidden"
@@ -104,7 +106,7 @@ const Profile = () => {
           <div
             className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-xl rounded-lg -mt-64 border-solid border border-primary bg-secondary shadow-2xl"
             style={{
-              backgroundClip: "padding-box",
+              backgroundClip: 'padding-box',
             }}
           >
             <div className="flex flex-wrap justify-center">
@@ -114,7 +116,7 @@ const Profile = () => {
                     alt="ehopper"
                     src="https://uploads5.wikiart.org/images/edward-hopper.jpg!Portrait.jpg"
                     className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16"
-                    style={{ maxWidth: "150px" }}
+                    style={{ maxWidth: '150px' }}
                   />
                 </div>
               </div>
@@ -162,7 +164,7 @@ const Profile = () => {
                 Edward Hopper
               </h3>
               <div className="text-sm leading-normal mt-0 mb-2 text-primary font-bold uppercase opacity">
-                <i className="fas fa-map-marker-alt mr-2 text-lg text-primary"></i>{" "}
+                <i className="fas fa-map-marker-alt mr-2 text-lg text-primary"></i>{' '}
                 Manhattan, New York
               </div>
               <div className="mb-2 text-primary mt-10 opacity-75">
@@ -186,13 +188,13 @@ const Profile = () => {
               <div className="flex flex-wrap justify-center">
                 <div className="w-full lg:w-9/12 px-4 opacity-75">
                   <p className="mb-4 text-lg leading-relaxed text-primary">
-                    "Edward Hopper (July 22, 1882 – May 15, 1967) was an
+                    &quot;Edward Hopper (July 22, 1882 – May 15, 1967) was an
                     American realist painter and printmaker. While he is widely
                     known for his oil paintings, he was equally proficient as a
                     watercolorist and printmaker in etching. Both in his urban
                     and rural scenes, his spare and finely calculated renderings
-                    reflected his personal vision of modern American life" -
-                    Wikipedia
+                    reflected his personal vision of modern American life&quot;
+                    - Wikipedia
                   </p>
                   <a
                     href="#pablo"
@@ -227,8 +229,8 @@ const Profile = () => {
                             className="absolute bottom-0 w-full whitespace-normal opacity-75 overflow-hidden"
                             style={{
                               WebkitLineClamp: 3,
-                              WebkitBoxOrient: "vertical",
-                              display: "-webkit-box",
+                              WebkitBoxOrient: 'vertical',
+                              display: '-webkit-box',
                             }}
                           >
                             Esse ea Lorem elit labore nulla cupidatat commodo.
