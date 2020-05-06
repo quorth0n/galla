@@ -1,14 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import { AmplifySignOut } from '@aws-amplify/ui-react';
 
-import { CognitoContext } from '../helpers/cognito';
-import withAmplify from '../helpers/withAmplify';
+import useCognitoUser from '../helpers/useCognitoUser';
 
 const Header = () => {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
-  const user = React.useContext(CognitoContext);
+  const user = useCognitoUser();
   console.log(user);
 
   return (
@@ -94,4 +93,4 @@ const Header = () => {
     </nav>
   );
 };
-export default withAmplify(Header);
+export default Header;
