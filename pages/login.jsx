@@ -7,17 +7,17 @@ import {
 import { useRouter } from 'next/router';
 
 import withAmplify from '../helpers/withAmplify';
+import useCognitoUser from '../helpers/useCognitoUser';
 
 const Login = () => {
   const router = useRouter();
+  const user = useCognitoUser();
+  if (user) router.push('/post/test');
 
   return (
     <div className="mt-4">
       <AmplifyAuthenticator usernameAlias="username">
-        <AmplifySignIn
-          slot="sign-in"
-          handleAuthStateChange={() => router.push('/')}
-        />
+        <AmplifySignIn slot="sign-in" />
         <AmplifySignUp
           formFields={[
             {
@@ -33,7 +33,6 @@ const Login = () => {
               required: true,
             },
           ]}
-          handleAuthStateChange={() => router.push('/')}
           slot="sign-up"
         />
       </AmplifyAuthenticator>

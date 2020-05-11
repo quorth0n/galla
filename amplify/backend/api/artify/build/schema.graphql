@@ -112,7 +112,11 @@ enum ModelAttributeTypes {
 
 type Query {
   getPost(id: ID!): Post
-  listPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection
+  listPosts(
+    filter: ModelPostFilterInput
+    limit: Int
+    nextToken: String
+  ): ModelPostConnection
 }
 
 input CreatePostInput {

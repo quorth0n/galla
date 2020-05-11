@@ -1,12 +1,46 @@
-type Post
-  @model 
-  @auth(rules: [
-      {allow: owner },
-      {allow: groups, groups: ["Users"], operations: [read]}
-    ])
-{
-  id: ID!
-  title: String!
-  about: String
+type Vote {
+  owner: ID!
+  upvote: Boolean!
 }
 
+type Tag @model @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
+  name: ID!
+  description: String!
+}
+
+type User
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: groups, groups: ["Admin"] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  ) {
+  username: String!
+  location: String
+  description: String
+  website: String
+  monthlyViews: Int
+}
+
+type Post
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: groups, groups: ["Users"], operations: [read] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  description: String!
+  createdAt: AWSDateTime!
+  tags: [ID!]!
+  img360: String!
+  dailyViews: Int @auth(rules: [{ allow: private }])
+  monthlyViews: Int @auth(rules: [{ allow: private }])
+  totalViews: Int @auth(rules: [{ allow: private }])
+  votes: [Vote!] @auth(rules: [{ allow: private }])
+  totalScore: Int @auth(rules: [{ allow: private }])
+}

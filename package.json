@@ -11,12 +11,19 @@
     "@aws-amplify/ui-react": "^0.2.5",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "aws-amplify": "^3.0.10",
+    "formidable": "^1.2.2",
+    "lodash": "^4.17.15",
+    "lodash-es": "^4.17.15",
+    "nanoid": "^3.1.6",
     "next": "9.3.6",
     "popper.js": "^1.16.1",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-hook-form": "^5.6.2"
   },
   "devDependencies": {
+    "@types/formidable": "^1.0.31",
+    "@types/react": "^16.9.34",
     "autoprefixer": "^9.7.6",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
@@ -30,6 +37,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.5",
-    "tailwindcss": "^1.3.5"
+    "tailwindcss": "^1.3.5",
+    "typescript": "^3.8.3"
   }
 }

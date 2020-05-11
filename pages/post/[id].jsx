@@ -1,6 +1,7 @@
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Dropdown from "../../components/dropdown";
+import React from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import Dropdown from '../../components/dropdown';
 
 const Post = () => {
   const router = useRouter();
@@ -8,14 +9,14 @@ const Post = () => {
 
   const { thumb, tags } = {
     thumb:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/1280px-Nighthawks_by_Edward_Hopper_1942.jpg",
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/1280px-Nighthawks_by_Edward_Hopper_1942.jpg',
     tags: [
-      "Acrylic",
-      "Realism",
-      "Impressionism",
-      "Modernism",
-      "American",
-      "Social realism",
+      'Acrylic',
+      'Realism',
+      'Impressionism',
+      'Modernism',
+      'American',
+      'Social realism',
     ],
   }; // placeholder data
 
@@ -25,7 +26,7 @@ const Post = () => {
   React.useEffect(() => {
     const canvas = canvasRef.current;
 
-    if (canvas.offsetWidth != "300") {
+    if (canvas.offsetWidth !== 300) {
       const image = new Image();
       image.onload = () => {
         // TODO find better ways to resample on low res
@@ -33,7 +34,7 @@ const Post = () => {
         canvas.width = image.width;
         canvas.height = image.height;
 
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext('2d');
         ctx.drawImage(image, 0, 0, image.width, image.height);
       };
       image.src = thumb;
@@ -50,7 +51,7 @@ const Post = () => {
         </Link>
         <Dropdown
           size="sm"
-          options={["480p", "720p", "1080p"]}
+          options={['480p', '720p', '1080p']}
           handleChange={(change) => console.log(change)}
         />
       </div>
@@ -59,7 +60,7 @@ const Post = () => {
         <Link href="#">
           <a
             className="block float-left absolute arrow"
-            style={{ top: "50%", bottom: "50%" }}
+            style={{ top: '50%', bottom: '50%' }}
           >
             <i className="fas fa-chevron-left text-4xl"></i>
           </a>
@@ -72,7 +73,7 @@ const Post = () => {
         <Link href="#">
           <a
             className="block float-right absolute right-0 arrow"
-            style={{ top: "50%", bottom: "50%" }}
+            style={{ top: '50%', bottom: '50%' }}
           >
             <i className="fas fa-chevron-right float-right text-4xl"></i>
           </a>
@@ -120,7 +121,7 @@ const Post = () => {
         </div>
         <div
           className="flex-col select-none opacity-75 hover:opacity-100"
-          style={{ transition: "all 0.15s ease" }}
+          style={{ transition: 'all 0.15s ease' }}
         >
           <div className="text-right">
             <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none">
@@ -139,13 +140,14 @@ const Post = () => {
         </div>
       </div>
       <p className="opacity-75 mt-4">
-        "Nighthawks is a 1942 oil on canvas painting by Edward Hopper that
+        &quot;Nighthawks is a 1942 oil on canvas painting by Edward Hopper that
         portrays people in a downtown diner late at night as viewed through the
         diner's large glass window. Also portrayed are the exteriors of the
         urban structures across the street from the diner. It has been described
         as Hopper's best-known work and is one of the most recognizable
         paintings in American art. Within months of its completion, it was sold
-        to the Art Institute of Chicago on May 13, 1942, for $3,000" - Wikipedia
+        to the Art Institute of Chicago on May 13, 1942, for $3,000&quot; -
+        Wikipedia
       </p>
       <nav className="mt-4">
         <strong>Tags: </strong>
