@@ -3,65 +3,131 @@ import { useForm } from 'react-hook-form';
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 import { nanoid } from 'nanoid';
 
-import { createPost } from '../../src/graphql/mutations';
-
-import withAmplify from '../../helpers/withAmplify';
+import { getTag } from '../../src/graphql/queries';
+import {
+  createPost,
+  createTaggedPost,
+  createTag,
+} from '../../src/graphql/mutations';
+import withAmplifyData from '../../helpers/withAmplifyData';
 
 const NewPost = ({ region, bucket }) => {
   const { register, handleSubmit, errors, setError } = useForm();
-  const onSubmit = (data) => {
-    const publicUpload = async (file, postData) => {
-      const extension = file.name.split('.')[1];
-      const { type: contentType } = file;
-      const id = nanoid();
-      const key = `${id}.${extension}`;
-      const url = `https://${bucket}.s3.${region}.amazonaws.com/public/thumbs/${key}`;
 
-      await Storage.put(`thumbs/${key}`, file, {
-        contentType,
-      });
-      // TODO: private high res upload
+  const getResMode = (height) =>
+    Math.max(...[360, 480, 720, 1080].filter((res) => res <= height));
+  const getDimensions = async (file) =>
+    new Promise((resolve, reject) => {
+      const imgBlob = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        resolve([img.width, img.height]);
+        URL.revokeObjectURL(img.src);
+      };
+      img.src = imgBlob;
+    });
+
+  const onSubmit = (data) => {
+    const upload = async (thumb, fullRes, postData) => {
+      const id = nanoid();
+
+      const thumbUploadData = new FormData();
+      thumbUploadData.append('thumb', thumb);
+      thumbUploadData.append('id', id);
+      const thumbKey = fetch('/api/uploadThumb', {
+        method: 'POST',
+        body: thumbUploadData,
+      }).then((res) => res.json());
+      const thumbDim = await getDimensions(thumb);
+
+      // upload 1080p (private to authenticated users)
+      const ext = fullRes.name.split('.')[1];
+      const { type: mimeType1080 } = fullRes;
+      const key1080 = `${id}.full.${ext}`;
+      await Storage.put(key1080, fullRes, { contentType: mimeType1080 });
+      const img1080ForUpload = {
+        bucket,
+        key: key1080,
+        region,
+      };
+      const fullResDim = await getDimensions(fullRes);
 
       const { title, description } = postData;
       const tags = postData.tags.split(',').map((tag) => tag.trim());
+      const newTags = await tags.reduce(async (accumP, tag) => {
+        const accumulator = await accumP;
+        const tagResponse = await API.graphql(
+          graphqlOperation(getTag, { name: tag })
+        );
+        if (!tagResponse.data.getTag) {
+          accumulator.push(tag);
+        }
+        return accumulator;
+      }, Promise.resolve([]));
+      console.log(newTags);
       await API.graphql(
+        ...newTags.map((tag) =>
+          graphqlOperation(createTag, {
+            name: tag,
+          })
+        ),
         graphqlOperation(createPost, {
           input: {
             id,
             title,
             description,
-            tags,
-            createdAt: new Date().toISOString(),
-            img360: url,
+            resolutions: [
+              {
+                resMode: `${getResMode(fullResDim)}p`,
+                image: img1080ForUpload,
+              },
+              {
+                resMode: `${getResMode(thumbDim)}p`,
+                thumb: thumbKey,
+              },
+            ],
           },
-        })
+        }),
+        ...tags.map((tag) =>
+          graphqlOperation(createTaggedPost, {
+            input: {
+              postID: id,
+              tagName: tag,
+            },
+          })
+        )
       );
     };
 
-    const { img360, img720, img1080 } = data;
+    const { thumb, fullRes } = data;
 
     // size constraints
-    if (img360[0] && img360[0].size > 250 * 1000) {
-      setError('img360', 'notMatch', 'Max size is 250 KB');
-    } else if (img720[0] && img720[0].size > 1 * 1000 * 1000) {
-      setError('img720', 'notMatch', 'Max size is 1 MB');
-    } else if (img1080[0] && img1080[0].size > 2 * 1000 * 1000) {
-      setError('img1080', 'notMatch', 'Max size is 2 MB');
-    } else {
-      try {
-        //publicUpload(img360[0], data);
-      } catch (e) {
-        console.error(e);
+    if (thumb[0] && thumb[0].size > 250 * 1000) {
+      setError('thumb', 'notMatch', 'Max size is 1 MB');
+      return;
+    }
+    if (fullRes[0] && fullRes[0].size > 2 * 1000 * 1000) {
+      setError('fullRes', 'notMatch', 'Max size is 2 MB');
+      return;
+    }
+
+    // checks passed -- upload
+    try {
+      if (!thumb[0]) {
+        // TODO: resize
+        setError('thumb', 'notMatch', 'This field is required.');
+        return;
       }
+      upload(thumb[0], fullRes[0], data);
+    } catch (e) {
+      console.error(e);
     }
   };
 
   return (
     <div className="m-auto p-4 md:px-8 w-full lg:w-1/2">
       <form
-        action="/api/newPost"
-        method="post"
-        encType="multipart/form-data"
+        onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col space-y-4 justify-center align-middle"
       >
         <input
@@ -76,54 +142,37 @@ const NewPost = ({ region, bucket }) => {
         />
         <div className="flex flex-col md:flex-row text-sm rounded bg-primary text-gray-700 p-3">
           <div>
-            <label htmlFor="img1080" className="text-base">
-              1080p: (required)
+            <label htmlFor="fullRes" className="text-base">
+              Full Resolution: (required)
             </label>
             <input
               type="file"
-              accept="image/png,image/apng,image/webp,image/jpeg,image/bmp"
-              name="img1080"
+              accept="image/png,image/webp,image/jpeg,image/gif"
+              name="fullRes"
               ref={register({ required: true })}
               className={`opacity-75 text-gray-500 min-w-0 w-full ${
-                errors.img1080 && 'border-2 border-red-500 placeholder-red-500'
+                errors.fullRes && 'border-2 border-red-500 placeholder-red-500'
               }`}
             />
             <p className="text-red-500">
-              {errors.img1080 && errors.img1080.message}
+              {errors.fullRes && errors.fullRes.message}
             </p>
           </div>
           <div>
-            <label htmlFor="img720" className="text-base">
-              720p:
+            <label htmlFor="thumb" className="text-base">
+              Thumbnail:
             </label>
             <input
               type="file"
-              accept="image/png,image/apng,image/webp,image/jpeg,image/bmp"
-              name="img720"
+              accept="image/png,image/webp,image/jpeg,image/gif"
+              name="thumb"
               ref={register()}
               className={`opacity-75 text-gray-500 min-w-0 w-full ${
-                errors.img720 && 'border-2 border-red-500 placeholder-red-500'
+                errors.thumb && 'border-2 border-red-500 placeholder-red-500'
               }`}
             />
             <p className="text-red-500">
-              {errors.img720 && errors.img720.message}
-            </p>
-          </div>
-          <div>
-            <label htmlFor="img1080" className="text-base">
-              360p:
-            </label>
-            <input
-              type="file"
-              accept="image/png,image/apng,image/webp,image/jpeg,image/bmp"
-              name="img360"
-              ref={register()}
-              className={`opacity-75 text-gray-500 min-w-0 w-full ${
-                errors.img360 && 'border-2 border-red-500 placeholder-red-500'
-              }`}
-            />
-            <p className="text-red-500">
-              {errors.img360 && errors.img360.message}
+              {errors.thumb && errors.thumb.message}
             </p>
           </div>
         </div>
@@ -158,4 +207,4 @@ const NewPost = ({ region, bucket }) => {
     </div>
   );
 };
-export default withAmplify(NewPost);
+export default withAmplifyData(NewPost);

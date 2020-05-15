@@ -1,0 +1,92 @@
+type Vote {
+  owner: ID!
+  upvote: Boolean!
+}
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type Image {
+  resMode: String!
+  image: S3Object
+  thumb: String
+}
+
+type User
+  @model
+  @key(name: "byUsername", fields: ["username"])
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: groups, groups: ["Admin"] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  username: ID!
+  location: String
+  description: String
+  website: String
+  monthlyViews: Int
+  posts: [Post] @connection(keyName: "byOwner", fields: ["username"])
+}
+
+type Post
+  @model
+  @key(name: "byOwner", fields: ["userID", "createdAt"])
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: groups, groups: ["Users"], operations: [read] }
+      { allow: private, provider: iam, operations: [read, update] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  description: String!
+  createdAt: AWSDateTime!
+  userID: ID!
+  tags: [TaggedPost]! @connection(keyName: "byPost", fields: ["id"])
+  thumb: String!
+  resolutions: [Image]!
+  dailyViews: Int
+  monthlyViews: Int
+  totalViews: Int
+  votes: [Vote!] @auth(rules: [{ allow: private }])
+  totalScore: Int @auth(rules: [{ allow: private }])
+}
+
+type TaggedPost
+  @model(queries: null)
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @key(name: "byPost", fields: ["postID", "tagName"])
+  @key(name: "byTag", fields: ["tagName", "postID"]) {
+  id: ID!
+  postID: ID!
+  tagName: ID!
+  post: Post! @connection(fields: ["postID"])
+  tag: Tag! @connection(fields: ["tagName"])
+}
+
+type Tag
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @key(fields: ["name"]) {
+  name: ID!
+  description: String
+  posts: [TaggedPost] @connection(keyName: "byTag", fields: ["name"])
+}

@@ -11,6 +11,7 @@
     "@aws-amplify/ui-react": "^0.2.5",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "aws-amplify": "^3.0.10",
+    "cookie": "^0.4.1",
     "formidable": "^1.2.2",
     "lodash": "^4.17.15",
     "lodash-es": "^4.17.15",
@@ -19,7 +20,8 @@
     "popper.js": "^1.16.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-hook-form": "^5.6.2"
+    "react-hook-form": "^5.6.2",
+    "sharp": "^0.25.2"
   },
   "devDependencies": {
     "@types/formidable": "^1.0.31",

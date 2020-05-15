@@ -2,13 +2,55 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getPost = /* GraphQL */ `
-  query GetPost($id: ID!) {
-    getPost(id: $id) {
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
       id
-      title
-      about
+      username
+      location
+      description
+      website
+      monthlyViews
       owner
+      posts {
+        items {
+          id
+          title
+          description
+          createdAt
+          userID
+          thumb
+          dailyViews
+          monthlyViews
+          totalViews
+          totalScore
+          owner
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        username
+        location
+        description
+        website
+        monthlyViews
+        owner
+        posts {
+          nextToken
+        }
+      }
+      nextToken
     }
   }
 `;
@@ -22,10 +64,108 @@ export const listPosts = /* GraphQL */ `
       items {
         id
         title
-        about
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        dailyViews
+        monthlyViews
+        totalViews
+        votes {
+          owner
+          upvote
+        }
+        totalScore
         owner
+        tags {
+          nextToken
+        }
       }
       nextToken
+    }
+  }
+`;
+export const getPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      dailyViews
+      monthlyViews
+      totalViews
+      votes {
+        owner
+        upvote
+      }
+      totalScore
+      owner
+      tags {
+        items {
+          id
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const listTags = /* GraphQL */ `
+  query ListTags(
+    $name: ID
+    $filter: ModelTagFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listTags(
+      name: $name
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        name
+        description
+        posts {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getTag = /* GraphQL */ `
+  query GetTag($name: ID!) {
+    getTag(name: $name) {
+      name
+      description
+      posts {
+        items {
+          id
+          postID
+          tagName
+        }
+        nextToken
+      }
     }
   }
 `;

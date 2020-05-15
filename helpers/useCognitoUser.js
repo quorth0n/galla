@@ -1,17 +1,13 @@
 import { useState, useEffect } from 'react';
-import Amplify, { Auth, Hub } from 'aws-amplify';
-
-import awsExports from '../src/aws-exports';
+import { Auth, Hub } from 'aws-amplify';
 
 const useCognitoUser = () => {
-  Amplify.configure(awsExports);
-
   const [user, setUser] = useState(null);
   const fetchUser = async () => {
-    setUser(await (await Auth.currentSession()).getIdToken().payload);
+    setUser(await Auth.currentAuthenticatedUser());
   };
   const onAuthChanged = ({ payload: { event } }) => {
-    console.log('changed');
+    console.log('changed', event);
     if (event === 'signIn') {
       fetchUser();
     }
@@ -19,6 +15,8 @@ const useCognitoUser = () => {
       setUser(null);
     }
   };
+
+  // listen to auth updates
   useEffect(() => {
     Hub.listen('auth', onAuthChanged);
 
@@ -27,6 +25,11 @@ const useCognitoUser = () => {
       Hub.remove('auth', onAuthChanged);
     };
   });
+
+  // fetch user on component mount
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return user;
 };

@@ -31,7 +31,7 @@ yarn-error.log*
 
 .now
 
-#amplify
+# amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/mock-data
@@ -45,3 +45,7 @@ amplifyconfiguration.json
 amplify-build-config.json
 amplify-gradle-config.json
 amplifyxc.config
+
+# thumbnaikls
+public/thumbs/*
+!public/thumbs/.gitkeep

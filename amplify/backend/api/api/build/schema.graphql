@@ -1,0 +1,417 @@
+type Vote @aws_api_key @aws_iam @aws_cognito_user_pools {
+  owner: ID!
+  upvote: Boolean!
+}
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type Image @aws_api_key @aws_iam @aws_cognito_user_pools {
+  resMode: String!
+  image: S3Object
+  thumb: String
+}
+
+type User @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  username: ID!
+  location: String
+  description: String
+  website: String
+  monthlyViews: Int
+  owner: String
+  posts(createdAt: ModelStringKeyConditionInput, filter: ModelPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelPostConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+}
+
+type Post @aws_api_key @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  title: String!
+  description: String!
+  createdAt: AWSDateTime!
+  userID: ID!
+  thumb: String!
+  resolutions: [Image]!
+  dailyViews: Int
+  monthlyViews: Int
+  totalViews: Int
+  votes: [Vote!]
+  totalScore: Int
+  owner: String
+  tags(tagName: ModelIDKeyConditionInput, filter: ModelTaggedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools
+}
+
+type TaggedPost @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  postID: ID!
+  tagName: ID!
+  post: Post! @aws_api_key @aws_iam @aws_cognito_user_pools
+  tag: Tag! @aws_api_key @aws_cognito_user_pools
+}
+
+type Tag @aws_api_key @aws_cognito_user_pools {
+  name: ID!
+  description: String
+  posts(postID: ModelIDKeyConditionInput, filter: ModelTaggedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelUserConnection @aws_api_key @aws_cognito_user_pools {
+  items: [User]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelUserFilterInput {
+  id: ModelIDInput
+  username: ModelIDInput
+  location: ModelStringInput
+  description: ModelStringInput
+  website: ModelStringInput
+  monthlyViews: ModelIntInput
+  and: [ModelUserFilterInput]
+  or: [ModelUserFilterInput]
+  not: ModelUserFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  getUser(id: ID!): User @aws_api_key @aws_cognito_user_pools
+  listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection @aws_api_key @aws_cognito_user_pools
+  listPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  getPost(id: ID!): Post @aws_api_key @aws_iam @aws_cognito_user_pools
+  listTags(name: ID, filter: ModelTagFilterInput, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelTagConnection @aws_api_key @aws_cognito_user_pools
+  getTag(name: ID!): Tag @aws_api_key @aws_cognito_user_pools
+}
+
+input CreateUserInput {
+  id: ID
+  username: ID!
+  location: String
+  description: String
+  website: String
+  monthlyViews: Int
+}
+
+input UpdateUserInput {
+  id: ID!
+  username: ID
+  location: String
+  description: String
+  website: String
+  monthlyViews: Int
+}
+
+input DeleteUserInput {
+  id: ID
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User
+  updateUser(input: UpdateUserInput!, condition: ModelUserConditionInput): User
+  deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User
+  createPost(input: CreatePostInput!, condition: ModelPostConditionInput): Post
+  deletePost(input: DeletePostInput!, condition: ModelPostConditionInput): Post
+  createTaggedPost(input: CreateTaggedPostInput!, condition: ModelTaggedPostConditionInput): TaggedPost
+  updateTaggedPost(input: UpdateTaggedPostInput!, condition: ModelTaggedPostConditionInput): TaggedPost
+  deleteTaggedPost(input: DeleteTaggedPostInput!, condition: ModelTaggedPostConditionInput): TaggedPost
+  createTag(input: CreateTagInput!, condition: ModelTagConditionInput): Tag
+  updateTag(input: UpdateTagInput!, condition: ModelTagConditionInput): Tag
+  deleteTag(input: DeleteTagInput!, condition: ModelTagConditionInput): Tag
+  updatePost(input: UpdatePostInput!, condition: ModelPostConditionInput): Post @aws_iam @aws_cognito_user_pools
+}
+
+input ModelUserConditionInput {
+  username: ModelIDInput
+  location: ModelStringInput
+  description: ModelStringInput
+  website: ModelStringInput
+  monthlyViews: ModelIntInput
+  and: [ModelUserConditionInput]
+  or: [ModelUserConditionInput]
+  not: ModelUserConditionInput
+}
+
+type Subscription {
+  onCreateUser(owner: String): User @aws_subscribe(mutations: ["createUser"])
+  onUpdateUser(owner: String): User @aws_subscribe(mutations: ["updateUser"])
+  onDeleteUser(owner: String): User @aws_subscribe(mutations: ["deleteUser"])
+  onCreatePost(owner: String!): Post @aws_subscribe(mutations: ["createPost"])
+  onDeletePost(owner: String!): Post @aws_subscribe(mutations: ["deletePost"])
+  onCreateTaggedPost: TaggedPost @aws_subscribe(mutations: ["createTaggedPost"])
+  onUpdateTaggedPost: TaggedPost @aws_subscribe(mutations: ["updateTaggedPost"])
+  onDeleteTaggedPost: TaggedPost @aws_subscribe(mutations: ["deleteTaggedPost"])
+  onCreateTag: Tag @aws_subscribe(mutations: ["createTag"])
+  onUpdateTag: Tag @aws_subscribe(mutations: ["updateTag"])
+  onDeleteTag: Tag @aws_subscribe(mutations: ["deleteTag"])
+  onUpdatePost(owner: String!): Post @aws_subscribe(mutations: ["updatePost"]) @aws_iam @aws_cognito_user_pools
+}
+
+input ImageInput {
+  resMode: String!
+  image: S3ObjectInput
+  thumb: String
+}
+
+input S3ObjectInput {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+input VoteInput {
+  owner: ID!
+  upvote: Boolean!
+}
+
+type ModelPostConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
+  items: [Post]
+  nextToken: String
+}
+
+input ModelPostFilterInput {
+  id: ModelIDInput
+  title: ModelStringInput
+  description: ModelStringInput
+  createdAt: ModelStringInput
+  userID: ModelIDInput
+  thumb: ModelStringInput
+  dailyViews: ModelIntInput
+  monthlyViews: ModelIntInput
+  totalViews: ModelIntInput
+  totalScore: ModelIntInput
+  and: [ModelPostFilterInput]
+  or: [ModelPostFilterInput]
+  not: ModelPostFilterInput
+}
+
+input CreatePostInput {
+  id: ID
+  title: String!
+  description: String!
+  createdAt: AWSDateTime!
+  userID: ID!
+  thumb: String!
+  resolutions: [ImageInput]!
+  dailyViews: Int
+  monthlyViews: Int
+  totalViews: Int
+  votes: [VoteInput!]
+  totalScore: Int
+}
+
+input UpdatePostInput {
+  id: ID!
+  title: String
+  description: String
+  createdAt: AWSDateTime
+  userID: ID
+  thumb: String
+  resolutions: [ImageInput]
+  dailyViews: Int
+  monthlyViews: Int
+  totalViews: Int
+  votes: [VoteInput!]
+  totalScore: Int
+}
+
+input DeletePostInput {
+  id: ID
+}
+
+input ModelPostConditionInput {
+  title: ModelStringInput
+  description: ModelStringInput
+  createdAt: ModelStringInput
+  userID: ModelIDInput
+  thumb: ModelStringInput
+  dailyViews: ModelIntInput
+  monthlyViews: ModelIntInput
+  totalViews: ModelIntInput
+  totalScore: ModelIntInput
+  and: [ModelPostConditionInput]
+  or: [ModelPostConditionInput]
+  not: ModelPostConditionInput
+}
+
+input CreateTaggedPostInput {
+  id: ID
+  postID: ID!
+  tagName: ID!
+}
+
+input UpdateTaggedPostInput {
+  id: ID!
+  postID: ID
+  tagName: ID
+}
+
+input DeleteTaggedPostInput {
+  id: ID
+}
+
+input ModelTaggedPostConditionInput {
+  postID: ModelIDInput
+  tagName: ModelIDInput
+  and: [ModelTaggedPostConditionInput]
+  or: [ModelTaggedPostConditionInput]
+  not: ModelTaggedPostConditionInput
+}
+
+type ModelTagConnection @aws_api_key @aws_cognito_user_pools {
+  items: [Tag]
+  nextToken: String
+}
+
+input ModelTagFilterInput {
+  name: ModelIDInput
+  description: ModelStringInput
+  and: [ModelTagFilterInput]
+  or: [ModelTagFilterInput]
+  not: ModelTagFilterInput
+}
+
+input CreateTagInput {
+  name: ID!
+  description: String
+}
+
+input UpdateTagInput {
+  name: ID!
+  description: String
+}
+
+input DeleteTagInput {
+  name: ID!
+}
+
+input ModelTagConditionInput {
+  description: ModelStringInput
+  and: [ModelTagConditionInput]
+  or: [ModelTagConditionInput]
+  not: ModelTagConditionInput
+}
+
+input ModelStringKeyConditionInput {
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: [String]
+  beginsWith: String
+}
+
+input ModelIDKeyConditionInput {
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  between: [ID]
+  beginsWith: ID
+}
+
+type ModelTaggedPostConnection {
+  items: [TaggedPost]
+  nextToken: String
+}
+
+input ModelTaggedPostFilterInput {
+  id: ModelIDInput
+  postID: ModelIDInput
+  tagName: ModelIDInput
+  and: [ModelTaggedPostFilterInput]
+  or: [ModelTaggedPostFilterInput]
+  not: ModelTaggedPostFilterInput
+}

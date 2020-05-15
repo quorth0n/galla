@@ -1,0 +1,76 @@
+#set( $limit = $util.defaultIfNull($context.args.limit, 10) )
+#set( $query = {
+  "expression": "#partitionKey = :partitionKey",
+  "expressionNames": {
+      "#partitionKey": "postID"
+  },
+  "expressionValues": {
+      ":partitionKey": {
+          "S": "$context.source.id"
+    }
+  }
+} )
+## [Start] Applying Key Condition **
+#if( !$util.isNull($ctx.args.tagName) && !$util.isNull($ctx.args.tagName.beginsWith) )
+  #set( $query.expression = "$query.expression AND begins_with(#sortKey, :sortKey)" )
+  $util.qr($query.expressionNames.put("#sortKey", "tagName"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.tagName.beginsWith" }))
+#end
+#if( !$util.isNull($ctx.args.tagName) && !$util.isNull($ctx.args.tagName.between) )
+  #set( $query.expression = "$query.expression AND #sortKey BETWEEN :sortKey0 AND :sortKey1" )
+  $util.qr($query.expressionNames.put("#sortKey", "tagName"))
+  $util.qr($query.expressionValues.put(":sortKey0", { "S": "$ctx.args.tagName.between[0]" }))
+  $util.qr($query.expressionValues.put(":sortKey1", { "S": "$ctx.args.tagName.between[1]" }))
+#end
+#if( !$util.isNull($ctx.args.tagName) && !$util.isNull($ctx.args.tagName.eq) )
+  #set( $query.expression = "$query.expression AND #sortKey = :sortKey" )
+  $util.qr($query.expressionNames.put("#sortKey", "tagName"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.tagName.eq" }))
+#end
+#if( !$util.isNull($ctx.args.tagName) && !$util.isNull($ctx.args.tagName.lt) )
+  #set( $query.expression = "$query.expression AND #sortKey < :sortKey" )
+  $util.qr($query.expressionNames.put("#sortKey", "tagName"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.tagName.lt" }))
+#end
+#if( !$util.isNull($ctx.args.tagName) && !$util.isNull($ctx.args.tagName.le) )
+  #set( $query.expression = "$query.expression AND #sortKey <= :sortKey" )
+  $util.qr($query.expressionNames.put("#sortKey", "tagName"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.tagName.le" }))
+#end
+#if( !$util.isNull($ctx.args.tagName) && !$util.isNull($ctx.args.tagName.gt) )
+  #set( $query.expression = "$query.expression AND #sortKey > :sortKey" )
+  $util.qr($query.expressionNames.put("#sortKey", "tagName"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.tagName.gt" }))
+#end
+#if( !$util.isNull($ctx.args.tagName) && !$util.isNull($ctx.args.tagName.ge) )
+  #set( $query.expression = "$query.expression AND #sortKey >= :sortKey" )
+  $util.qr($query.expressionNames.put("#sortKey", "tagName"))
+  $util.qr($query.expressionValues.put(":sortKey", { "S": "$ctx.args.tagName.ge" }))
+#end
+## [End] Applying Key Condition **
+{
+  "version": "2017-02-28",
+  "operation": "Query",
+  "query":   $util.toJson($query),
+  "scanIndexForward":   #if( $context.args.sortDirection )
+    #if( $context.args.sortDirection == "ASC" )
+true
+    #else
+false
+    #end
+  #else
+true
+  #end,
+  "filter":   #if( $context.args.filter )
+$util.transform.toDynamoDBFilterExpression($ctx.args.filter)
+  #else
+null
+  #end,
+  "limit": $limit,
+  "nextToken":   #if( $context.args.nextToken )
+$util.toJson($context.args.nextToken)
+  #else
+null
+  #end,
+  "index": "byPost"
+}

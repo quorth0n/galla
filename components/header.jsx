@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { AmplifySignOut } from '@aws-amplify/ui-react';
+import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 
 import useCognitoUser from '../helpers/useCognitoUser';
 
@@ -69,7 +69,9 @@ const Header = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <AmplifySignOut />
+                <AmplifyAuthenticator>
+                  <AmplifySignOut />
+                </AmplifyAuthenticator>
               </li>
             </ul>
           ) : (

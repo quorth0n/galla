@@ -5,4 +5,7 @@ module.exports = {
   globals: {
     Image: 'readonly',
   },
+  env: {
+    browser: true,
+  },
 };

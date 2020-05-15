@@ -1,6 +1,6 @@
 projects:
-  artify:
-    schemaPath: amplify/backend/api/artify/build/schema.graphql
+  api:
+    schemaPath: amplify/backend/api/api/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:

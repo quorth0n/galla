@@ -6,13 +6,12 @@ import {
 } from '@aws-amplify/ui-react';
 import { useRouter } from 'next/router';
 
-import withAmplify from '../helpers/withAmplify';
 import useCognitoUser from '../helpers/useCognitoUser';
 
 const Login = () => {
   const router = useRouter();
   const user = useCognitoUser();
-  if (user) router.push('/post/test');
+  if (user) router.push('/');
 
   return (
     <div className="mt-4">
@@ -40,4 +39,4 @@ const Login = () => {
   );
 };
 
-export default withAmplify(Login);
+export default Login;
