@@ -27,7 +27,6 @@ export const createUser = /* GraphQL */ `
           monthlyViews
           totalViews
           totalScore
-          owner
         }
         nextToken
       }
@@ -59,7 +58,6 @@ export const updateUser = /* GraphQL */ `
           monthlyViews
           totalViews
           totalScore
-          owner
         }
         nextToken
       }
@@ -91,7 +89,6 @@ export const deleteUser = /* GraphQL */ `
           monthlyViews
           totalViews
           totalScore
-          owner
         }
         nextToken
       }
@@ -109,6 +106,14 @@ export const createPost = /* GraphQL */ `
       description
       createdAt
       userID
+      tags {
+        items {
+          id
+          postID
+          tagName
+        }
+        nextToken
+      }
       thumb
       resolutions {
         resMode
@@ -127,15 +132,6 @@ export const createPost = /* GraphQL */ `
         upvote
       }
       totalScore
-      owner
-      tags {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -150,6 +146,14 @@ export const deletePost = /* GraphQL */ `
       description
       createdAt
       userID
+      tags {
+        items {
+          id
+          postID
+          tagName
+        }
+        nextToken
+      }
       thumb
       resolutions {
         resMode
@@ -168,15 +172,6 @@ export const deletePost = /* GraphQL */ `
         upvote
       }
       totalScore
-      owner
-      tags {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -189,12 +184,22 @@ export const createTaggedPost = /* GraphQL */ `
       id
       postID
       tagName
+      tag {
+        name
+        description
+        posts {
+          nextToken
+        }
+      }
       post {
         id
         title
         description
         createdAt
         userID
+        tags {
+          nextToken
+        }
         thumb
         resolutions {
           resMode
@@ -208,17 +213,6 @@ export const createTaggedPost = /* GraphQL */ `
           upvote
         }
         totalScore
-        owner
-        tags {
-          nextToken
-        }
-      }
-      tag {
-        name
-        description
-        posts {
-          nextToken
-        }
       }
     }
   }
@@ -232,12 +226,22 @@ export const updateTaggedPost = /* GraphQL */ `
       id
       postID
       tagName
+      tag {
+        name
+        description
+        posts {
+          nextToken
+        }
+      }
       post {
         id
         title
         description
         createdAt
         userID
+        tags {
+          nextToken
+        }
         thumb
         resolutions {
           resMode
@@ -251,17 +255,6 @@ export const updateTaggedPost = /* GraphQL */ `
           upvote
         }
         totalScore
-        owner
-        tags {
-          nextToken
-        }
-      }
-      tag {
-        name
-        description
-        posts {
-          nextToken
-        }
       }
     }
   }
@@ -275,12 +268,22 @@ export const deleteTaggedPost = /* GraphQL */ `
       id
       postID
       tagName
+      tag {
+        name
+        description
+        posts {
+          nextToken
+        }
+      }
       post {
         id
         title
         description
         createdAt
         userID
+        tags {
+          nextToken
+        }
         thumb
         resolutions {
           resMode
@@ -294,17 +297,6 @@ export const deleteTaggedPost = /* GraphQL */ `
           upvote
         }
         totalScore
-        owner
-        tags {
-          nextToken
-        }
-      }
-      tag {
-        name
-        description
-        posts {
-          nextToken
-        }
       }
     }
   }
@@ -377,6 +369,14 @@ export const updatePost = /* GraphQL */ `
       description
       createdAt
       userID
+      tags {
+        items {
+          id
+          postID
+          tagName
+        }
+        nextToken
+      }
       thumb
       resolutions {
         resMode
@@ -395,15 +395,6 @@ export const updatePost = /* GraphQL */ `
         upvote
       }
       totalScore
-      owner
-      tags {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
     }
   }
 `;

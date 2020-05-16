@@ -10,8 +10,10 @@ import {
   createTag,
 } from '../../src/graphql/mutations';
 import withAmplifyData from '../../helpers/withAmplifyData';
+import useCognitoUser from '../../helpers/useCognitoUser';
 
 const NewPost = ({ region, bucket }) => {
+  const user = useCognitoUser();
   const { register, handleSubmit, errors, setError } = useForm();
 
   const getResMode = (height) =>
@@ -34,10 +36,12 @@ const NewPost = ({ region, bucket }) => {
       const thumbUploadData = new FormData();
       thumbUploadData.append('thumb', thumb);
       thumbUploadData.append('id', id);
-      const thumbKey = fetch('/api/uploadThumb', {
+      const thumbKey = await fetch('/api/uploadThumb', {
         method: 'POST',
         body: thumbUploadData,
       }).then((res) => res.json());
+      console.log(thumbKey);
+      console.log(user);
       const thumbDim = await getDimensions(thumb);
 
       // upload 1080p (private to authenticated users)
@@ -76,13 +80,16 @@ const NewPost = ({ region, bucket }) => {
             id,
             title,
             description,
+            createdAt: new Date().toISOString(),
+            userID: user.username,
+            thumb: thumbKey.key,
             resolutions: [
               {
-                resMode: `${getResMode(fullResDim)}p`,
+                resMode: `${getResMode(fullResDim[1])}p`,
                 image: img1080ForUpload,
               },
               {
-                resMode: `${getResMode(thumbDim)}p`,
+                resMode: `${getResMode(thumbDim[1])}p`,
                 thumb: thumbKey,
               },
             ],

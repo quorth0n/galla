@@ -39,8 +39,8 @@ type Post
   @key(name: "byOwner", fields: ["userID", "createdAt"])
   @auth(
     rules: [
-      { allow: owner }
-      { allow: groups, groups: ["Users"], operations: [read] }
+      { allow: owner, ownerField: "userID" }
+      { allow: private, operations: [read] }
       { allow: private, provider: iam, operations: [read, update] }
       { allow: public, provider: apiKey, operations: [read] }
     ]
@@ -50,7 +50,7 @@ type Post
   description: String!
   createdAt: AWSDateTime!
   userID: ID!
-  tags: [TaggedPost]! @connection(keyName: "byPost", fields: ["id"])
+  tags: [TaggedPost] @connection(keyName: "byPost", fields: ["id"])
   thumb: String!
   resolutions: [Image]!
   dailyViews: Int
@@ -62,12 +62,7 @@ type Post
 
 type TaggedPost
   @model(queries: null)
-  @auth(
-    rules: [
-      { allow: groups, groups: ["Admin"] }
-      { allow: public, provider: apiKey, operations: [read] }
-    ]
-  )
+  @auth(rules: [{ allow: private, operations: [create, update, delete] }])
   @key(name: "byPost", fields: ["postID", "tagName"])
   @key(name: "byTag", fields: ["tagName", "postID"]) {
   id: ID!
@@ -79,12 +74,7 @@ type TaggedPost
 
 type Tag
   @model
-  @auth(
-    rules: [
-      { allow: groups, groups: ["Admin"] }
-      { allow: public, provider: apiKey, operations: [read] }
-    ]
-  )
+  @auth(rules: [{ allow: private, operations: [create, update, delete] }])
   @key(fields: ["name"]) {
   name: ID!
   description: String

@@ -32,6 +32,7 @@ type Post @aws_api_key @aws_iam @aws_cognito_user_pools {
   description: String!
   createdAt: AWSDateTime!
   userID: ID!
+  tags(tagName: ModelIDKeyConditionInput, filter: ModelTaggedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedPostConnection
   thumb: String!
   resolutions: [Image]!
   dailyViews: Int
@@ -39,22 +40,20 @@ type Post @aws_api_key @aws_iam @aws_cognito_user_pools {
   totalViews: Int
   votes: [Vote!]
   totalScore: Int
-  owner: String
-  tags(tagName: ModelIDKeyConditionInput, filter: ModelTaggedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools
 }
 
-type TaggedPost @aws_api_key @aws_cognito_user_pools {
+type TaggedPost {
   id: ID!
   postID: ID!
   tagName: ID!
+  tag: Tag!
   post: Post! @aws_api_key @aws_iam @aws_cognito_user_pools
-  tag: Tag! @aws_api_key @aws_cognito_user_pools
 }
 
-type Tag @aws_api_key @aws_cognito_user_pools {
+type Tag {
   name: ID!
   description: String
-  posts(postID: ModelIDKeyConditionInput, filter: ModelTaggedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools
+  posts(postID: ModelIDKeyConditionInput, filter: ModelTaggedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedPostConnection
 }
 
 enum ModelSortDirection {
@@ -166,12 +165,12 @@ enum ModelAttributeTypes {
 }
 
 type Query {
+  getTag(name: ID!): Tag
+  listTags(name: ID, filter: ModelTagFilterInput, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelTagConnection
   getUser(id: ID!): User @aws_api_key @aws_cognito_user_pools
   listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection @aws_api_key @aws_cognito_user_pools
   listPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection @aws_api_key @aws_iam @aws_cognito_user_pools
   getPost(id: ID!): Post @aws_api_key @aws_iam @aws_cognito_user_pools
-  listTags(name: ID, filter: ModelTagFilterInput, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelTagConnection @aws_api_key @aws_cognito_user_pools
-  getTag(name: ID!): Tag @aws_api_key @aws_cognito_user_pools
 }
 
 input CreateUserInput {
@@ -226,15 +225,15 @@ type Subscription {
   onCreateUser(owner: String): User @aws_subscribe(mutations: ["createUser"])
   onUpdateUser(owner: String): User @aws_subscribe(mutations: ["updateUser"])
   onDeleteUser(owner: String): User @aws_subscribe(mutations: ["deleteUser"])
-  onCreatePost(owner: String!): Post @aws_subscribe(mutations: ["createPost"])
-  onDeletePost(owner: String!): Post @aws_subscribe(mutations: ["deletePost"])
+  onCreatePost(userID: String!): Post @aws_subscribe(mutations: ["createPost"])
+  onDeletePost(userID: String!): Post @aws_subscribe(mutations: ["deletePost"])
   onCreateTaggedPost: TaggedPost @aws_subscribe(mutations: ["createTaggedPost"])
   onUpdateTaggedPost: TaggedPost @aws_subscribe(mutations: ["updateTaggedPost"])
   onDeleteTaggedPost: TaggedPost @aws_subscribe(mutations: ["deleteTaggedPost"])
   onCreateTag: Tag @aws_subscribe(mutations: ["createTag"])
   onUpdateTag: Tag @aws_subscribe(mutations: ["updateTag"])
   onDeleteTag: Tag @aws_subscribe(mutations: ["deleteTag"])
-  onUpdatePost(owner: String!): Post @aws_subscribe(mutations: ["updatePost"]) @aws_iam @aws_cognito_user_pools
+  onUpdatePost(userID: String!): Post @aws_subscribe(mutations: ["updatePost"]) @aws_iam @aws_cognito_user_pools
 }
 
 input ImageInput {
@@ -313,7 +312,6 @@ input ModelPostConditionInput {
   title: ModelStringInput
   description: ModelStringInput
   createdAt: ModelStringInput
-  userID: ModelIDInput
   thumb: ModelStringInput
   dailyViews: ModelIntInput
   monthlyViews: ModelIntInput
@@ -348,7 +346,7 @@ input ModelTaggedPostConditionInput {
   not: ModelTaggedPostConditionInput
 }
 
-type ModelTagConnection @aws_api_key @aws_cognito_user_pools {
+type ModelTagConnection {
   items: [Tag]
   nextToken: String
 }

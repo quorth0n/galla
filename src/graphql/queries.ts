@@ -2,6 +2,48 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getTag = /* GraphQL */ `
+  query GetTag($name: ID!) {
+    getTag(name: $name) {
+      name
+      description
+      posts {
+        items {
+          id
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const listTags = /* GraphQL */ `
+  query ListTags(
+    $name: ID
+    $filter: ModelTagFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listTags(
+      name: $name
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        name
+        description
+        posts {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
@@ -24,7 +66,6 @@ export const getUser = /* GraphQL */ `
           monthlyViews
           totalViews
           totalScore
-          owner
         }
         nextToken
       }
@@ -67,6 +108,9 @@ export const listPosts = /* GraphQL */ `
         description
         createdAt
         userID
+        tags {
+          nextToken
+        }
         thumb
         resolutions {
           resMode
@@ -80,10 +124,6 @@ export const listPosts = /* GraphQL */ `
           upvote
         }
         totalScore
-        owner
-        tags {
-          nextToken
-        }
       }
       nextToken
     }
@@ -97,6 +137,14 @@ export const getPost = /* GraphQL */ `
       description
       createdAt
       userID
+      tags {
+        items {
+          id
+          postID
+          tagName
+        }
+        nextToken
+      }
       thumb
       resolutions {
         resMode
@@ -115,57 +163,6 @@ export const getPost = /* GraphQL */ `
         upvote
       }
       totalScore
-      owner
-      tags {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const listTags = /* GraphQL */ `
-  query ListTags(
-    $name: ID
-    $filter: ModelTagFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listTags(
-      name: $name
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        name
-        description
-        posts {
-          nextToken
-        }
-      }
-      nextToken
-    }
-  }
-`;
-export const getTag = /* GraphQL */ `
-  query GetTag($name: ID!) {
-    getTag(name: $name) {
-      name
-      description
-      posts {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
     }
   }
 `;

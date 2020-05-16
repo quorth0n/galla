@@ -10,8 +10,8 @@
 
   ## [Start] Owner Authorization Checks **
   #set( $isOwnerAuthorized = false )
-  ## Authorization rule: { allow: owner, ownerField: "owner", identityClaim: "cognito:username" } **
-  #set( $allowedOwners0 = $util.defaultIfNull($ctx.args.owner, null) )
+  ## Authorization rule: { allow: owner, ownerField: "userID", identityClaim: "cognito:username" } **
+  #set( $allowedOwners0 = $util.defaultIfNull($ctx.args.userID, null) )
   #set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"),
                         $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
   #if( $util.isList($allowedOwners0) )
