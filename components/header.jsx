@@ -8,7 +8,6 @@ const Header = () => {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
   const user = useCognitoUser();
-  console.log(user);
 
   return (
     <nav className="fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary mb-3 z-50 shadow-2xl">
@@ -65,7 +64,7 @@ const Header = () => {
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
               <li className="nav-item">
                 <a className="px-4 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                  <span>Welcome back</span>
+                  {user.username}
                 </a>
               </li>
               <li className="nav-item">

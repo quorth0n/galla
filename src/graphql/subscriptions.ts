@@ -20,10 +20,9 @@ export const onCreateUser = /* GraphQL */ `
           createdAt
           userID
           thumb
-          dailyViews
+          totalScore
           monthlyViews
           totalViews
-          totalScore
         }
         nextToken
       }
@@ -48,10 +47,9 @@ export const onUpdateUser = /* GraphQL */ `
           createdAt
           userID
           thumb
-          dailyViews
+          totalScore
           monthlyViews
           totalViews
-          totalScore
         }
         nextToken
       }
@@ -76,32 +74,53 @@ export const onDeleteUser = /* GraphQL */ `
           createdAt
           userID
           thumb
-          dailyViews
+          totalScore
           monthlyViews
           totalViews
-          totalScore
         }
         nextToken
       }
+    }
+  }
+`;
+export const onCreateVote = /* GraphQL */ `
+  subscription OnCreateVote($owner: String!) {
+    onCreateVote(owner: $owner) {
+      id
+      postID
+      owner
+      upvote
+    }
+  }
+`;
+export const onUpdateVote = /* GraphQL */ `
+  subscription OnUpdateVote($owner: String!) {
+    onUpdateVote(owner: $owner) {
+      id
+      postID
+      owner
+      upvote
+    }
+  }
+`;
+export const onDeleteVote = /* GraphQL */ `
+  subscription OnDeleteVote($owner: String!) {
+    onDeleteVote(owner: $owner) {
+      id
+      postID
+      owner
+      upvote
     }
   }
 `;
 export const onCreatePost = /* GraphQL */ `
-  subscription OnCreatePost($userID: String!) {
-    onCreatePost(userID: $userID) {
+  subscription OnCreatePost {
+    onCreatePost {
       id
       title
       description
       createdAt
       userID
-      tags {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
       thumb
       resolutions {
         resMode
@@ -112,211 +131,20 @@ export const onCreatePost = /* GraphQL */ `
         }
         thumb
       }
-      dailyViews
+      totalScore
+      votes {
+        items {
+          id
+          postID
+          owner
+          upvote
+        }
+        nextToken
+      }
       monthlyViews
       totalViews
-      votes {
-        owner
-        upvote
-      }
-      totalScore
-    }
-  }
-`;
-export const onDeletePost = /* GraphQL */ `
-  subscription OnDeletePost($userID: String!) {
-    onDeletePost(userID: $userID) {
-      id
-      title
-      description
-      createdAt
-      userID
       tags {
         items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
-      thumb
-      resolutions {
-        resMode
-        image {
-          bucket
-          region
-          key
-        }
-        thumb
-      }
-      dailyViews
-      monthlyViews
-      totalViews
-      votes {
-        owner
-        upvote
-      }
-      totalScore
-    }
-  }
-`;
-export const onCreateTaggedPost = /* GraphQL */ `
-  subscription OnCreateTaggedPost {
-    onCreateTaggedPost {
-      id
-      postID
-      tagName
-      tag {
-        name
-        description
-        posts {
-          nextToken
-        }
-      }
-      post {
-        id
-        title
-        description
-        createdAt
-        userID
-        tags {
-          nextToken
-        }
-        thumb
-        resolutions {
-          resMode
-          thumb
-        }
-        dailyViews
-        monthlyViews
-        totalViews
-        votes {
-          owner
-          upvote
-        }
-        totalScore
-      }
-    }
-  }
-`;
-export const onUpdateTaggedPost = /* GraphQL */ `
-  subscription OnUpdateTaggedPost {
-    onUpdateTaggedPost {
-      id
-      postID
-      tagName
-      tag {
-        name
-        description
-        posts {
-          nextToken
-        }
-      }
-      post {
-        id
-        title
-        description
-        createdAt
-        userID
-        tags {
-          nextToken
-        }
-        thumb
-        resolutions {
-          resMode
-          thumb
-        }
-        dailyViews
-        monthlyViews
-        totalViews
-        votes {
-          owner
-          upvote
-        }
-        totalScore
-      }
-    }
-  }
-`;
-export const onDeleteTaggedPost = /* GraphQL */ `
-  subscription OnDeleteTaggedPost {
-    onDeleteTaggedPost {
-      id
-      postID
-      tagName
-      tag {
-        name
-        description
-        posts {
-          nextToken
-        }
-      }
-      post {
-        id
-        title
-        description
-        createdAt
-        userID
-        tags {
-          nextToken
-        }
-        thumb
-        resolutions {
-          resMode
-          thumb
-        }
-        dailyViews
-        monthlyViews
-        totalViews
-        votes {
-          owner
-          upvote
-        }
-        totalScore
-      }
-    }
-  }
-`;
-export const onCreateTag = /* GraphQL */ `
-  subscription OnCreateTag {
-    onCreateTag {
-      name
-      description
-      posts {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const onUpdateTag = /* GraphQL */ `
-  subscription OnUpdateTag {
-    onUpdateTag {
-      name
-      description
-      posts {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const onDeleteTag = /* GraphQL */ `
-  subscription OnDeleteTag {
-    onDeleteTag {
-      name
-      description
-      posts {
-        items {
-          id
           postID
           tagName
         }
@@ -333,14 +161,6 @@ export const onUpdatePost = /* GraphQL */ `
       description
       createdAt
       userID
-      tags {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
       thumb
       resolutions {
         resMode
@@ -351,14 +171,218 @@ export const onUpdatePost = /* GraphQL */ `
         }
         thumb
       }
-      dailyViews
+      totalScore
+      votes {
+        items {
+          id
+          postID
+          owner
+          upvote
+        }
+        nextToken
+      }
       monthlyViews
       totalViews
-      votes {
-        owner
-        upvote
+      tags {
+        items {
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onDeletePost = /* GraphQL */ `
+  subscription OnDeletePost($userID: String!) {
+    onDeletePost(userID: $userID) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
       }
       totalScore
+      votes {
+        items {
+          id
+          postID
+          owner
+          upvote
+        }
+        nextToken
+      }
+      monthlyViews
+      totalViews
+      tags {
+        items {
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onCreateTaggedPost = /* GraphQL */ `
+  subscription OnCreateTaggedPost {
+    onCreateTaggedPost {
+      postID
+      tagName
+      post {
+        id
+        title
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        totalScore
+        votes {
+          nextToken
+        }
+        monthlyViews
+        totalViews
+        tags {
+          nextToken
+        }
+      }
+      tag {
+        name
+        description
+        posts {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onUpdateTaggedPost = /* GraphQL */ `
+  subscription OnUpdateTaggedPost {
+    onUpdateTaggedPost {
+      postID
+      tagName
+      post {
+        id
+        title
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        totalScore
+        votes {
+          nextToken
+        }
+        monthlyViews
+        totalViews
+        tags {
+          nextToken
+        }
+      }
+      tag {
+        name
+        description
+        posts {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onDeleteTaggedPost = /* GraphQL */ `
+  subscription OnDeleteTaggedPost {
+    onDeleteTaggedPost {
+      postID
+      tagName
+      post {
+        id
+        title
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        totalScore
+        votes {
+          nextToken
+        }
+        monthlyViews
+        totalViews
+        tags {
+          nextToken
+        }
+      }
+      tag {
+        name
+        description
+        posts {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const onCreateTag = /* GraphQL */ `
+  subscription OnCreateTag {
+    onCreateTag {
+      name
+      description
+      posts {
+        items {
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onUpdateTag = /* GraphQL */ `
+  subscription OnUpdateTag {
+    onUpdateTag {
+      name
+      description
+      posts {
+        items {
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onDeleteTag = /* GraphQL */ `
+  subscription OnDeleteTag {
+    onDeleteTag {
+      name
+      description
+      posts {
+        items {
+          postID
+          tagName
+        }
+        nextToken
+      }
     }
   }
 `;

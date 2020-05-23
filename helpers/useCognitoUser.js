@@ -7,7 +7,6 @@ const useCognitoUser = () => {
     setUser(await Auth.currentAuthenticatedUser());
   };
   const onAuthChanged = ({ payload: { event } }) => {
-    console.log('changed', event);
     if (event === 'signIn') {
       fetchUser();
     }

@@ -1,45 +1,83 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Dropdown from '../../components/dropdown';
+import Error from 'next/error';
+import { API, graphqlOperation } from 'aws-amplify';
 
-const Post = () => {
+import { viewPost } from '../../src/graphql/mutations';
+import Dropdown from '../../components/dropdown';
+import useCognitoUser from '../../helpers/useCognitoUser';
+
+const Post = ({ post }) => {
+  if (!post) return <Error statusCode={404} />;
+
   const router = useRouter();
   const { id } = router.query; // image ID for db retrieval
-
-  const { thumb, tags } = {
-    thumb:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Nighthawks_by_Edward_Hopper_1942.jpg/1280px-Nighthawks_by_Edward_Hopper_1942.jpg',
-    tags: [
-      'Acrylic',
-      'Realism',
-      'Impressionism',
-      'Modernism',
-      'American',
-      'Social realism',
-    ],
-  }; // placeholder data
-
   const canvasRef = React.useRef(null);
+  const [resolutions, setResolutions] = React.useState([]);
+  const [tags, setTags] = React.useState([]);
+  const user = useCognitoUser();
+
+  const fetchPost = async () => {
+    const fetchedPost = await API.graphql({
+      query: /* GraphQL */ `
+        query GetPost($id: ID!) {
+          getPost(id: $id) {
+            resolutions {
+              resMode
+              image {
+                bucket
+                region
+                key
+              }
+              thumb
+            }
+            tags {
+              items {
+                tagName
+              }
+            }
+          }
+        }
+      `,
+      variables: { id },
+      authMode: 'API_KEY',
+    });
+    console.log(
+      await API.graphql({
+        ...graphqlOperation(viewPost, { id }),
+        authMode: 'API_KEY',
+      })
+    );
+    setResolutions(fetchedPost.data.getPost.resolutions);
+    setTags(fetchedPost.data.getPost.tags.items);
+  };
 
   // scale canvas and load image
   React.useEffect(() => {
     const canvas = canvasRef.current;
-
     if (canvas.offsetWidth !== 300) {
       const image = new Image();
       image.onload = () => {
         // TODO find better ways to resample on low res
-
         canvas.width = image.width;
         canvas.height = image.height;
 
         const ctx = canvas.getContext('2d');
         ctx.drawImage(image, 0, 0, image.width, image.height);
       };
-      image.src = thumb;
+      console.log(post);
+      image.src = `/thumbs/${post.thumb}`;
     }
+
+    fetchPost();
   }, []);
+
+  const dropdownRes = resolutions.map((res) => ({
+    key: res.resMode,
+    value: res.resMode,
+    disabled: !!user,
+  }));
 
   return (
     <div className="m-auto inline-flex flex-col justify-center text-left p-4 md:px-8">
@@ -51,7 +89,14 @@ const Post = () => {
         </Link>
         <Dropdown
           size="sm"
-          options={['480p', '720p', '1080p']}
+          options={
+            dropdownRes.length
+              ? dropdownRes
+              : [
+                  { key: '360p', value: '360p' },
+                  { key: '1080p', value: '1080p' },
+                ]
+          }
           handleChange={(change) => console.log(change)}
         />
       </div>
@@ -112,43 +157,43 @@ const Post = () => {
         `}</style>
       </div>
       <div className="pt-4 justify-between flex flex-row">
-        <div className="flex-col">
-          <h1 className="text-2xl italic font-semibold">{id}</h1>
-          <span className="opacity-75">by </span>
-          <Link href="/profile/ehopper">
-            <a className="opacity-100">Edward Hopper</a>
-          </Link>
+        <div className="flex-col text-center justify-center mr-4 md:mr-6">
+          <a className="fas fa-arrow-up text-xl block"></a>
+          <strong className="block cursor-default">4</strong>
+          <a className="fas fa-arrow-down text-xl block"></a>
         </div>
-        <div
-          className="flex-col select-none opacity-75 hover:opacity-100"
-          style={{ transition: 'all 0.15s ease' }}
-        >
-          <div className="text-right">
-            <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none">
-              <i className="far fa-heart"></i> 34
-            </div>
-            <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none ml-1">
-              <i className="far fa-comments"></i> 4
-            </div>
-            <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none ml-1">
-              <i className="far fa-eye"></i> 162
-            </div>
+        <div className="flex flex-row justify-between w-full">
+          <div className="flex-col">
+            <h1 className="text-2xl italic font-semibold">
+              {post && post.title}
+            </h1>
+            <span className="opacity-75">by </span>
+            <Link href="/profile/ehopper">
+              <a className="opacity-100">{post && post.userID}</a>
+            </Link>
           </div>
-          <div className="cursor-pointer background-transparent px-3 py-1 text-lg outline-none focus:outline-none text-center w-full">
-            <i className="fab fa-creative-commons-pd"></i> Public Domain
+          <div
+            className="flex-col select-none opacity-75 hover:opacity-100"
+            style={{ transition: 'all 0.15s ease' }}
+          >
+            <div className="text-right">
+              <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none">
+                <i className="far fa-heart"></i> 34
+              </div>
+              <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none ml-1">
+                <i className="far fa-comments"></i> 4
+              </div>
+              <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none ml-1">
+                <i className="far fa-eye"></i> {post.totalViews}
+              </div>
+            </div>
+            <div className="cursor-pointer background-transparent px-3 py-1 text-lg outline-none focus:outline-none text-center w-full">
+              <i className="fab fa-creative-commons-pd"></i> Public Domain
+            </div>
           </div>
         </div>
       </div>
-      <p className="opacity-75 mt-4">
-        &quot;Nighthawks is a 1942 oil on canvas painting by Edward Hopper that
-        portrays people in a downtown diner late at night as viewed through the
-        diner's large glass window. Also portrayed are the exteriors of the
-        urban structures across the street from the diner. It has been described
-        as Hopper's best-known work and is one of the most recognizable
-        paintings in American art. Within months of its completion, it was sold
-        to the Art Institute of Chicago on May 13, 1942, for $3,000&quot; -
-        Wikipedia
-      </p>
+      <p className="opacity-75 mt-4">{post && post.description}</p>
       <nav className="mt-4">
         <strong>Tags: </strong>
         {tags.map((tag) => (
@@ -163,6 +208,37 @@ const Post = () => {
       </nav>
     </div>
   );
+};
+
+export const getServerSideProps = async ({ query: { id }, res }) => {
+  const fetchPost = await API.graphql({
+    query: /* GraphQL */ `
+      query GetPost($id: ID!) {
+        getPost(id: $id) {
+          title
+          description
+          createdAt
+          userID
+          thumb
+          monthlyViews
+          totalViews
+          totalScore
+        }
+      }
+    `,
+    variables: { id },
+    authMode: 'API_KEY',
+  });
+  const post = fetchPost.data.getPost;
+
+  if (!post) {
+    res.statusCode = 404;
+  }
+  return {
+    props: {
+      post,
+    },
+  };
 };
 
 export default Post;

@@ -8,12 +8,14 @@
   ## No Static Group Authorization Rules **
 
 
+  ## No Dynamic Group Authorization Rules **
+
+
   ## [Start] Owner Authorization Checks **
-  #set( $isOwnerAuthorized = false )
-  ## Authorization rule: { allow: owner, ownerField: "userID", identityClaim: "cognito:username" } **
-  #set( $allowedOwners0 = $util.defaultIfNull($ctx.args.userID, null) )
-  #set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"),
-                        $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
+  #set( $isOwnerAuthorized = $util.defaultIfNull($isOwnerAuthorized, false) )
+  ## Authorization rule: { allow: owner, ownerField: "owner", identityClaim: "cognito:username" } **
+  #set( $allowedOwners0 = $ctx.result.owner )
+  #set( $identityValue = $util.defaultIfNull($ctx.identity.claims.get("username"), $util.defaultIfNull($ctx.identity.claims.get("cognito:username"), "___xamznone____")) )
   #if( $util.isList($allowedOwners0) )
     #foreach( $allowedOwner in $allowedOwners0 )
       #if( $allowedOwner == $identityValue )
@@ -30,11 +32,11 @@
 
 
   ## [Start] Throw if unauthorized **
-  #if( !($isStaticGroupAuthorized == true || $isOwnerAuthorized == true) )
+  #if( !($isStaticGroupAuthorized == true || $isDynamicGroupAuthorized == true || $isOwnerAuthorized == true) )
     $util.unauthorized()
   #end
   ## [End] Throw if unauthorized **
 #end
 ## [End] Check authMode and execute owner/group checks **
 
-$util.toJson(null)
+$util.toJson($ctx.result)

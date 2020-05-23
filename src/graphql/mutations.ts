@@ -2,6 +2,126 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const viewPost = /* GraphQL */ `
+  mutation ViewPost($id: ID!) {
+    viewPost(id: $id) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      totalScore
+      votes {
+        items {
+          id
+          postID
+          owner
+          upvote
+        }
+        nextToken
+      }
+      monthlyViews
+      totalViews
+      tags {
+        items {
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const upvotePost = /* GraphQL */ `
+  mutation UpvotePost($id: ID!) {
+    upvotePost(id: $id) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      totalScore
+      votes {
+        items {
+          id
+          postID
+          owner
+          upvote
+        }
+        nextToken
+      }
+      monthlyViews
+      totalViews
+      tags {
+        items {
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const downvotePost = /* GraphQL */ `
+  mutation DownvotePost($id: ID!) {
+    downvotePost(id: $id) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      totalScore
+      votes {
+        items {
+          id
+          postID
+          owner
+          upvote
+        }
+        nextToken
+      }
+      monthlyViews
+      totalViews
+      tags {
+        items {
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
@@ -23,10 +143,9 @@ export const createUser = /* GraphQL */ `
           createdAt
           userID
           thumb
-          dailyViews
+          totalScore
           monthlyViews
           totalViews
-          totalScore
         }
         nextToken
       }
@@ -54,10 +173,9 @@ export const updateUser = /* GraphQL */ `
           createdAt
           userID
           thumb
-          dailyViews
+          totalScore
           monthlyViews
           totalViews
-          totalScore
         }
         nextToken
       }
@@ -85,93 +203,51 @@ export const deleteUser = /* GraphQL */ `
           createdAt
           userID
           thumb
-          dailyViews
+          totalScore
           monthlyViews
           totalViews
-          totalScore
         }
         nextToken
       }
     }
   }
 `;
-export const createPost = /* GraphQL */ `
-  mutation CreatePost(
-    $input: CreatePostInput!
-    $condition: ModelPostConditionInput
+export const createVote = /* GraphQL */ `
+  mutation CreateVote(
+    $input: CreateVoteInput!
+    $condition: ModelVoteConditionInput
   ) {
-    createPost(input: $input, condition: $condition) {
+    createVote(input: $input, condition: $condition) {
       id
-      title
-      description
-      createdAt
-      userID
-      tags {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
-      thumb
-      resolutions {
-        resMode
-        image {
-          bucket
-          region
-          key
-        }
-        thumb
-      }
-      dailyViews
-      monthlyViews
-      totalViews
-      votes {
-        owner
-        upvote
-      }
-      totalScore
+      postID
+      owner
+      upvote
     }
   }
 `;
-export const deletePost = /* GraphQL */ `
-  mutation DeletePost(
-    $input: DeletePostInput!
-    $condition: ModelPostConditionInput
+export const updateVote = /* GraphQL */ `
+  mutation UpdateVote(
+    $input: UpdateVoteInput!
+    $condition: ModelVoteConditionInput
   ) {
-    deletePost(input: $input, condition: $condition) {
+    updateVote(input: $input, condition: $condition) {
       id
-      title
-      description
-      createdAt
-      userID
-      tags {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
-      thumb
-      resolutions {
-        resMode
-        image {
-          bucket
-          region
-          key
-        }
-        thumb
-      }
-      dailyViews
-      monthlyViews
-      totalViews
-      votes {
-        owner
-        upvote
-      }
-      totalScore
+      postID
+      owner
+      upvote
+    }
+  }
+`;
+export const deleteVote = /* GraphQL */ `
+  mutation DeleteVote(
+    $input: DeleteVoteInput!
+    $condition: ModelVoteConditionInput
+  ) {
+    deleteVote(input: $input, condition: $condition) {
+      id
+      postID
+      owner
+      upvote
     }
   }
 `;
@@ -181,38 +257,35 @@ export const createTaggedPost = /* GraphQL */ `
     $condition: ModelTaggedPostConditionInput
   ) {
     createTaggedPost(input: $input, condition: $condition) {
-      id
       postID
       tagName
-      tag {
-        name
-        description
-        posts {
-          nextToken
-        }
-      }
       post {
         id
         title
         description
         createdAt
         userID
-        tags {
-          nextToken
-        }
         thumb
         resolutions {
           resMode
           thumb
         }
-        dailyViews
+        totalScore
+        votes {
+          nextToken
+        }
         monthlyViews
         totalViews
-        votes {
-          owner
-          upvote
+        tags {
+          nextToken
         }
-        totalScore
+      }
+      tag {
+        name
+        description
+        posts {
+          nextToken
+        }
       }
     }
   }
@@ -223,38 +296,35 @@ export const updateTaggedPost = /* GraphQL */ `
     $condition: ModelTaggedPostConditionInput
   ) {
     updateTaggedPost(input: $input, condition: $condition) {
-      id
       postID
       tagName
-      tag {
-        name
-        description
-        posts {
-          nextToken
-        }
-      }
       post {
         id
         title
         description
         createdAt
         userID
-        tags {
-          nextToken
-        }
         thumb
         resolutions {
           resMode
           thumb
         }
-        dailyViews
+        totalScore
+        votes {
+          nextToken
+        }
         monthlyViews
         totalViews
-        votes {
-          owner
-          upvote
+        tags {
+          nextToken
         }
-        totalScore
+      }
+      tag {
+        name
+        description
+        posts {
+          nextToken
+        }
       }
     }
   }
@@ -265,38 +335,35 @@ export const deleteTaggedPost = /* GraphQL */ `
     $condition: ModelTaggedPostConditionInput
   ) {
     deleteTaggedPost(input: $input, condition: $condition) {
-      id
       postID
       tagName
-      tag {
-        name
-        description
-        posts {
-          nextToken
-        }
-      }
       post {
         id
         title
         description
         createdAt
         userID
-        tags {
-          nextToken
-        }
         thumb
         resolutions {
           resMode
           thumb
         }
-        dailyViews
+        totalScore
+        votes {
+          nextToken
+        }
         monthlyViews
         totalViews
-        votes {
-          owner
-          upvote
+        tags {
+          nextToken
         }
-        totalScore
+      }
+      tag {
+        name
+        description
+        posts {
+          nextToken
+        }
       }
     }
   }
@@ -311,7 +378,6 @@ export const createTag = /* GraphQL */ `
       description
       posts {
         items {
-          id
           postID
           tagName
         }
@@ -330,7 +396,6 @@ export const updateTag = /* GraphQL */ `
       description
       posts {
         items {
-          id
           postID
           tagName
         }
@@ -349,7 +414,49 @@ export const deleteTag = /* GraphQL */ `
       description
       posts {
         items {
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const createPost = /* GraphQL */ `
+  mutation CreatePost(
+    $input: CreatePostInput!
+    $condition: ModelPostConditionInput
+  ) {
+    createPost(input: $input, condition: $condition) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      totalScore
+      votes {
+        items {
           id
+          postID
+          owner
+          upvote
+        }
+        nextToken
+      }
+      monthlyViews
+      totalViews
+      tags {
+        items {
           postID
           tagName
         }
@@ -369,14 +476,6 @@ export const updatePost = /* GraphQL */ `
       description
       createdAt
       userID
-      tags {
-        items {
-          id
-          postID
-          tagName
-        }
-        nextToken
-      }
       thumb
       resolutions {
         resMode
@@ -387,14 +486,68 @@ export const updatePost = /* GraphQL */ `
         }
         thumb
       }
-      dailyViews
+      totalScore
+      votes {
+        items {
+          id
+          postID
+          owner
+          upvote
+        }
+        nextToken
+      }
       monthlyViews
       totalViews
-      votes {
-        owner
-        upvote
+      tags {
+        items {
+          postID
+          tagName
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const deletePost = /* GraphQL */ `
+  mutation DeletePost(
+    $input: DeletePostInput!
+    $condition: ModelPostConditionInput
+  ) {
+    deletePost(input: $input, condition: $condition) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
       }
       totalScore
+      votes {
+        items {
+          id
+          postID
+          owner
+          upvote
+        }
+        nextToken
+      }
+      monthlyViews
+      totalViews
+      tags {
+        items {
+          postID
+          tagName
+        }
+        nextToken
+      }
     }
   }
 `;

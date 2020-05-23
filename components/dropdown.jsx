@@ -1,27 +1,16 @@
 import React from 'react';
-import Popper from 'popper.js';
+import { createPopper } from '@popperjs/core';
 
 const Dropdown = ({ options, handleChange, size }) => {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const [selected, setSelected] = React.useState(options[0]);
+  const [selected, setSelected] = React.useState(options[0].key);
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
 
   const openDropdownPopover = () => {
-    new Popper(btnDropdownRef.current, popoverDropdownRef.current, {
+    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
       placement: 'bottom',
-      modifiers: [
-        {
-          name: '',
-          enabled: false,
-          options: {
-            mainAxis: false,
-            altAxis: true,
-            rootBoundary: 'document',
-          },
-        },
-      ],
     });
     setDropdownPopoverShow(true);
   };
@@ -58,17 +47,17 @@ const Dropdown = ({ options, handleChange, size }) => {
         >
           {options.map((option) => (
             <button
-              key={option}
+              key={option.key}
               className={`text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-secondary hover:opacity-75 ${
-                option === selected ? 'font-bold' : ''
+                option.key === selected ? 'font-bold' : ''
               }`}
               onClick={() => {
-                setSelected(option);
+                setSelected(option.key);
                 closeDropdownPopover();
-                handleChange(option);
+                handleChange(option.key);
               }}
             >
-              {option}
+              {option.value}
             </button>
           ))}
         </div>

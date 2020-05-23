@@ -215,7 +215,11 @@ const Profile = () => {
               </h4>
               <div className="inline-flex flex-row w-full pb-4 px-4 lg:px-8 items-center overflow-x-auto">
                 {posts.slice(0, 5).map((post) => (
-                  <Link href={`/post/${post.title}`} key={post.title}>
+                  <Link
+                    href="/post/[id]"
+                    as={`/post/${post.title}`}
+                    key={post.title}
+                  >
                     <div
                       className="flex flex-none pr-4 lg:pr-8 justify-center align-middle"
                       onClick={() => pushCollection(posts)}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 import { nanoid } from 'nanoid';
@@ -13,6 +14,7 @@ import withAmplifyData from '../../helpers/withAmplifyData';
 import useCognitoUser from '../../helpers/useCognitoUser';
 
 const NewPost = ({ region, bucket }) => {
+  const router = useRouter();
   const user = useCognitoUser();
   const { register, handleSubmit, errors, setError } = useForm();
 
@@ -40,8 +42,6 @@ const NewPost = ({ region, bucket }) => {
         method: 'POST',
         body: thumbUploadData,
       }).then((res) => res.json());
-      console.log(thumbKey);
-      console.log(user);
       const thumbDim = await getDimensions(thumb);
 
       // upload 1080p (private to authenticated users)
@@ -68,11 +68,23 @@ const NewPost = ({ region, bucket }) => {
         }
         return accumulator;
       }, Promise.resolve([]));
-      console.log(newTags);
+      console.log(tags);
+      const resolutions = [
+        {
+          resMode: `${getResMode(thumbDim[1])}p`,
+          thumb: thumbKey.key,
+        },
+      ];
+      if (getResMode(thumbDim[1]) !== getResMode(fullResDim[1])) {
+        resolutions.unshift({
+          resMode: `${getResMode(fullResDim[1])}p`,
+          image: img1080ForUpload,
+        });
+      }
       await API.graphql(
         ...newTags.map((tag) =>
           graphqlOperation(createTag, {
-            name: tag,
+            input: { name: tag },
           })
         ),
         graphqlOperation(createPost, {
@@ -83,18 +95,14 @@ const NewPost = ({ region, bucket }) => {
             createdAt: new Date().toISOString(),
             userID: user.username,
             thumb: thumbKey.key,
-            resolutions: [
-              {
-                resMode: `${getResMode(fullResDim[1])}p`,
-                image: img1080ForUpload,
-              },
-              {
-                resMode: `${getResMode(thumbDim[1])}p`,
-                thumb: thumbKey,
-              },
-            ],
+            resolutions,
+            monthlyViews: 0,
+            totalViews: 0,
+            totalScore: 0,
           },
-        }),
+        })
+      );
+      await API.graphql(
         ...tags.map((tag) =>
           graphqlOperation(createTaggedPost, {
             input: {
@@ -104,6 +112,7 @@ const NewPost = ({ region, bucket }) => {
           })
         )
       );
+      router.push(`/post/${id}`);
     };
 
     const { thumb, fullRes } = data;
@@ -113,8 +122,8 @@ const NewPost = ({ region, bucket }) => {
       setError('thumb', 'notMatch', 'Max size is 1 MB');
       return;
     }
-    if (fullRes[0] && fullRes[0].size > 2 * 1000 * 1000) {
-      setError('fullRes', 'notMatch', 'Max size is 2 MB');
+    if (fullRes[0] && fullRes[0].size > 10 * 1000 * 1000) {
+      setError('fullRes', 'notMatch', 'Max size is 10 MB');
       return;
     }
 
@@ -133,6 +142,7 @@ const NewPost = ({ region, bucket }) => {
 
   return (
     <div className="m-auto p-4 md:px-8 w-full lg:w-1/2">
+      <h1 className="text-3xl font-semibold mb-4">New post</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col space-y-4 justify-center align-middle"

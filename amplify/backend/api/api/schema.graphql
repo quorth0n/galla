@@ -1,8 +1,3 @@
-type Vote {
-  owner: ID!
-  upvote: Boolean!
-}
-
 type S3Object {
   bucket: String!
   region: String!
@@ -24,7 +19,8 @@ type User
       { allow: groups, groups: ["Admin"] }
       { allow: public, provider: apiKey, operations: [read] }
     ]
-  ) {
+  )
+  @searchable {
   id: ID!
   username: ID!
   location: String
@@ -34,17 +30,33 @@ type User
   posts: [Post] @connection(keyName: "byOwner", fields: ["username"])
 }
 
+type Vote
+  @model
+  @key(name: "byPostByUpvote", fields: ["postID", "upvote"])
+  @key(name: "byPostByOwner", fields: ["postID", "owner"])
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  postID: ID!
+  owner: ID!
+  upvote: Int! # 0 or 1, bools cannot be sort keys
+}
+
 type Post
   @model
   @key(name: "byOwner", fields: ["userID", "createdAt"])
   @auth(
     rules: [
       { allow: owner, ownerField: "userID" }
-      { allow: private, operations: [read] }
-      { allow: private, provider: iam, operations: [read, update] }
+      { allow: private, operations: [create, read] }
       { allow: public, provider: apiKey, operations: [read] }
     ]
-  ) {
+  )
+  @searchable {
   id: ID!
   title: String!
   description: String!
@@ -53,19 +65,24 @@ type Post
   tags: [TaggedPost] @connection(keyName: "byPost", fields: ["id"])
   thumb: String!
   resolutions: [Image]!
-  dailyViews: Int
   monthlyViews: Int
+    @auth(rules: [{ allow: public, provider: apiKey }, { allow: private }])
   totalViews: Int
-  votes: [Vote!] @auth(rules: [{ allow: private }])
+    @auth(rules: [{ allow: public, provider: apiKey }, { allow: private }])
+  votes: [Vote] @connection(keyName: "byPostByUpvote", fields: ["id"])
   totalScore: Int @auth(rules: [{ allow: private }])
 }
 
 type TaggedPost
-  @model(queries: null)
-  @auth(rules: [{ allow: private, operations: [create, update, delete] }])
+  @model
+  @auth(
+    rules: [
+      { allow: private }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
   @key(name: "byPost", fields: ["postID", "tagName"])
   @key(name: "byTag", fields: ["tagName", "postID"]) {
-  id: ID!
   postID: ID!
   tagName: ID!
   post: Post! @connection(fields: ["postID"])
@@ -74,9 +91,21 @@ type TaggedPost
 
 type Tag
   @model
-  @auth(rules: [{ allow: private, operations: [create, update, delete] }])
+  @auth(
+    rules: [
+      { allow: private, operations: [create, read] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
   @key(fields: ["name"]) {
   name: ID!
   description: String
   posts: [TaggedPost] @connection(keyName: "byTag", fields: ["name"])
+}
+
+# Custom resolvers
+type Mutation {
+  viewPost(id: ID!): Post @aws_api_key
+  upvotePost(id: ID!): Post @aws_cognito_user_pools
+  downvotePost(id: ID!): Post @aws_cognito_user_pools
 }
