@@ -352,7 +352,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "TaggedPost",
+                                    "TaggedPoste2c37b",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -367,7 +367,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "TaggedPost",
+                                    "TaggedPost93e091",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"

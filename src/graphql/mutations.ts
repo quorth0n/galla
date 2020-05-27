@@ -21,21 +21,15 @@ export const viewPost = /* GraphQL */ `
         thumb
       }
       totalScore
-      votes {
-        items {
-          id
-          postID
-          owner
-          upvote
-        }
-        nextToken
-      }
+      updatedAt
       monthlyViews
       totalViews
       tags {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -61,21 +55,15 @@ export const upvotePost = /* GraphQL */ `
         thumb
       }
       totalScore
-      votes {
-        items {
-          id
-          postID
-          owner
-          upvote
-        }
-        nextToken
-      }
+      updatedAt
       monthlyViews
       totalViews
       tags {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -101,21 +89,15 @@ export const downvotePost = /* GraphQL */ `
         thumb
       }
       totalScore
-      votes {
-        items {
-          id
-          postID
-          owner
-          upvote
-        }
-        nextToken
-      }
+      updatedAt
       monthlyViews
       totalViews
       tags {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -128,27 +110,14 @@ export const createUser = /* GraphQL */ `
     $condition: ModelUserConditionInput
   ) {
     createUser(input: $input, condition: $condition) {
-      id
       username
       location
       description
       website
       monthlyViews
+      createdAt
+      updatedAt
       owner
-      posts {
-        items {
-          id
-          title
-          description
-          createdAt
-          userID
-          thumb
-          totalScore
-          monthlyViews
-          totalViews
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -158,27 +127,14 @@ export const updateUser = /* GraphQL */ `
     $condition: ModelUserConditionInput
   ) {
     updateUser(input: $input, condition: $condition) {
-      id
       username
       location
       description
       website
       monthlyViews
+      createdAt
+      updatedAt
       owner
-      posts {
-        items {
-          id
-          title
-          description
-          createdAt
-          userID
-          thumb
-          totalScore
-          monthlyViews
-          totalViews
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -188,27 +144,14 @@ export const deleteUser = /* GraphQL */ `
     $condition: ModelUserConditionInput
   ) {
     deleteUser(input: $input, condition: $condition) {
-      id
       username
       location
       description
       website
       monthlyViews
+      createdAt
+      updatedAt
       owner
-      posts {
-        items {
-          id
-          title
-          description
-          createdAt
-          userID
-          thumb
-          totalScore
-          monthlyViews
-          totalViews
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -222,6 +165,8 @@ export const createVote = /* GraphQL */ `
       postID
       owner
       upvote
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -235,6 +180,8 @@ export const updateVote = /* GraphQL */ `
       postID
       owner
       upvote
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -248,6 +195,8 @@ export const deleteVote = /* GraphQL */ `
       postID
       owner
       upvote
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -259,6 +208,8 @@ export const createTaggedPost = /* GraphQL */ `
     createTaggedPost(input: $input, condition: $condition) {
       postID
       tagName
+      createdAt
+      updatedAt
       post {
         id
         title
@@ -271,9 +222,7 @@ export const createTaggedPost = /* GraphQL */ `
           thumb
         }
         totalScore
-        votes {
-          nextToken
-        }
+        updatedAt
         monthlyViews
         totalViews
         tags {
@@ -283,6 +232,8 @@ export const createTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        createdAt
+        updatedAt
         posts {
           nextToken
         }
@@ -298,6 +249,8 @@ export const updateTaggedPost = /* GraphQL */ `
     updateTaggedPost(input: $input, condition: $condition) {
       postID
       tagName
+      createdAt
+      updatedAt
       post {
         id
         title
@@ -310,9 +263,7 @@ export const updateTaggedPost = /* GraphQL */ `
           thumb
         }
         totalScore
-        votes {
-          nextToken
-        }
+        updatedAt
         monthlyViews
         totalViews
         tags {
@@ -322,6 +273,8 @@ export const updateTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        createdAt
+        updatedAt
         posts {
           nextToken
         }
@@ -337,6 +290,8 @@ export const deleteTaggedPost = /* GraphQL */ `
     deleteTaggedPost(input: $input, condition: $condition) {
       postID
       tagName
+      createdAt
+      updatedAt
       post {
         id
         title
@@ -349,9 +304,7 @@ export const deleteTaggedPost = /* GraphQL */ `
           thumb
         }
         totalScore
-        votes {
-          nextToken
-        }
+        updatedAt
         monthlyViews
         totalViews
         tags {
@@ -361,6 +314,8 @@ export const deleteTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        createdAt
+        updatedAt
         posts {
           nextToken
         }
@@ -376,10 +331,14 @@ export const createTag = /* GraphQL */ `
     createTag(input: $input, condition: $condition) {
       name
       description
+      createdAt
+      updatedAt
       posts {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -394,10 +353,14 @@ export const updateTag = /* GraphQL */ `
     updateTag(input: $input, condition: $condition) {
       name
       description
+      createdAt
+      updatedAt
       posts {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -412,10 +375,14 @@ export const deleteTag = /* GraphQL */ `
     deleteTag(input: $input, condition: $condition) {
       name
       description
+      createdAt
+      updatedAt
       posts {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -444,21 +411,15 @@ export const createPost = /* GraphQL */ `
         thumb
       }
       totalScore
-      votes {
-        items {
-          id
-          postID
-          owner
-          upvote
-        }
-        nextToken
-      }
+      updatedAt
       monthlyViews
       totalViews
       tags {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -487,21 +448,15 @@ export const updatePost = /* GraphQL */ `
         thumb
       }
       totalScore
-      votes {
-        items {
-          id
-          postID
-          owner
-          upvote
-        }
-        nextToken
-      }
+      updatedAt
       monthlyViews
       totalViews
       tags {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -530,21 +485,15 @@ export const deletePost = /* GraphQL */ `
         thumb
       }
       totalScore
-      votes {
-        items {
-          id
-          postID
-          owner
-          upvote
-        }
-        nextToken
-      }
+      updatedAt
       monthlyViews
       totalViews
       tags {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }

@@ -224,7 +224,7 @@
                         {
                             "Ref": "APIKeyExpirationEpoch"
                         },
-                        1621801295
+                        1622077952
                     ]
                 }
             },
@@ -570,8 +570,7 @@
             },
             "DependsOn": [
                 "GraphQLSchema",
-                "NoneDataSource",
-                "Vote"
+                "NoneDataSource"
             ]
         },
         "TaggedPost": {
@@ -878,8 +877,8 @@
             "DependsOn": [
                 "GraphQLSchema",
                 "NoneDataSource",
-                "Post",
                 "TaggedPost",
+                "Post",
                 "Tag"
             ]
         },

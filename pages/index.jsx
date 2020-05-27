@@ -3,8 +3,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { API, graphqlOperation } from 'aws-amplify';
 
-import { searchPosts } from '../src/graphql/queries';
-import Dropdown from '../components/dropdown';
+import { listPosts } from '../src/graphql/queries';
+import Dropdown from '../components/Dropdown';
 
 export default function Home() {
   const [posts, setPosts] = React.useState([]);
@@ -12,23 +12,23 @@ export default function Home() {
   const fetchPosts = async () => {
     const today = new Date();
     const yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
-    setPosts(
-      await API.graphql(
-        graphqlOperation(searchPosts, {
-          filter: {
-            createdAt: {
-              between: [yesterday.toISOString(), today.toISOString()],
-            },
+    yesterday.setDate(today.getDate() - 7);
+    const topPosts = await API.graphql(
+      graphqlOperation(listPosts, {
+        filter: {
+          createdAt: {
+            between: [yesterday.toISOString(), today.toISOString()],
           },
-          sort: {
-            field: 'totalScore',
-            direction: 'desc',
-          },
-          limit: 10,
-        })
-      )
+        },
+        sort: {
+          field: 'totalScore',
+          direction: 'desc',
+        },
+        limit: 10,
+      })
     );
+    setPosts(topPosts.data.listPosts.items);
+    console.log(topPosts);
   };
 
   React.useEffect(() => {
@@ -89,14 +89,14 @@ export default function Home() {
         </h2>
         <div className="mt-6 flex flex-wrap items-center justify-around leading-relaxed select-none">
           {posts.slice(0, 3).map((post) => (
-            <Link href="/post/[id]" as={`/post/${post.title}`} key={post.title}>
+            <Link href="/post/[id]" as={`/post/${post.id}`} key={post.id}>
               <div
                 className="relative w-auto h-auto text-center mb-8 cursor-pointer shadow hover:shadow-xl"
                 onClick={() => pushCollection(posts)}
               >
                 <div className="absolute inset-0 w-full h-full block p-1 bg-black opacity-0 hover:opacity-75 transition duration-500 ease pl-0">
                   <em className="relative top-0 text-lg font-semibold">
-                    Sample Title
+                    {post.title}
                   </em>
                   <p
                     className="absolute bottom-0 w-full whitespace-normal opacity-75 overflow-hidden"
@@ -106,12 +106,17 @@ export default function Home() {
                       display: '-webkit-box',
                     }}
                   >
-                    Esse ea Lorem elit labore nulla cupidatat commodo. Est
-                    commodo incididunt occaecat duis deserunt magna proident
-                    adipisicing est. Id incididunt amet sit pariatur.
+                    {post.description}
                   </p>
                 </div>
-                <img src={post.thumb} alt={post.title} />
+                <img
+                  style={{
+                    maxWidth: '20em',
+                    maxHeight: '20em',
+                  }}
+                  src={`/thumbs/${post.thumb}`}
+                  alt={post.title}
+                />
               </div>
             </Link>
           ))}

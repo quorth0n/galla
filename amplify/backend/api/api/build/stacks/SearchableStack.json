@@ -590,7 +590,8 @@
                         },
                         "DEBUG": {
                             "Ref": "ElasticSearchDebugStreamingLambda"
-                        }
+                        },
+                        "ES_USE_EXTERNAL_VERSIONING": "false"
                     }
                 }
             },

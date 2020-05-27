@@ -92,7 +92,6 @@ const NewPost = ({ region, bucket }) => {
             id,
             title,
             description,
-            createdAt: new Date().toISOString(),
             userID: user.username,
             thumb: thumbKey.key,
             resolutions,

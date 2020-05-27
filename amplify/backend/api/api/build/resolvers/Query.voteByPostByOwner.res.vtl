@@ -45,7 +45,4 @@
 #end
 ## [End] Check authMode and execute owner/group checks **
 
-#if( !$result )
-  #set( $result = $ctx.result )
-#end
-$util.toJson($result)
+$util.toJson($ctx.result)

@@ -66,4 +66,4 @@ const Dropdown = ({ options, handleChange, size }) => {
   );
 };
 
-export default Dropdown;
+export default React.memo(Dropdown);

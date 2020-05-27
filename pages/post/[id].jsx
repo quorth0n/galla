@@ -4,57 +4,49 @@ import Link from 'next/link';
 import Error from 'next/error';
 import { API, graphqlOperation } from 'aws-amplify';
 
-import { viewPost } from '../../src/graphql/mutations';
-import Dropdown from '../../components/dropdown';
+import Dropdown from '../../components/Dropdown';
+import Vote from '../../components/Vote';
 import useCognitoUser from '../../helpers/useCognitoUser';
+import { viewPost } from '../../src/graphql/mutations';
 
 const Post = ({ post }) => {
-  if (!post) return <Error statusCode={404} />;
-
   const router = useRouter();
   const { id } = router.query; // image ID for db retrieval
   const canvasRef = React.useRef(null);
   const [resolutions, setResolutions] = React.useState([]);
-  const [tags, setTags] = React.useState([]);
   const user = useCognitoUser();
-
-  const fetchPost = async () => {
-    const fetchedPost = await API.graphql({
-      query: /* GraphQL */ `
-        query GetPost($id: ID!) {
-          getPost(id: $id) {
-            resolutions {
-              resMode
-              image {
-                bucket
-                region
-                key
-              }
-              thumb
-            }
-            tags {
-              items {
-                tagName
-              }
-            }
-          }
-        }
-      `,
-      variables: { id },
-      authMode: 'API_KEY',
-    });
-    console.log(
-      await API.graphql({
-        ...graphqlOperation(viewPost, { id }),
-        authMode: 'API_KEY',
-      })
-    );
-    setResolutions(fetchedPost.data.getPost.resolutions);
-    setTags(fetchedPost.data.getPost.tags.items);
-  };
 
   // scale canvas and load image
   React.useEffect(() => {
+    const fetchData = async () => {
+      // get resolutions
+      const fetchedResolutions = await API.graphql({
+        query: /* GraphQL */ `
+          query GetPost($id: ID!) {
+            getPost(id: $id) {
+              resolutions {
+                resMode
+                image {
+                  bucket
+                  region
+                  key
+                }
+                thumb
+              }
+            }
+          }
+        `,
+        variables: { id },
+        authMode: 'API_KEY',
+      });
+      await API.graphql({
+        ...graphqlOperation(viewPost, { id }),
+        authMode: 'API_KEY',
+      });
+      setResolutions(fetchedResolutions.data.getPost.resolutions);
+    };
+    fetchData();
+
     const canvas = canvasRef.current;
     if (canvas.offsetWidth !== 300) {
       const image = new Image();
@@ -66,12 +58,11 @@ const Post = ({ post }) => {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(image, 0, 0, image.width, image.height);
       };
-      console.log(post);
       image.src = `/thumbs/${post.thumb}`;
     }
+  }, [id, post.thumb]);
 
-    fetchPost();
-  }, []);
+  if (!post) return <Error statusCode={404} />;
 
   const dropdownRes = resolutions.map((res) => ({
     key: res.resMode,
@@ -127,8 +118,7 @@ const Post = ({ post }) => {
           .navigation .arrow {
             opacity: 0;
           }
-
-          .navigation:hover .arrow {
+          aea33fc3-831c-4c47-92a2-29c3c7abac1d .navigation:hover .arrow {
             opacity: 1;
           }
 
@@ -157,12 +147,8 @@ const Post = ({ post }) => {
         `}</style>
       </div>
       <div className="pt-4 justify-between flex flex-row">
-        <div className="flex-col text-center justify-center mr-4 md:mr-6">
-          <a className="fas fa-arrow-up text-xl block"></a>
-          <strong className="block cursor-default">4</strong>
-          <a className="fas fa-arrow-down text-xl block"></a>
-        </div>
         <div className="flex flex-row justify-between w-full">
+          <Vote id={id} initialScore={post.totalScore} />
           <div className="flex-col">
             <h1 className="text-2xl italic font-semibold">
               {post && post.title}
@@ -196,22 +182,24 @@ const Post = ({ post }) => {
       <p className="opacity-75 mt-4">{post && post.description}</p>
       <nav className="mt-4">
         <strong>Tags: </strong>
-        {tags.map((tag) => (
-          <a
-            href="#"
-            key={tag}
-            className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-primary bg-accent uppercase last:mr-0 mr-1"
-          >
-            {tag}
-          </a>
-        ))}
+        {post.tags && post.tags.items.length
+          ? post.tags.items.map((tag) => (
+              <a
+                href="#"
+                key={tag.tagName}
+                className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-primary bg-accent uppercase last:mr-0 mr-1"
+              >
+                {tag.tagName}
+              </a>
+            ))
+          : '(none)'}
       </nav>
     </div>
   );
 };
 
 export const getServerSideProps = async ({ query: { id }, res }) => {
-  const fetchPost = await API.graphql({
+  const fetchData = await API.graphql({
     query: /* GraphQL */ `
       query GetPost($id: ID!) {
         getPost(id: $id) {
@@ -223,13 +211,18 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
           monthlyViews
           totalViews
           totalScore
+          tags {
+            items {
+              tagName
+            }
+          }
         }
       }
     `,
     variables: { id },
     authMode: 'API_KEY',
   });
-  const post = fetchPost.data.getPost;
+  const post = fetchData.data.getPost;
 
   if (!post) {
     res.statusCode = 404;

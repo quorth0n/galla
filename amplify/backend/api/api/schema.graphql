@@ -12,7 +12,7 @@ type Image {
 
 type User
   @model
-  @key(name: "byUsername", fields: ["username"])
+  @key(fields: ["username"])
   @auth(
     rules: [
       { allow: owner }
@@ -21,19 +21,20 @@ type User
     ]
   )
   @searchable {
-  id: ID!
   username: ID!
   location: String
   description: String
   website: String
   monthlyViews: Int
-  posts: [Post] @connection(keyName: "byOwner", fields: ["username"])
 }
 
 type Vote
   @model
-  @key(name: "byPostByUpvote", fields: ["postID", "upvote"])
-  @key(name: "byPostByOwner", fields: ["postID", "owner"])
+  @key(
+    name: "byPostByOwner"
+    fields: ["postID", "owner"]
+    queryField: "voteByPostByOwner"
+  )
   @auth(
     rules: [
       { allow: owner }
@@ -42,13 +43,12 @@ type Vote
   ) {
   id: ID!
   postID: ID!
-  owner: ID!
+  owner: ID
   upvote: Int! # 0 or 1, bools cannot be sort keys
 }
 
 type Post
   @model
-  @key(name: "byOwner", fields: ["userID", "createdAt"])
   @auth(
     rules: [
       { allow: owner, ownerField: "userID" }
@@ -60,7 +60,7 @@ type Post
   id: ID!
   title: String!
   description: String!
-  createdAt: AWSDateTime!
+  createdAt: AWSDateTime
   userID: ID!
   tags: [TaggedPost] @connection(keyName: "byPost", fields: ["id"])
   thumb: String!
@@ -69,7 +69,6 @@ type Post
     @auth(rules: [{ allow: public, provider: apiKey }, { allow: private }])
   totalViews: Int
     @auth(rules: [{ allow: public, provider: apiKey }, { allow: private }])
-  votes: [Vote] @connection(keyName: "byPostByUpvote", fields: ["id"])
   totalScore: Int @auth(rules: [{ allow: private }])
 }
 
@@ -85,8 +84,8 @@ type TaggedPost
   @key(name: "byTag", fields: ["tagName", "postID"]) {
   postID: ID!
   tagName: ID!
-  post: Post! @connection(fields: ["postID"])
-  tag: Tag! @connection(fields: ["tagName"])
+  post: Post @connection(fields: ["postID"])
+  tag: Tag @connection(fields: ["tagName"])
 }
 
 type Tag

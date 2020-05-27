@@ -19,7 +19,7 @@ const Header = () => {
         <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
           <Link href="/">
             <a className="text-2xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase hover:opacity-100">
-              Artify
+              Galla
             </a>
           </Link>
           <div className="flex flex-row">
@@ -61,7 +61,7 @@ const Header = () => {
           className={`lg:flex items-center ${navbarOpen ? ' flex' : ' hidden'}`}
         >
           {user ? (
-            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto align-middle">
               <li className="nav-item">
                 <a className="px-4 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
                   {user.username}
@@ -94,4 +94,4 @@ const Header = () => {
     </nav>
   );
 };
-export default Header;
+export default React.memo(Header);

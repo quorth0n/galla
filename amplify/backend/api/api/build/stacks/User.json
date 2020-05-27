@@ -207,15 +207,11 @@
                 },
                 "KeySchema": [
                     {
-                        "AttributeName": "id",
+                        "AttributeName": "username",
                         "KeyType": "HASH"
                     }
                 ],
                 "AttributeDefinitions": [
-                    {
-                        "AttributeName": "id",
-                        "AttributeType": "S"
-                    },
                     {
                         "AttributeName": "username",
                         "AttributeType": "S"
@@ -268,37 +264,7 @@
                             "Ref": "AWS::NoValue"
                         }
                     ]
-                },
-                "GlobalSecondaryIndexes": [
-                    {
-                        "IndexName": "byUsername",
-                        "KeySchema": [
-                            {
-                                "AttributeName": "username",
-                                "KeyType": "HASH"
-                            }
-                        ],
-                        "Projection": {
-                            "ProjectionType": "ALL"
-                        },
-                        "ProvisionedThroughput": {
-                            "Fn::If": [
-                                "ShouldUsePayPerRequestBilling",
-                                {
-                                    "Ref": "AWS::NoValue"
-                                },
-                                {
-                                    "ReadCapacityUnits": {
-                                        "Ref": "DynamoDBModelTableReadIOPS"
-                                    },
-                                    "WriteCapacityUnits": {
-                                        "Ref": "DynamoDBModelTableWriteIOPS"
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                ]
+                }
             },
             "DeletionPolicy": "Delete"
         },
@@ -312,7 +278,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "User",
+                                    "Usercb3b2b",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -327,7 +293,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "User",
+                                    "User64da07",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"

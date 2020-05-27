@@ -3,7 +3,6 @@
 //  This file was automatically generated and should not be edited.
 
 export type CreateUserInput = {
-  id?: string | null,
   username: string,
   location?: string | null,
   description?: string | null,
@@ -12,7 +11,6 @@ export type CreateUserInput = {
 };
 
 export type ModelUserConditionInput = {
-  username?: ModelIDInput | null,
   location?: ModelStringInput | null,
   description?: ModelStringInput | null,
   website?: ModelStringInput | null,
@@ -22,7 +20,7 @@ export type ModelUserConditionInput = {
   not?: ModelUserConditionInput | null,
 };
 
-export type ModelIDInput = {
+export type ModelStringInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -62,22 +60,6 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelStringInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
 export type ModelIntInput = {
   ne?: number | null,
   eq?: number | null,
@@ -91,8 +73,7 @@ export type ModelIntInput = {
 };
 
 export type UpdateUserInput = {
-  id: string,
-  username?: string | null,
+  username: string,
   location?: string | null,
   description?: string | null,
   website?: string | null,
@@ -100,13 +81,13 @@ export type UpdateUserInput = {
 };
 
 export type DeleteUserInput = {
-  id?: string | null,
+  username: string,
 };
 
 export type CreateVoteInput = {
   id?: string | null,
   postID: string,
-  owner: string,
+  owner?: string | null,
   upvote: number,
 };
 
@@ -116,6 +97,22 @@ export type ModelVoteConditionInput = {
   and?: Array< ModelVoteConditionInput | null > | null,
   or?: Array< ModelVoteConditionInput | null > | null,
   not?: ModelVoteConditionInput | null,
+};
+
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
 };
 
 export type UpdateVoteInput = {
@@ -176,7 +173,7 @@ export type CreatePostInput = {
   id?: string | null,
   title: string,
   description: string,
-  createdAt: string,
+  createdAt?: string | null,
   userID: string,
   thumb: string,
   resolutions: Array< ImageInput | null >,
@@ -228,7 +225,6 @@ export type DeletePostInput = {
 };
 
 export type ModelUserFilterInput = {
-  id?: ModelIDInput | null,
   username?: ModelIDInput | null,
   location?: ModelStringInput | null,
   description?: ModelStringInput | null,
@@ -239,8 +235,13 @@ export type ModelUserFilterInput = {
   not?: ModelUserFilterInput | null,
 };
 
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
 export type SearchableUserFilterInput = {
-  id?: SearchableIDFilterInput | null,
   username?: SearchableIDFilterInput | null,
   location?: SearchableStringFilterInput | null,
   description?: SearchableStringFilterInput | null,
@@ -299,7 +300,6 @@ export type SearchableUserSortInput = {
 };
 
 export enum SearchableUserSortableFields {
-  id = "id",
   username = "username",
   location = "location",
   description = "description",
@@ -322,6 +322,16 @@ export type ModelVoteFilterInput = {
   and?: Array< ModelVoteFilterInput | null > | null,
   or?: Array< ModelVoteFilterInput | null > | null,
   not?: ModelVoteFilterInput | null,
+};
+
+export type ModelIDKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
 };
 
 export type SearchablePostFilterInput = {
@@ -388,12 +398,6 @@ export type ModelTagFilterInput = {
   not?: ModelTagFilterInput | null,
 };
 
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
-
 export type ViewPostMutationVariables = {
   id: string,
 };
@@ -404,7 +408,7 @@ export type ViewPostMutation = {
     id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -419,17 +423,7 @@ export type ViewPostMutation = {
       thumb: string | null,
     } | null >,
     totalScore: number | null,
-    votes:  {
-      __typename: "ModelVoteConnection",
-      items:  Array< {
-        __typename: "Vote",
-        id: string,
-        postID: string,
-        owner: string,
-        upvote: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
     tags:  {
@@ -438,6 +432,8 @@ export type ViewPostMutation = {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -454,7 +450,7 @@ export type UpvotePostMutation = {
     id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -469,17 +465,7 @@ export type UpvotePostMutation = {
       thumb: string | null,
     } | null >,
     totalScore: number | null,
-    votes:  {
-      __typename: "ModelVoteConnection",
-      items:  Array< {
-        __typename: "Vote",
-        id: string,
-        postID: string,
-        owner: string,
-        upvote: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
     tags:  {
@@ -488,6 +474,8 @@ export type UpvotePostMutation = {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -504,7 +492,7 @@ export type DownvotePostMutation = {
     id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -519,17 +507,7 @@ export type DownvotePostMutation = {
       thumb: string | null,
     } | null >,
     totalScore: number | null,
-    votes:  {
-      __typename: "ModelVoteConnection",
-      items:  Array< {
-        __typename: "Vote",
-        id: string,
-        postID: string,
-        owner: string,
-        upvote: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
     tags:  {
@@ -538,6 +516,8 @@ export type DownvotePostMutation = {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -552,29 +532,14 @@ export type CreateUserMutationVariables = {
 export type CreateUserMutation = {
   createUser:  {
     __typename: "User",
-    id: string,
     username: string,
     location: string | null,
     description: string | null,
     website: string | null,
     monthlyViews: number | null,
+    createdAt: string,
+    updatedAt: string,
     owner: string | null,
-    posts:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        description: string,
-        createdAt: string,
-        userID: string,
-        thumb: string,
-        totalScore: number | null,
-        monthlyViews: number | null,
-        totalViews: number | null,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
   } | null,
 };
 
@@ -586,29 +551,14 @@ export type UpdateUserMutationVariables = {
 export type UpdateUserMutation = {
   updateUser:  {
     __typename: "User",
-    id: string,
     username: string,
     location: string | null,
     description: string | null,
     website: string | null,
     monthlyViews: number | null,
+    createdAt: string,
+    updatedAt: string,
     owner: string | null,
-    posts:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        description: string,
-        createdAt: string,
-        userID: string,
-        thumb: string,
-        totalScore: number | null,
-        monthlyViews: number | null,
-        totalViews: number | null,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
   } | null,
 };
 
@@ -620,29 +570,14 @@ export type DeleteUserMutationVariables = {
 export type DeleteUserMutation = {
   deleteUser:  {
     __typename: "User",
-    id: string,
     username: string,
     location: string | null,
     description: string | null,
     website: string | null,
     monthlyViews: number | null,
+    createdAt: string,
+    updatedAt: string,
     owner: string | null,
-    posts:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        description: string,
-        createdAt: string,
-        userID: string,
-        thumb: string,
-        totalScore: number | null,
-        monthlyViews: number | null,
-        totalViews: number | null,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
   } | null,
 };
 
@@ -656,8 +591,10 @@ export type CreateVoteMutation = {
     __typename: "Vote",
     id: string,
     postID: string,
-    owner: string,
+    owner: string | null,
     upvote: number,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -671,8 +608,10 @@ export type UpdateVoteMutation = {
     __typename: "Vote",
     id: string,
     postID: string,
-    owner: string,
+    owner: string | null,
     upvote: number,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -686,8 +625,10 @@ export type DeleteVoteMutation = {
     __typename: "Vote",
     id: string,
     postID: string,
-    owner: string,
+    owner: string | null,
     upvote: number,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -701,12 +642,14 @@ export type CreateTaggedPostMutation = {
     __typename: "TaggedPost",
     postID: string,
     tagName: string,
+    createdAt: string,
+    updatedAt: string,
     post:  {
       __typename: "Post",
       id: string,
       title: string,
       description: string,
-      createdAt: string,
+      createdAt: string | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -715,26 +658,25 @@ export type CreateTaggedPostMutation = {
         thumb: string | null,
       } | null >,
       totalScore: number | null,
-      votes:  {
-        __typename: "ModelVoteConnection",
-        nextToken: string | null,
-      } | null,
+      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
       description: string | null,
+      createdAt: string,
+      updatedAt: string,
       posts:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -748,12 +690,14 @@ export type UpdateTaggedPostMutation = {
     __typename: "TaggedPost",
     postID: string,
     tagName: string,
+    createdAt: string,
+    updatedAt: string,
     post:  {
       __typename: "Post",
       id: string,
       title: string,
       description: string,
-      createdAt: string,
+      createdAt: string | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -762,26 +706,25 @@ export type UpdateTaggedPostMutation = {
         thumb: string | null,
       } | null >,
       totalScore: number | null,
-      votes:  {
-        __typename: "ModelVoteConnection",
-        nextToken: string | null,
-      } | null,
+      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
       description: string | null,
+      createdAt: string,
+      updatedAt: string,
       posts:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -795,12 +738,14 @@ export type DeleteTaggedPostMutation = {
     __typename: "TaggedPost",
     postID: string,
     tagName: string,
+    createdAt: string,
+    updatedAt: string,
     post:  {
       __typename: "Post",
       id: string,
       title: string,
       description: string,
-      createdAt: string,
+      createdAt: string | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -809,26 +754,25 @@ export type DeleteTaggedPostMutation = {
         thumb: string | null,
       } | null >,
       totalScore: number | null,
-      votes:  {
-        __typename: "ModelVoteConnection",
-        nextToken: string | null,
-      } | null,
+      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
       description: string | null,
+      createdAt: string,
+      updatedAt: string,
       posts:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -842,12 +786,16 @@ export type CreateTagMutation = {
     __typename: "Tag",
     name: string,
     description: string | null,
+    createdAt: string,
+    updatedAt: string,
     posts:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -864,12 +812,16 @@ export type UpdateTagMutation = {
     __typename: "Tag",
     name: string,
     description: string | null,
+    createdAt: string,
+    updatedAt: string,
     posts:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -886,12 +838,16 @@ export type DeleteTagMutation = {
     __typename: "Tag",
     name: string,
     description: string | null,
+    createdAt: string,
+    updatedAt: string,
     posts:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -909,7 +865,7 @@ export type CreatePostMutation = {
     id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -924,17 +880,7 @@ export type CreatePostMutation = {
       thumb: string | null,
     } | null >,
     totalScore: number | null,
-    votes:  {
-      __typename: "ModelVoteConnection",
-      items:  Array< {
-        __typename: "Vote",
-        id: string,
-        postID: string,
-        owner: string,
-        upvote: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
     tags:  {
@@ -943,6 +889,8 @@ export type CreatePostMutation = {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -960,7 +908,7 @@ export type UpdatePostMutation = {
     id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -975,17 +923,7 @@ export type UpdatePostMutation = {
       thumb: string | null,
     } | null >,
     totalScore: number | null,
-    votes:  {
-      __typename: "ModelVoteConnection",
-      items:  Array< {
-        __typename: "Vote",
-        id: string,
-        postID: string,
-        owner: string,
-        upvote: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
     tags:  {
@@ -994,6 +932,8 @@ export type UpdatePostMutation = {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1011,7 +951,7 @@ export type DeletePostMutation = {
     id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -1026,17 +966,7 @@ export type DeletePostMutation = {
       thumb: string | null,
     } | null >,
     totalScore: number | null,
-    votes:  {
-      __typename: "ModelVoteConnection",
-      items:  Array< {
-        __typename: "Vote",
-        id: string,
-        postID: string,
-        owner: string,
-        upvote: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
     tags:  {
@@ -1045,6 +975,8 @@ export type DeletePostMutation = {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1052,42 +984,29 @@ export type DeletePostMutation = {
 };
 
 export type GetUserQueryVariables = {
-  id: string,
+  username: string,
 };
 
 export type GetUserQuery = {
   getUser:  {
     __typename: "User",
-    id: string,
     username: string,
     location: string | null,
     description: string | null,
     website: string | null,
     monthlyViews: number | null,
+    createdAt: string,
+    updatedAt: string,
     owner: string | null,
-    posts:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        description: string,
-        createdAt: string,
-        userID: string,
-        thumb: string,
-        totalScore: number | null,
-        monthlyViews: number | null,
-        totalViews: number | null,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
   } | null,
 };
 
 export type ListUsersQueryVariables = {
+  username?: string | null,
   filter?: ModelUserFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListUsersQuery = {
@@ -1095,17 +1014,14 @@ export type ListUsersQuery = {
     __typename: "ModelUserConnection",
     items:  Array< {
       __typename: "User",
-      id: string,
       username: string,
       location: string | null,
       description: string | null,
       website: string | null,
       monthlyViews: number | null,
+      createdAt: string,
+      updatedAt: string,
       owner: string | null,
-      posts:  {
-        __typename: "ModelPostConnection",
-        nextToken: string | null,
-      } | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -1123,17 +1039,14 @@ export type SearchUsersQuery = {
     __typename: "SearchableUserConnection",
     items:  Array< {
       __typename: "User",
-      id: string,
       username: string,
       location: string | null,
       description: string | null,
       website: string | null,
       monthlyViews: number | null,
+      createdAt: string,
+      updatedAt: string,
       owner: string | null,
-      posts:  {
-        __typename: "ModelPostConnection",
-        nextToken: string | null,
-      } | null,
     } | null > | null,
     nextToken: string | null,
     total: number | null,
@@ -1149,8 +1062,10 @@ export type GetVoteQuery = {
     __typename: "Vote",
     id: string,
     postID: string,
-    owner: string,
+    owner: string | null,
     upvote: number,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -1167,8 +1082,35 @@ export type ListVotesQuery = {
       __typename: "Vote",
       id: string,
       postID: string,
-      owner: string,
+      owner: string | null,
       upvote: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type VoteByPostByOwnerQueryVariables = {
+  postID?: string | null,
+  owner?: ModelIDKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelVoteFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type VoteByPostByOwnerQuery = {
+  voteByPostByOwner:  {
+    __typename: "ModelVoteConnection",
+    items:  Array< {
+      __typename: "Vote",
+      id: string,
+      postID: string,
+      owner: string | null,
+      upvote: number,
+      createdAt: string,
+      updatedAt: string,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -1189,7 +1131,7 @@ export type SearchPostsQuery = {
       id: string,
       title: string,
       description: string,
-      createdAt: string,
+      createdAt: string | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1198,10 +1140,7 @@ export type SearchPostsQuery = {
         thumb: string | null,
       } | null >,
       totalScore: number | null,
-      votes:  {
-        __typename: "ModelVoteConnection",
-        nextToken: string | null,
-      } | null,
+      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
       tags:  {
@@ -1224,7 +1163,7 @@ export type GetPostQuery = {
     id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -1239,17 +1178,7 @@ export type GetPostQuery = {
       thumb: string | null,
     } | null >,
     totalScore: number | null,
-    votes:  {
-      __typename: "ModelVoteConnection",
-      items:  Array< {
-        __typename: "Vote",
-        id: string,
-        postID: string,
-        owner: string,
-        upvote: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
     tags:  {
@@ -1258,6 +1187,8 @@ export type GetPostQuery = {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1278,7 +1209,7 @@ export type ListPostsQuery = {
       id: string,
       title: string,
       description: string,
-      createdAt: string,
+      createdAt: string | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1287,10 +1218,7 @@ export type ListPostsQuery = {
         thumb: string | null,
       } | null >,
       totalScore: number | null,
-      votes:  {
-        __typename: "ModelVoteConnection",
-        nextToken: string | null,
-      } | null,
+      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
       tags:  {
@@ -1311,12 +1239,14 @@ export type GetTaggedPostQuery = {
     __typename: "TaggedPost",
     postID: string,
     tagName: string,
+    createdAt: string,
+    updatedAt: string,
     post:  {
       __typename: "Post",
       id: string,
       title: string,
       description: string,
-      createdAt: string,
+      createdAt: string | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1325,26 +1255,25 @@ export type GetTaggedPostQuery = {
         thumb: string | null,
       } | null >,
       totalScore: number | null,
-      votes:  {
-        __typename: "ModelVoteConnection",
-        nextToken: string | null,
-      } | null,
+      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
       description: string | null,
+      createdAt: string,
+      updatedAt: string,
       posts:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -1361,23 +1290,28 @@ export type ListTaggedPostsQuery = {
       __typename: "TaggedPost",
       postID: string,
       tagName: string,
+      createdAt: string,
+      updatedAt: string,
       post:  {
         __typename: "Post",
         id: string,
         title: string,
         description: string,
-        createdAt: string,
+        createdAt: string | null,
         userID: string,
         thumb: string,
         totalScore: number | null,
+        updatedAt: string,
         monthlyViews: number | null,
         totalViews: number | null,
-      },
+      } | null,
       tag:  {
         __typename: "Tag",
         name: string,
         description: string | null,
-      },
+        createdAt: string,
+        updatedAt: string,
+      } | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -1398,6 +1332,8 @@ export type ListTagsQuery = {
       __typename: "Tag",
       name: string,
       description: string | null,
+      createdAt: string,
+      updatedAt: string,
       posts:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
@@ -1416,12 +1352,16 @@ export type GetTagQuery = {
     __typename: "Tag",
     name: string,
     description: string | null,
+    createdAt: string,
+    updatedAt: string,
     posts:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1435,29 +1375,14 @@ export type OnCreateUserSubscriptionVariables = {
 export type OnCreateUserSubscription = {
   onCreateUser:  {
     __typename: "User",
-    id: string,
     username: string,
     location: string | null,
     description: string | null,
     website: string | null,
     monthlyViews: number | null,
+    createdAt: string,
+    updatedAt: string,
     owner: string | null,
-    posts:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        description: string,
-        createdAt: string,
-        userID: string,
-        thumb: string,
-        totalScore: number | null,
-        monthlyViews: number | null,
-        totalViews: number | null,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
   } | null,
 };
 
@@ -1468,29 +1393,14 @@ export type OnUpdateUserSubscriptionVariables = {
 export type OnUpdateUserSubscription = {
   onUpdateUser:  {
     __typename: "User",
-    id: string,
     username: string,
     location: string | null,
     description: string | null,
     website: string | null,
     monthlyViews: number | null,
+    createdAt: string,
+    updatedAt: string,
     owner: string | null,
-    posts:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        description: string,
-        createdAt: string,
-        userID: string,
-        thumb: string,
-        totalScore: number | null,
-        monthlyViews: number | null,
-        totalViews: number | null,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
   } | null,
 };
 
@@ -1501,29 +1411,14 @@ export type OnDeleteUserSubscriptionVariables = {
 export type OnDeleteUserSubscription = {
   onDeleteUser:  {
     __typename: "User",
-    id: string,
     username: string,
     location: string | null,
     description: string | null,
     website: string | null,
     monthlyViews: number | null,
+    createdAt: string,
+    updatedAt: string,
     owner: string | null,
-    posts:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        description: string,
-        createdAt: string,
-        userID: string,
-        thumb: string,
-        totalScore: number | null,
-        monthlyViews: number | null,
-        totalViews: number | null,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
   } | null,
 };
 
@@ -1536,8 +1431,10 @@ export type OnCreateVoteSubscription = {
     __typename: "Vote",
     id: string,
     postID: string,
-    owner: string,
+    owner: string | null,
     upvote: number,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -1550,8 +1447,10 @@ export type OnUpdateVoteSubscription = {
     __typename: "Vote",
     id: string,
     postID: string,
-    owner: string,
+    owner: string | null,
     upvote: number,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -1564,8 +1463,10 @@ export type OnDeleteVoteSubscription = {
     __typename: "Vote",
     id: string,
     postID: string,
-    owner: string,
+    owner: string | null,
     upvote: number,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -1575,7 +1476,7 @@ export type OnCreatePostSubscription = {
     id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -1590,17 +1491,7 @@ export type OnCreatePostSubscription = {
       thumb: string | null,
     } | null >,
     totalScore: number | null,
-    votes:  {
-      __typename: "ModelVoteConnection",
-      items:  Array< {
-        __typename: "Vote",
-        id: string,
-        postID: string,
-        owner: string,
-        upvote: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
     tags:  {
@@ -1609,6 +1500,8 @@ export type OnCreatePostSubscription = {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1625,7 +1518,7 @@ export type OnUpdatePostSubscription = {
     id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -1640,17 +1533,7 @@ export type OnUpdatePostSubscription = {
       thumb: string | null,
     } | null >,
     totalScore: number | null,
-    votes:  {
-      __typename: "ModelVoteConnection",
-      items:  Array< {
-        __typename: "Vote",
-        id: string,
-        postID: string,
-        owner: string,
-        upvote: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
     tags:  {
@@ -1659,6 +1542,8 @@ export type OnUpdatePostSubscription = {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1675,7 +1560,7 @@ export type OnDeletePostSubscription = {
     id: string,
     title: string,
     description: string,
-    createdAt: string,
+    createdAt: string | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -1690,17 +1575,7 @@ export type OnDeletePostSubscription = {
       thumb: string | null,
     } | null >,
     totalScore: number | null,
-    votes:  {
-      __typename: "ModelVoteConnection",
-      items:  Array< {
-        __typename: "Vote",
-        id: string,
-        postID: string,
-        owner: string,
-        upvote: number,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
     tags:  {
@@ -1709,6 +1584,8 @@ export type OnDeletePostSubscription = {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1720,12 +1597,14 @@ export type OnCreateTaggedPostSubscription = {
     __typename: "TaggedPost",
     postID: string,
     tagName: string,
+    createdAt: string,
+    updatedAt: string,
     post:  {
       __typename: "Post",
       id: string,
       title: string,
       description: string,
-      createdAt: string,
+      createdAt: string | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1734,26 +1613,25 @@ export type OnCreateTaggedPostSubscription = {
         thumb: string | null,
       } | null >,
       totalScore: number | null,
-      votes:  {
-        __typename: "ModelVoteConnection",
-        nextToken: string | null,
-      } | null,
+      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
       description: string | null,
+      createdAt: string,
+      updatedAt: string,
       posts:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -1762,12 +1640,14 @@ export type OnUpdateTaggedPostSubscription = {
     __typename: "TaggedPost",
     postID: string,
     tagName: string,
+    createdAt: string,
+    updatedAt: string,
     post:  {
       __typename: "Post",
       id: string,
       title: string,
       description: string,
-      createdAt: string,
+      createdAt: string | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1776,26 +1656,25 @@ export type OnUpdateTaggedPostSubscription = {
         thumb: string | null,
       } | null >,
       totalScore: number | null,
-      votes:  {
-        __typename: "ModelVoteConnection",
-        nextToken: string | null,
-      } | null,
+      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
       description: string | null,
+      createdAt: string,
+      updatedAt: string,
       posts:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -1804,12 +1683,14 @@ export type OnDeleteTaggedPostSubscription = {
     __typename: "TaggedPost",
     postID: string,
     tagName: string,
+    createdAt: string,
+    updatedAt: string,
     post:  {
       __typename: "Post",
       id: string,
       title: string,
       description: string,
-      createdAt: string,
+      createdAt: string | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1818,26 +1699,25 @@ export type OnDeleteTaggedPostSubscription = {
         thumb: string | null,
       } | null >,
       totalScore: number | null,
-      votes:  {
-        __typename: "ModelVoteConnection",
-        nextToken: string | null,
-      } | null,
+      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
       description: string | null,
+      createdAt: string,
+      updatedAt: string,
       posts:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -1846,12 +1726,16 @@ export type OnCreateTagSubscription = {
     __typename: "Tag",
     name: string,
     description: string | null,
+    createdAt: string,
+    updatedAt: string,
     posts:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1863,12 +1747,16 @@ export type OnUpdateTagSubscription = {
     __typename: "Tag",
     name: string,
     description: string | null,
+    createdAt: string,
+    updatedAt: string,
     posts:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
@@ -1880,12 +1768,16 @@ export type OnDeleteTagSubscription = {
     __typename: "Tag",
     name: string,
     description: string | null,
+    createdAt: string,
+    updatedAt: string,
     posts:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
       } | null > | null,
       nextToken: string | null,
     } | null,

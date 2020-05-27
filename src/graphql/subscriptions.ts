@@ -5,81 +5,42 @@
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser($owner: String) {
     onCreateUser(owner: $owner) {
-      id
       username
       location
       description
       website
       monthlyViews
+      createdAt
+      updatedAt
       owner
-      posts {
-        items {
-          id
-          title
-          description
-          createdAt
-          userID
-          thumb
-          totalScore
-          monthlyViews
-          totalViews
-        }
-        nextToken
-      }
     }
   }
 `;
 export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser($owner: String) {
     onUpdateUser(owner: $owner) {
-      id
       username
       location
       description
       website
       monthlyViews
+      createdAt
+      updatedAt
       owner
-      posts {
-        items {
-          id
-          title
-          description
-          createdAt
-          userID
-          thumb
-          totalScore
-          monthlyViews
-          totalViews
-        }
-        nextToken
-      }
     }
   }
 `;
 export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser($owner: String) {
     onDeleteUser(owner: $owner) {
-      id
       username
       location
       description
       website
       monthlyViews
+      createdAt
+      updatedAt
       owner
-      posts {
-        items {
-          id
-          title
-          description
-          createdAt
-          userID
-          thumb
-          totalScore
-          monthlyViews
-          totalViews
-        }
-        nextToken
-      }
     }
   }
 `;
@@ -90,6 +51,8 @@ export const onCreateVote = /* GraphQL */ `
       postID
       owner
       upvote
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -100,6 +63,8 @@ export const onUpdateVote = /* GraphQL */ `
       postID
       owner
       upvote
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -110,6 +75,8 @@ export const onDeleteVote = /* GraphQL */ `
       postID
       owner
       upvote
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -132,21 +99,15 @@ export const onCreatePost = /* GraphQL */ `
         thumb
       }
       totalScore
-      votes {
-        items {
-          id
-          postID
-          owner
-          upvote
-        }
-        nextToken
-      }
+      updatedAt
       monthlyViews
       totalViews
       tags {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -172,21 +133,15 @@ export const onUpdatePost = /* GraphQL */ `
         thumb
       }
       totalScore
-      votes {
-        items {
-          id
-          postID
-          owner
-          upvote
-        }
-        nextToken
-      }
+      updatedAt
       monthlyViews
       totalViews
       tags {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -212,21 +167,15 @@ export const onDeletePost = /* GraphQL */ `
         thumb
       }
       totalScore
-      votes {
-        items {
-          id
-          postID
-          owner
-          upvote
-        }
-        nextToken
-      }
+      updatedAt
       monthlyViews
       totalViews
       tags {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -238,6 +187,8 @@ export const onCreateTaggedPost = /* GraphQL */ `
     onCreateTaggedPost {
       postID
       tagName
+      createdAt
+      updatedAt
       post {
         id
         title
@@ -250,9 +201,7 @@ export const onCreateTaggedPost = /* GraphQL */ `
           thumb
         }
         totalScore
-        votes {
-          nextToken
-        }
+        updatedAt
         monthlyViews
         totalViews
         tags {
@@ -262,6 +211,8 @@ export const onCreateTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        createdAt
+        updatedAt
         posts {
           nextToken
         }
@@ -274,6 +225,8 @@ export const onUpdateTaggedPost = /* GraphQL */ `
     onUpdateTaggedPost {
       postID
       tagName
+      createdAt
+      updatedAt
       post {
         id
         title
@@ -286,9 +239,7 @@ export const onUpdateTaggedPost = /* GraphQL */ `
           thumb
         }
         totalScore
-        votes {
-          nextToken
-        }
+        updatedAt
         monthlyViews
         totalViews
         tags {
@@ -298,6 +249,8 @@ export const onUpdateTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        createdAt
+        updatedAt
         posts {
           nextToken
         }
@@ -310,6 +263,8 @@ export const onDeleteTaggedPost = /* GraphQL */ `
     onDeleteTaggedPost {
       postID
       tagName
+      createdAt
+      updatedAt
       post {
         id
         title
@@ -322,9 +277,7 @@ export const onDeleteTaggedPost = /* GraphQL */ `
           thumb
         }
         totalScore
-        votes {
-          nextToken
-        }
+        updatedAt
         monthlyViews
         totalViews
         tags {
@@ -334,6 +287,8 @@ export const onDeleteTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        createdAt
+        updatedAt
         posts {
           nextToken
         }
@@ -346,10 +301,14 @@ export const onCreateTag = /* GraphQL */ `
     onCreateTag {
       name
       description
+      createdAt
+      updatedAt
       posts {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -361,10 +320,14 @@ export const onUpdateTag = /* GraphQL */ `
     onUpdateTag {
       name
       description
+      createdAt
+      updatedAt
       posts {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -376,10 +339,14 @@ export const onDeleteTag = /* GraphQL */ `
     onDeleteTag {
       name
       description
+      createdAt
+      updatedAt
       posts {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }

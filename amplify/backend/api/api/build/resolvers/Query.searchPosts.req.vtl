@@ -19,8 +19,9 @@
   "params": {
       "body":     {
                 #if( $context.args.nextToken )"search_after": [$util.toJson($context.args.nextToken)], #end
-                "size": #if( $context.args.limit ) $context.args.limit #else 10 #end,
+                "size": #if( $context.args.limit ) $context.args.limit #else 100 #end,
                 "sort": [{$sortField0: { "order" : $util.toJson($sortDirection) }}],
+                "version": false,
                 "query": #if( $context.args.filter )
 $util.transform.toElasticsearchQueryDSL($ctx.args.filter)
 #else

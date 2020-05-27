@@ -221,10 +221,6 @@
                         "AttributeType": "S"
                     },
                     {
-                        "AttributeName": "upvote",
-                        "AttributeType": "N"
-                    },
-                    {
                         "AttributeName": "owner",
                         "AttributeType": "S"
                     }
@@ -279,38 +275,6 @@
                 },
                 "GlobalSecondaryIndexes": [
                     {
-                        "IndexName": "byPostByUpvote",
-                        "KeySchema": [
-                            {
-                                "AttributeName": "postID",
-                                "KeyType": "HASH"
-                            },
-                            {
-                                "AttributeName": "upvote",
-                                "KeyType": "RANGE"
-                            }
-                        ],
-                        "Projection": {
-                            "ProjectionType": "ALL"
-                        },
-                        "ProvisionedThroughput": {
-                            "Fn::If": [
-                                "ShouldUsePayPerRequestBilling",
-                                {
-                                    "Ref": "AWS::NoValue"
-                                },
-                                {
-                                    "ReadCapacityUnits": {
-                                        "Ref": "DynamoDBModelTableReadIOPS"
-                                    },
-                                    "WriteCapacityUnits": {
-                                        "Ref": "DynamoDBModelTableWriteIOPS"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
                         "IndexName": "byPostByOwner",
                         "KeySchema": [
                             {
@@ -356,7 +320,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Vote",
+                                    "Vote033b94",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -371,7 +335,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Vote",
+                                    "Votebc4b52",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -858,6 +822,70 @@
                                     [
                                         "Mutation",
                                         "deleteVote",
+                                        "res",
+                                        "vtl"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "QueryvoteByPostByOwnerResolver": {
+            "Type": "AWS::AppSync::Resolver",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "GetAttGraphQLAPIApiId"
+                },
+                "DataSourceName": {
+                    "Fn::GetAtt": [
+                        "VoteDataSource",
+                        "Name"
+                    ]
+                },
+                "FieldName": "voteByPostByOwner",
+                "TypeName": "Query",
+                "RequestMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": {
+                                "Fn::Join": [
+                                    ".",
+                                    [
+                                        "Query",
+                                        "voteByPostByOwner",
+                                        "req",
+                                        "vtl"
+                                    ]
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "ResponseMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "ResolverFileName": {
+                                "Fn::Join": [
+                                    ".",
+                                    [
+                                        "Query",
+                                        "voteByPostByOwner",
                                         "res",
                                         "vtl"
                                     ]

@@ -39,13 +39,12 @@ amplify/backend/amplify-meta.json
 amplify/backend/awscloudformation
 dist/
 node_modules/
-aws-exports.js
 awsconfiguration.json
 amplifyconfiguration.json
 amplify-build-config.json
 amplify-gradle-config.json
 amplifyxc.config
 
-# thumbnaikls
+# thumbnails
 public/thumbs/*
 !public/thumbs/.gitkeep

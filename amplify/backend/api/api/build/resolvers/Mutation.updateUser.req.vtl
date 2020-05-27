@@ -95,7 +95,11 @@
 #end
 ## [End] Check authMode and execute owner/group checks **
 
-
+## [Start] Set the primary @key. **
+#set( $modelObjectKey = {
+  "username": $util.dynamodb.toDynamoDB($ctx.args.input.username)
+} )
+## [End] Set the primary @key. **
 
 #if( $authCondition && $authCondition.expression != "" )
   #set( $condition = $authCondition )

@@ -278,7 +278,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Tag",
+                                    "Tagbf2a5a",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
@@ -293,7 +293,7 @@
                             "Fn::Join": [
                                 "-",
                                 [
-                                    "Tag",
+                                    "Tag088e90",
                                     "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"

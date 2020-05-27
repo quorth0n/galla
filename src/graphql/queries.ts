@@ -3,50 +3,43 @@
 // this is an auto generated file. This will be overwritten
 
 export const getUser = /* GraphQL */ `
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
-      id
+  query GetUser($username: ID!) {
+    getUser(username: $username) {
       username
       location
       description
       website
       monthlyViews
+      createdAt
+      updatedAt
       owner
-      posts {
-        items {
-          id
-          title
-          description
-          createdAt
-          userID
-          thumb
-          totalScore
-          monthlyViews
-          totalViews
-        }
-        nextToken
-      }
     }
   }
 `;
 export const listUsers = /* GraphQL */ `
   query ListUsers(
+    $username: ID
     $filter: ModelUserFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listUsers(
+      username: $username
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
-        id
         username
         location
         description
         website
         monthlyViews
+        createdAt
+        updatedAt
         owner
-        posts {
-          nextToken
-        }
       }
       nextToken
     }
@@ -66,16 +59,14 @@ export const searchUsers = /* GraphQL */ `
       nextToken: $nextToken
     ) {
       items {
-        id
         username
         location
         description
         website
         monthlyViews
+        createdAt
+        updatedAt
         owner
-        posts {
-          nextToken
-        }
       }
       nextToken
       total
@@ -89,6 +80,8 @@ export const getVote = /* GraphQL */ `
       postID
       owner
       upvote
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -104,6 +97,37 @@ export const listVotes = /* GraphQL */ `
         postID
         owner
         upvote
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const voteByPostByOwner = /* GraphQL */ `
+  query VoteByPostByOwner(
+    $postID: ID
+    $owner: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelVoteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    voteByPostByOwner(
+      postID: $postID
+      owner: $owner
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        postID
+        owner
+        upvote
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -134,9 +158,7 @@ export const searchPosts = /* GraphQL */ `
           thumb
         }
         totalScore
-        votes {
-          nextToken
-        }
+        updatedAt
         monthlyViews
         totalViews
         tags {
@@ -167,21 +189,15 @@ export const getPost = /* GraphQL */ `
         thumb
       }
       totalScore
-      votes {
-        items {
-          id
-          postID
-          owner
-          upvote
-        }
-        nextToken
-      }
+      updatedAt
       monthlyViews
       totalViews
       tags {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
@@ -207,9 +223,7 @@ export const listPosts = /* GraphQL */ `
           thumb
         }
         totalScore
-        votes {
-          nextToken
-        }
+        updatedAt
         monthlyViews
         totalViews
         tags {
@@ -225,6 +239,8 @@ export const getTaggedPost = /* GraphQL */ `
     getTaggedPost(id: $id) {
       postID
       tagName
+      createdAt
+      updatedAt
       post {
         id
         title
@@ -237,9 +253,7 @@ export const getTaggedPost = /* GraphQL */ `
           thumb
         }
         totalScore
-        votes {
-          nextToken
-        }
+        updatedAt
         monthlyViews
         totalViews
         tags {
@@ -249,6 +263,8 @@ export const getTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        createdAt
+        updatedAt
         posts {
           nextToken
         }
@@ -266,6 +282,8 @@ export const listTaggedPosts = /* GraphQL */ `
       items {
         postID
         tagName
+        createdAt
+        updatedAt
         post {
           id
           title
@@ -274,12 +292,15 @@ export const listTaggedPosts = /* GraphQL */ `
           userID
           thumb
           totalScore
+          updatedAt
           monthlyViews
           totalViews
         }
         tag {
           name
           description
+          createdAt
+          updatedAt
         }
       }
       nextToken
@@ -304,6 +325,8 @@ export const listTags = /* GraphQL */ `
       items {
         name
         description
+        createdAt
+        updatedAt
         posts {
           nextToken
         }
@@ -317,10 +340,14 @@ export const getTag = /* GraphQL */ `
     getTag(name: $name) {
       name
       description
+      createdAt
+      updatedAt
       posts {
         items {
           postID
           tagName
+          createdAt
+          updatedAt
         }
         nextToken
       }
