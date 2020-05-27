@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Error from 'next/error';
 import { API, graphqlOperation } from 'aws-amplify';
 
+import Head from '../../components/Head';
 import Dropdown from '../../components/Dropdown';
 import Vote from '../../components/Vote';
 import useCognitoUser from '../../helpers/useCognitoUser';
@@ -18,51 +19,51 @@ const Post = ({ post }) => {
 
   // scale canvas and load image
   React.useEffect(() => {
-    const fetchData = async () => {
-      // get resolutions
-      const fetchedResolutions = await API.graphql({
-        query: /* GraphQL */ `
-          query GetPost($id: ID!) {
-            getPost(id: $id) {
-              resolutions {
-                resMode
-                image {
-                  bucket
-                  region
-                  key
+    if (post) {
+      const fetchData = async () => {
+        // get resolutions
+        const fetchedResolutions = await API.graphql({
+          query: /* GraphQL */ `
+            query GetPost($id: ID!) {
+              getPost(id: $id) {
+                resolutions {
+                  resMode
+                  image {
+                    bucket
+                    region
+                    key
+                  }
+                  thumb
                 }
-                thumb
               }
             }
-          }
-        `,
-        variables: { id },
-        authMode: 'API_KEY',
-      });
-      await API.graphql({
-        ...graphqlOperation(viewPost, { id }),
-        authMode: 'API_KEY',
-      });
-      setResolutions(fetchedResolutions.data.getPost.resolutions);
-    };
-    fetchData();
-
-    const canvas = canvasRef.current;
-    if (canvas.offsetWidth !== 300) {
-      const image = new Image();
-      image.onload = () => {
-        // TODO find better ways to resample on low res
-        canvas.width = image.width;
-        canvas.height = image.height;
-
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(image, 0, 0, image.width, image.height);
+          `,
+          variables: { id },
+          authMode: 'API_KEY',
+        });
+        await API.graphql({
+          ...graphqlOperation(viewPost, { id }),
+          authMode: 'API_KEY',
+        });
+        setResolutions(fetchedResolutions.data.getPost.resolutions);
       };
-      image.src = `/thumbs/${post.thumb}`;
-    }
-  }, [id, post.thumb]);
+      fetchData();
 
-  if (!post) return <Error statusCode={404} />;
+      const canvas = canvasRef.current;
+      if (canvas.offsetWidth !== 300) {
+        const image = new Image();
+        image.onload = () => {
+          // TODO find better ways to resample on low res
+          canvas.width = image.width;
+          canvas.height = image.height;
+
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(image, 0, 0, image.width, image.height);
+        };
+        image.src = `/thumbs/${post.thumb}`;
+      }
+    }
+  }, [id, post]);
 
   const dropdownRes = resolutions.map((res) => ({
     key: res.resMode,
@@ -70,8 +71,11 @@ const Post = ({ post }) => {
     disabled: !!user,
   }));
 
+  if (!post) return <Error statusCode={404} />;
+
   return (
     <div className="m-auto inline-flex flex-col justify-center text-left p-4 md:px-8">
+      <Head title={post.title} description={post.description} />
       <div className="flex flex-row justify-between">
         <Link href="/">
           <a className="opacity-75 hover:opacity-50 back">
@@ -146,9 +150,11 @@ const Post = ({ post }) => {
           }
         `}</style>
       </div>
-      <div className="pt-4 justify-between flex flex-row">
-        <div className="flex flex-row justify-between w-full">
+      <div className="pt-8 justify-between flex flex-row">
+        <div className="flex-col">
           <Vote id={id} initialScore={post.totalScore} />
+        </div>
+        <div className="flex flex-row justify-between w-full">
           <div className="flex-col">
             <h1 className="text-2xl italic font-semibold">
               {post && post.title}

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 import { nanoid } from 'nanoid';
 
+import Head from '../../components/Head';
 import { getTag } from '../../src/graphql/queries';
 import {
   createPost,
@@ -141,6 +142,7 @@ const NewPost = ({ region, bucket }) => {
 
   return (
     <div className="m-auto p-4 md:px-8 w-full lg:w-1/2">
+      <Head title="New Post" />
       <h1 className="text-3xl font-semibold mb-4">New post</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}

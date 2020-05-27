@@ -76,11 +76,12 @@ const Vote = ({ id, initialScore }) => {
               },
             })
           );
-          // perform totalScore operation twice
-          await API.graphql(
-            graphqlOperation(upvote ? upvotePost : downvotePost, { id }),
-            graphqlOperation(upvote ? upvotePost : downvotePost, { id })
-          );
+          // perform totalScore operation twice, not working in same request...
+          for (let i = 0; i < 2; i++) {
+            await API.graphql(
+              graphqlOperation(upvote ? upvotePost : downvotePost, { id })
+            );
+          }
           setScore(score + (upvote ? 2 : -2));
           setSelectedVote({ ...selectedVote, upvote });
         }
@@ -107,7 +108,7 @@ const Vote = ({ id, initialScore }) => {
     }
   };
   return (
-    <div className="flex-col text-center justify-center mr-4 md:mr-6">
+    <div className="text-center justify-center mr-4 md:mr-6">
       <a
         className={`fas fa-arrow-up text-xl block ${
           selectedVote.upvote === 1 && 'text-accent'

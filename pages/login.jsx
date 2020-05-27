@@ -6,6 +6,7 @@ import {
 } from '@aws-amplify/ui-react';
 import { useRouter } from 'next/router';
 
+import Head from '../components/Head';
 import useCognitoUser from '../helpers/useCognitoUser';
 
 const Login = () => {
@@ -15,6 +16,7 @@ const Login = () => {
 
   return (
     <div className="mt-4">
+      <Head title="Login" />
       <AmplifyAuthenticator usernameAlias="username">
         <AmplifySignIn slot="sign-in" />
         <AmplifySignUp
