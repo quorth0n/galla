@@ -4,7 +4,7 @@ import { createPopper } from '@popperjs/core';
 const Dropdown = ({ options, handleChange, size }) => {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const [selected, setSelected] = React.useState(options[0].key);
+  const [selected, setSelected] = React.useState(options[0].value);
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
 
@@ -52,7 +52,7 @@ const Dropdown = ({ options, handleChange, size }) => {
                 option.key === selected ? 'font-bold' : ''
               }`}
               onClick={() => {
-                setSelected(option.key);
+                setSelected(option.value);
                 closeDropdownPopover();
                 handleChange(option.key);
               }}

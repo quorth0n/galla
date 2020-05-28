@@ -108,3 +108,17 @@ type Mutation {
   upvotePost(id: ID!): Post @aws_cognito_user_pools
   downvotePost(id: ID!): Post @aws_cognito_user_pools
 }
+
+# Overridden to allow range query for AWSDate*
+input SearchableStringFilterInput {
+  ne: String
+  eq: String
+  range: [String]
+  match: String
+  matchPhrase: String
+  matchPhrasePrefix: String
+  multiMatch: String
+  exists: Boolean
+  wildcard: String
+  regexp: String
+}

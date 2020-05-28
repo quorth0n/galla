@@ -10,5 +10,5 @@
         ]
     },
     "S3DeploymentBucket": "amplify-artify-dev-111447-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/072e7bcfdb64d9a7b02c076c31f4f791815e88a7"
+    "S3DeploymentRootKey": "amplify-appsync-files/508b59564da5ed7c4dc94a687f9c1708a0dbd48f"
 }

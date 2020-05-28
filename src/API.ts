@@ -270,11 +270,8 @@ export type SearchableIDFilterInput = {
 
 export type SearchableStringFilterInput = {
   ne?: string | null,
-  gt?: string | null,
-  lt?: string | null,
-  gte?: string | null,
-  lte?: string | null,
   eq?: string | null,
+  range?: Array< string | null > | null,
   match?: string | null,
   matchPhrase?: string | null,
   matchPhrasePrefix?: string | null,

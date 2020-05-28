@@ -83,6 +83,19 @@ type Mutation {
   deletePost(input: DeletePostInput!, condition: ModelPostConditionInput): Post @aws_api_key @aws_cognito_user_pools
 }
 
+input SearchableStringFilterInput {
+  ne: String
+  eq: String
+  range: [String]
+  match: String
+  matchPhrase: String
+  matchPhrasePrefix: String
+  multiMatch: String
+  exists: Boolean
+  wildcard: String
+  regexp: String
+}
+
 enum ModelSortDirection {
   ASC
   DESC
@@ -447,22 +460,6 @@ input ModelIDKeyConditionInput {
   gt: ID
   between: [ID]
   beginsWith: ID
-}
-
-input SearchableStringFilterInput {
-  ne: String
-  gt: String
-  lt: String
-  gte: String
-  lte: String
-  eq: String
-  match: String
-  matchPhrase: String
-  matchPhrasePrefix: String
-  multiMatch: String
-  exists: Boolean
-  wildcard: String
-  regexp: String
 }
 
 input SearchableIDFilterInput {
