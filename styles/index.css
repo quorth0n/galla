@@ -13,6 +13,12 @@ a,
 button {
   cursor: pointer;
   transition: all 0.15s ease;
+  outline: none;
+}
+
+a:focus,
+button:focus {
+  outline: none;
 }
 
 a:hover,

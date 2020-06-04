@@ -194,6 +194,7 @@ export const getPost = /* GraphQL */ `
       totalViews
       tags {
         items {
+          id
           postID
           tagName
           createdAt
@@ -237,6 +238,7 @@ export const listPosts = /* GraphQL */ `
 export const getTaggedPost = /* GraphQL */ `
   query GetTaggedPost($id: ID!) {
     getTaggedPost(id: $id) {
+      id
       postID
       tagName
       createdAt
@@ -280,6 +282,7 @@ export const listTaggedPosts = /* GraphQL */ `
   ) {
     listTaggedPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        id
         postID
         tagName
         createdAt
@@ -344,6 +347,7 @@ export const getTag = /* GraphQL */ `
       updatedAt
       posts {
         items {
+          id
           postID
           tagName
           createdAt

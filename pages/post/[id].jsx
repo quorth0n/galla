@@ -122,7 +122,7 @@ const Post = ({ post }) => {
           .navigation .arrow {
             opacity: 0;
           }
-          aea33fc3-831c-4c47-92a2-29c3c7abac1d .navigation:hover .arrow {
+          .navigation:hover .arrow {
             opacity: 1;
           }
 
@@ -160,26 +160,27 @@ const Post = ({ post }) => {
               {post && post.title}
             </h1>
             <span className="opacity-75">by </span>
-            <Link href="/profile/ehopper">
+            <Link href="/profile/[uid]" as={`/profile/${post.userID}`}>
               <a className="opacity-100">{post && post.userID}</a>
             </Link>
           </div>
           <div
-            className="flex-col select-none opacity-75 hover:opacity-100"
+            className="flex-col select-none opacity-75 text-right"
             style={{ transition: 'all 0.15s ease' }}
           >
-            <div className="text-right">
-              <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none">
-                <i className="far fa-heart"></i> 34
-              </div>
-              <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none ml-1">
-                <i className="far fa-comments"></i> 4
-              </div>
-              <div className="md:inline cursor-pointer background-transparent font-semibold px-3 py-1 text-sm outline-none focus:outline-none ml-1">
-                <i className="far fa-eye"></i> {post.totalViews}
-              </div>
+            <div className="md:inline background-transparent font-semibold px-3 py-1 text-sm">
+              <i className="far fa-heart"></i> 34
             </div>
-            <div className="cursor-pointer background-transparent px-3 py-1 text-lg outline-none focus:outline-none text-center w-full">
+            <div
+              className="cursor-help md:inline background-transparent font-semibold px-3 py-1 text-sm ml-1"
+              title="Coming soon!"
+            >
+              <i className="far fa-comments"></i> 0
+            </div>
+            <div className="md:inline background-transparent font-semibold px-3 py-1 text-sm ml-1">
+              <i className="far fa-eye"></i> {post.totalViews}
+            </div>
+            <div className="cursor-help background-transparent px-3 py-1 text-lg text-center w-full">
               <i className="fab fa-creative-commons-pd"></i> Public Domain
             </div>
           </div>
@@ -200,6 +201,21 @@ const Post = ({ post }) => {
             ))
           : '(none)'}
       </nav>
+      <div className="mt-4 px-3 py-1 text-center text-xs w-full flex flex-row justify-around">
+        <button>
+          <i className="fas fa-share mr-1"></i> Share
+        </button>
+        <button>
+          <i className="fas fa-plus mr-1"></i> Add to Curation
+        </button>
+        {user && user.username === post.userID && (
+          <Link href="/post/edit/[id]" as={`/post/edit/${id}`}>
+            <a>
+              <i className="fas fa-edit mr-1"></i> Edit
+            </a>
+          </Link>
+        )}
+      </div>
     </div>
   );
 };
@@ -229,7 +245,6 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
     authMode: 'API_KEY',
   });
   const post = fetchData.data.getPost;
-
   if (!post) {
     res.statusCode = 404;
   }

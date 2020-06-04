@@ -19,15 +19,6 @@ const Vote = ({ id, initialScore }) => {
   React.useEffect(() => {
     // get vote status
     const fetchVote = async () => {
-      console.log(user.username);
-      console.log(
-        graphqlOperation(voteByPostByOwner, {
-          postID: id,
-          owner: {
-            eq: user.username,
-          },
-        })
-      );
       const fetchedVote = await API.graphql(
         graphqlOperation(voteByPostByOwner, {
           postID: id,

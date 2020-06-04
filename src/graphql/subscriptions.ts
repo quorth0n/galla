@@ -104,6 +104,7 @@ export const onCreatePost = /* GraphQL */ `
       totalViews
       tags {
         items {
+          id
           postID
           tagName
           createdAt
@@ -138,6 +139,7 @@ export const onUpdatePost = /* GraphQL */ `
       totalViews
       tags {
         items {
+          id
           postID
           tagName
           createdAt
@@ -172,6 +174,7 @@ export const onDeletePost = /* GraphQL */ `
       totalViews
       tags {
         items {
+          id
           postID
           tagName
           createdAt
@@ -185,6 +188,7 @@ export const onDeletePost = /* GraphQL */ `
 export const onCreateTaggedPost = /* GraphQL */ `
   subscription OnCreateTaggedPost {
     onCreateTaggedPost {
+      id
       postID
       tagName
       createdAt
@@ -223,6 +227,7 @@ export const onCreateTaggedPost = /* GraphQL */ `
 export const onUpdateTaggedPost = /* GraphQL */ `
   subscription OnUpdateTaggedPost {
     onUpdateTaggedPost {
+      id
       postID
       tagName
       createdAt
@@ -261,6 +266,7 @@ export const onUpdateTaggedPost = /* GraphQL */ `
 export const onDeleteTaggedPost = /* GraphQL */ `
   subscription OnDeleteTaggedPost {
     onDeleteTaggedPost {
+      id
       postID
       tagName
       createdAt
@@ -305,6 +311,7 @@ export const onCreateTag = /* GraphQL */ `
       updatedAt
       posts {
         items {
+          id
           postID
           tagName
           createdAt
@@ -324,6 +331,7 @@ export const onUpdateTag = /* GraphQL */ `
       updatedAt
       posts {
         items {
+          id
           postID
           tagName
           createdAt
@@ -343,6 +351,7 @@ export const onDeleteTag = /* GraphQL */ `
       updatedAt
       posts {
         items {
+          id
           postID
           tagName
           createdAt

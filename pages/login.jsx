@@ -12,7 +12,7 @@ import useCognitoUser from '../helpers/useCognitoUser';
 const Login = () => {
   const router = useRouter();
   const user = useCognitoUser();
-  if (user) router.push('/');
+  if (user) router.back();
 
   return (
     <div className="mt-4">

@@ -26,6 +26,7 @@ export const viewPost = /* GraphQL */ `
       totalViews
       tags {
         items {
+          id
           postID
           tagName
           createdAt
@@ -60,6 +61,7 @@ export const upvotePost = /* GraphQL */ `
       totalViews
       tags {
         items {
+          id
           postID
           tagName
           createdAt
@@ -94,6 +96,7 @@ export const downvotePost = /* GraphQL */ `
       totalViews
       tags {
         items {
+          id
           postID
           tagName
           createdAt
@@ -206,6 +209,7 @@ export const createTaggedPost = /* GraphQL */ `
     $condition: ModelTaggedPostConditionInput
   ) {
     createTaggedPost(input: $input, condition: $condition) {
+      id
       postID
       tagName
       createdAt
@@ -247,6 +251,7 @@ export const updateTaggedPost = /* GraphQL */ `
     $condition: ModelTaggedPostConditionInput
   ) {
     updateTaggedPost(input: $input, condition: $condition) {
+      id
       postID
       tagName
       createdAt
@@ -288,6 +293,7 @@ export const deleteTaggedPost = /* GraphQL */ `
     $condition: ModelTaggedPostConditionInput
   ) {
     deleteTaggedPost(input: $input, condition: $condition) {
+      id
       postID
       tagName
       createdAt
@@ -335,6 +341,7 @@ export const createTag = /* GraphQL */ `
       updatedAt
       posts {
         items {
+          id
           postID
           tagName
           createdAt
@@ -357,6 +364,7 @@ export const updateTag = /* GraphQL */ `
       updatedAt
       posts {
         items {
+          id
           postID
           tagName
           createdAt
@@ -379,6 +387,7 @@ export const deleteTag = /* GraphQL */ `
       updatedAt
       posts {
         items {
+          id
           postID
           tagName
           createdAt
@@ -416,6 +425,7 @@ export const createPost = /* GraphQL */ `
       totalViews
       tags {
         items {
+          id
           postID
           tagName
           createdAt
@@ -453,6 +463,7 @@ export const updatePost = /* GraphQL */ `
       totalViews
       tags {
         items {
+          id
           postID
           tagName
           createdAt
@@ -490,6 +501,7 @@ export const deletePost = /* GraphQL */ `
       totalViews
       tags {
         items {
+          id
           postID
           tagName
           createdAt

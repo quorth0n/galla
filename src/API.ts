@@ -127,6 +127,7 @@ export type DeleteVoteInput = {
 };
 
 export type CreateTaggedPostInput = {
+  id?: string | null,
   postID: string,
   tagName: string,
 };
@@ -140,6 +141,7 @@ export type ModelTaggedPostConditionInput = {
 };
 
 export type UpdateTaggedPostInput = {
+  id: string,
   postID?: string | null,
   tagName?: string | null,
 };
@@ -380,6 +382,7 @@ export type ModelPostFilterInput = {
 };
 
 export type ModelTaggedPostFilterInput = {
+  id?: ModelIDInput | null,
   postID?: ModelIDInput | null,
   tagName?: ModelIDInput | null,
   and?: Array< ModelTaggedPostFilterInput | null > | null,
@@ -427,6 +430,7 @@ export type ViewPostMutation = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -469,6 +473,7 @@ export type UpvotePostMutation = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -511,6 +516,7 @@ export type DownvotePostMutation = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -637,6 +643,7 @@ export type CreateTaggedPostMutationVariables = {
 export type CreateTaggedPostMutation = {
   createTaggedPost:  {
     __typename: "TaggedPost",
+    id: string,
     postID: string,
     tagName: string,
     createdAt: string,
@@ -662,7 +669,7 @@ export type CreateTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
     tag:  {
       __typename: "Tag",
       name: string,
@@ -673,7 +680,7 @@ export type CreateTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
@@ -685,6 +692,7 @@ export type UpdateTaggedPostMutationVariables = {
 export type UpdateTaggedPostMutation = {
   updateTaggedPost:  {
     __typename: "TaggedPost",
+    id: string,
     postID: string,
     tagName: string,
     createdAt: string,
@@ -710,7 +718,7 @@ export type UpdateTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
     tag:  {
       __typename: "Tag",
       name: string,
@@ -721,7 +729,7 @@ export type UpdateTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
@@ -733,6 +741,7 @@ export type DeleteTaggedPostMutationVariables = {
 export type DeleteTaggedPostMutation = {
   deleteTaggedPost:  {
     __typename: "TaggedPost",
+    id: string,
     postID: string,
     tagName: string,
     createdAt: string,
@@ -758,7 +767,7 @@ export type DeleteTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
     tag:  {
       __typename: "Tag",
       name: string,
@@ -769,7 +778,7 @@ export type DeleteTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
@@ -789,6 +798,7 @@ export type CreateTagMutation = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -815,6 +825,7 @@ export type UpdateTagMutation = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -841,6 +852,7 @@ export type DeleteTagMutation = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -884,6 +896,7 @@ export type CreatePostMutation = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -927,6 +940,7 @@ export type UpdatePostMutation = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -970,6 +984,7 @@ export type DeletePostMutation = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -1182,6 +1197,7 @@ export type GetPostQuery = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -1234,6 +1250,7 @@ export type GetTaggedPostQueryVariables = {
 export type GetTaggedPostQuery = {
   getTaggedPost:  {
     __typename: "TaggedPost",
+    id: string,
     postID: string,
     tagName: string,
     createdAt: string,
@@ -1259,7 +1276,7 @@ export type GetTaggedPostQuery = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
     tag:  {
       __typename: "Tag",
       name: string,
@@ -1270,7 +1287,7 @@ export type GetTaggedPostQuery = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
@@ -1285,6 +1302,7 @@ export type ListTaggedPostsQuery = {
     __typename: "ModelTaggedPostConnection",
     items:  Array< {
       __typename: "TaggedPost",
+      id: string,
       postID: string,
       tagName: string,
       createdAt: string,
@@ -1301,14 +1319,14 @@ export type ListTaggedPostsQuery = {
         updatedAt: string,
         monthlyViews: number | null,
         totalViews: number | null,
-      } | null,
+      },
       tag:  {
         __typename: "Tag",
         name: string,
         description: string | null,
         createdAt: string,
         updatedAt: string,
-      } | null,
+      },
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -1355,6 +1373,7 @@ export type GetTagQuery = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -1495,6 +1514,7 @@ export type OnCreatePostSubscription = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -1537,6 +1557,7 @@ export type OnUpdatePostSubscription = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -1579,6 +1600,7 @@ export type OnDeletePostSubscription = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -1592,6 +1614,7 @@ export type OnDeletePostSubscription = {
 export type OnCreateTaggedPostSubscription = {
   onCreateTaggedPost:  {
     __typename: "TaggedPost",
+    id: string,
     postID: string,
     tagName: string,
     createdAt: string,
@@ -1617,7 +1640,7 @@ export type OnCreateTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
     tag:  {
       __typename: "Tag",
       name: string,
@@ -1628,13 +1651,14 @@ export type OnCreateTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
 export type OnUpdateTaggedPostSubscription = {
   onUpdateTaggedPost:  {
     __typename: "TaggedPost",
+    id: string,
     postID: string,
     tagName: string,
     createdAt: string,
@@ -1660,7 +1684,7 @@ export type OnUpdateTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
     tag:  {
       __typename: "Tag",
       name: string,
@@ -1671,13 +1695,14 @@ export type OnUpdateTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
 export type OnDeleteTaggedPostSubscription = {
   onDeleteTaggedPost:  {
     __typename: "TaggedPost",
+    id: string,
     postID: string,
     tagName: string,
     createdAt: string,
@@ -1703,7 +1728,7 @@ export type OnDeleteTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
     tag:  {
       __typename: "Tag",
       name: string,
@@ -1714,7 +1739,7 @@ export type OnDeleteTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
@@ -1729,6 +1754,7 @@ export type OnCreateTagSubscription = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -1750,6 +1776,7 @@ export type OnUpdateTagSubscription = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,
@@ -1771,6 +1798,7 @@ export type OnDeleteTagSubscription = {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",
+        id: string,
         postID: string,
         tagName: string,
         createdAt: string,

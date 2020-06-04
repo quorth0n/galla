@@ -46,12 +46,13 @@ type Post @aws_api_key @aws_cognito_user_pools {
 }
 
 type TaggedPost @aws_api_key @aws_cognito_user_pools {
+  id: ID!
   postID: ID!
   tagName: ID!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-  post: Post @aws_api_key @aws_cognito_user_pools
-  tag: Tag @aws_api_key @aws_cognito_user_pools
+  post: Post! @aws_api_key @aws_cognito_user_pools
+  tag: Tag! @aws_api_key @aws_cognito_user_pools
 }
 
 type Tag @aws_api_key @aws_cognito_user_pools {
@@ -389,6 +390,7 @@ type ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools {
 }
 
 input ModelTaggedPostFilterInput {
+  id: ModelIDInput
   postID: ModelIDInput
   tagName: ModelIDInput
   and: [ModelTaggedPostFilterInput]
@@ -397,11 +399,13 @@ input ModelTaggedPostFilterInput {
 }
 
 input CreateTaggedPostInput {
+  id: ID
   postID: ID!
   tagName: ID!
 }
 
 input UpdateTaggedPostInput {
+  id: ID!
   postID: ID
   tagName: ID
 }

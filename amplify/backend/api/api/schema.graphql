@@ -76,16 +76,17 @@ type TaggedPost
   @model
   @auth(
     rules: [
-      { allow: private }
+      { allow: private, operations: [create, read, delete] }
       { allow: public, provider: apiKey, operations: [read] }
     ]
   )
   @key(name: "byPost", fields: ["postID", "tagName"])
   @key(name: "byTag", fields: ["tagName", "postID"]) {
+  id: ID!
   postID: ID!
   tagName: ID!
-  post: Post @connection(fields: ["postID"])
-  tag: Tag @connection(fields: ["tagName"])
+  post: Post! @connection(fields: ["postID"])
+  tag: Tag! @connection(fields: ["tagName"])
 }
 
 type Tag

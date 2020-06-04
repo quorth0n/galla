@@ -143,7 +143,6 @@ export const getServerSideProps = async () => {
     }),
     authMode: 'API_KEY',
   });
-  console.log(topPosts);
   return {
     props: {
       initialPosts: topPosts.data.searchPosts.items,
