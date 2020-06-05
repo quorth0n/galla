@@ -196,7 +196,7 @@ const Post = ({ post }) => {
                 key={tag.tagName}
                 className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-primary bg-accent uppercase last:mr-0 mr-1"
               >
-                {tag.tagName}
+                #{tag.tagName}
               </a>
             ))
           : '(none)'}

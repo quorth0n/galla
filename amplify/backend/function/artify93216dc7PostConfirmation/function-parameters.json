@@ -1,0 +1,23 @@
+{
+    "trigger": true,
+    "modules": [
+        "add-to-group"
+    ],
+    "parentResource": "artify93216dc7",
+    "functionName": "artify93216dc7PostConfirmation",
+    "resourceName": "artify93216dc7PostConfirmation",
+    "parentStack": "auth",
+    "triggerEnvs": [],
+    "triggerDir": "/usr/local/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/utils/../triggers/PostConfirmation",
+    "triggerTemplate": "PostConfirmation.json.ejs",
+    "roleName": "artify93216dc7PostConfirmation",
+    "skipEdit": true,
+    "GROUP": "",
+    "permissions": {
+        "api": {
+            "api": [
+                "create"
+            ]
+        }
+    }
+}

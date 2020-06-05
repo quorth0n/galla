@@ -1,5 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
+import { API, graphqlOperation } from 'aws-amplify';
+
+import { getUser } from '../../src/graphql/queries';
 
 const Profile = () => {
   const pushCollection = (collection) => {};
@@ -122,10 +125,7 @@ const Profile = () => {
               </div>
               <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
                 <div className="py-6 px-3 mt-32 lg:mt-0">
-                  <button
-                    className="bg-accent uppercase text-white font-bold hover:shadow-lg shadow text-xs px-4 py-2 rounded outline-none focus:outline-none mb-1"
-                    type="button"
-                  >
+                  <button className="btn-primary" type="button">
                     Follow
                   </button>
                 </div>
@@ -260,6 +260,25 @@ const Profile = () => {
       </section>
     </main>
   );
+};
+
+export const getServerSideProps = async ({ query: { username }, res }) => {
+  const fetchPost = await API.graphql({
+    ...graphqlOperation(getUser, {
+      username,
+    }),
+    authMode: 'API_KEY',
+  });
+  const post = fetchPost.data.getUser;
+  console.log(post);
+  if (!post) {
+    res.statusCode = 404;
+  }
+  return {
+    props: {
+      post,
+    },
+  };
 };
 
 export default Profile;

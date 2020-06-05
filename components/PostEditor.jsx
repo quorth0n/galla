@@ -290,7 +290,7 @@ const PostEditor = ({ region, bucket, post }) => {
         />
         <div className="flex flex-row justify-end">
           <button
-            className="bg-transparent border-2 border-primary uppercase text-primary font-bold hover:shadow-lg shadow text-xs px-4 py-2 rounded outline-none focus:outline-none mb-1 min-w-32 mr-2"
+            className="btn-secondary mr-2"
             type="button"
             onClick={() => {
               setWarn(false);
@@ -299,10 +299,7 @@ const PostEditor = ({ region, bucket, post }) => {
           >
             Discard
           </button>
-          <button
-            type="submit"
-            className="bg-accent border-2 border-accent uppercase text-white font-bold hover:shadow-lg shadow text-xs px-4 py-2 rounded outline-none focus:outline-none mb-1 min-w-32"
-          >
+          <button type="submit" className="btn-primary">
             {post ? 'Save' : 'Submit'}
           </button>
         </div>

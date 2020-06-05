@@ -1,6 +1,4 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 :root {
   --color-primary: #ececec;
@@ -23,7 +21,16 @@ button:focus {
 
 a:hover,
 button:hover {
+  @apply shadow-lg;
   opacity: 0.75;
+}
+
+.btn-primary {
+  @apply bg-accent border-2 border-accent uppercase text-white font-bold shadow text-xs px-4 py-2 rounded outline-none mb-1;
+}
+
+.btn-secondary {
+  @apply bg-transparent border-2 border-primary uppercase text-primary font-bold shadow text-xs px-4 py-2 rounded outline-none mb-1;
 }
 
 html {
@@ -35,3 +42,6 @@ html {
     var(--color-secondary)
   );
 }
+
+@tailwind components;
+@tailwind utilities;

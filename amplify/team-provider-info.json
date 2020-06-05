@@ -13,7 +13,14 @@
         },
         "categories": {
             "auth": {
-                "artify93216dc7": {}
+                "artify93216dc7": {},
+                "userPoolGroups": {}
+            },
+            "function": {
+                "artify93216dc7PostConfirmation": {
+                    "GROUP": ""
+                },
+                "AdminQueriesd9cd5725": {}
             }
         }
     }

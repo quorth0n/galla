@@ -1,0 +1,101 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "",
+  "Parameters": {
+    "env": {
+      "Type": "String"
+    },
+    "apiapiGraphQLAPIIdOutput": {
+      "Type": "String",
+      "Default": "apiapiOutput"
+    },
+    "apiapiGraphQLAPIEndpointOutput": {
+      "Type": "String",
+      "Default": "apiapiGraphQLAPIEndpointOutput"
+    },
+    "functionartify93216dc7PostConfirmationLambdaExecutionRole": {
+      "Type": "String",
+      "Default": "functionartify93216dc7PostConfirmationLambdaExecutionRole"
+    }
+  },
+  "Conditions": {},
+  "Resources": {
+    "GraphQLEndpointParam": {
+      "Type": "AWS::SSM::Parameter",
+      "Properties": {
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              "GraphQLEndpoint-",
+              {
+                "Ref": "env"
+              }
+            ]
+          ]
+        },
+        "Type": "String",
+        "Value": {
+          "Ref": "apiapiGraphQLAPIEndpointOutput"
+        },
+        "Description": "GraphQL API Endpoint for current stage"
+      }
+    },
+    "PostConfirmationCognitoResourcesPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "post-confirmation-api-execution-policy",
+        "Roles": [
+          {
+            "Ref": "functionartify93216dc7PostConfirmationLambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": ["ssm:*"],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "appsync:Create*",
+                "appsync:StartSchemaCreation",
+                "appsync:GraphQL",
+                "appsync:Get*",
+                "appsync:List*",
+                "appsync:Update*",
+                "appsync:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:appsync:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":apis/",
+                      {
+                        "Ref": "apiapiGraphQLAPIIdOutput"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Outputs": {}
+}

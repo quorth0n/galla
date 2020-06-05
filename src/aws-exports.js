@@ -12,8 +12,13 @@ const awsmobile = {
     "aws_appsync_region": "us-west-2",
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
     "aws_appsync_apiKey": "da2-y45cvg6abbhdxbb44owtqwykeu",
-    "aws_user_files_s3_bucket": "artify-images111447-dev",
-    "aws_user_files_s3_bucket_region": "us-west-2"
+    "aws_cloud_logic_custom": [
+        {
+            "name": "AdminQueries",
+            "endpoint": "https://soqavjki6h.execute-api.us-west-2.amazonaws.com/dev",
+            "region": "us-west-2"
+        }
+    ]
 };
 
 
