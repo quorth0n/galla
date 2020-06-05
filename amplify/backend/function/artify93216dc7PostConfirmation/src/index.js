@@ -27,28 +27,27 @@ const createTodo = gql`
 `;
 
 async function getEndpoint() {
-  var params = {
+  const params = {
     Name: 'GraphQLEndpoint-' + process.env.ENV,
     WithDecryption: true,
   };
-  var request = await ssm.getParameter(params).promise();
+  const request = await ssm.getParameter(params).promise();
   return request.Parameter.Value;
 }
 
 exports.handler = async (event, context, callback) => {
+  console.log('add to database');
+
   const appsyncUrl = await getEndpoint();
   const endpoint = new UrlParse(appsyncUrl).hostname.toString();
 
-  console.log('add to database');
-  var userID = event.request.userAttributes.sub;
-  console.log(event.request.userAttributes);
-
   const req = new AWS.HttpRequest(appsyncUrl, region);
 
+  const username = event.userName;
   const item = {
     input: {
-      username: userID,
-      description: 'Item Generated from Lambda',
+      username,
+      monthlyViews: 0,
     },
   };
 
@@ -57,7 +56,7 @@ exports.handler = async (event, context, callback) => {
   req.headers['Content-Type'] = 'application/json';
   req.body = JSON.stringify({
     query: print(createTodo),
-    operationName: 'createUser',
+    operationName: 'CreateUser',
     variables: item,
   });
 
@@ -78,9 +77,7 @@ exports.handler = async (event, context, callback) => {
     httpRequest.write(req.body);
     httpRequest.end();
   });
+  console.log(data);
 
-  return {
-    statusCode: 200,
-    body: data,
-  };
+  return event;
 };

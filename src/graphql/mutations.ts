@@ -107,23 +107,6 @@ export const downvotePost = /* GraphQL */ `
     }
   }
 `;
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    createUser(input: $input, condition: $condition) {
-      username
-      location
-      description
-      website
-      monthlyViews
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
 export const updateUser = /* GraphQL */ `
   mutation UpdateUser(
     $input: UpdateUserInput!
@@ -395,6 +378,23 @@ export const deleteTag = /* GraphQL */ `
         }
         nextToken
       }
+    }
+  }
+`;
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      username
+      location
+      description
+      website
+      monthlyViews
+      createdAt
+      updatedAt
+      owner
     }
   }
 `;

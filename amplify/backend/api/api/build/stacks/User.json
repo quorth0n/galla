@@ -149,6 +149,10 @@
             "Description": "The id of an existing User Pool to connect. If this is changed, a user pool will not be created for you.",
             "Default": "NONE"
         },
+        "authRoleName": {
+            "Type": "String",
+            "Description": "Reference to the name of the Auth Role created for the project."
+        },
         "env": {
             "Type": "String",
             "Description": "The environment name. e.g. Dev, Test, or Production",

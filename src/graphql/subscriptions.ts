@@ -2,20 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser($owner: String) {
-    onCreateUser(owner: $owner) {
-      username
-      location
-      description
-      website
-      monthlyViews
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
 export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser($owner: String) {
     onUpdateUser(owner: $owner) {
@@ -359,6 +345,20 @@ export const onDeleteTag = /* GraphQL */ `
         }
         nextToken
       }
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser($owner: String) {
+    onCreateUser(owner: $owner) {
+      username
+      location
+      description
+      website
+      monthlyViews
+      createdAt
+      updatedAt
+      owner
     }
   }
 `;

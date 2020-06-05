@@ -17,6 +17,7 @@ type User
     rules: [
       { allow: owner }
       { allow: groups, groups: ["Admin"] }
+      { allow: private, provider: iam, operations: [create] }
       { allow: public, provider: apiKey, operations: [read] }
     ]
   )

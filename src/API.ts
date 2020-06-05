@@ -2,7 +2,7 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateUserInput = {
+export type UpdateUserInput = {
   username: string,
   location?: string | null,
   description?: string | null,
@@ -70,14 +70,6 @@ export type ModelIntInput = {
   between?: Array< number | null > | null,
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
-};
-
-export type UpdateUserInput = {
-  username: string,
-  location?: string | null,
-  description?: string | null,
-  website?: string | null,
-  monthlyViews?: number | null,
 };
 
 export type DeleteUserInput = {
@@ -169,6 +161,14 @@ export type UpdateTagInput = {
 
 export type DeleteTagInput = {
   name: string,
+};
+
+export type CreateUserInput = {
+  username: string,
+  location?: string | null,
+  description?: string | null,
+  website?: string | null,
+  monthlyViews?: number | null,
 };
 
 export type CreatePostInput = {
@@ -527,25 +527,6 @@ export type DownvotePostMutation = {
   } | null,
 };
 
-export type CreateUserMutationVariables = {
-  input: CreateUserInput,
-  condition?: ModelUserConditionInput | null,
-};
-
-export type CreateUserMutation = {
-  createUser:  {
-    __typename: "User",
-    username: string,
-    location: string | null,
-    description: string | null,
-    website: string | null,
-    monthlyViews: number | null,
-    createdAt: string,
-    updatedAt: string,
-    owner: string | null,
-  } | null,
-};
-
 export type UpdateUserMutationVariables = {
   input: UpdateUserInput,
   condition?: ModelUserConditionInput | null,
@@ -860,6 +841,25 @@ export type DeleteTagMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type CreateUserMutation = {
+  createUser:  {
+    __typename: "User",
+    username: string,
+    location: string | null,
+    description: string | null,
+    website: string | null,
+    monthlyViews: number | null,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
@@ -1384,24 +1384,6 @@ export type GetTagQuery = {
   } | null,
 };
 
-export type OnCreateUserSubscriptionVariables = {
-  owner?: string | null,
-};
-
-export type OnCreateUserSubscription = {
-  onCreateUser:  {
-    __typename: "User",
-    username: string,
-    location: string | null,
-    description: string | null,
-    website: string | null,
-    monthlyViews: number | null,
-    createdAt: string,
-    updatedAt: string,
-    owner: string | null,
-  } | null,
-};
-
 export type OnUpdateUserSubscriptionVariables = {
   owner?: string | null,
 };
@@ -1806,5 +1788,23 @@ export type OnDeleteTagSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type OnCreateUserSubscriptionVariables = {
+  owner?: string | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser:  {
+    __typename: "User",
+    username: string,
+    location: string | null,
+    description: string | null,
+    website: string | null,
+    monthlyViews: number | null,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
   } | null,
 };

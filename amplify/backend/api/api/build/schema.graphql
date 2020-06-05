@@ -10,7 +10,7 @@ type Image @aws_api_key @aws_cognito_user_pools {
   thumb: String
 }
 
-type User @aws_api_key @aws_cognito_user_pools {
+type User @aws_api_key @aws_iam @aws_cognito_user_pools {
   username: ID!
   location: String
   description: String
@@ -67,7 +67,6 @@ type Mutation {
   viewPost(id: ID!): Post @aws_api_key
   upvotePost(id: ID!): Post @aws_cognito_user_pools
   downvotePost(id: ID!): Post @aws_cognito_user_pools
-  createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User
   updateUser(input: UpdateUserInput!, condition: ModelUserConditionInput): User
   deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User
   createVote(input: CreateVoteInput!, condition: ModelVoteConditionInput): Vote
@@ -79,6 +78,7 @@ type Mutation {
   createTag(input: CreateTagInput!, condition: ModelTagConditionInput): Tag
   updateTag(input: UpdateTagInput!, condition: ModelTagConditionInput): Tag
   deleteTag(input: DeleteTagInput!, condition: ModelTagConditionInput): Tag
+  createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User @aws_iam @aws_cognito_user_pools
   createPost(input: CreatePostInput!, condition: ModelPostConditionInput): Post @aws_api_key @aws_cognito_user_pools
   updatePost(input: UpdatePostInput!, condition: ModelPostConditionInput): Post @aws_api_key @aws_cognito_user_pools
   deletePost(input: DeletePostInput!, condition: ModelPostConditionInput): Post @aws_api_key @aws_cognito_user_pools
@@ -251,7 +251,6 @@ input ModelUserConditionInput {
 }
 
 type Subscription {
-  onCreateUser(owner: String): User @aws_subscribe(mutations: ["createUser"])
   onUpdateUser(owner: String): User @aws_subscribe(mutations: ["updateUser"])
   onDeleteUser(owner: String): User @aws_subscribe(mutations: ["deleteUser"])
   onCreateVote(owner: String!): Vote @aws_subscribe(mutations: ["createVote"])
@@ -266,6 +265,7 @@ type Subscription {
   onCreateTag: Tag @aws_subscribe(mutations: ["createTag"])
   onUpdateTag: Tag @aws_subscribe(mutations: ["updateTag"])
   onDeleteTag: Tag @aws_subscribe(mutations: ["deleteTag"])
+  onCreateUser(owner: String): User @aws_subscribe(mutations: ["createUser"]) @aws_iam @aws_cognito_user_pools
 }
 
 type ModelVoteConnection @aws_api_key @aws_cognito_user_pools {
