@@ -4,6 +4,8 @@
 
 export type UpdateUserInput = {
   username: string,
+  avatar?: string | null,
+  realName?: string | null,
   location?: string | null,
   description?: string | null,
   website?: string | null,
@@ -11,6 +13,8 @@ export type UpdateUserInput = {
 };
 
 export type ModelUserConditionInput = {
+  avatar?: ModelStringInput | null,
+  realName?: ModelStringInput | null,
   location?: ModelStringInput | null,
   description?: ModelStringInput | null,
   website?: ModelStringInput | null,
@@ -165,6 +169,8 @@ export type DeleteTagInput = {
 
 export type CreateUserInput = {
   username: string,
+  avatar?: string | null,
+  realName?: string | null,
   location?: string | null,
   description?: string | null,
   website?: string | null,
@@ -174,7 +180,7 @@ export type CreateUserInput = {
 export type CreatePostInput = {
   id?: string | null,
   title: string,
-  description: string,
+  description?: string | null,
   createdAt?: string | null,
   userID: string,
   thumb: string,
@@ -228,6 +234,8 @@ export type DeletePostInput = {
 
 export type ModelUserFilterInput = {
   username?: ModelIDInput | null,
+  avatar?: ModelStringInput | null,
+  realName?: ModelStringInput | null,
   location?: ModelStringInput | null,
   description?: ModelStringInput | null,
   website?: ModelStringInput | null,
@@ -245,6 +253,8 @@ export enum ModelSortDirection {
 
 export type SearchableUserFilterInput = {
   username?: SearchableIDFilterInput | null,
+  avatar?: SearchableStringFilterInput | null,
+  realName?: SearchableStringFilterInput | null,
   location?: SearchableStringFilterInput | null,
   description?: SearchableStringFilterInput | null,
   website?: SearchableStringFilterInput | null,
@@ -300,6 +310,8 @@ export type SearchableUserSortInput = {
 
 export enum SearchableUserSortableFields {
   username = "username",
+  avatar = "avatar",
+  realName = "realName",
   location = "location",
   description = "description",
   website = "website",
@@ -407,7 +419,7 @@ export type ViewPostMutation = {
     __typename: "Post",
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     createdAt: string | null,
     userID: string,
     thumb: string,
@@ -450,7 +462,7 @@ export type UpvotePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     createdAt: string | null,
     userID: string,
     thumb: string,
@@ -493,7 +505,7 @@ export type DownvotePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     createdAt: string | null,
     userID: string,
     thumb: string,
@@ -536,6 +548,8 @@ export type UpdateUserMutation = {
   updateUser:  {
     __typename: "User",
     username: string,
+    avatar: string | null,
+    realName: string | null,
     location: string | null,
     description: string | null,
     website: string | null,
@@ -555,6 +569,8 @@ export type DeleteUserMutation = {
   deleteUser:  {
     __typename: "User",
     username: string,
+    avatar: string | null,
+    realName: string | null,
     location: string | null,
     description: string | null,
     website: string | null,
@@ -633,7 +649,7 @@ export type CreateTaggedPostMutation = {
       __typename: "Post",
       id: string,
       title: string,
-      description: string,
+      description: string | null,
       createdAt: string | null,
       userID: string,
       thumb: string,
@@ -650,7 +666,7 @@ export type CreateTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
@@ -661,7 +677,7 @@ export type CreateTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -682,7 +698,7 @@ export type UpdateTaggedPostMutation = {
       __typename: "Post",
       id: string,
       title: string,
-      description: string,
+      description: string | null,
       createdAt: string | null,
       userID: string,
       thumb: string,
@@ -699,7 +715,7 @@ export type UpdateTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
@@ -710,7 +726,7 @@ export type UpdateTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -731,7 +747,7 @@ export type DeleteTaggedPostMutation = {
       __typename: "Post",
       id: string,
       title: string,
-      description: string,
+      description: string | null,
       createdAt: string | null,
       userID: string,
       thumb: string,
@@ -748,7 +764,7 @@ export type DeleteTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
@@ -759,7 +775,7 @@ export type DeleteTaggedPostMutation = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -853,6 +869,8 @@ export type CreateUserMutation = {
   createUser:  {
     __typename: "User",
     username: string,
+    avatar: string | null,
+    realName: string | null,
     location: string | null,
     description: string | null,
     website: string | null,
@@ -873,7 +891,7 @@ export type CreatePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     createdAt: string | null,
     userID: string,
     thumb: string,
@@ -917,7 +935,7 @@ export type UpdatePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     createdAt: string | null,
     userID: string,
     thumb: string,
@@ -961,7 +979,7 @@ export type DeletePostMutation = {
     __typename: "Post",
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     createdAt: string | null,
     userID: string,
     thumb: string,
@@ -1003,6 +1021,8 @@ export type GetUserQuery = {
   getUser:  {
     __typename: "User",
     username: string,
+    avatar: string | null,
+    realName: string | null,
     location: string | null,
     description: string | null,
     website: string | null,
@@ -1027,6 +1047,8 @@ export type ListUsersQuery = {
     items:  Array< {
       __typename: "User",
       username: string,
+      avatar: string | null,
+      realName: string | null,
       location: string | null,
       description: string | null,
       website: string | null,
@@ -1052,6 +1074,8 @@ export type SearchUsersQuery = {
     items:  Array< {
       __typename: "User",
       username: string,
+      avatar: string | null,
+      realName: string | null,
       location: string | null,
       description: string | null,
       website: string | null,
@@ -1142,7 +1166,7 @@ export type SearchPostsQuery = {
       __typename: "Post",
       id: string,
       title: string,
-      description: string,
+      description: string | null,
       createdAt: string | null,
       userID: string,
       thumb: string,
@@ -1174,7 +1198,7 @@ export type GetPostQuery = {
     __typename: "Post",
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     createdAt: string | null,
     userID: string,
     thumb: string,
@@ -1221,7 +1245,7 @@ export type ListPostsQuery = {
       __typename: "Post",
       id: string,
       title: string,
-      description: string,
+      description: string | null,
       createdAt: string | null,
       userID: string,
       thumb: string,
@@ -1259,7 +1283,7 @@ export type GetTaggedPostQuery = {
       __typename: "Post",
       id: string,
       title: string,
-      description: string,
+      description: string | null,
       createdAt: string | null,
       userID: string,
       thumb: string,
@@ -1276,7 +1300,7 @@ export type GetTaggedPostQuery = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
@@ -1287,7 +1311,7 @@ export type GetTaggedPostQuery = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -1311,7 +1335,7 @@ export type ListTaggedPostsQuery = {
         __typename: "Post",
         id: string,
         title: string,
-        description: string,
+        description: string | null,
         createdAt: string | null,
         userID: string,
         thumb: string,
@@ -1319,14 +1343,14 @@ export type ListTaggedPostsQuery = {
         updatedAt: string,
         monthlyViews: number | null,
         totalViews: number | null,
-      },
+      } | null,
       tag:  {
         __typename: "Tag",
         name: string,
         description: string | null,
         createdAt: string,
         updatedAt: string,
-      },
+      } | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -1392,6 +1416,8 @@ export type OnUpdateUserSubscription = {
   onUpdateUser:  {
     __typename: "User",
     username: string,
+    avatar: string | null,
+    realName: string | null,
     location: string | null,
     description: string | null,
     website: string | null,
@@ -1410,6 +1436,8 @@ export type OnDeleteUserSubscription = {
   onDeleteUser:  {
     __typename: "User",
     username: string,
+    avatar: string | null,
+    realName: string | null,
     location: string | null,
     description: string | null,
     website: string | null,
@@ -1473,7 +1501,7 @@ export type OnCreatePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     createdAt: string | null,
     userID: string,
     thumb: string,
@@ -1516,7 +1544,7 @@ export type OnUpdatePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     createdAt: string | null,
     userID: string,
     thumb: string,
@@ -1559,7 +1587,7 @@ export type OnDeletePostSubscription = {
     __typename: "Post",
     id: string,
     title: string,
-    description: string,
+    description: string | null,
     createdAt: string | null,
     userID: string,
     thumb: string,
@@ -1605,7 +1633,7 @@ export type OnCreateTaggedPostSubscription = {
       __typename: "Post",
       id: string,
       title: string,
-      description: string,
+      description: string | null,
       createdAt: string | null,
       userID: string,
       thumb: string,
@@ -1622,7 +1650,7 @@ export type OnCreateTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
@@ -1633,7 +1661,7 @@ export type OnCreateTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -1649,7 +1677,7 @@ export type OnUpdateTaggedPostSubscription = {
       __typename: "Post",
       id: string,
       title: string,
-      description: string,
+      description: string | null,
       createdAt: string | null,
       userID: string,
       thumb: string,
@@ -1666,7 +1694,7 @@ export type OnUpdateTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
@@ -1677,7 +1705,7 @@ export type OnUpdateTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -1693,7 +1721,7 @@ export type OnDeleteTaggedPostSubscription = {
       __typename: "Post",
       id: string,
       title: string,
-      description: string,
+      description: string | null,
       createdAt: string | null,
       userID: string,
       thumb: string,
@@ -1710,7 +1738,7 @@ export type OnDeleteTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
     tag:  {
       __typename: "Tag",
       name: string,
@@ -1721,7 +1749,7 @@ export type OnDeleteTaggedPostSubscription = {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
-    },
+    } | null,
   } | null,
 };
 
@@ -1799,6 +1827,8 @@ export type OnCreateUserSubscription = {
   onCreateUser:  {
     __typename: "User",
     username: string,
+    avatar: string | null,
+    realName: string | null,
     location: string | null,
     description: string | null,
     website: string | null,

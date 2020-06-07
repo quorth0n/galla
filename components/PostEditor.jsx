@@ -124,7 +124,9 @@ const PostEditor = ({ region, bucket, post }) => {
           graphqlOperation(createTag, {
             input: { name: tag },
           })
-        ),
+        )
+      );
+      await API.graphql(
         graphqlOperation(post ? updatePost : createPost, {
           input: postInput,
         })
@@ -164,14 +166,17 @@ const PostEditor = ({ region, bucket, post }) => {
         }
       } else {
         // create all new TaggedPosts on create
-        await API.graphql(
-          ...tags.map((tag) =>
-            graphqlOperation(createTaggedPost, {
-              input: {
-                postID: id,
-                tagName: tag,
-              },
-            })
+        await Promise.all(
+          tags.map(
+            async (tag) =>
+              await API.graphql(
+                graphqlOperation(createTaggedPost, {
+                  input: {
+                    postID: id,
+                    tagName: tag,
+                  },
+                })
+              )
           )
         );
       }
@@ -265,7 +270,7 @@ const PostEditor = ({ region, bucket, post }) => {
         <textarea
           name="description"
           placeholder="Description"
-          ref={register({ required: true, maxLength: 1300 })}
+          ref={register({ maxLength: 1300 })}
           maxLength={1300}
           className={`px-3 py-3 placeholder-gray-500 text-gray-700 relative bg-primary rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full ${
             errors.description && 'border-2 border-red-500 placeholder-red-500'

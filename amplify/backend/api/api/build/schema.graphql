@@ -12,6 +12,8 @@ type Image @aws_api_key @aws_cognito_user_pools {
 
 type User @aws_api_key @aws_iam @aws_cognito_user_pools {
   username: ID!
+  avatar: String
+  realName: String
   location: String
   description: String
   website: String
@@ -33,7 +35,7 @@ type Vote @aws_api_key @aws_cognito_user_pools {
 type Post @aws_api_key @aws_cognito_user_pools {
   id: ID!
   title: String!
-  description: String!
+  description: String
   createdAt: AWSDateTime
   userID: ID!
   thumb: String!
@@ -51,8 +53,8 @@ type TaggedPost @aws_api_key @aws_cognito_user_pools {
   tagName: ID!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-  post: Post! @aws_api_key @aws_cognito_user_pools
-  tag: Tag! @aws_api_key @aws_cognito_user_pools
+  post: Post @aws_api_key @aws_cognito_user_pools
+  tag: Tag @aws_api_key @aws_cognito_user_pools
 }
 
 type Tag @aws_api_key @aws_cognito_user_pools {
@@ -182,6 +184,8 @@ input ModelSizeInput {
 
 input ModelUserFilterInput {
   username: ModelIDInput
+  avatar: ModelStringInput
+  realName: ModelStringInput
   location: ModelStringInput
   description: ModelStringInput
   website: ModelStringInput
@@ -222,6 +226,8 @@ type Query {
 
 input CreateUserInput {
   username: ID!
+  avatar: String
+  realName: String
   location: String
   description: String
   website: String
@@ -230,6 +236,8 @@ input CreateUserInput {
 
 input UpdateUserInput {
   username: ID!
+  avatar: String
+  realName: String
   location: String
   description: String
   website: String
@@ -241,6 +249,8 @@ input DeleteUserInput {
 }
 
 input ModelUserConditionInput {
+  avatar: ModelStringInput
+  realName: ModelStringInput
   location: ModelStringInput
   description: ModelStringInput
   website: ModelStringInput
@@ -344,7 +354,7 @@ input ModelPostFilterInput {
 input CreatePostInput {
   id: ID
   title: String!
-  description: String!
+  description: String
   createdAt: AWSDateTime
   userID: ID!
   thumb: String!
@@ -509,6 +519,8 @@ input SearchableBooleanFilterInput {
 
 input SearchableUserFilterInput {
   username: SearchableIDFilterInput
+  avatar: SearchableStringFilterInput
+  realName: SearchableStringFilterInput
   location: SearchableStringFilterInput
   description: SearchableStringFilterInput
   website: SearchableStringFilterInput
@@ -525,6 +537,8 @@ enum SearchableSortDirection {
 
 enum SearchableUserSortableFields {
   username
+  avatar
+  realName
   location
   description
   website

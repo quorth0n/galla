@@ -6,6 +6,8 @@ export const getUser = /* GraphQL */ `
   query GetUser($username: ID!) {
     getUser(username: $username) {
       username
+      avatar
+      realName
       location
       description
       website
@@ -33,6 +35,8 @@ export const listUsers = /* GraphQL */ `
     ) {
       items {
         username
+        avatar
+        realName
         location
         description
         website
@@ -60,6 +64,8 @@ export const searchUsers = /* GraphQL */ `
     ) {
       items {
         username
+        avatar
+        realName
         location
         description
         website

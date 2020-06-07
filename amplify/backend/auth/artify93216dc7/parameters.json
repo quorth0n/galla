@@ -1,6 +1,6 @@
 {
     "identityPoolName": "artify93216dc7_identitypool_93216dc7",
-    "allowUnauthenticatedIdentities": true,
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "artify93216dc7",
     "userPoolName": "artify93216dc7_userpool_93216dc7",
     "autoVerifiedAttributes": [

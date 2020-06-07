@@ -23,6 +23,8 @@ type User
   )
   @searchable {
   username: ID!
+  avatar: String
+  realName: String
   location: String
   description: String
   website: String
@@ -60,7 +62,7 @@ type Post
   @searchable {
   id: ID!
   title: String!
-  description: String!
+  description: String
   createdAt: AWSDateTime
   userID: ID!
   tags: [TaggedPost] @connection(keyName: "byPost", fields: ["id"])
@@ -86,8 +88,8 @@ type TaggedPost
   id: ID!
   postID: ID!
   tagName: ID!
-  post: Post! @connection(fields: ["postID"])
-  tag: Tag! @connection(fields: ["tagName"])
+  post: Post @connection(fields: ["postID"])
+  tag: Tag @connection(fields: ["tagName"])
 }
 
 type Tag

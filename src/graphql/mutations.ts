@@ -114,6 +114,8 @@ export const updateUser = /* GraphQL */ `
   ) {
     updateUser(input: $input, condition: $condition) {
       username
+      avatar
+      realName
       location
       description
       website
@@ -131,6 +133,8 @@ export const deleteUser = /* GraphQL */ `
   ) {
     deleteUser(input: $input, condition: $condition) {
       username
+      avatar
+      realName
       location
       description
       website
@@ -388,6 +392,8 @@ export const createUser = /* GraphQL */ `
   ) {
     createUser(input: $input, condition: $condition) {
       username
+      avatar
+      realName
       location
       description
       website

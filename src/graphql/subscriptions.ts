@@ -6,6 +6,8 @@ export const onUpdateUser = /* GraphQL */ `
   subscription OnUpdateUser($owner: String) {
     onUpdateUser(owner: $owner) {
       username
+      avatar
+      realName
       location
       description
       website
@@ -20,6 +22,8 @@ export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser($owner: String) {
     onDeleteUser(owner: $owner) {
       username
+      avatar
+      realName
       location
       description
       website
@@ -352,6 +356,8 @@ export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser($owner: String) {
     onCreateUser(owner: $owner) {
       username
+      avatar
+      realName
       location
       description
       website
