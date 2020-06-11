@@ -7,7 +7,7 @@ import {
 import { useRouter } from 'next/router';
 
 import Head from '../components/Head';
-import useCognitoUser from '../helpers/useCognitoUser';
+import useCognitoUser from '../helpers/hooks/useCognitoUser';
 
 const Login = () => {
   const router = useRouter();

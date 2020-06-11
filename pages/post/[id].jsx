@@ -7,7 +7,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import Head from '../../components/Head';
 import Dropdown from '../../components/Dropdown';
 import Vote from '../../components/Vote';
-import useCognitoUser from '../../helpers/useCognitoUser';
+import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 import { viewPost } from '../../src/graphql/mutations';
 
 const Post = ({ post }) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 
-import useCognitoUser from '../helpers/useCognitoUser';
+import useCognitoUser from '../helpers/hooks/useCognitoUser';
 
 const Header = () => {
   const [navbarOpen, setNavbarOpen] = React.useState(false);

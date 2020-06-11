@@ -1,4 +1,5 @@
 import React from 'react';
+import { ToastProvider } from 'react-toast-notifications';
 import Amplify from 'aws-amplify';
 
 import Layout from '../components/Layout';
@@ -12,8 +13,10 @@ Amplify.configure(awsconfig);
 // This default export is required in a new `pages/_app.js` file.
 export default function App({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <ToastProvider autoDismiss={true} placement="bottom-left">
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ToastProvider>
   );
 }

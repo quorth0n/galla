@@ -3,10 +3,11 @@
 // this is an auto generated file. This will be overwritten
 
 export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser($owner: String) {
-    onUpdateUser(owner: $owner) {
+  subscription OnUpdateUser($username: String) {
+    onUpdateUser(username: $username) {
       username
       avatar
+      bg
       realName
       location
       description
@@ -14,15 +15,15 @@ export const onUpdateUser = /* GraphQL */ `
       monthlyViews
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteUser = /* GraphQL */ `
-  subscription OnDeleteUser($owner: String) {
-    onDeleteUser(owner: $owner) {
+  subscription OnDeleteUser($username: String) {
+    onDeleteUser(username: $username) {
       username
       avatar
+      bg
       realName
       location
       description
@@ -30,7 +31,6 @@ export const onDeleteUser = /* GraphQL */ `
       monthlyViews
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -353,10 +353,11 @@ export const onDeleteTag = /* GraphQL */ `
   }
 `;
 export const onCreateUser = /* GraphQL */ `
-  subscription OnCreateUser($owner: String) {
-    onCreateUser(owner: $owner) {
+  subscription OnCreateUser($username: String) {
+    onCreateUser(username: $username) {
       username
       avatar
+      bg
       realName
       location
       description
@@ -364,7 +365,6 @@ export const onCreateUser = /* GraphQL */ `
       monthlyViews
       createdAt
       updatedAt
-      owner
     }
   }
 `;

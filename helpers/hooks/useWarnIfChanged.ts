@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Router from 'next/router';
 
-export default (unsavedChanges) => {
+export default (unsavedChanges: boolean) => {
   const message = 'Exit without saving changes?';
 
   useEffect(() => {

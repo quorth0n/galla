@@ -1,8 +1,7 @@
 import React from 'react';
-
 import EditingContext from '../../context/profile/EditingContext';
 
-const EditableItem = ({ name, value, ref, placeholder, icon, textarea }) => {
+const EditableItem = ({ name, value, placeholder, icon, textarea }, ref) => {
   const editing = React.useContext(EditingContext);
   return (
     <>
@@ -44,6 +43,8 @@ const EditableItem = ({ name, value, ref, placeholder, icon, textarea }) => {
                 placeholder={placeholder}
                 defaultValue={value}
               />
+            ) : name === 'website' ? (
+              <a href={value}>{value}</a>
             ) : (
               value
             )}
@@ -52,4 +53,4 @@ const EditableItem = ({ name, value, ref, placeholder, icon, textarea }) => {
     </>
   );
 };
-export default EditableItem;
+export default React.memo(React.forwardRef(EditableItem));

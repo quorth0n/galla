@@ -6,6 +6,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
   ],
   plugins: ['prettier'],
+  parser: 'babel-eslint',
   rules: { 'react/prop-types': 'off' },
   globals: {
     Image: 'readonly',

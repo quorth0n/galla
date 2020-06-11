@@ -13,6 +13,7 @@ type Image @aws_api_key @aws_cognito_user_pools {
 type User @aws_api_key @aws_iam @aws_cognito_user_pools {
   username: ID!
   avatar: String
+  bg: String
   realName: String
   location: String
   description: String
@@ -20,7 +21,6 @@ type User @aws_api_key @aws_iam @aws_cognito_user_pools {
   monthlyViews: Int
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-  owner: String
 }
 
 type Vote @aws_api_key @aws_cognito_user_pools {
@@ -185,6 +185,7 @@ input ModelSizeInput {
 input ModelUserFilterInput {
   username: ModelIDInput
   avatar: ModelStringInput
+  bg: ModelStringInput
   realName: ModelStringInput
   location: ModelStringInput
   description: ModelStringInput
@@ -227,6 +228,7 @@ type Query {
 input CreateUserInput {
   username: ID!
   avatar: String
+  bg: String
   realName: String
   location: String
   description: String
@@ -237,6 +239,7 @@ input CreateUserInput {
 input UpdateUserInput {
   username: ID!
   avatar: String
+  bg: String
   realName: String
   location: String
   description: String
@@ -250,6 +253,7 @@ input DeleteUserInput {
 
 input ModelUserConditionInput {
   avatar: ModelStringInput
+  bg: ModelStringInput
   realName: ModelStringInput
   location: ModelStringInput
   description: ModelStringInput
@@ -261,8 +265,8 @@ input ModelUserConditionInput {
 }
 
 type Subscription {
-  onUpdateUser(owner: String): User @aws_subscribe(mutations: ["updateUser"])
-  onDeleteUser(owner: String): User @aws_subscribe(mutations: ["deleteUser"])
+  onUpdateUser(username: String): User @aws_subscribe(mutations: ["updateUser"])
+  onDeleteUser(username: String): User @aws_subscribe(mutations: ["deleteUser"])
   onCreateVote(owner: String!): Vote @aws_subscribe(mutations: ["createVote"])
   onUpdateVote(owner: String!): Vote @aws_subscribe(mutations: ["updateVote"])
   onDeleteVote(owner: String!): Vote @aws_subscribe(mutations: ["deleteVote"])
@@ -275,7 +279,7 @@ type Subscription {
   onCreateTag: Tag @aws_subscribe(mutations: ["createTag"])
   onUpdateTag: Tag @aws_subscribe(mutations: ["updateTag"])
   onDeleteTag: Tag @aws_subscribe(mutations: ["deleteTag"])
-  onCreateUser(owner: String): User @aws_subscribe(mutations: ["createUser"]) @aws_iam @aws_cognito_user_pools
+  onCreateUser(username: String): User @aws_subscribe(mutations: ["createUser"]) @aws_iam @aws_cognito_user_pools
 }
 
 type ModelVoteConnection @aws_api_key @aws_cognito_user_pools {
@@ -520,6 +524,7 @@ input SearchableBooleanFilterInput {
 input SearchableUserFilterInput {
   username: SearchableIDFilterInput
   avatar: SearchableStringFilterInput
+  bg: SearchableStringFilterInput
   realName: SearchableStringFilterInput
   location: SearchableStringFilterInput
   description: SearchableStringFilterInput
@@ -538,6 +543,7 @@ enum SearchableSortDirection {
 enum SearchableUserSortableFields {
   username
   avatar
+  bg
   realName
   location
   description

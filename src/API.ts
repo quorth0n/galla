@@ -5,6 +5,7 @@
 export type UpdateUserInput = {
   username: string,
   avatar?: string | null,
+  bg?: string | null,
   realName?: string | null,
   location?: string | null,
   description?: string | null,
@@ -14,6 +15,7 @@ export type UpdateUserInput = {
 
 export type ModelUserConditionInput = {
   avatar?: ModelStringInput | null,
+  bg?: ModelStringInput | null,
   realName?: ModelStringInput | null,
   location?: ModelStringInput | null,
   description?: ModelStringInput | null,
@@ -170,6 +172,7 @@ export type DeleteTagInput = {
 export type CreateUserInput = {
   username: string,
   avatar?: string | null,
+  bg?: string | null,
   realName?: string | null,
   location?: string | null,
   description?: string | null,
@@ -235,6 +238,7 @@ export type DeletePostInput = {
 export type ModelUserFilterInput = {
   username?: ModelIDInput | null,
   avatar?: ModelStringInput | null,
+  bg?: ModelStringInput | null,
   realName?: ModelStringInput | null,
   location?: ModelStringInput | null,
   description?: ModelStringInput | null,
@@ -254,6 +258,7 @@ export enum ModelSortDirection {
 export type SearchableUserFilterInput = {
   username?: SearchableIDFilterInput | null,
   avatar?: SearchableStringFilterInput | null,
+  bg?: SearchableStringFilterInput | null,
   realName?: SearchableStringFilterInput | null,
   location?: SearchableStringFilterInput | null,
   description?: SearchableStringFilterInput | null,
@@ -311,6 +316,7 @@ export type SearchableUserSortInput = {
 export enum SearchableUserSortableFields {
   username = "username",
   avatar = "avatar",
+  bg = "bg",
   realName = "realName",
   location = "location",
   description = "description",
@@ -549,6 +555,7 @@ export type UpdateUserMutation = {
     __typename: "User",
     username: string,
     avatar: string | null,
+    bg: string | null,
     realName: string | null,
     location: string | null,
     description: string | null,
@@ -556,7 +563,6 @@ export type UpdateUserMutation = {
     monthlyViews: number | null,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -570,6 +576,7 @@ export type DeleteUserMutation = {
     __typename: "User",
     username: string,
     avatar: string | null,
+    bg: string | null,
     realName: string | null,
     location: string | null,
     description: string | null,
@@ -577,7 +584,6 @@ export type DeleteUserMutation = {
     monthlyViews: number | null,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -870,6 +876,7 @@ export type CreateUserMutation = {
     __typename: "User",
     username: string,
     avatar: string | null,
+    bg: string | null,
     realName: string | null,
     location: string | null,
     description: string | null,
@@ -877,7 +884,6 @@ export type CreateUserMutation = {
     monthlyViews: number | null,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -1022,6 +1028,7 @@ export type GetUserQuery = {
     __typename: "User",
     username: string,
     avatar: string | null,
+    bg: string | null,
     realName: string | null,
     location: string | null,
     description: string | null,
@@ -1029,7 +1036,6 @@ export type GetUserQuery = {
     monthlyViews: number | null,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -1048,6 +1054,7 @@ export type ListUsersQuery = {
       __typename: "User",
       username: string,
       avatar: string | null,
+      bg: string | null,
       realName: string | null,
       location: string | null,
       description: string | null,
@@ -1055,7 +1062,6 @@ export type ListUsersQuery = {
       monthlyViews: number | null,
       createdAt: string,
       updatedAt: string,
-      owner: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -1075,6 +1081,7 @@ export type SearchUsersQuery = {
       __typename: "User",
       username: string,
       avatar: string | null,
+      bg: string | null,
       realName: string | null,
       location: string | null,
       description: string | null,
@@ -1082,7 +1089,6 @@ export type SearchUsersQuery = {
       monthlyViews: number | null,
       createdAt: string,
       updatedAt: string,
-      owner: string | null,
     } | null > | null,
     nextToken: string | null,
     total: number | null,
@@ -1409,7 +1415,7 @@ export type GetTagQuery = {
 };
 
 export type OnUpdateUserSubscriptionVariables = {
-  owner?: string | null,
+  username?: string | null,
 };
 
 export type OnUpdateUserSubscription = {
@@ -1417,6 +1423,7 @@ export type OnUpdateUserSubscription = {
     __typename: "User",
     username: string,
     avatar: string | null,
+    bg: string | null,
     realName: string | null,
     location: string | null,
     description: string | null,
@@ -1424,12 +1431,11 @@ export type OnUpdateUserSubscription = {
     monthlyViews: number | null,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
 export type OnDeleteUserSubscriptionVariables = {
-  owner?: string | null,
+  username?: string | null,
 };
 
 export type OnDeleteUserSubscription = {
@@ -1437,6 +1443,7 @@ export type OnDeleteUserSubscription = {
     __typename: "User",
     username: string,
     avatar: string | null,
+    bg: string | null,
     realName: string | null,
     location: string | null,
     description: string | null,
@@ -1444,7 +1451,6 @@ export type OnDeleteUserSubscription = {
     monthlyViews: number | null,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -1820,7 +1826,7 @@ export type OnDeleteTagSubscription = {
 };
 
 export type OnCreateUserSubscriptionVariables = {
-  owner?: string | null,
+  username?: string | null,
 };
 
 export type OnCreateUserSubscription = {
@@ -1828,6 +1834,7 @@ export type OnCreateUserSubscription = {
     __typename: "User",
     username: string,
     avatar: string | null,
+    bg: string | null,
     realName: string | null,
     location: string | null,
     description: string | null,
@@ -1835,6 +1842,5 @@ export type OnCreateUserSubscription = {
     monthlyViews: number | null,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };

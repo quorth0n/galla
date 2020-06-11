@@ -15,7 +15,7 @@ type User
   @key(fields: ["username"])
   @auth(
     rules: [
-      { allow: owner }
+      { allow: owner, ownerField: "username" }
       { allow: groups, groups: ["Admin"] }
       { allow: private, provider: iam, operations: [create] }
       { allow: public, provider: apiKey, operations: [read] }
@@ -24,6 +24,7 @@ type User
   @searchable {
   username: ID!
   avatar: String
+  bg: String
   realName: String
   location: String
   description: String

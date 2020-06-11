@@ -115,6 +115,7 @@ export const updateUser = /* GraphQL */ `
     updateUser(input: $input, condition: $condition) {
       username
       avatar
+      bg
       realName
       location
       description
@@ -122,7 +123,6 @@ export const updateUser = /* GraphQL */ `
       monthlyViews
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -134,6 +134,7 @@ export const deleteUser = /* GraphQL */ `
     deleteUser(input: $input, condition: $condition) {
       username
       avatar
+      bg
       realName
       location
       description
@@ -141,7 +142,6 @@ export const deleteUser = /* GraphQL */ `
       monthlyViews
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -393,6 +393,7 @@ export const createUser = /* GraphQL */ `
     createUser(input: $input, condition: $condition) {
       username
       avatar
+      bg
       realName
       location
       description
@@ -400,7 +401,6 @@ export const createUser = /* GraphQL */ `
       monthlyViews
       createdAt
       updatedAt
-      owner
     }
   }
 `;

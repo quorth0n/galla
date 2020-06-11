@@ -13,9 +13,9 @@ import {
   updatePost,
   deleteTaggedPost,
 } from '../src/graphql/mutations';
-import withAmplifyData from '../helpers/withAmplifyData';
-import useCognitoUser from '../helpers/useCognitoUser';
-import useWarnIfChanged from '../helpers/useWarnIfChanged';
+import withAmplifyData from '../helpers/hocs/withAmplifyData';
+import useCognitoUser from '../helpers/hooks/useCognitoUser';
+import useWarnIfChanged from '../helpers/hooks/useWarnIfChanged';
 
 const PostEditor = ({ region, bucket, post }) => {
   const router = useRouter();
@@ -301,11 +301,12 @@ const PostEditor = ({ region, bucket, post }) => {
               setWarn(false);
               router.back();
             }}
+            disabled={!warn}
           >
             Discard
           </button>
-          <button type="submit" className="btn-primary">
-            {post ? 'Save' : 'Submit'}
+          <button type="submit" className="btn-primary" disabled={!warn}>
+            {warn ? (post ? 'Save' : 'Submit') : 'Saving...'}
           </button>
         </div>
       </form>

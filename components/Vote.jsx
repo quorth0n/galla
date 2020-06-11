@@ -1,7 +1,7 @@
 import React from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 
-import useCognitoUser from '../helpers/useCognitoUser';
+import useCognitoUser from '../helpers/hooks/useCognitoUser';
 import { voteByPostByOwner } from '../src/graphql/queries';
 import {
   upvotePost,

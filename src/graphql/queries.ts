@@ -7,6 +7,7 @@ export const getUser = /* GraphQL */ `
     getUser(username: $username) {
       username
       avatar
+      bg
       realName
       location
       description
@@ -14,7 +15,6 @@ export const getUser = /* GraphQL */ `
       monthlyViews
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -36,6 +36,7 @@ export const listUsers = /* GraphQL */ `
       items {
         username
         avatar
+        bg
         realName
         location
         description
@@ -43,7 +44,6 @@ export const listUsers = /* GraphQL */ `
         monthlyViews
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -65,6 +65,7 @@ export const searchUsers = /* GraphQL */ `
       items {
         username
         avatar
+        bg
         realName
         location
         description
@@ -72,7 +73,6 @@ export const searchUsers = /* GraphQL */ `
         monthlyViews
         createdAt
         updatedAt
-        owner
       }
       nextToken
       total

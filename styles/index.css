@@ -35,6 +35,10 @@ button:hover {
   @apply bg-transparent border-2 border-primary uppercase text-primary font-bold shadow text-xs px-4 py-2 rounded outline-none mb-1;
 }
 
+button:disabled {
+  opacity: 0.5;
+}
+
 /* Textboxes */
 input[type='text'],
 textarea {

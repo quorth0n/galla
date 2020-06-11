@@ -2,7 +2,6 @@ import React from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 
 import PostEditor from '../../../components/PostEditor';
-import { getPost } from '../../../src/graphql/queries';
 
 const EditPost = ({ post }) => <PostEditor post={post} />;
 
