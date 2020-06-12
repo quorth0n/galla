@@ -10,8 +10,8 @@ const Index = ({ initialPosts }) => {
   const [posts, setPosts] = React.useState(initialPosts);
 
   const postFilterChange = async (key) => {
-    console.log(key);
     if (isNaN(key)) {
+      // for non date range filters
       switch (key) {
         case 'all': {
           const fetchPosts = await API.graphql({
@@ -42,6 +42,7 @@ const Index = ({ initialPosts }) => {
         }
       }
     } else {
+      // for date range filters
       const today = new Date();
       const start = new Date();
       start.setDate(today.getDate() - parseInt(key));

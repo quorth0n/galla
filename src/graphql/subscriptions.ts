@@ -2,22 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onUpdateUser = /* GraphQL */ `
-  subscription OnUpdateUser($username: String) {
-    onUpdateUser(username: $username) {
-      username
-      avatar
-      bg
-      realName
-      location
-      description
-      website
-      monthlyViews
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser($username: String) {
     onDeleteUser(username: $username) {
@@ -88,45 +72,10 @@ export const onCreatePost = /* GraphQL */ `
         }
         thumb
       }
-      totalScore
-      updatedAt
       monthlyViews
       totalViews
-      tags {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const onUpdatePost = /* GraphQL */ `
-  subscription OnUpdatePost($userID: String!) {
-    onUpdatePost(userID: $userID) {
-      id
-      title
-      description
-      createdAt
-      userID
-      thumb
-      resolutions {
-        resMode
-        image {
-          bucket
-          region
-          key
-        }
-        thumb
-      }
       totalScore
       updatedAt
-      monthlyViews
-      totalViews
       tags {
         items {
           id
@@ -158,10 +107,10 @@ export const onDeletePost = /* GraphQL */ `
         }
         thumb
       }
-      totalScore
-      updatedAt
       monthlyViews
       totalViews
+      totalScore
+      updatedAt
       tags {
         items {
           id
@@ -194,10 +143,10 @@ export const onCreateTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        totalScore
-        updatedAt
         monthlyViews
         totalViews
+        totalScore
+        updatedAt
         tags {
           nextToken
         }
@@ -233,10 +182,10 @@ export const onUpdateTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        totalScore
-        updatedAt
         monthlyViews
         totalViews
+        totalScore
+        updatedAt
         tags {
           nextToken
         }
@@ -272,10 +221,10 @@ export const onDeleteTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        totalScore
-        updatedAt
         monthlyViews
         totalViews
+        totalScore
+        updatedAt
         tags {
           nextToken
         }
@@ -365,6 +314,57 @@ export const onCreateUser = /* GraphQL */ `
       monthlyViews
       createdAt
       updatedAt
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser($username: String) {
+    onUpdateUser(username: $username) {
+      username
+      avatar
+      bg
+      realName
+      location
+      description
+      website
+      monthlyViews
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePost = /* GraphQL */ `
+  subscription OnUpdatePost($userID: String!) {
+    onUpdatePost(userID: $userID) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      monthlyViews
+      totalViews
+      totalScore
+      updatedAt
+      tags {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
     }
   }
 `;

@@ -11,7 +11,6 @@ export default (Component) => ({ ...props }) => {
     aws_user_files_s3_bucket_region: region,
     aws_user_files_s3_bucket: bucket,
   } = awsExports;
-  console.log(region);
 
   return <Component region={region} bucket={bucket} {...props} />;
 };

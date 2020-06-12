@@ -20,10 +20,10 @@ export const viewPost = /* GraphQL */ `
         }
         thumb
       }
-      totalScore
-      updatedAt
       monthlyViews
       totalViews
+      totalScore
+      updatedAt
       tags {
         items {
           id
@@ -55,10 +55,10 @@ export const upvotePost = /* GraphQL */ `
         }
         thumb
       }
-      totalScore
-      updatedAt
       monthlyViews
       totalViews
+      totalScore
+      updatedAt
       tags {
         items {
           id
@@ -90,10 +90,10 @@ export const downvotePost = /* GraphQL */ `
         }
         thumb
       }
-      totalScore
-      updatedAt
       monthlyViews
       totalViews
+      totalScore
+      updatedAt
       tags {
         items {
           id
@@ -104,25 +104,6 @@ export const downvotePost = /* GraphQL */ `
         }
         nextToken
       }
-    }
-  }
-`;
-export const updateUser = /* GraphQL */ `
-  mutation UpdateUser(
-    $input: UpdateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    updateUser(input: $input, condition: $condition) {
-      username
-      avatar
-      bg
-      realName
-      location
-      description
-      website
-      monthlyViews
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -190,6 +171,82 @@ export const deleteVote = /* GraphQL */ `
     }
   }
 `;
+export const createPost = /* GraphQL */ `
+  mutation CreatePost(
+    $input: CreatePostInput!
+    $condition: ModelPostConditionInput
+  ) {
+    createPost(input: $input, condition: $condition) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      monthlyViews
+      totalViews
+      totalScore
+      updatedAt
+      tags {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const deletePost = /* GraphQL */ `
+  mutation DeletePost(
+    $input: DeletePostInput!
+    $condition: ModelPostConditionInput
+  ) {
+    deletePost(input: $input, condition: $condition) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      monthlyViews
+      totalViews
+      totalScore
+      updatedAt
+      tags {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
 export const createTaggedPost = /* GraphQL */ `
   mutation CreateTaggedPost(
     $input: CreateTaggedPostInput!
@@ -212,10 +269,10 @@ export const createTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        totalScore
-        updatedAt
         monthlyViews
         totalViews
+        totalScore
+        updatedAt
         tags {
           nextToken
         }
@@ -254,10 +311,10 @@ export const updateTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        totalScore
-        updatedAt
         monthlyViews
         totalViews
+        totalScore
+        updatedAt
         tags {
           nextToken
         }
@@ -296,10 +353,10 @@ export const deleteTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        totalScore
-        updatedAt
         monthlyViews
         totalViews
+        totalScore
+        updatedAt
         tags {
           nextToken
         }
@@ -404,41 +461,22 @@ export const createUser = /* GraphQL */ `
     }
   }
 `;
-export const createPost = /* GraphQL */ `
-  mutation CreatePost(
-    $input: CreatePostInput!
-    $condition: ModelPostConditionInput
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    createPost(input: $input, condition: $condition) {
-      id
-      title
+    updateUser(input: $input, condition: $condition) {
+      username
+      avatar
+      bg
+      realName
+      location
       description
-      createdAt
-      userID
-      thumb
-      resolutions {
-        resMode
-        image {
-          bucket
-          region
-          key
-        }
-        thumb
-      }
-      totalScore
-      updatedAt
+      website
       monthlyViews
-      totalViews
-      tags {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -463,48 +501,10 @@ export const updatePost = /* GraphQL */ `
         }
         thumb
       }
-      totalScore
-      updatedAt
       monthlyViews
       totalViews
-      tags {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const deletePost = /* GraphQL */ `
-  mutation DeletePost(
-    $input: DeletePostInput!
-    $condition: ModelPostConditionInput
-  ) {
-    deletePost(input: $input, condition: $condition) {
-      id
-      title
-      description
-      createdAt
-      userID
-      thumb
-      resolutions {
-        resMode
-        image {
-          bucket
-          region
-          key
-        }
-        thumb
-      }
       totalScore
       updatedAt
-      monthlyViews
-      totalViews
       tags {
         items {
           id

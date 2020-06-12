@@ -8,20 +8,22 @@ const apiKey = process.env.API_KEY;
 const ssm = new AWS.SSM();
 const UrlParse = require('url').URL;
 
-const createTodo = gql`
+const createUser = gql`
   mutation CreateUser(
     $input: CreateUserInput!
     $condition: ModelUserConditionInput
   ) {
     createUser(input: $input, condition: $condition) {
       username
+      avatar
+      bg
+      realName
       location
       description
       website
-      monthlyViews
       createdAt
       updatedAt
-      owner
+      monthlyViews
     }
   }
 `;
@@ -55,7 +57,7 @@ exports.handler = async (event, context, callback) => {
   req.headers.host = endpoint;
   req.headers['Content-Type'] = 'application/json';
   req.body = JSON.stringify({
-    query: print(createTodo),
+    query: print(createUser),
     operationName: 'CreateUser',
     variables: item,
   });

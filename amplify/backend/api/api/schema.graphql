@@ -17,7 +17,7 @@ type User
     rules: [
       { allow: owner, ownerField: "username" }
       { allow: groups, groups: ["Admin"] }
-      { allow: private, provider: iam, operations: [create] }
+      { allow: private, provider: iam, operations: [create, read, update] }
       { allow: public, provider: apiKey, operations: [read] }
     ]
   )
@@ -57,6 +57,7 @@ type Post
     rules: [
       { allow: owner, ownerField: "userID" }
       { allow: private, operations: [create, read] }
+      { allow: private, provider: iam, operations: [read, update] }
       { allow: public, provider: apiKey, operations: [read] }
     ]
   )
@@ -70,10 +71,8 @@ type Post
   thumb: String!
   resolutions: [Image]!
   monthlyViews: Int
-    @auth(rules: [{ allow: public, provider: apiKey }, { allow: private }])
   totalViews: Int
-    @auth(rules: [{ allow: public, provider: apiKey }, { allow: private }])
-  totalScore: Int @auth(rules: [{ allow: private }])
+  totalScore: Int
 }
 
 type TaggedPost
@@ -114,7 +113,7 @@ type Mutation {
   downvotePost(id: ID!): Post @aws_cognito_user_pools
 }
 
-# Overridden to allow range query for AWSDate*
+# Overridden to allow range query for AWSDate* scalars
 input SearchableStringFilterInput {
   ne: String
   eq: String

@@ -139,6 +139,71 @@ export const voteByPostByOwner = /* GraphQL */ `
     }
   }
 `;
+export const listPosts = /* GraphQL */ `
+  query ListPosts(
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        monthlyViews
+        totalViews
+        totalScore
+        updatedAt
+        tags {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      monthlyViews
+      totalViews
+      totalScore
+      updatedAt
+      tags {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
 export const searchPosts = /* GraphQL */ `
   query SearchPosts(
     $filter: SearchablePostFilterInput
@@ -163,81 +228,16 @@ export const searchPosts = /* GraphQL */ `
           resMode
           thumb
         }
-        totalScore
-        updatedAt
         monthlyViews
         totalViews
+        totalScore
+        updatedAt
         tags {
           nextToken
         }
       }
       nextToken
       total
-    }
-  }
-`;
-export const getPost = /* GraphQL */ `
-  query GetPost($id: ID!) {
-    getPost(id: $id) {
-      id
-      title
-      description
-      createdAt
-      userID
-      thumb
-      resolutions {
-        resMode
-        image {
-          bucket
-          region
-          key
-        }
-        thumb
-      }
-      totalScore
-      updatedAt
-      monthlyViews
-      totalViews
-      tags {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const listPosts = /* GraphQL */ `
-  query ListPosts(
-    $filter: ModelPostFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        title
-        description
-        createdAt
-        userID
-        thumb
-        resolutions {
-          resMode
-          thumb
-        }
-        totalScore
-        updatedAt
-        monthlyViews
-        totalViews
-        tags {
-          nextToken
-        }
-      }
-      nextToken
     }
   }
 `;
@@ -260,10 +260,10 @@ export const getTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        totalScore
-        updatedAt
         monthlyViews
         totalViews
+        totalScore
+        updatedAt
         tags {
           nextToken
         }
@@ -300,10 +300,10 @@ export const listTaggedPosts = /* GraphQL */ `
           createdAt
           userID
           thumb
-          totalScore
-          updatedAt
           monthlyViews
           totalViews
+          totalScore
+          updatedAt
         }
         tag {
           name

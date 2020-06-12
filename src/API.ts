@@ -2,15 +2,8 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type UpdateUserInput = {
+export type DeleteUserInput = {
   username: string,
-  avatar?: string | null,
-  bg?: string | null,
-  realName?: string | null,
-  location?: string | null,
-  description?: string | null,
-  website?: string | null,
-  monthlyViews?: number | null,
 };
 
 export type ModelUserConditionInput = {
@@ -78,10 +71,6 @@ export type ModelIntInput = {
   attributeType?: ModelAttributeTypes | null,
 };
 
-export type DeleteUserInput = {
-  username: string,
-};
-
 export type CreateVoteInput = {
   id?: string | null,
   postID: string,
@@ -121,6 +110,48 @@ export type UpdateVoteInput = {
 };
 
 export type DeleteVoteInput = {
+  id?: string | null,
+};
+
+export type CreatePostInput = {
+  id?: string | null,
+  title: string,
+  description?: string | null,
+  createdAt?: string | null,
+  userID: string,
+  thumb: string,
+  resolutions: Array< ImageInput | null >,
+  monthlyViews?: number | null,
+  totalViews?: number | null,
+  totalScore?: number | null,
+};
+
+export type ImageInput = {
+  resMode: string,
+  image?: S3ObjectInput | null,
+  thumb?: string | null,
+};
+
+export type S3ObjectInput = {
+  bucket: string,
+  region: string,
+  key: string,
+};
+
+export type ModelPostConditionInput = {
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  thumb?: ModelStringInput | null,
+  monthlyViews?: ModelIntInput | null,
+  totalViews?: ModelIntInput | null,
+  totalScore?: ModelIntInput | null,
+  and?: Array< ModelPostConditionInput | null > | null,
+  or?: Array< ModelPostConditionInput | null > | null,
+  not?: ModelPostConditionInput | null,
+};
+
+export type DeletePostInput = {
   id?: string | null,
 };
 
@@ -180,42 +211,15 @@ export type CreateUserInput = {
   monthlyViews?: number | null,
 };
 
-export type CreatePostInput = {
-  id?: string | null,
-  title: string,
+export type UpdateUserInput = {
+  username: string,
+  avatar?: string | null,
+  bg?: string | null,
+  realName?: string | null,
+  location?: string | null,
   description?: string | null,
-  createdAt?: string | null,
-  userID: string,
-  thumb: string,
-  resolutions: Array< ImageInput | null >,
+  website?: string | null,
   monthlyViews?: number | null,
-  totalViews?: number | null,
-  totalScore?: number | null,
-};
-
-export type ImageInput = {
-  resMode: string,
-  image?: S3ObjectInput | null,
-  thumb?: string | null,
-};
-
-export type S3ObjectInput = {
-  bucket: string,
-  region: string,
-  key: string,
-};
-
-export type ModelPostConditionInput = {
-  title?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  createdAt?: ModelStringInput | null,
-  thumb?: ModelStringInput | null,
-  monthlyViews?: ModelIntInput | null,
-  totalViews?: ModelIntInput | null,
-  totalScore?: ModelIntInput | null,
-  and?: Array< ModelPostConditionInput | null > | null,
-  or?: Array< ModelPostConditionInput | null > | null,
-  not?: ModelPostConditionInput | null,
 };
 
 export type UpdatePostInput = {
@@ -229,10 +233,6 @@ export type UpdatePostInput = {
   monthlyViews?: number | null,
   totalViews?: number | null,
   totalScore?: number | null,
-};
-
-export type DeletePostInput = {
-  id?: string | null,
 };
 
 export type ModelUserFilterInput = {
@@ -351,6 +351,21 @@ export type ModelIDKeyConditionInput = {
   beginsWith?: string | null,
 };
 
+export type ModelPostFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  userID?: ModelIDInput | null,
+  thumb?: ModelStringInput | null,
+  monthlyViews?: ModelIntInput | null,
+  totalViews?: ModelIntInput | null,
+  totalScore?: ModelIntInput | null,
+  and?: Array< ModelPostFilterInput | null > | null,
+  or?: Array< ModelPostFilterInput | null > | null,
+  not?: ModelPostFilterInput | null,
+};
+
 export type SearchablePostFilterInput = {
   id?: SearchableIDFilterInput | null,
   title?: SearchableStringFilterInput | null,
@@ -383,21 +398,6 @@ export enum SearchablePostSortableFields {
   totalScore = "totalScore",
 }
 
-
-export type ModelPostFilterInput = {
-  id?: ModelIDInput | null,
-  title?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  createdAt?: ModelStringInput | null,
-  userID?: ModelIDInput | null,
-  thumb?: ModelStringInput | null,
-  monthlyViews?: ModelIntInput | null,
-  totalViews?: ModelIntInput | null,
-  totalScore?: ModelIntInput | null,
-  and?: Array< ModelPostFilterInput | null > | null,
-  or?: Array< ModelPostFilterInput | null > | null,
-  not?: ModelPostFilterInput | null,
-};
 
 export type ModelTaggedPostFilterInput = {
   id?: ModelIDInput | null,
@@ -440,10 +440,10 @@ export type ViewPostMutation = {
       } | null,
       thumb: string | null,
     } | null >,
-    totalScore: number | null,
-    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
+    totalScore: number | null,
+    updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -483,10 +483,10 @@ export type UpvotePostMutation = {
       } | null,
       thumb: string | null,
     } | null >,
-    totalScore: number | null,
-    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
+    totalScore: number | null,
+    updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -526,10 +526,10 @@ export type DownvotePostMutation = {
       } | null,
       thumb: string | null,
     } | null >,
-    totalScore: number | null,
-    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
+    totalScore: number | null,
+    updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -542,27 +542,6 @@ export type DownvotePostMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
-  } | null,
-};
-
-export type UpdateUserMutationVariables = {
-  input: UpdateUserInput,
-  condition?: ModelUserConditionInput | null,
-};
-
-export type UpdateUserMutation = {
-  updateUser:  {
-    __typename: "User",
-    username: string,
-    avatar: string | null,
-    bg: string | null,
-    realName: string | null,
-    location: string | null,
-    description: string | null,
-    website: string | null,
-    monthlyViews: number | null,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -638,6 +617,94 @@ export type DeleteVoteMutation = {
   } | null,
 };
 
+export type CreatePostMutationVariables = {
+  input: CreatePostInput,
+  condition?: ModelPostConditionInput | null,
+};
+
+export type CreatePostMutation = {
+  createPost:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    description: string | null,
+    createdAt: string | null,
+    userID: string,
+    thumb: string,
+    resolutions:  Array< {
+      __typename: "Image",
+      resMode: string,
+      image:  {
+        __typename: "S3Object",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      thumb: string | null,
+    } | null >,
+    monthlyViews: number | null,
+    totalViews: number | null,
+    totalScore: number | null,
+    updatedAt: string,
+    tags:  {
+      __typename: "ModelTaggedPostConnection",
+      items:  Array< {
+        __typename: "TaggedPost",
+        id: string,
+        postID: string,
+        tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type DeletePostMutationVariables = {
+  input: DeletePostInput,
+  condition?: ModelPostConditionInput | null,
+};
+
+export type DeletePostMutation = {
+  deletePost:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    description: string | null,
+    createdAt: string | null,
+    userID: string,
+    thumb: string,
+    resolutions:  Array< {
+      __typename: "Image",
+      resMode: string,
+      image:  {
+        __typename: "S3Object",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      thumb: string | null,
+    } | null >,
+    monthlyViews: number | null,
+    totalViews: number | null,
+    totalScore: number | null,
+    updatedAt: string,
+    tags:  {
+      __typename: "ModelTaggedPostConnection",
+      items:  Array< {
+        __typename: "TaggedPost",
+        id: string,
+        postID: string,
+        tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
 export type CreateTaggedPostMutationVariables = {
   input: CreateTaggedPostInput,
   condition?: ModelTaggedPostConditionInput | null,
@@ -664,10 +731,10 @@ export type CreateTaggedPostMutation = {
         resMode: string,
         thumb: string | null,
       } | null >,
-      totalScore: number | null,
-      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
@@ -713,10 +780,10 @@ export type UpdateTaggedPostMutation = {
         resMode: string,
         thumb: string | null,
       } | null >,
-      totalScore: number | null,
-      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
@@ -762,10 +829,10 @@ export type DeleteTaggedPostMutation = {
         resMode: string,
         thumb: string | null,
       } | null >,
-      totalScore: number | null,
-      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
@@ -887,47 +954,24 @@ export type CreateUserMutation = {
   } | null,
 };
 
-export type CreatePostMutationVariables = {
-  input: CreatePostInput,
-  condition?: ModelPostConditionInput | null,
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+  condition?: ModelUserConditionInput | null,
 };
 
-export type CreatePostMutation = {
-  createPost:  {
-    __typename: "Post",
-    id: string,
-    title: string,
+export type UpdateUserMutation = {
+  updateUser:  {
+    __typename: "User",
+    username: string,
+    avatar: string | null,
+    bg: string | null,
+    realName: string | null,
+    location: string | null,
     description: string | null,
-    createdAt: string | null,
-    userID: string,
-    thumb: string,
-    resolutions:  Array< {
-      __typename: "Image",
-      resMode: string,
-      image:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      thumb: string | null,
-    } | null >,
-    totalScore: number | null,
-    updatedAt: string,
+    website: string | null,
     monthlyViews: number | null,
-    totalViews: number | null,
-    tags:  {
-      __typename: "ModelTaggedPostConnection",
-      items:  Array< {
-        __typename: "TaggedPost",
-        id: string,
-        postID: string,
-        tagName: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -956,54 +1000,10 @@ export type UpdatePostMutation = {
       } | null,
       thumb: string | null,
     } | null >,
-    totalScore: number | null,
-    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
-    tags:  {
-      __typename: "ModelTaggedPostConnection",
-      items:  Array< {
-        __typename: "TaggedPost",
-        id: string,
-        postID: string,
-        tagName: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type DeletePostMutationVariables = {
-  input: DeletePostInput,
-  condition?: ModelPostConditionInput | null,
-};
-
-export type DeletePostMutation = {
-  deletePost:  {
-    __typename: "Post",
-    id: string,
-    title: string,
-    description: string | null,
-    createdAt: string | null,
-    userID: string,
-    thumb: string,
-    resolutions:  Array< {
-      __typename: "Image",
-      resMode: string,
-      image:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      thumb: string | null,
-    } | null >,
     totalScore: number | null,
     updatedAt: string,
-    monthlyViews: number | null,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -1158,16 +1158,15 @@ export type VoteByPostByOwnerQuery = {
   } | null,
 };
 
-export type SearchPostsQueryVariables = {
-  filter?: SearchablePostFilterInput | null,
-  sort?: SearchablePostSortInput | null,
+export type ListPostsQueryVariables = {
+  filter?: ModelPostFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type SearchPostsQuery = {
-  searchPosts:  {
-    __typename: "SearchablePostConnection",
+export type ListPostsQuery = {
+  listPosts:  {
+    __typename: "ModelPostConnection",
     items:  Array< {
       __typename: "Post",
       id: string,
@@ -1181,17 +1180,16 @@ export type SearchPostsQuery = {
         resMode: string,
         thumb: string | null,
       } | null >,
-      totalScore: number | null,
-      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
     } | null > | null,
     nextToken: string | null,
-    total: number | null,
   } | null,
 };
 
@@ -1219,10 +1217,10 @@ export type GetPostQuery = {
       } | null,
       thumb: string | null,
     } | null >,
-    totalScore: number | null,
-    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
+    totalScore: number | null,
+    updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -1238,15 +1236,16 @@ export type GetPostQuery = {
   } | null,
 };
 
-export type ListPostsQueryVariables = {
-  filter?: ModelPostFilterInput | null,
+export type SearchPostsQueryVariables = {
+  filter?: SearchablePostFilterInput | null,
+  sort?: SearchablePostSortInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListPostsQuery = {
-  listPosts:  {
-    __typename: "ModelPostConnection",
+export type SearchPostsQuery = {
+  searchPosts:  {
+    __typename: "SearchablePostConnection",
     items:  Array< {
       __typename: "Post",
       id: string,
@@ -1260,16 +1259,17 @@ export type ListPostsQuery = {
         resMode: string,
         thumb: string | null,
       } | null >,
-      totalScore: number | null,
-      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
     } | null > | null,
     nextToken: string | null,
+    total: number | null,
   } | null,
 };
 
@@ -1298,10 +1298,10 @@ export type GetTaggedPostQuery = {
         resMode: string,
         thumb: string | null,
       } | null >,
-      totalScore: number | null,
-      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
@@ -1345,10 +1345,10 @@ export type ListTaggedPostsQuery = {
         createdAt: string | null,
         userID: string,
         thumb: string,
-        totalScore: number | null,
-        updatedAt: string,
         monthlyViews: number | null,
         totalViews: number | null,
+        totalScore: number | null,
+        updatedAt: string,
       } | null,
       tag:  {
         __typename: "Tag",
@@ -1411,26 +1411,6 @@ export type GetTagQuery = {
       } | null > | null,
       nextToken: string | null,
     } | null,
-  } | null,
-};
-
-export type OnUpdateUserSubscriptionVariables = {
-  username?: string | null,
-};
-
-export type OnUpdateUserSubscription = {
-  onUpdateUser:  {
-    __typename: "User",
-    username: string,
-    avatar: string | null,
-    bg: string | null,
-    realName: string | null,
-    location: string | null,
-    description: string | null,
-    website: string | null,
-    monthlyViews: number | null,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1522,53 +1502,10 @@ export type OnCreatePostSubscription = {
       } | null,
       thumb: string | null,
     } | null >,
-    totalScore: number | null,
-    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
-    tags:  {
-      __typename: "ModelTaggedPostConnection",
-      items:  Array< {
-        __typename: "TaggedPost",
-        id: string,
-        postID: string,
-        tagName: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type OnUpdatePostSubscriptionVariables = {
-  userID: string,
-};
-
-export type OnUpdatePostSubscription = {
-  onUpdatePost:  {
-    __typename: "Post",
-    id: string,
-    title: string,
-    description: string | null,
-    createdAt: string | null,
-    userID: string,
-    thumb: string,
-    resolutions:  Array< {
-      __typename: "Image",
-      resMode: string,
-      image:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      thumb: string | null,
-    } | null >,
     totalScore: number | null,
     updatedAt: string,
-    monthlyViews: number | null,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -1608,10 +1545,10 @@ export type OnDeletePostSubscription = {
       } | null,
       thumb: string | null,
     } | null >,
-    totalScore: number | null,
-    updatedAt: string,
     monthlyViews: number | null,
     totalViews: number | null,
+    totalScore: number | null,
+    updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -1648,10 +1585,10 @@ export type OnCreateTaggedPostSubscription = {
         resMode: string,
         thumb: string | null,
       } | null >,
-      totalScore: number | null,
-      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
@@ -1692,10 +1629,10 @@ export type OnUpdateTaggedPostSubscription = {
         resMode: string,
         thumb: string | null,
       } | null >,
-      totalScore: number | null,
-      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
@@ -1736,10 +1673,10 @@ export type OnDeleteTaggedPostSubscription = {
         resMode: string,
         thumb: string | null,
       } | null >,
-      totalScore: number | null,
-      updatedAt: string,
       monthlyViews: number | null,
       totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
@@ -1842,5 +1779,68 @@ export type OnCreateUserSubscription = {
     monthlyViews: number | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  username?: string | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser:  {
+    __typename: "User",
+    username: string,
+    avatar: string | null,
+    bg: string | null,
+    realName: string | null,
+    location: string | null,
+    description: string | null,
+    website: string | null,
+    monthlyViews: number | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdatePostSubscriptionVariables = {
+  userID: string,
+};
+
+export type OnUpdatePostSubscription = {
+  onUpdatePost:  {
+    __typename: "Post",
+    id: string,
+    title: string,
+    description: string | null,
+    createdAt: string | null,
+    userID: string,
+    thumb: string,
+    resolutions:  Array< {
+      __typename: "Image",
+      resMode: string,
+      image:  {
+        __typename: "S3Object",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      thumb: string | null,
+    } | null >,
+    monthlyViews: number | null,
+    totalViews: number | null,
+    totalScore: number | null,
+    updatedAt: string,
+    tags:  {
+      __typename: "ModelTaggedPostConnection",
+      items:  Array< {
+        __typename: "TaggedPost",
+        id: string,
+        postID: string,
+        tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
 };

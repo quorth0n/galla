@@ -2,38 +2,10 @@
 	"AWSTemplateFormatVersion": "2010-09-09",
 	"Description": "Lambda resource stack creation using Amplify CLI",
 	"Parameters": {
-		"GROUP": {
+		"CloudWatchRule": {
 			"Type": "String",
-			"Default": ""
-		},
-		"modules": {
-			"Type": "String",
-			"Default": "",
-			"Description": "Comma-delimmited list of modules to be executed by a lambda trigger. Sent to resource as an env variable."
-		},
-		"resourceName": {
-			"Type": "String",
-			"Default": ""
-		},
-		"trigger": {
-			"Type": "String",
-			"Default": "true"
-		},
-		"functionName": {
-			"Type": "String",
-			"Default": ""
-		},
-		"roleName": {
-			"Type": "String",
-			"Default": ""
-		},
-		"parentResource": {
-			"Type": "String",
-			"Default": ""
-		},
-		"parentStack": {
-			"Type": "String",
-			"Default": ""
+			"Default": "NONE",
+			"Description": " Schedule Expression"
 		},
 		"env": {
 			"Type": "String"
@@ -69,12 +41,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"artify93216dc7PostConfirmation",
+						"clearMonthlyStats",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"artify93216dc7PostConfirmation",
+									"clearMonthlyStats",
 									"-",
 									{
 										"Ref": "env"
@@ -89,14 +61,8 @@
 						"ENV": {
 							"Ref": "env"
 						},
-						"MODULES": {
-							"Ref": "modules"
-						},
 						"REGION": {
 							"Ref": "AWS::Region"
-						},
-						"GROUP": {
-							"Ref": "GROUP"
 						},
 						"API_API_GRAPHQLAPIIDOUTPUT": {
 							"Ref": "apiapiGraphQLAPIIdOutput"
@@ -112,11 +78,11 @@
 						"Arn"
 					]
 				},
-				"Runtime": "nodejs10.x",
+				"Runtime": "nodejs12.x",
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-artify-dev-111447-deployment",
-					"S3Key": "amplify-builds/artify93216dc7PostConfirmation-30396a746b4c4e536570-build.zip"
+					"S3Key": "amplify-builds/clearMonthlyStats-61693846526d6e675254-build.zip"
 				}
 			}
 		},
@@ -126,12 +92,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"artify93216dc7PostConfirmation",
+						"artifyLambdaRole2e58aa55",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"artify93216dc7PostConfirmation",
+									"artifyLambdaRole2e58aa55",
 									"-",
 									{
 										"Ref": "env"
@@ -250,6 +216,45 @@
 					]
 				}
 			}
+		},
+		"CloudWatchEvent": {
+			"Type": "AWS::Events::Rule",
+			"Properties": {
+				"Description": "Schedule rule for Lambda",
+				"ScheduleExpression": {
+					"Ref": "CloudWatchRule"
+				},
+				"State": "ENABLED",
+				"Targets": [
+					{
+						"Arn": {
+							"Fn::GetAtt": [
+								"LambdaFunction",
+								"Arn"
+							]
+						},
+						"Id": {
+							"Ref": "LambdaFunction"
+						}
+					}
+				]
+			}
+		},
+		"PermissionForEventsToInvokeLambda": {
+			"Type": "AWS::Lambda::Permission",
+			"Properties": {
+				"FunctionName": {
+					"Ref": "LambdaFunction"
+				},
+				"Action": "lambda:InvokeFunction",
+				"Principal": "events.amazonaws.com",
+				"SourceArn": {
+					"Fn::GetAtt": [
+						"CloudWatchEvent",
+						"Arn"
+					]
+				}
+			}
 		}
 	},
 	"Outputs": {
@@ -266,14 +271,19 @@
 				]
 			}
 		},
+		"Region": {
+			"Value": {
+				"Ref": "AWS::Region"
+			}
+		},
 		"LambdaExecutionRole": {
 			"Value": {
 				"Ref": "LambdaExecutionRole"
 			}
 		},
-		"Region": {
+		"CloudWatchEventRule": {
 			"Value": {
-				"Ref": "AWS::Region"
+				"Ref": "CloudWatchEvent"
 			}
 		}
 	}

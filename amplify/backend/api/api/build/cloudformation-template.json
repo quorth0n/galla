@@ -228,7 +228,7 @@
                         {
                             "Ref": "APIKeyExpirationEpoch"
                         },
-                        1623266359
+                        1623477734
                     ]
                 }
             },
@@ -303,8 +303,83 @@
                                                     "ApiId"
                                                 ]
                                             },
+                                            "typeName": "Mutation",
+                                            "fieldName": "updateUser"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Query",
+                                            "fieldName": "getUser"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Query",
+                                            "fieldName": "listUsers"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Query",
+                                            "fieldName": "searchUsers"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
                                             "typeName": "Subscription",
                                             "fieldName": "onCreateUser"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Subscription",
+                                            "fieldName": "onUpdateUser"
                                         }
                                     ]
                                 },
@@ -319,6 +394,95 @@
                                                 ]
                                             },
                                             "typeName": "Image"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Post"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Mutation",
+                                            "fieldName": "updatePost"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Query",
+                                            "fieldName": "getPost"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Query",
+                                            "fieldName": "listPosts"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Query",
+                                            "fieldName": "searchPosts"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Fn::Sub": [
+                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
+                                        {
+                                            "apiId": {
+                                                "Fn::GetAtt": [
+                                                    "GraphQLAPI",
+                                                    "ApiId"
+                                                ]
+                                            },
+                                            "typeName": "Subscription",
+                                            "fieldName": "onUpdatePost"
                                         }
                                     ]
                                 }
