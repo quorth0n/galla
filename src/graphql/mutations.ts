@@ -20,10 +20,43 @@ export const viewPost = /* GraphQL */ `
         }
         thumb
       }
-      monthlyViews
-      totalViews
       totalScore
       updatedAt
+      totalViews
+      tags {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const viewTag = /* GraphQL */ `
+  mutation ViewTag($name: ID!) {
+    viewTag(name: $name) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      totalScore
+      updatedAt
+      totalViews
       tags {
         items {
           id
@@ -55,10 +88,9 @@ export const upvotePost = /* GraphQL */ `
         }
         thumb
       }
-      monthlyViews
-      totalViews
       totalScore
       updatedAt
+      totalViews
       tags {
         items {
           id
@@ -90,10 +122,9 @@ export const downvotePost = /* GraphQL */ `
         }
         thumb
       }
-      monthlyViews
-      totalViews
       totalScore
       updatedAt
+      totalViews
       tags {
         items {
           id
@@ -192,10 +223,9 @@ export const createPost = /* GraphQL */ `
         }
         thumb
       }
-      monthlyViews
-      totalViews
       totalScore
       updatedAt
+      totalViews
       tags {
         items {
           id
@@ -230,10 +260,9 @@ export const deletePost = /* GraphQL */ `
         }
         thumb
       }
-      monthlyViews
-      totalViews
       totalScore
       updatedAt
+      totalViews
       tags {
         items {
           id
@@ -269,10 +298,9 @@ export const createTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        monthlyViews
-        totalViews
         totalScore
         updatedAt
+        totalViews
         tags {
           nextToken
         }
@@ -280,6 +308,11 @@ export const createTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
         createdAt
         updatedAt
         posts {
@@ -311,10 +344,9 @@ export const updateTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        monthlyViews
-        totalViews
         totalScore
         updatedAt
+        totalViews
         tags {
           nextToken
         }
@@ -322,6 +354,11 @@ export const updateTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
         createdAt
         updatedAt
         posts {
@@ -353,10 +390,9 @@ export const deleteTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        monthlyViews
-        totalViews
         totalScore
         updatedAt
+        totalViews
         tags {
           nextToken
         }
@@ -364,6 +400,11 @@ export const deleteTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
         createdAt
         updatedAt
         posts {
@@ -381,29 +422,11 @@ export const createTag = /* GraphQL */ `
     createTag(input: $input, condition: $condition) {
       name
       description
-      createdAt
-      updatedAt
-      posts {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const updateTag = /* GraphQL */ `
-  mutation UpdateTag(
-    $input: UpdateTagInput!
-    $condition: ModelTagConditionInput
-  ) {
-    updateTag(input: $input, condition: $condition) {
-      name
-      description
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
+      totalViews
       createdAt
       updatedAt
       posts {
@@ -427,6 +450,11 @@ export const deleteTag = /* GraphQL */ `
     deleteTag(input: $input, condition: $condition) {
       name
       description
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
+      totalViews
       createdAt
       updatedAt
       posts {
@@ -501,11 +529,38 @@ export const updatePost = /* GraphQL */ `
         }
         thumb
       }
-      monthlyViews
-      totalViews
       totalScore
       updatedAt
+      totalViews
       tags {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const updateTag = /* GraphQL */ `
+  mutation UpdateTag(
+    $input: UpdateTagInput!
+    $condition: ModelTagConditionInput
+  ) {
+    updateTag(input: $input, condition: $condition) {
+      name
+      description
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
+      totalViews
+      createdAt
+      updatedAt
+      posts {
         items {
           id
           postID

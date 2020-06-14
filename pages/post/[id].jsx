@@ -8,7 +8,7 @@ import Head from '../../components/Head';
 import Dropdown from '../../components/Dropdown';
 import Vote from '../../components/Vote';
 import useCognitoUser from '../../helpers/hooks/useCognitoUser';
-import { viewPost } from '../../src/graphql/mutations';
+import { viewPost, viewTag } from '../../src/graphql/mutations';
 
 const Post = ({ post }) => {
   const router = useRouter();
@@ -17,8 +17,13 @@ const Post = ({ post }) => {
   const [resolutions, setResolutions] = React.useState([]);
   const user = useCognitoUser();
 
+  const tagNames = post?.tags?.items
+    ? post.tags.items.map((tag) => tag.tagName)
+    : [];
+
   // scale canvas and load image
   React.useEffect(() => {
+    console.log(id, post, tagNames);
     if (post) {
       const fetchData = async () => {
         // get resolutions
@@ -41,6 +46,12 @@ const Post = ({ post }) => {
           variables: { id },
           authMode: 'API_KEY',
         });
+        for (const name of tagNames) {
+          await API.graphql({
+            ...graphqlOperation(viewTag, { name }),
+            authMode: 'API_KEY',
+          });
+        }
         await API.graphql({
           ...graphqlOperation(viewPost, { id }),
           authMode: 'API_KEY',
@@ -63,7 +74,7 @@ const Post = ({ post }) => {
         image.src = `/thumbs/${post.thumb}`;
       }
     }
-  }, [id, post]);
+  }, []);
 
   const dropdownRes = resolutions.map((res) => ({
     key: res.resMode,
@@ -189,14 +200,14 @@ const Post = ({ post }) => {
       <p className="opacity-75 mt-4">{post && post.description}</p>
       <nav className="mt-4">
         <strong>Tags: </strong>
-        {post.tags && post.tags.items.length
-          ? post.tags.items.map((tag) => (
+        {tagNames.length
+          ? tagNames.map((tag) => (
               <a
                 href="#"
-                key={tag.tagName}
+                key={tag}
                 className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-primary bg-accent uppercase last:mr-0 mr-1"
               >
-                #{tag.tagName}
+                #{tag}
               </a>
             ))
           : '(none)'}
@@ -230,7 +241,6 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
           createdAt
           userID
           thumb
-          monthlyViews
           totalViews
           totalScore
           tags {

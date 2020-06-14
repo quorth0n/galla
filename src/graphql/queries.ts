@@ -139,71 +139,6 @@ export const voteByPostByOwner = /* GraphQL */ `
     }
   }
 `;
-export const listPosts = /* GraphQL */ `
-  query ListPosts(
-    $filter: ModelPostFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        title
-        description
-        createdAt
-        userID
-        thumb
-        resolutions {
-          resMode
-          thumb
-        }
-        monthlyViews
-        totalViews
-        totalScore
-        updatedAt
-        tags {
-          nextToken
-        }
-      }
-      nextToken
-    }
-  }
-`;
-export const getPost = /* GraphQL */ `
-  query GetPost($id: ID!) {
-    getPost(id: $id) {
-      id
-      title
-      description
-      createdAt
-      userID
-      thumb
-      resolutions {
-        resMode
-        image {
-          bucket
-          region
-          key
-        }
-        thumb
-      }
-      monthlyViews
-      totalViews
-      totalScore
-      updatedAt
-      tags {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
 export const searchPosts = /* GraphQL */ `
   query SearchPosts(
     $filter: SearchablePostFilterInput
@@ -228,16 +163,78 @@ export const searchPosts = /* GraphQL */ `
           resMode
           thumb
         }
-        monthlyViews
-        totalViews
         totalScore
         updatedAt
+        totalViews
         tags {
           nextToken
         }
       }
       nextToken
       total
+    }
+  }
+`;
+export const getPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      totalScore
+      updatedAt
+      totalViews
+      tags {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const listPosts = /* GraphQL */ `
+  query ListPosts(
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        totalScore
+        updatedAt
+        totalViews
+        tags {
+          nextToken
+        }
+      }
+      nextToken
     }
   }
 `;
@@ -260,10 +257,9 @@ export const getTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
-        monthlyViews
-        totalViews
         totalScore
         updatedAt
+        totalViews
         tags {
           nextToken
         }
@@ -271,6 +267,11 @@ export const getTaggedPost = /* GraphQL */ `
       tag {
         name
         description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
         createdAt
         updatedAt
         posts {
@@ -300,14 +301,18 @@ export const listTaggedPosts = /* GraphQL */ `
           createdAt
           userID
           thumb
-          monthlyViews
-          totalViews
           totalScore
           updatedAt
+          totalViews
         }
         tag {
           name
           description
+          dailyViews
+          weeklyViews
+          monthlyViews
+          yearlyViews
+          totalViews
           createdAt
           updatedAt
         }
@@ -334,6 +339,11 @@ export const listTags = /* GraphQL */ `
       items {
         name
         description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
         createdAt
         updatedAt
         posts {
@@ -349,6 +359,11 @@ export const getTag = /* GraphQL */ `
     getTag(name: $name) {
       name
       description
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
+      totalViews
       createdAt
       updatedAt
       posts {

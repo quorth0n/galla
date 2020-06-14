@@ -58,7 +58,7 @@ type Post
       { allow: owner, ownerField: "userID" }
       { allow: private, operations: [create, read] }
       { allow: private, provider: iam, operations: [read, update] }
-      { allow: public, provider: apiKey, operations: [read] }
+      { allow: public, provider: apiKey, operations: [read, update] }
     ]
   )
   @searchable {
@@ -70,8 +70,13 @@ type Post
   tags: [TaggedPost] @connection(keyName: "byPost", fields: ["id"])
   thumb: String!
   resolutions: [Image]!
-  monthlyViews: Int
   totalViews: Int
+    @auth(
+      rules: [
+        { allow: owner, ownerField: "userID", operations: [create] }
+        { allow: public, provider: apiKey, operations: [read, update] }
+      ]
+    )
   totalScore: Int
 }
 
@@ -97,18 +102,25 @@ type Tag
   @auth(
     rules: [
       { allow: private, operations: [create, read] }
-      { allow: public, provider: apiKey, operations: [read] }
+      { allow: private, provider: iam, operations: [read, update] }
+      { allow: public, provider: apiKey, operations: [read, update] }
     ]
   )
   @key(fields: ["name"]) {
   name: ID!
   description: String
   posts: [TaggedPost] @connection(keyName: "byTag", fields: ["name"])
+  dailyViews: Int
+  weeklyViews: Int
+  monthlyViews: Int
+  yearlyViews: Int
+  totalViews: Int
 }
 
 # Custom resolvers
 type Mutation {
   viewPost(id: ID!): Post @aws_api_key
+  viewTag(name: ID!): Post @aws_api_key
   upvotePost(id: ID!): Post @aws_cognito_user_pools
   downvotePost(id: ID!): Post @aws_cognito_user_pools
 }

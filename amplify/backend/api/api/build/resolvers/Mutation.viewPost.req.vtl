@@ -83,8 +83,6 @@
 #end
 ## [End] Check authMode and execute owner/group checks **
 
-
-
 #if( $authCondition && $authCondition.expression != "" )
   #set( $condition = $authCondition )
   #if( $modelObjectKey )
@@ -152,10 +150,9 @@ $util.qr($context.args.input.put("__typename", "Post"))
       "id" : $util.dynamodb.toDynamoDBJson($context.arguments.id)
     },
     "update": {
-      "expression" : "set #totalViews = #totalViews + :updateValue, #monthlyViews = #monthlyViews + :updateValue",
+      "expression" : "set #totalViews = #totalViews + :updateValue",
       "expressionNames" : {
            "#totalViews" : "totalViews",
-           "#monthlyViews": "monthlyViews",
        },
        "expressionValues" : {
            ":updateValue" : { "N" : 1 }

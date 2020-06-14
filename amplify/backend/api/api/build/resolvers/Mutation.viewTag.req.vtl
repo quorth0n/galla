@@ -1,0 +1,86 @@
+## [Start] Set the primary @key. **
+#set( $modelObjectKey = {
+  "name": $util.dynamodb.toDynamoDB($ctx.args.input.name)
+} )
+## [End] Set the primary @key. **
+
+#if( $authCondition && $authCondition.expression != "" )
+  #set( $condition = $authCondition )
+  #if( $modelObjectKey )
+    #foreach( $entry in $modelObjectKey.entrySet() )
+      $util.qr($condition.put("expression", "$condition.expression AND attribute_exists(#keyCondition$velocityCount)"))
+      $util.qr($condition.expressionNames.put("#keyCondition$velocityCount", "$entry.key"))
+    #end
+  #else
+    $util.qr($condition.put("expression", "$condition.expression AND attribute_exists(#name)"))
+    $util.qr($condition.expressionNames.put("#name", "name"))
+  #end
+#else
+  #if( $modelObjectKey )
+    #set( $condition = {
+  "expression": "",
+  "expressionNames": {},
+  "expressionValues": {}
+} )
+    #foreach( $entry in $modelObjectKey.entrySet() )
+      #if( $velocityCount == 1 )
+        $util.qr($condition.put("expression", "attribute_exists(#keyCondition$velocityCount)"))
+      #else
+        $util.qr($condition.put("expression", "$condition.expression AND attribute_exists(#keyCondition$velocityCount)"))
+      #end
+      $util.qr($condition.expressionNames.put("#keyCondition$velocityCount", "$entry.key"))
+    #end
+  #else
+    #set( $condition = {
+  "expression": "attribute_exists(#name)",
+  "expressionNames": {
+      "#name": "name"
+  },
+  "expressionValues": {}
+} )
+  #end
+#end
+## Automatically set the updatedAt timestamp. **
+$util.qr($context.args.input.put("updatedAt", $util.defaultIfNull($ctx.args.input.updatedAt, $util.time.nowISO8601())))
+$util.qr($context.args.input.put("__typename", "Tag"))
+## Update condition if type is @versioned **
+#if( $versionedCondition )
+  $util.qr($condition.put("expression", "($condition.expression) AND $versionedCondition.expression"))
+  $util.qr($condition.expressionNames.putAll($versionedCondition.expressionNames))
+  $util.qr($condition.expressionValues.putAll($versionedCondition.expressionValues))
+#end
+#if( $context.args.condition )
+  #set( $conditionFilterExpressions = $util.parseJson($util.transform.toDynamoDBConditionExpression($context.args.condition)) )
+  $util.qr($condition.put("expression", "($condition.expression) AND $conditionFilterExpressions.expression"))
+  $util.qr($condition.expressionNames.putAll($conditionFilterExpressions.expressionNames))
+  $util.qr($condition.expressionValues.putAll($conditionFilterExpressions.expressionValues))
+#end
+#if( $condition.expressionValues && $condition.expressionValues.size() == 0 )
+  #set( $condition = {
+  "expression": $condition.expression,
+  "expressionNames": $condition.expressionNames
+} )
+#end
+
+{
+  "version": "2018-05-29",
+  "operation": "UpdateItem",
+  "key": #if( $modelObjectKey ) $util.toJson($modelObjectKey) #else {
+  "name": {
+    "S": $util.toJson($context.args.input.name)
+  }
+} #end,
+  "update": {
+    "expression" : "set #totalViews = #totalViews + :updateValue, #yearlyViews = #yearlyViews + :updateValue, #monthlyViews = #monthlyViews + :updateValue, #weeklyViews = #weeklyViews + :updateValue, #dailyViews = #dailyViews + :updateValue",
+    "expressionNames" : {
+      "#totalViews" : "totalViews",
+      "#yearlyViews": "yearlyViews",
+      "#monthlyViews": "monthlyViews",
+      "#weeklyViews": "weeklyViews",
+      "#dailyViews": "dailyViews",
+    },
+    "expressionValues" : {
+      ":updateValue" : { "N" : 1 }
+    }
+  }
+}

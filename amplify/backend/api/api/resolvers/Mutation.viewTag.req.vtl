@@ -144,18 +144,24 @@ $util.qr($context.args.input.put("__typename", "Post"))
 ## MUST MANUALLY UPDATE THE ABOVE ON AUTH CHANGE **
 
 {
-    "version": "2018-05-29",
-    "operation": "UpdateItem",
-    "key" : {
-      "id" : $util.dynamodb.toDynamoDBJson($context.arguments.id)
+  "version": "2018-05-29",
+  "operation": "UpdateItem",
+  "key": #if( $modelObjectKey ) $util.toJson($modelObjectKey) #else {
+  "name": {
+    "S": $util.toJson($context.args.input.name)
+  }
+} #end,
+  "update": {
+    "expression" : "set #totalViews = #totalViews + :updateValue, #yearlyViews = #yearlyViews + :updateValue, #monthlyViews = #monthlyViews + :updateValue, #weeklyViews = #weeklyViews + :updateValue, #dailyViews = #dailyViews + :updateValue",
+    "expressionNames" : {
+      "#totalViews" : "totalViews",
+      "#yearlyViews": "yearlyViews",
+      "#monthlyViews": "monthlyViews",
+      "#weeklyViews": "weeklyViews",
+      "#dailyViews": "dailyViews",
     },
-    "update": {
-      "expression" : "set #totalViews = #totalViews + :updateValue",
-      "expressionNames" : {
-           "#totalViews" : "totalViews",
-       },
-       "expressionValues" : {
-           ":updateValue" : { "N" : 1 }
-       }
+    "expressionValues" : {
+      ":updateValue" : { "N" : 1 }
     }
+  }
 }

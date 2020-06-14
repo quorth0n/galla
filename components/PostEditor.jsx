@@ -111,7 +111,6 @@ const PostEditor = ({ region, bucket, post }) => {
           thumb: thumbKey.key,
           resolutions,
           userID: user.username,
-          monthlyViews: 0,
           totalViews: 0,
           totalScore: 0,
           ...postInput,
@@ -119,18 +118,27 @@ const PostEditor = ({ region, bucket, post }) => {
       }
 
       // create new tags and create/update post
-      await API.graphql(
-        ...newTags.map((tag) =>
-          graphqlOperation(createTag, {
-            input: { name: tag },
+      await Promise.all([
+        API.graphql(
+          ...newTags.map((tag) =>
+            graphqlOperation(createTag, {
+              input: {
+                name: tag,
+                totalViews: 0,
+                yearlyViews: 0,
+                monthlyViews: 0,
+                weeklyViews: 0,
+                dailyViews: 0,
+              },
+            })
+          )
+        ),
+        API.graphql(
+          graphqlOperation(post ? updatePost : createPost, {
+            input: postInput,
           })
-        )
-      );
-      await API.graphql(
-        graphqlOperation(post ? updatePost : createPost, {
-          input: postInput,
-        })
-      );
+        ),
+      ]);
 
       if (post) {
         // only update added / removed TaggedPosts on update
