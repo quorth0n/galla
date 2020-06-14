@@ -478,28 +478,17 @@ export type ViewTagMutationVariables = {
 
 export type ViewTagMutation = {
   viewTag:  {
-    __typename: "Post",
-    id: string,
-    title: string,
+    __typename: "Tag",
+    name: string,
     description: string | null,
-    createdAt: string | null,
-    userID: string,
-    thumb: string,
-    resolutions:  Array< {
-      __typename: "Image",
-      resMode: string,
-      image:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      thumb: string | null,
-    } | null >,
-    totalScore: number | null,
-    updatedAt: string,
+    dailyViews: number | null,
+    weeklyViews: number | null,
+    monthlyViews: number | null,
+    yearlyViews: number | null,
     totalViews: number | null,
-    tags:  {
+    createdAt: string,
+    updatedAt: string,
+    posts:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
         __typename: "TaggedPost",

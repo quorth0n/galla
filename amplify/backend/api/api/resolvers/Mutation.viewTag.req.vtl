@@ -91,8 +91,8 @@
       $util.qr($condition.expressionNames.put("#keyCondition$velocityCount", "$entry.key"))
     #end
   #else
-    $util.qr($condition.put("expression", "$condition.expression AND attribute_exists(#id)"))
-    $util.qr($condition.expressionNames.put("#id", "id"))
+    $util.qr($condition.put("expression", "$condition.expression AND attribute_exists(#name)"))
+    $util.qr($condition.expressionNames.put("#name", "name"))
   #end
 #else
   #if( $modelObjectKey )
@@ -111,9 +111,9 @@
     #end
   #else
     #set( $condition = {
-  "expression": "attribute_exists(#id)",
+  "expression": "attribute_exists(#name)",
   "expressionNames": {
-      "#id": "id"
+      "#name": "name"
   },
   "expressionValues": {}
 } )
@@ -144,13 +144,13 @@ $util.qr($context.args.input.put("__typename", "Post"))
 ## MUST MANUALLY UPDATE THE ABOVE ON AUTH CHANGE **
 
 {
-  "version": "2018-05-29",
+  "version": "2017-02-28",
   "operation": "UpdateItem",
-  "key": #if( $modelObjectKey ) $util.toJson($modelObjectKey) #else {
-  "name": {
-    "S": $util.toJson($context.args.input.name)
-  }
-} #end,
+  "key":  {
+    "name": {
+      "S": $util.toJson($context.arguments.name)
+    }
+  },
   "update": {
     "expression" : "set #totalViews = #totalViews + :updateValue, #yearlyViews = #yearlyViews + :updateValue, #monthlyViews = #monthlyViews + :updateValue, #weeklyViews = #weeklyViews + :updateValue, #dailyViews = #dailyViews + :updateValue",
     "expressionNames" : {

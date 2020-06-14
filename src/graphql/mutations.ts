@@ -39,25 +39,16 @@ export const viewPost = /* GraphQL */ `
 export const viewTag = /* GraphQL */ `
   mutation ViewTag($name: ID!) {
     viewTag(name: $name) {
-      id
-      title
+      name
       description
-      createdAt
-      userID
-      thumb
-      resolutions {
-        resMode
-        image {
-          bucket
-          region
-          key
-        }
-        thumb
-      }
-      totalScore
-      updatedAt
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
       totalViews
-      tags {
+      createdAt
+      updatedAt
+      posts {
         items {
           id
           postID

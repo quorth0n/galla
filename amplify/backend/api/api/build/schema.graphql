@@ -71,7 +71,7 @@ type Tag @aws_api_key @aws_iam @aws_cognito_user_pools {
 
 type Mutation {
   viewPost(id: ID!): Post @aws_api_key
-  viewTag(name: ID!): Post @aws_api_key
+  viewTag(name: ID!): Tag @aws_api_key
   upvotePost(id: ID!): Post @aws_cognito_user_pools
   downvotePost(id: ID!): Post @aws_cognito_user_pools
   deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User
