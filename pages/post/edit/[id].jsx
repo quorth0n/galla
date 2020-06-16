@@ -14,7 +14,6 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
             id
             title
             description
-            createdAt
             userID
             thumb
             resolutions {
@@ -26,10 +25,6 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
               }
               thumb
             }
-            totalScore
-            updatedAt
-            monthlyViews
-            totalViews
             tags {
               items {
                 id

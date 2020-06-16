@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Error from 'next/error';
 import { API, graphqlOperation } from 'aws-amplify';
@@ -9,11 +8,11 @@ import Dropdown from '../../components/Dropdown';
 import Vote from '../../components/Vote';
 import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 import { viewPost, viewTag } from '../../src/graphql/mutations';
+import AddToCuration from '../../components/AddToCuration';
 
 const Post = ({ post }) => {
-  const router = useRouter();
-  const { id } = router.query; // image ID for db retrieval
-  const canvasRef = React.useRef(null);
+  const { id } = post;
+  const canvasRef = React.useRef();
   const [resolutions, setResolutions] = React.useState([]);
   const user = useCognitoUser();
 
@@ -23,7 +22,6 @@ const Post = ({ post }) => {
 
   // scale canvas and load image
   React.useEffect(() => {
-    console.log(id, post, tagNames);
     if (post) {
       const fetchData = async () => {
         // get resolutions
@@ -121,6 +119,19 @@ const Post = ({ post }) => {
           className="inline img shadow-2xl"
           onContextMenu={(e) => e.preventDefault()}
         />
+        <div className="mt-4 px-3 py-1 text-center text-xs w-full flex flex-row justify-around">
+          <button>
+            <i className="fas fa-share mr-1"></i> Share
+          </button>
+          <AddToCuration postID={id} />
+          {user && user.username === post.userID && (
+            <Link href="/post/edit/[id]" as={`/post/edit/${id}`}>
+              <a>
+                <i className="fas fa-edit mr-1"></i> Edit
+              </a>
+            </Link>
+          )}
+        </div>
         <Link href="#">
           <a
             className="block float-right absolute right-0 arrow"
@@ -145,7 +156,7 @@ const Post = ({ post }) => {
             top: -1.5em;
           }
 
-          /* .img cannot be resized through tailwind because dep CSS loads too slow for useEffect */
+          /* .img cannot be resized through tailwind because dep CSS loads after useEffect */
           .img {
             width: 100%;
           }
@@ -212,21 +223,6 @@ const Post = ({ post }) => {
             ))
           : '(none)'}
       </nav>
-      <div className="mt-4 px-3 py-1 text-center text-xs w-full flex flex-row justify-around">
-        <button>
-          <i className="fas fa-share mr-1"></i> Share
-        </button>
-        <button>
-          <i className="fas fa-plus mr-1"></i> Add to Curation
-        </button>
-        {user && user.username === post.userID && (
-          <Link href="/post/edit/[id]" as={`/post/edit/${id}`}>
-            <a>
-              <i className="fas fa-edit mr-1"></i> Edit
-            </a>
-          </Link>
-        )}
-      </div>
     </div>
   );
 };
@@ -236,6 +232,7 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
     query: /* GraphQL */ `
       query GetPost($id: ID!) {
         getPost(id: $id) {
+          id
           title
           description
           createdAt

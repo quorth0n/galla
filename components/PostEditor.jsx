@@ -22,16 +22,27 @@ const PostEditor = ({ region, bucket, post }) => {
   const user = useCognitoUser();
   const { register, handleSubmit, errors, setError } = useForm();
   const [warn, setWarn] = React.useState(true);
+  const [saving, setSaving] = React.useState(false);
   useWarnIfChanged(warn);
 
   // update-only data
   const originalTagNames =
     post && post.tags ? post.tags.items.map((tag) => tag.tagName) : [];
 
+  // gets approximate resolution from vertical pixels
   const getResMode = (height) =>
-    Math.max(
-      ...[360, 480, 720, 1080, 1440, 2160].filter((res) => res <= height)
-    ); // TODO: should this be closest to?
+    [
+      120,
+      240,
+      360,
+      480,
+      720,
+      1080,
+      1440,
+      2160,
+      2880,
+      4320,
+    ].reduce((prev, curr) => (curr <= height ? curr : prev));
   const getDimensions = async (file) =>
     new Promise((resolve, reject) => {
       const imgBlob = URL.createObjectURL(file);
@@ -45,6 +56,7 @@ const PostEditor = ({ region, bucket, post }) => {
 
   const onSubmit = (data) => {
     setWarn(false);
+    setSaving(true);
     const upload = async (thumb, fullRes, postData) => {
       const id = post ? post.id : nanoid();
 
@@ -309,12 +321,12 @@ const PostEditor = ({ region, bucket, post }) => {
               setWarn(false);
               router.back();
             }}
-            disabled={!warn}
+            disabled={saving}
           >
             Discard
           </button>
-          <button type="submit" className="btn-primary" disabled={!warn}>
-            {warn ? (post ? 'Save' : 'Submit') : 'Saving...'}
+          <button type="submit" className="btn-primary" disabled={saving}>
+            {saving ? 'Saving...' : post ? 'Save' : 'Submit'}
           </button>
         </div>
       </form>

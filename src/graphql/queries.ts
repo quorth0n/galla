@@ -139,6 +139,82 @@ export const voteByPostByOwner = /* GraphQL */ `
     }
   }
 `;
+export const listPosts = /* GraphQL */ `
+  query ListPosts(
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        totalViews
+        totalScore
+        updatedAt
+        tags {
+          nextToken
+        }
+        curations {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getPost = /* GraphQL */ `
+  query GetPost($id: ID!) {
+    getPost(id: $id) {
+      id
+      title
+      description
+      createdAt
+      userID
+      thumb
+      resolutions {
+        resMode
+        image {
+          bucket
+          region
+          key
+        }
+        thumb
+      }
+      totalViews
+      totalScore
+      updatedAt
+      tags {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      curations {
+        items {
+          id
+          postID
+          curationID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
 export const searchPosts = /* GraphQL */ `
   query SearchPosts(
     $filter: SearchablePostFilterInput
@@ -163,78 +239,18 @@ export const searchPosts = /* GraphQL */ `
           resMode
           thumb
         }
+        totalViews
         totalScore
         updatedAt
-        totalViews
         tags {
+          nextToken
+        }
+        curations {
           nextToken
         }
       }
       nextToken
       total
-    }
-  }
-`;
-export const getPost = /* GraphQL */ `
-  query GetPost($id: ID!) {
-    getPost(id: $id) {
-      id
-      title
-      description
-      createdAt
-      userID
-      thumb
-      resolutions {
-        resMode
-        image {
-          bucket
-          region
-          key
-        }
-        thumb
-      }
-      totalScore
-      updatedAt
-      totalViews
-      tags {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const listPosts = /* GraphQL */ `
-  query ListPosts(
-    $filter: ModelPostFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        title
-        description
-        createdAt
-        userID
-        thumb
-        resolutions {
-          resMode
-          thumb
-        }
-        totalScore
-        updatedAt
-        totalViews
-        tags {
-          nextToken
-        }
-      }
-      nextToken
     }
   }
 `;
@@ -257,10 +273,13 @@ export const getTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
+        totalViews
         totalScore
         updatedAt
-        totalViews
         tags {
+          nextToken
+        }
+        curations {
           nextToken
         }
       }
@@ -301,9 +320,9 @@ export const listTaggedPosts = /* GraphQL */ `
           createdAt
           userID
           thumb
+          totalViews
           totalScore
           updatedAt
-          totalViews
         }
         tag {
           name
@@ -376,6 +395,191 @@ export const getTag = /* GraphQL */ `
         }
         nextToken
       }
+    }
+  }
+`;
+export const searchTags = /* GraphQL */ `
+  query SearchTags(
+    $filter: SearchableTagFilterInput
+    $sort: SearchableTagSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchTags(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        name
+        description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
+        createdAt
+        updatedAt
+        posts {
+          nextToken
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const getCuratedPost = /* GraphQL */ `
+  query GetCuratedPost($id: ID!) {
+    getCuratedPost(id: $id) {
+      id
+      postID
+      curationID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        totalViews
+        totalScore
+        updatedAt
+        tags {
+          nextToken
+        }
+        curations {
+          nextToken
+        }
+      }
+      curation {
+        id
+        owner
+        name
+        description
+        updatedAt
+        createdAt
+        posts {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const listCuratedPosts = /* GraphQL */ `
+  query ListCuratedPosts(
+    $filter: ModelCuratedPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCuratedPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        postID
+        curationID
+        createdAt
+        updatedAt
+        post {
+          id
+          title
+          description
+          createdAt
+          userID
+          thumb
+          totalViews
+          totalScore
+          updatedAt
+        }
+        curation {
+          id
+          owner
+          name
+          description
+          updatedAt
+          createdAt
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const listCurations = /* GraphQL */ `
+  query ListCurations(
+    $filter: ModelCurationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        owner
+        name
+        description
+        updatedAt
+        createdAt
+        posts {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getCuration = /* GraphQL */ `
+  query GetCuration($id: ID!) {
+    getCuration(id: $id) {
+      id
+      owner
+      name
+      description
+      updatedAt
+      createdAt
+      posts {
+        items {
+          id
+          postID
+          curationID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const searchCurations = /* GraphQL */ `
+  query SearchCurations(
+    $filter: SearchableCurationFilterInput
+    $sort: SearchableCurationSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchCurations(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        owner
+        name
+        description
+        updatedAt
+        createdAt
+        posts {
+          nextToken
+        }
+      }
+      nextToken
+      total
     }
   }
 `;

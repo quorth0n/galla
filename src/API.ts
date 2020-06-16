@@ -203,6 +203,51 @@ export type DeleteTagInput = {
   name: string,
 };
 
+export type CreateCuratedPostInput = {
+  id?: string | null,
+  postID: string,
+  curationID: string,
+};
+
+export type ModelCuratedPostConditionInput = {
+  postID?: ModelIDInput | null,
+  curationID?: ModelIDInput | null,
+  and?: Array< ModelCuratedPostConditionInput | null > | null,
+  or?: Array< ModelCuratedPostConditionInput | null > | null,
+  not?: ModelCuratedPostConditionInput | null,
+};
+
+export type UpdateCuratedPostInput = {
+  id: string,
+  postID?: string | null,
+  curationID?: string | null,
+};
+
+export type DeleteCuratedPostInput = {
+  id?: string | null,
+};
+
+export type CreateCurationInput = {
+  id?: string | null,
+  owner?: string | null,
+  name?: string | null,
+  description?: string | null,
+  updatedAt?: string | null,
+};
+
+export type ModelCurationConditionInput = {
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelCurationConditionInput | null > | null,
+  or?: Array< ModelCurationConditionInput | null > | null,
+  not?: ModelCurationConditionInput | null,
+};
+
+export type DeleteCurationInput = {
+  id?: string | null,
+};
+
 export type CreateUserInput = {
   username: string,
   avatar?: string | null,
@@ -245,6 +290,14 @@ export type UpdateTagInput = {
   monthlyViews?: number | null,
   yearlyViews?: number | null,
   totalViews?: number | null,
+};
+
+export type UpdateCurationInput = {
+  id: string,
+  owner?: string | null,
+  name?: string | null,
+  description?: string | null,
+  updatedAt?: string | null,
 };
 
 export type ModelUserFilterInput = {
@@ -363,6 +416,20 @@ export type ModelIDKeyConditionInput = {
   beginsWith?: string | null,
 };
 
+export type ModelPostFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  userID?: ModelIDInput | null,
+  thumb?: ModelStringInput | null,
+  totalViews?: ModelIntInput | null,
+  totalScore?: ModelIntInput | null,
+  and?: Array< ModelPostFilterInput | null > | null,
+  or?: Array< ModelPostFilterInput | null > | null,
+  not?: ModelPostFilterInput | null,
+};
+
 export type SearchablePostFilterInput = {
   id?: SearchableIDFilterInput | null,
   title?: SearchableStringFilterInput | null,
@@ -394,20 +461,6 @@ export enum SearchablePostSortableFields {
 }
 
 
-export type ModelPostFilterInput = {
-  id?: ModelIDInput | null,
-  title?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  createdAt?: ModelStringInput | null,
-  userID?: ModelIDInput | null,
-  thumb?: ModelStringInput | null,
-  totalViews?: ModelIntInput | null,
-  totalScore?: ModelIntInput | null,
-  and?: Array< ModelPostFilterInput | null > | null,
-  or?: Array< ModelPostFilterInput | null > | null,
-  not?: ModelPostFilterInput | null,
-};
-
 export type ModelTaggedPostFilterInput = {
   id?: ModelIDInput | null,
   postID?: ModelIDInput | null,
@@ -429,6 +482,80 @@ export type ModelTagFilterInput = {
   or?: Array< ModelTagFilterInput | null > | null,
   not?: ModelTagFilterInput | null,
 };
+
+export type SearchableTagFilterInput = {
+  name?: SearchableIDFilterInput | null,
+  description?: SearchableStringFilterInput | null,
+  dailyViews?: SearchableIntFilterInput | null,
+  weeklyViews?: SearchableIntFilterInput | null,
+  monthlyViews?: SearchableIntFilterInput | null,
+  yearlyViews?: SearchableIntFilterInput | null,
+  totalViews?: SearchableIntFilterInput | null,
+  and?: Array< SearchableTagFilterInput | null > | null,
+  or?: Array< SearchableTagFilterInput | null > | null,
+  not?: SearchableTagFilterInput | null,
+};
+
+export type SearchableTagSortInput = {
+  field?: SearchableTagSortableFields | null,
+  direction?: SearchableSortDirection | null,
+};
+
+export enum SearchableTagSortableFields {
+  name = "name",
+  description = "description",
+  dailyViews = "dailyViews",
+  weeklyViews = "weeklyViews",
+  monthlyViews = "monthlyViews",
+  yearlyViews = "yearlyViews",
+  totalViews = "totalViews",
+}
+
+
+export type ModelCuratedPostFilterInput = {
+  id?: ModelIDInput | null,
+  postID?: ModelIDInput | null,
+  curationID?: ModelIDInput | null,
+  and?: Array< ModelCuratedPostFilterInput | null > | null,
+  or?: Array< ModelCuratedPostFilterInput | null > | null,
+  not?: ModelCuratedPostFilterInput | null,
+};
+
+export type ModelCurationFilterInput = {
+  id?: ModelIDInput | null,
+  owner?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelCurationFilterInput | null > | null,
+  or?: Array< ModelCurationFilterInput | null > | null,
+  not?: ModelCurationFilterInput | null,
+};
+
+export type SearchableCurationFilterInput = {
+  id?: SearchableIDFilterInput | null,
+  owner?: SearchableIDFilterInput | null,
+  name?: SearchableStringFilterInput | null,
+  description?: SearchableStringFilterInput | null,
+  updatedAt?: SearchableStringFilterInput | null,
+  and?: Array< SearchableCurationFilterInput | null > | null,
+  or?: Array< SearchableCurationFilterInput | null > | null,
+  not?: SearchableCurationFilterInput | null,
+};
+
+export type SearchableCurationSortInput = {
+  field?: SearchableCurationSortableFields | null,
+  direction?: SearchableSortDirection | null,
+};
+
+export enum SearchableCurationSortableFields {
+  id = "id",
+  owner = "owner",
+  name = "name",
+  description = "description",
+  updatedAt = "updatedAt",
+}
+
 
 export type ViewPostMutationVariables = {
   id: string,
@@ -454,9 +581,9 @@ export type ViewPostMutation = {
       } | null,
       thumb: string | null,
     } | null >,
+    totalViews: number | null,
     totalScore: number | null,
     updatedAt: string,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -464,6 +591,18 @@ export type ViewPostMutation = {
         id: string,
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    curations:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -527,9 +666,9 @@ export type UpvotePostMutation = {
       } | null,
       thumb: string | null,
     } | null >,
+    totalViews: number | null,
     totalScore: number | null,
     updatedAt: string,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -537,6 +676,18 @@ export type UpvotePostMutation = {
         id: string,
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    curations:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -569,9 +720,9 @@ export type DownvotePostMutation = {
       } | null,
       thumb: string | null,
     } | null >,
+    totalViews: number | null,
     totalScore: number | null,
     updatedAt: string,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -579,6 +730,18 @@ export type DownvotePostMutation = {
         id: string,
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    curations:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -684,9 +847,9 @@ export type CreatePostMutation = {
       } | null,
       thumb: string | null,
     } | null >,
+    totalViews: number | null,
     totalScore: number | null,
     updatedAt: string,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -694,6 +857,18 @@ export type CreatePostMutation = {
         id: string,
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    curations:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -727,9 +902,9 @@ export type DeletePostMutation = {
       } | null,
       thumb: string | null,
     } | null >,
+    totalViews: number | null,
     totalScore: number | null,
     updatedAt: string,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -737,6 +912,18 @@ export type DeletePostMutation = {
         id: string,
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    curations:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -771,11 +958,15 @@ export type CreateTaggedPostMutation = {
         resMode: string,
         thumb: string | null,
       } | null >,
+      totalViews: number | null,
       totalScore: number | null,
       updatedAt: string,
-      totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
         nextToken: string | null,
       } | null,
     } | null,
@@ -824,11 +1015,15 @@ export type UpdateTaggedPostMutation = {
         resMode: string,
         thumb: string | null,
       } | null >,
+      totalViews: number | null,
       totalScore: number | null,
       updatedAt: string,
-      totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
         nextToken: string | null,
       } | null,
     } | null,
@@ -877,11 +1072,15 @@ export type DeleteTaggedPostMutation = {
         resMode: string,
         thumb: string | null,
       } | null >,
+      totalViews: number | null,
       totalScore: number | null,
       updatedAt: string,
-      totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
         nextToken: string | null,
       } | null,
     } | null,
@@ -968,6 +1167,226 @@ export type DeleteTagMutation = {
   } | null,
 };
 
+export type CreateCuratedPostMutationVariables = {
+  input: CreateCuratedPostInput,
+  condition?: ModelCuratedPostConditionInput | null,
+};
+
+export type CreateCuratedPostMutation = {
+  createCuratedPost:  {
+    __typename: "CuratedPost",
+    id: string,
+    postID: string,
+    curationID: string,
+    createdAt: string,
+    updatedAt: string,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      description: string | null,
+      createdAt: string | null,
+      userID: string,
+      thumb: string,
+      resolutions:  Array< {
+        __typename: "Image",
+        resMode: string,
+        thumb: string | null,
+      } | null >,
+      totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
+      tags:  {
+        __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+    curation:  {
+      __typename: "Curation",
+      id: string,
+      owner: string | null,
+      name: string | null,
+      description: string | null,
+      updatedAt: string | null,
+      createdAt: string,
+      posts:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type UpdateCuratedPostMutationVariables = {
+  input: UpdateCuratedPostInput,
+  condition?: ModelCuratedPostConditionInput | null,
+};
+
+export type UpdateCuratedPostMutation = {
+  updateCuratedPost:  {
+    __typename: "CuratedPost",
+    id: string,
+    postID: string,
+    curationID: string,
+    createdAt: string,
+    updatedAt: string,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      description: string | null,
+      createdAt: string | null,
+      userID: string,
+      thumb: string,
+      resolutions:  Array< {
+        __typename: "Image",
+        resMode: string,
+        thumb: string | null,
+      } | null >,
+      totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
+      tags:  {
+        __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+    curation:  {
+      __typename: "Curation",
+      id: string,
+      owner: string | null,
+      name: string | null,
+      description: string | null,
+      updatedAt: string | null,
+      createdAt: string,
+      posts:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type DeleteCuratedPostMutationVariables = {
+  input: DeleteCuratedPostInput,
+  condition?: ModelCuratedPostConditionInput | null,
+};
+
+export type DeleteCuratedPostMutation = {
+  deleteCuratedPost:  {
+    __typename: "CuratedPost",
+    id: string,
+    postID: string,
+    curationID: string,
+    createdAt: string,
+    updatedAt: string,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      description: string | null,
+      createdAt: string | null,
+      userID: string,
+      thumb: string,
+      resolutions:  Array< {
+        __typename: "Image",
+        resMode: string,
+        thumb: string | null,
+      } | null >,
+      totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
+      tags:  {
+        __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+    curation:  {
+      __typename: "Curation",
+      id: string,
+      owner: string | null,
+      name: string | null,
+      description: string | null,
+      updatedAt: string | null,
+      createdAt: string,
+      posts:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type CreateCurationMutationVariables = {
+  input: CreateCurationInput,
+  condition?: ModelCurationConditionInput | null,
+};
+
+export type CreateCurationMutation = {
+  createCuration:  {
+    __typename: "Curation",
+    id: string,
+    owner: string | null,
+    name: string | null,
+    description: string | null,
+    updatedAt: string | null,
+    createdAt: string,
+    posts:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type DeleteCurationMutationVariables = {
+  input: DeleteCurationInput,
+  condition?: ModelCurationConditionInput | null,
+};
+
+export type DeleteCurationMutation = {
+  deleteCuration:  {
+    __typename: "Curation",
+    id: string,
+    owner: string | null,
+    name: string | null,
+    description: string | null,
+    updatedAt: string | null,
+    createdAt: string,
+    posts:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
 export type CreateUserMutationVariables = {
   input: CreateUserInput,
   condition?: ModelUserConditionInput | null,
@@ -1035,9 +1454,9 @@ export type UpdatePostMutation = {
       } | null,
       thumb: string | null,
     } | null >,
+    totalViews: number | null,
     totalScore: number | null,
     updatedAt: string,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -1045,6 +1464,18 @@ export type UpdatePostMutation = {
         id: string,
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    curations:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1077,6 +1508,35 @@ export type UpdateTagMutation = {
         id: string,
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type UpdateCurationMutationVariables = {
+  input: UpdateCurationInput,
+  condition?: ModelCurationConditionInput | null,
+};
+
+export type UpdateCurationMutation = {
+  updateCuration:  {
+    __typename: "Curation",
+    id: string,
+    owner: string | null,
+    name: string | null,
+    description: string | null,
+    updatedAt: string | null,
+    createdAt: string,
+    posts:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1224,16 +1684,15 @@ export type VoteByPostByOwnerQuery = {
   } | null,
 };
 
-export type SearchPostsQueryVariables = {
-  filter?: SearchablePostFilterInput | null,
-  sort?: SearchablePostSortInput | null,
+export type ListPostsQueryVariables = {
+  filter?: ModelPostFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type SearchPostsQuery = {
-  searchPosts:  {
-    __typename: "SearchablePostConnection",
+export type ListPostsQuery = {
+  listPosts:  {
+    __typename: "ModelPostConnection",
     items:  Array< {
       __typename: "Post",
       id: string,
@@ -1247,16 +1706,19 @@ export type SearchPostsQuery = {
         resMode: string,
         thumb: string | null,
       } | null >,
+      totalViews: number | null,
       totalScore: number | null,
       updatedAt: string,
-      totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
     } | null > | null,
     nextToken: string | null,
-    total: number | null,
   } | null,
 };
 
@@ -1284,9 +1746,9 @@ export type GetPostQuery = {
       } | null,
       thumb: string | null,
     } | null >,
+    totalViews: number | null,
     totalScore: number | null,
     updatedAt: string,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -1299,18 +1761,31 @@ export type GetPostQuery = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+    curations:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
 };
 
-export type ListPostsQueryVariables = {
-  filter?: ModelPostFilterInput | null,
+export type SearchPostsQueryVariables = {
+  filter?: SearchablePostFilterInput | null,
+  sort?: SearchablePostSortInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListPostsQuery = {
-  listPosts:  {
-    __typename: "ModelPostConnection",
+export type SearchPostsQuery = {
+  searchPosts:  {
+    __typename: "SearchablePostConnection",
     items:  Array< {
       __typename: "Post",
       id: string,
@@ -1324,15 +1799,20 @@ export type ListPostsQuery = {
         resMode: string,
         thumb: string | null,
       } | null >,
+      totalViews: number | null,
       totalScore: number | null,
       updatedAt: string,
-      totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
         nextToken: string | null,
       } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
     } | null > | null,
     nextToken: string | null,
+    total: number | null,
   } | null,
 };
 
@@ -1361,11 +1841,15 @@ export type GetTaggedPostQuery = {
         resMode: string,
         thumb: string | null,
       } | null >,
+      totalViews: number | null,
       totalScore: number | null,
       updatedAt: string,
-      totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
         nextToken: string | null,
       } | null,
     } | null,
@@ -1412,9 +1896,9 @@ export type ListTaggedPostsQuery = {
         createdAt: string | null,
         userID: string,
         thumb: string,
+        totalViews: number | null,
         totalScore: number | null,
         updatedAt: string,
-        totalViews: number | null,
       } | null,
       tag:  {
         __typename: "Tag",
@@ -1492,6 +1976,214 @@ export type GetTagQuery = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type SearchTagsQueryVariables = {
+  filter?: SearchableTagFilterInput | null,
+  sort?: SearchableTagSortInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type SearchTagsQuery = {
+  searchTags:  {
+    __typename: "SearchableTagConnection",
+    items:  Array< {
+      __typename: "Tag",
+      name: string,
+      description: string | null,
+      dailyViews: number | null,
+      weeklyViews: number | null,
+      monthlyViews: number | null,
+      yearlyViews: number | null,
+      totalViews: number | null,
+      createdAt: string,
+      updatedAt: string,
+      posts:  {
+        __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null > | null,
+    nextToken: string | null,
+    total: number | null,
+  } | null,
+};
+
+export type GetCuratedPostQueryVariables = {
+  id: string,
+};
+
+export type GetCuratedPostQuery = {
+  getCuratedPost:  {
+    __typename: "CuratedPost",
+    id: string,
+    postID: string,
+    curationID: string,
+    createdAt: string,
+    updatedAt: string,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      description: string | null,
+      createdAt: string | null,
+      userID: string,
+      thumb: string,
+      resolutions:  Array< {
+        __typename: "Image",
+        resMode: string,
+        thumb: string | null,
+      } | null >,
+      totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
+      tags:  {
+        __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+    curation:  {
+      __typename: "Curation",
+      id: string,
+      owner: string | null,
+      name: string | null,
+      description: string | null,
+      updatedAt: string | null,
+      createdAt: string,
+      posts:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type ListCuratedPostsQueryVariables = {
+  filter?: ModelCuratedPostFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListCuratedPostsQuery = {
+  listCuratedPosts:  {
+    __typename: "ModelCuratedPostConnection",
+    items:  Array< {
+      __typename: "CuratedPost",
+      id: string,
+      postID: string,
+      curationID: string,
+      createdAt: string,
+      updatedAt: string,
+      post:  {
+        __typename: "Post",
+        id: string,
+        title: string,
+        description: string | null,
+        createdAt: string | null,
+        userID: string,
+        thumb: string,
+        totalViews: number | null,
+        totalScore: number | null,
+        updatedAt: string,
+      } | null,
+      curation:  {
+        __typename: "Curation",
+        id: string,
+        owner: string | null,
+        name: string | null,
+        description: string | null,
+        updatedAt: string | null,
+        createdAt: string,
+      } | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type ListCurationsQueryVariables = {
+  filter?: ModelCurationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListCurationsQuery = {
+  listCurations:  {
+    __typename: "ModelCurationConnection",
+    items:  Array< {
+      __typename: "Curation",
+      id: string,
+      owner: string | null,
+      name: string | null,
+      description: string | null,
+      updatedAt: string | null,
+      createdAt: string,
+      posts:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type GetCurationQueryVariables = {
+  id: string,
+};
+
+export type GetCurationQuery = {
+  getCuration:  {
+    __typename: "Curation",
+    id: string,
+    owner: string | null,
+    name: string | null,
+    description: string | null,
+    updatedAt: string | null,
+    createdAt: string,
+    posts:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type SearchCurationsQueryVariables = {
+  filter?: SearchableCurationFilterInput | null,
+  sort?: SearchableCurationSortInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type SearchCurationsQuery = {
+  searchCurations:  {
+    __typename: "SearchableCurationConnection",
+    items:  Array< {
+      __typename: "Curation",
+      id: string,
+      owner: string | null,
+      name: string | null,
+      description: string | null,
+      updatedAt: string | null,
+      createdAt: string,
+      posts:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null > | null,
+    nextToken: string | null,
+    total: number | null,
   } | null,
 };
 
@@ -1603,6 +2295,10 @@ export type OnDeleteVoteSubscription = {
   } | null,
 };
 
+export type OnCreatePostSubscriptionVariables = {
+  userID: string,
+};
+
 export type OnCreatePostSubscription = {
   onCreatePost:  {
     __typename: "Post",
@@ -1623,9 +2319,9 @@ export type OnCreatePostSubscription = {
       } | null,
       thumb: string | null,
     } | null >,
+    totalViews: number | null,
     totalScore: number | null,
     updatedAt: string,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -1638,7 +2334,23 @@ export type OnCreatePostSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+    curations:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
+};
+
+export type OnUpdatePostSubscriptionVariables = {
+  userID: string,
 };
 
 export type OnUpdatePostSubscription = {
@@ -1661,9 +2373,9 @@ export type OnUpdatePostSubscription = {
       } | null,
       thumb: string | null,
     } | null >,
+    totalViews: number | null,
     totalScore: number | null,
     updatedAt: string,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -1676,7 +2388,23 @@ export type OnUpdatePostSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+    curations:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
   } | null,
+};
+
+export type OnDeletePostSubscriptionVariables = {
+  userID: string,
 };
 
 export type OnDeletePostSubscription = {
@@ -1699,9 +2427,9 @@ export type OnDeletePostSubscription = {
       } | null,
       thumb: string | null,
     } | null >,
+    totalViews: number | null,
     totalScore: number | null,
     updatedAt: string,
-    totalViews: number | null,
     tags:  {
       __typename: "ModelTaggedPostConnection",
       items:  Array< {
@@ -1709,6 +2437,18 @@ export type OnDeletePostSubscription = {
         id: string,
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    curations:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,
@@ -1738,11 +2478,15 @@ export type OnCreateTaggedPostSubscription = {
         resMode: string,
         thumb: string | null,
       } | null >,
+      totalViews: number | null,
       totalScore: number | null,
       updatedAt: string,
-      totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
         nextToken: string | null,
       } | null,
     } | null,
@@ -1786,11 +2530,15 @@ export type OnUpdateTaggedPostSubscription = {
         resMode: string,
         thumb: string | null,
       } | null >,
+      totalViews: number | null,
       totalScore: number | null,
       updatedAt: string,
-      totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
         nextToken: string | null,
       } | null,
     } | null,
@@ -1834,11 +2582,15 @@ export type OnDeleteTaggedPostSubscription = {
         resMode: string,
         thumb: string | null,
       } | null >,
+      totalViews: number | null,
       totalScore: number | null,
       updatedAt: string,
-      totalViews: number | null,
       tags:  {
         __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
         nextToken: string | null,
       } | null,
     } | null,
@@ -1934,6 +2686,237 @@ export type OnDeleteTagSubscription = {
         id: string,
         postID: string,
         tagName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnCreateCuratedPostSubscription = {
+  onCreateCuratedPost:  {
+    __typename: "CuratedPost",
+    id: string,
+    postID: string,
+    curationID: string,
+    createdAt: string,
+    updatedAt: string,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      description: string | null,
+      createdAt: string | null,
+      userID: string,
+      thumb: string,
+      resolutions:  Array< {
+        __typename: "Image",
+        resMode: string,
+        thumb: string | null,
+      } | null >,
+      totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
+      tags:  {
+        __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+    curation:  {
+      __typename: "Curation",
+      id: string,
+      owner: string | null,
+      name: string | null,
+      description: string | null,
+      updatedAt: string | null,
+      createdAt: string,
+      posts:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateCuratedPostSubscription = {
+  onUpdateCuratedPost:  {
+    __typename: "CuratedPost",
+    id: string,
+    postID: string,
+    curationID: string,
+    createdAt: string,
+    updatedAt: string,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      description: string | null,
+      createdAt: string | null,
+      userID: string,
+      thumb: string,
+      resolutions:  Array< {
+        __typename: "Image",
+        resMode: string,
+        thumb: string | null,
+      } | null >,
+      totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
+      tags:  {
+        __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+    curation:  {
+      __typename: "Curation",
+      id: string,
+      owner: string | null,
+      name: string | null,
+      description: string | null,
+      updatedAt: string | null,
+      createdAt: string,
+      posts:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteCuratedPostSubscription = {
+  onDeleteCuratedPost:  {
+    __typename: "CuratedPost",
+    id: string,
+    postID: string,
+    curationID: string,
+    createdAt: string,
+    updatedAt: string,
+    post:  {
+      __typename: "Post",
+      id: string,
+      title: string,
+      description: string | null,
+      createdAt: string | null,
+      userID: string,
+      thumb: string,
+      resolutions:  Array< {
+        __typename: "Image",
+        resMode: string,
+        thumb: string | null,
+      } | null >,
+      totalViews: number | null,
+      totalScore: number | null,
+      updatedAt: string,
+      tags:  {
+        __typename: "ModelTaggedPostConnection",
+        nextToken: string | null,
+      } | null,
+      curations:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+    curation:  {
+      __typename: "Curation",
+      id: string,
+      owner: string | null,
+      name: string | null,
+      description: string | null,
+      updatedAt: string | null,
+      createdAt: string,
+      posts:  {
+        __typename: "ModelCuratedPostConnection",
+        nextToken: string | null,
+      } | null,
+    } | null,
+  } | null,
+};
+
+export type OnCreateCurationSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnCreateCurationSubscription = {
+  onCreateCuration:  {
+    __typename: "Curation",
+    id: string,
+    owner: string | null,
+    name: string | null,
+    description: string | null,
+    updatedAt: string | null,
+    createdAt: string,
+    posts:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnUpdateCurationSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnUpdateCurationSubscription = {
+  onUpdateCuration:  {
+    __typename: "Curation",
+    id: string,
+    owner: string | null,
+    name: string | null,
+    description: string | null,
+    updatedAt: string | null,
+    createdAt: string,
+    posts:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnDeleteCurationSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnDeleteCurationSubscription = {
+  onDeleteCuration:  {
+    __typename: "Curation",
+    id: string,
+    owner: string | null,
+    name: string | null,
+    description: string | null,
+    updatedAt: string | null,
+    createdAt: string,
+    posts:  {
+      __typename: "ModelCuratedPostConnection",
+      items:  Array< {
+        __typename: "CuratedPost",
+        id: string,
+        postID: string,
+        curationID: string,
         createdAt: string,
         updatedAt: string,
       } | null > | null,

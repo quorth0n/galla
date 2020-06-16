@@ -1,6 +1,7 @@
 import React from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 
+import SignInOpenContext from '../context/SignInOpenContext';
 import useCognitoUser from '../helpers/hooks/useCognitoUser';
 import { voteByPostByOwner } from '../src/graphql/queries';
 import {
@@ -10,10 +11,13 @@ import {
   updateVote,
   deleteVote,
 } from '../src/graphql/mutations';
+import SignInPopup from './SignInPopup';
 
 const Vote = ({ id, initialScore }) => {
   const [selectedVote, setSelectedVote] = React.useState({});
   const [score, setScore] = React.useState(initialScore);
+  const [showSignInPopup, setShowSignInPopup] = React.useState(false);
+  const voteRef = React.useRef();
   const user = useCognitoUser();
 
   React.useEffect(() => {
@@ -95,9 +99,12 @@ const Vote = ({ id, initialScore }) => {
         setSelectedVote({ id: newVote.id, upvote });
       }
     } else {
-      alert('not signed in!');
+      setShowSignInPopup(true);
     }
   };
+
+  const toggleOpen = () => setShowSignInPopup(!showSignInPopup);
+
   return (
     <div className="text-center justify-center mr-4 md:mr-6">
       <a
@@ -110,6 +117,7 @@ const Vote = ({ id, initialScore }) => {
         className={`block cursor-default ${
           'upvote' in selectedVote && 'text-accent'
         }`}
+        ref={voteRef}
       >
         {score}
       </strong>
@@ -119,6 +127,9 @@ const Vote = ({ id, initialScore }) => {
         }`}
         onClick={vote}
       />
+      <SignInOpenContext.Provider value={{ open: showSignInPopup, toggleOpen }}>
+        <SignInPopup />
+      </SignInOpenContext.Provider>
     </div>
   );
 };

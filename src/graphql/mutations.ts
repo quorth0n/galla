@@ -20,14 +20,24 @@ export const viewPost = /* GraphQL */ `
         }
         thumb
       }
+      totalViews
       totalScore
       updatedAt
-      totalViews
       tags {
         items {
           id
           postID
           tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      curations {
+        items {
+          id
+          postID
+          curationID
           createdAt
           updatedAt
         }
@@ -79,14 +89,24 @@ export const upvotePost = /* GraphQL */ `
         }
         thumb
       }
+      totalViews
       totalScore
       updatedAt
-      totalViews
       tags {
         items {
           id
           postID
           tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      curations {
+        items {
+          id
+          postID
+          curationID
           createdAt
           updatedAt
         }
@@ -113,14 +133,24 @@ export const downvotePost = /* GraphQL */ `
         }
         thumb
       }
+      totalViews
       totalScore
       updatedAt
-      totalViews
       tags {
         items {
           id
           postID
           tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      curations {
+        items {
+          id
+          postID
+          curationID
           createdAt
           updatedAt
         }
@@ -214,14 +244,24 @@ export const createPost = /* GraphQL */ `
         }
         thumb
       }
+      totalViews
       totalScore
       updatedAt
-      totalViews
       tags {
         items {
           id
           postID
           tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      curations {
+        items {
+          id
+          postID
+          curationID
           createdAt
           updatedAt
         }
@@ -251,14 +291,24 @@ export const deletePost = /* GraphQL */ `
         }
         thumb
       }
+      totalViews
       totalScore
       updatedAt
-      totalViews
       tags {
         items {
           id
           postID
           tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      curations {
+        items {
+          id
+          postID
+          curationID
           createdAt
           updatedAt
         }
@@ -289,10 +339,13 @@ export const createTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
+        totalViews
         totalScore
         updatedAt
-        totalViews
         tags {
+          nextToken
+        }
+        curations {
           nextToken
         }
       }
@@ -335,10 +388,13 @@ export const updateTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
+        totalViews
         totalScore
         updatedAt
-        totalViews
         tags {
+          nextToken
+        }
+        curations {
           nextToken
         }
       }
@@ -381,10 +437,13 @@ export const deleteTaggedPost = /* GraphQL */ `
           resMode
           thumb
         }
+        totalViews
         totalScore
         updatedAt
-        totalViews
         tags {
+          nextToken
+        }
+        curations {
           nextToken
         }
       }
@@ -461,6 +520,194 @@ export const deleteTag = /* GraphQL */ `
     }
   }
 `;
+export const createCuratedPost = /* GraphQL */ `
+  mutation CreateCuratedPost(
+    $input: CreateCuratedPostInput!
+    $condition: ModelCuratedPostConditionInput
+  ) {
+    createCuratedPost(input: $input, condition: $condition) {
+      id
+      postID
+      curationID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        totalViews
+        totalScore
+        updatedAt
+        tags {
+          nextToken
+        }
+        curations {
+          nextToken
+        }
+      }
+      curation {
+        id
+        owner
+        name
+        description
+        updatedAt
+        createdAt
+        posts {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const updateCuratedPost = /* GraphQL */ `
+  mutation UpdateCuratedPost(
+    $input: UpdateCuratedPostInput!
+    $condition: ModelCuratedPostConditionInput
+  ) {
+    updateCuratedPost(input: $input, condition: $condition) {
+      id
+      postID
+      curationID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        totalViews
+        totalScore
+        updatedAt
+        tags {
+          nextToken
+        }
+        curations {
+          nextToken
+        }
+      }
+      curation {
+        id
+        owner
+        name
+        description
+        updatedAt
+        createdAt
+        posts {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const deleteCuratedPost = /* GraphQL */ `
+  mutation DeleteCuratedPost(
+    $input: DeleteCuratedPostInput!
+    $condition: ModelCuratedPostConditionInput
+  ) {
+    deleteCuratedPost(input: $input, condition: $condition) {
+      id
+      postID
+      curationID
+      createdAt
+      updatedAt
+      post {
+        id
+        title
+        description
+        createdAt
+        userID
+        thumb
+        resolutions {
+          resMode
+          thumb
+        }
+        totalViews
+        totalScore
+        updatedAt
+        tags {
+          nextToken
+        }
+        curations {
+          nextToken
+        }
+      }
+      curation {
+        id
+        owner
+        name
+        description
+        updatedAt
+        createdAt
+        posts {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const createCuration = /* GraphQL */ `
+  mutation CreateCuration(
+    $input: CreateCurationInput!
+    $condition: ModelCurationConditionInput
+  ) {
+    createCuration(input: $input, condition: $condition) {
+      id
+      owner
+      name
+      description
+      updatedAt
+      createdAt
+      posts {
+        items {
+          id
+          postID
+          curationID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const deleteCuration = /* GraphQL */ `
+  mutation DeleteCuration(
+    $input: DeleteCurationInput!
+    $condition: ModelCurationConditionInput
+  ) {
+    deleteCuration(input: $input, condition: $condition) {
+      id
+      owner
+      name
+      description
+      updatedAt
+      createdAt
+      posts {
+        items {
+          id
+          postID
+          curationID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
 export const createUser = /* GraphQL */ `
   mutation CreateUser(
     $input: CreateUserInput!
@@ -520,14 +767,24 @@ export const updatePost = /* GraphQL */ `
         }
         thumb
       }
+      totalViews
       totalScore
       updatedAt
-      totalViews
       tags {
         items {
           id
           postID
           tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      curations {
+        items {
+          id
+          postID
+          curationID
           createdAt
           updatedAt
         }
@@ -556,6 +813,31 @@ export const updateTag = /* GraphQL */ `
           id
           postID
           tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const updateCuration = /* GraphQL */ `
+  mutation UpdateCuration(
+    $input: UpdateCurationInput!
+    $condition: ModelCurationConditionInput
+  ) {
+    updateCuration(input: $input, condition: $condition) {
+      id
+      owner
+      name
+      description
+      updatedAt
+      createdAt
+      posts {
+        items {
+          id
+          postID
+          curationID
           createdAt
           updatedAt
         }
