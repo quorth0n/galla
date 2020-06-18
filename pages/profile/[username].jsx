@@ -14,12 +14,17 @@ import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 import publicUpload from '../../helpers/functions/publicUpload';
 import { getUser, searchPosts } from '../../src/graphql/queries';
 import { updateUser } from '../../src/graphql/mutations';
+import CurationThumb from '../../components/CurationThumb';
 
 const Profile = ({ user }) => {
   const [posts, setPosts] = React.useState([{}]);
   const [postCount, setPostCount] = React.useState(0);
+  const [curations, setCurations] = React.useState([]);
+  const [curationCount, setCurationCount] = React.useState(0);
+
   const [editing, setEditing] = React.useState(false);
   const [saving, setSaving] = React.useState(false);
+
   const router = useRouter();
   const methods = useForm();
   const { register, handleSubmit, errors, setError } = methods;
@@ -60,27 +65,74 @@ const Profile = ({ user }) => {
 
   // CSR posts
   React.useEffect(() => {
-    if (user) {
-      const fetchPosts = async () => {
-        const fetchPosts = await API.graphql({
-          ...graphqlOperation(searchPosts, {
+    const fetchCurations = async () => {
+      const fetchedCurations = await API.graphql(
+        graphqlOperation(
+          /* GraphQL */ `
+            query SearchCurations(
+              $filter: SearchableCurationFilterInput
+              $sort: SearchableCurationSortInput
+              $postLimit: Int
+              $nextToken: String
+            ) {
+              searchCurations(
+                filter: $filter
+                sort: $sort
+                nextToken: $nextToken
+              ) {
+                items {
+                  id
+                  title
+                  description
+                  posts(limit: $postLimit) {
+                    items {
+                      post {
+                        thumb
+                      }
+                    }
+                  }
+                  createdAt
+                }
+                nextToken
+              }
+            }
+          `,
+          {
             filter: {
-              userID: {
+              owner: {
                 eq: user.username,
               },
             },
-            /* sort: {
+            postLimit: 4,
+          }
+        )
+      );
+      console.log(fetchedCurations.data.searchCurations.items);
+      setCurations(fetchedCurations.data.searchCurations.items);
+      setCurationCount(fetchedCurations.data.searchCurations.total);
+    };
+    const fetchPosts = async () => {
+      const fetchPosts = await API.graphql({
+        ...graphqlOperation(searchPosts, {
+          filter: {
+            userID: {
+              eq: user.username,
+            },
+          },
+          /* sort: {
               field: 'createdAt',
               direction: 'desc',
             }, */
-            limit: 5,
-          }),
-          authMode: 'API_KEY',
-        });
-        setPostCount(fetchPosts.data.searchPosts.total);
-        setPosts(fetchPosts.data.searchPosts.items);
-      };
+          limit: 5,
+        }),
+        authMode: 'API_KEY',
+      });
+      setPostCount(fetchPosts.data.searchPosts.total);
+      setPosts(fetchPosts.data.searchPosts.items);
+    };
+    if (user) {
       fetchPosts();
+      fetchCurations();
     }
   }, [user]);
   // display errors on submit
@@ -163,6 +215,14 @@ const Profile = ({ user }) => {
                           Posts
                         </span>
                       </div>
+                      <div className="lg:mr-4 p-3 text-center">
+                        <span className="text-xl font-bold block uppercase tracking-wide text-primary">
+                          {curationCount}
+                        </span>
+                        <span className="text-sm text-primary opacity-75">
+                          Posts
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -213,19 +273,45 @@ const Profile = ({ user }) => {
                   id="posts"
                   className="py-10 border-t border-primary text-center bg-secondary-soft"
                 >
-                  <h4 className="text-2xl font-semibold leading-normal mb-8 text-primary">
-                    Top Posts
+                  <h4 className="text-2xl font-semibold leading-normal mb-6 text-primary">
+                    Posts
                   </h4>
-                  <div className="inline-flex flex-row w-full pb-4 px-4 lg:px-8 items-center overflow-x-auto">
+                  <div className="px-4 lg:px-8 post-grid">
                     {posts.map((post) => (
                       <PostThumb key={post.id} post={post} />
                     ))}
                   </div>
+                  <div className="text-center bg-secondary-soft items-center">
+                    <a
+                      href="#posts"
+                      className="font-semibold text-accent"
+                      onClick={(e) => e.target.classList.add('hidden')}
+                    >
+                      View all
+                    </a>
+                  </div>
                 </div>
-                <div className="text-center bg-secondary-soft pb-10">
-                  <a href="#posts" className="font-semibold text-accent">
-                    View all
-                  </a>
+                <div
+                  id="curations"
+                  className="py-10 border-t border-primary text-center bg-secondary-soft"
+                >
+                  <h4 className="text-2xl font-semibold leading-normal mb-6 text-primary">
+                    Curations
+                  </h4>
+                  <div className="px-4 lg:px-8 flex flex-row">
+                    {curations.map((curation) => (
+                      <CurationThumb key={curation.id} curation={curation} />
+                    ))}
+                  </div>
+                  <div className="text-center bg-secondary-soft items-center">
+                    <a
+                      href="#posts"
+                      className="font-semibold text-accent"
+                      onClick={(e) => e.target.classList.add('hidden')}
+                    >
+                      View all
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

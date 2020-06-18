@@ -17,14 +17,7 @@ const PostThumb = ({ post }) => (
           {post.description}
         </p>
       </div>
-      <img
-        style={{
-          maxWidth: '20em',
-          maxHeight: '20em',
-        }}
-        src={`/thumbs/${post.thumb}`}
-        alt={post.title}
-      />
+      <img src={`/thumbs/${post.thumb}`} alt={post.title} className="m-auto" />
     </div>
   </Link>
 );

@@ -8,6 +8,7 @@
 }
 
 /* Buttons, links */
+
 a,
 button {
   cursor: pointer;
@@ -40,6 +41,7 @@ button:disabled {
 }
 
 /* Textboxes */
+
 input[type='text'],
 textarea {
   @apply px-3 py-2 text-gray-700 relative bg-primary rounded text-base border border-gray-400 outline-none;
@@ -50,10 +52,50 @@ textarea {
 }
 
 /* File picker */
+
 .file-hidden {
   @apply w-px h-px opacity-0 overflow-hidden absolute;
   z-index: -1;
 }
+
+/* Post Grid */
+
+.post-grid {
+  /* Prevent vertical gaps */
+  @apply leading-none select-none grid-flow-row;
+
+  column-count: 5;
+  column-gap: 1rem;
+}
+
+.post-grid > div {
+  /* Just in case there are inline attributes */
+  width: 100% !important;
+  height: auto !important;
+}
+
+@media (max-width: 1200px) {
+  .post-grid {
+    column-count: 4;
+  }
+}
+@media (max-width: 1000px) {
+  .post-grid {
+    column-count: 3;
+  }
+}
+@media (max-width: 800px) {
+  .post-grid {
+    column-count: 2;
+  }
+}
+@media (max-width: 400px) {
+  .post-grid {
+    column-count: 1;
+  }
+}
+
+/* Global */
 
 html {
   min-height: 100%;

@@ -463,7 +463,7 @@ export const onCreateCuratedPost = /* GraphQL */ `
       curation {
         id
         owner
-        name
+        title
         description
         updatedAt
         createdAt
@@ -506,7 +506,7 @@ export const onUpdateCuratedPost = /* GraphQL */ `
       curation {
         id
         owner
-        name
+        title
         description
         updatedAt
         createdAt
@@ -549,7 +549,7 @@ export const onDeleteCuratedPost = /* GraphQL */ `
       curation {
         id
         owner
-        name
+        title
         description
         updatedAt
         createdAt
@@ -565,7 +565,7 @@ export const onCreateCuration = /* GraphQL */ `
     onCreateCuration(owner: $owner) {
       id
       owner
-      name
+      title
       description
       updatedAt
       createdAt
@@ -587,7 +587,7 @@ export const onUpdateCuration = /* GraphQL */ `
     onUpdateCuration(owner: $owner) {
       id
       owner
-      name
+      title
       description
       updatedAt
       createdAt
@@ -609,7 +609,7 @@ export const onDeleteCuration = /* GraphQL */ `
     onDeleteCuration(owner: $owner) {
       id
       owner
-      name
+      title
       description
       updatedAt
       createdAt

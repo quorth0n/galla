@@ -63,9 +63,14 @@ const Header = () => {
           {user ? (
             <ul className="flex flex-col lg:flex-row list-none lg:ml-auto align-middle">
               <li className="nav-item">
-                <a className="px-4 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                  {user.username}
-                </a>
+                <Link
+                  href="/profile/[username]"
+                  as={`/profile/${user.username}`}
+                >
+                  <a className="px-4 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
+                    {user.username}
+                  </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <AmplifyAuthenticator>

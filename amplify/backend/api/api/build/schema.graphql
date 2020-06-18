@@ -83,7 +83,7 @@ type CuratedPost @aws_api_key @aws_cognito_user_pools {
 type Curation @aws_api_key @aws_iam @aws_cognito_user_pools {
   id: ID!
   owner: ID
-  name: String
+  title: String
   description: String
   updatedAt: AWSDateTime
   createdAt: AWSDateTime!
@@ -576,7 +576,7 @@ type ModelCurationConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
 input ModelCurationFilterInput {
   id: ModelIDInput
   owner: ModelIDInput
-  name: ModelStringInput
+  title: ModelStringInput
   description: ModelStringInput
   updatedAt: ModelStringInput
   and: [ModelCurationFilterInput]
@@ -587,7 +587,7 @@ input ModelCurationFilterInput {
 input CreateCurationInput {
   id: ID
   owner: ID
-  name: String
+  title: String
   description: String
   updatedAt: AWSDateTime
 }
@@ -595,7 +595,7 @@ input CreateCurationInput {
 input UpdateCurationInput {
   id: ID!
   owner: ID
-  name: String
+  title: String
   description: String
   updatedAt: AWSDateTime
 }
@@ -605,7 +605,7 @@ input DeleteCurationInput {
 }
 
 input ModelCurationConditionInput {
-  name: ModelStringInput
+  title: ModelStringInput
   description: ModelStringInput
   updatedAt: ModelStringInput
   and: [ModelCurationConditionInput]
@@ -778,7 +778,7 @@ type SearchableTagConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
 input SearchableCurationFilterInput {
   id: SearchableIDFilterInput
   owner: SearchableIDFilterInput
-  name: SearchableStringFilterInput
+  title: SearchableStringFilterInput
   description: SearchableStringFilterInput
   updatedAt: SearchableStringFilterInput
   and: [SearchableCurationFilterInput]
@@ -789,7 +789,7 @@ input SearchableCurationFilterInput {
 enum SearchableCurationSortableFields {
   id
   owner
-  name
+  title
   description
   updatedAt
 }

@@ -70,6 +70,7 @@ type Post
   curations: [CuratedPost] @connection(keyName: "byPost", fields: ["id"])
   thumb: String!
   resolutions: [Image]!
+
   totalViews: Int
   totalScore: Int
 }
@@ -105,6 +106,7 @@ type Tag
   name: ID!
   description: String
   posts: [TaggedPost] @connection(keyName: "byTag", fields: ["name"])
+
   dailyViews: Int
   weeklyViews: Int
   monthlyViews: Int
@@ -123,6 +125,7 @@ type CuratedPost
   @key(name: "byPost", fields: ["postID", "curationID"])
   @key(name: "byCuration", fields: ["curationID", "postID"]) {
   id: ID!
+  order: Int
   postID: ID!
   curationID: ID!
   post: Post @connection(fields: ["postID"])
@@ -141,10 +144,12 @@ type Curation
   @searchable {
   id: ID!
   owner: ID
-  name: String
+  title: String
   description: String
   updatedAt: AWSDateTime
   posts: [CuratedPost] @connection(keyName: "byCuration", fields: ["id"])
+
+  totalViews: Int
 }
 
 # Custom resolvers

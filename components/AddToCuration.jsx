@@ -4,7 +4,6 @@ import { nanoid } from 'nanoid';
 
 import useCognitoUser from '../helpers/hooks/useCognitoUser';
 import usePopper from '../helpers/hooks/usePopper';
-import { searchCurations, getCuration } from '../src/graphql/queries';
 import {
   createCuration,
   createCuratedPost,
@@ -45,7 +44,7 @@ const AddToCuration = ({ postID }) => {
                 items {
                   id
                   owner
-                  name
+                  title
                   description
                   updatedAt
                   posts {
@@ -76,7 +75,9 @@ const AddToCuration = ({ postID }) => {
 
   const handleCurationClick = async (id) => {
     const curation = curations.find((curation) => curation.id === id);
-    const curatedPost = curation.posts.items.find((post) => post.postID);
+    const curatedPost = curation.posts.items.find(
+      (post) => post.postID === postID
+    );
     if (curatedPost) {
       setStatus({ icon: '', text: 'Removing...' });
       await API.graphql(
@@ -118,11 +119,11 @@ const AddToCuration = ({ postID }) => {
       graphqlOperation(createCuration, {
         input: {
           id: nanoid(),
-          name: 'Untitled curation',
+          title: 'Untitled curation',
         },
       })
     );
-    await API.graphql(
+    const addedCuratedPost = await API.graphql(
       graphqlOperation(createCuratedPost, {
         input: {
           curationID: curation.data.createCuration.id,
@@ -130,7 +131,16 @@ const AddToCuration = ({ postID }) => {
         },
       })
     );
-    setStatus({ icon: 'check', text: 'Added!' });
+    const newCurations = Array.from(curations);
+    newCurations.push(curation.data.createCuration);
+    newCurations[newCurations.length - 1].posts.items.push(
+      addedCuratedPost.data.createCuratedPost
+    );
+    setCurations(newCurations);
+    setStatus({ icon: 'check', text: 'Done!' });
+    setTimeout(() => {
+      setStatus({ icon: 'plus', text: 'Add to curation' });
+    }, 5000);
   };
 
   return (
@@ -155,7 +165,7 @@ const AddToCuration = ({ postID }) => {
           <button
             key={curation.id}
             className={`text-sm py-2 px-4 font-normal block w-full whitespace-no-wrap bg-transparent text-secondary ${
-              curation.posts.items.some((post) => post.postID) &&
+              curation.posts.items.some((post) => post.postID === postID) &&
               'font-semibold'
             }`}
             onClick={() => {
@@ -163,10 +173,10 @@ const AddToCuration = ({ postID }) => {
               handleCurationClick(curation.id);
             }}
           >
-            {curation.posts.items.some((post) => post.postID) && (
+            {curation.posts.items.some((post) => post.postID === postID) && (
               <i className="fas fa-check mr-2" />
             )}
-            {curation.name}
+            {curation.title}
           </button>
         ))}
         <button

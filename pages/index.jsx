@@ -82,7 +82,7 @@ const Index = ({ initialPosts }) => {
         ]}
         handleChange={postFilterChange}
       />
-      <div className="mt-4 flex flex-wrap items-center justify-around leading-relaxed select-none">
+      <div className="mt-4 post-grid">
         {posts.length === 0 ? (
           <h2 className="text-lg">No posts found for selected timeframe!</h2>
         ) : (

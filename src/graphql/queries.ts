@@ -462,7 +462,7 @@ export const getCuratedPost = /* GraphQL */ `
       curation {
         id
         owner
-        name
+        title
         description
         updatedAt
         createdAt
@@ -500,7 +500,7 @@ export const listCuratedPosts = /* GraphQL */ `
         curation {
           id
           owner
-          name
+          title
           description
           updatedAt
           createdAt
@@ -520,7 +520,7 @@ export const listCurations = /* GraphQL */ `
       items {
         id
         owner
-        name
+        title
         description
         updatedAt
         createdAt
@@ -537,7 +537,7 @@ export const getCuration = /* GraphQL */ `
     getCuration(id: $id) {
       id
       owner
-      name
+      title
       description
       updatedAt
       createdAt
@@ -570,7 +570,7 @@ export const searchCurations = /* GraphQL */ `
       items {
         id
         owner
-        name
+        title
         description
         updatedAt
         createdAt

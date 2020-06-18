@@ -186,23 +186,20 @@ const Post = ({ post }) => {
               <a className="opacity-100">{post && post.userID}</a>
             </Link>
           </div>
-          <div
-            className="flex-col select-none opacity-75 text-right"
-            style={{ transition: 'all 0.15s ease' }}
-          >
-            <div className="md:inline background-transparent font-semibold px-3 py-1 text-sm">
+          <div className="flex-col select-none opacity-75 text-right w-48 md:w-auto">
+            <div className="md:inline font-semibold px-3 py-1 text-sm">
               <i className="far fa-heart"></i> 34
             </div>
             <div
-              className="cursor-help md:inline background-transparent font-semibold px-3 py-1 text-sm ml-1"
+              className="cursor-help md:inline font-semibold px-3 py-1 text-sm ml-1"
               title="Coming soon!"
             >
               <i className="far fa-comments"></i> 0
             </div>
-            <div className="md:inline background-transparent font-semibold px-3 py-1 text-sm ml-1">
+            <div className="md:inline font-semibold px-3 py-1 text-sm ml-1">
               <i className="far fa-eye"></i> {post.totalViews}
             </div>
-            <div className="cursor-help background-transparent px-3 py-1 text-lg text-center w-full">
+            <div className="cursor-help px-3 py-1 text-lg text-center w-full hidden md:block">
               <i className="fab fa-creative-commons-pd"></i> Public Domain
             </div>
           </div>
@@ -223,6 +220,9 @@ const Post = ({ post }) => {
             ))
           : '(none)'}
       </nav>
+      <div className="cursor-help  mt-4 opacity-75 md:hidden">
+        <i className="fab fa-creative-commons-pd"></i> Public Domain
+      </div>
     </div>
   );
 };
