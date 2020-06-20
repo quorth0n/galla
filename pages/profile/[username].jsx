@@ -8,7 +8,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import PostThumb from '../../components/PostThumb';
 import Avatar from '../../components/profile/Avatar';
 import Cover from '../../components/profile/Cover';
-import EditableItem from '../../components/profile/EditableItem';
+import EditableProfileItem from '../../components/profile/EditableProfileItem';
 import EditingContext from '../../context/profile/EditingContext';
 import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 import publicUpload from '../../helpers/functions/publicUpload';
@@ -94,6 +94,7 @@ const Profile = ({ user }) => {
                   createdAt
                 }
                 nextToken
+                total
               }
             }
           `,
@@ -107,7 +108,6 @@ const Profile = ({ user }) => {
           }
         )
       );
-      console.log(fetchedCurations.data.searchCurations.items);
       setCurations(fetchedCurations.data.searchCurations.items);
       setCurationCount(fetchedCurations.data.searchCurations.total);
     };
@@ -220,7 +220,7 @@ const Profile = ({ user }) => {
                           {curationCount}
                         </span>
                         <span className="text-sm text-primary opacity-75">
-                          Posts
+                          Curations
                         </span>
                       </div>
                     </div>
@@ -230,21 +230,21 @@ const Profile = ({ user }) => {
                   <h3 className="text-4xl font-semibold leading-normal mb-2 text-primary mb-2">
                     {user.username}
                   </h3>
-                  <EditableItem
+                  <EditableProfileItem
                     name="realName"
                     value={user.realName}
                     placeholder="Real name"
                     icon="fa-user"
                     ref={register}
                   />
-                  <EditableItem
+                  <EditableProfileItem
                     name="location"
                     value={user.location}
                     placeholder="Location"
                     icon="fa-map-marker-alt"
                     ref={register}
                   />
-                  <EditableItem
+                  <EditableProfileItem
                     name="website"
                     value={user.website}
                     placeholder="Website"
@@ -262,7 +262,7 @@ const Profile = ({ user }) => {
                     `}
                   </style>
                 </div>
-                <EditableItem
+                <EditableProfileItem
                   name="description"
                   value={user.description}
                   placeholder="Description"
@@ -298,7 +298,7 @@ const Profile = ({ user }) => {
                   <h4 className="text-2xl font-semibold leading-normal mb-6 text-primary">
                     Curations
                   </h4>
-                  <div className="px-4 lg:px-8 flex flex-row">
+                  <div className="px-4 lg:px-8 flex flex-row space-x-4">
                     {curations.map((curation) => (
                       <CurationThumb key={curation.id} curation={curation} />
                     ))}

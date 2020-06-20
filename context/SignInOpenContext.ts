@@ -1,3 +1,3 @@
 import { createContext } from 'react';
 
-export default createContext({ open: false, toggleOpen: () => {} });
+export default createContext({ open: false, toggleopen: () => {} });

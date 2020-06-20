@@ -74,17 +74,19 @@ const Index = ({ initialPosts }) => {
       <Head title="For artists, by artists" />
       <Dropdown
         options={[
-          { value: 'Popular: 24 hr', key: '1' },
-          { value: 'Popular: 1 week', key: '7' },
-          { value: 'Popular: 1 month', key: '30' },
-          { value: 'Popular: All Time', key: 'all' },
+          { value: 'Trending: 24 hr', key: '1' },
+          { value: 'Trending: 1 week', key: '7' },
+          { value: 'Trending: 1 month', key: '30' },
+          { value: 'Trending: All Time', key: 'all' },
           { value: 'Newest', key: 'new' },
         ]}
         handleChange={postFilterChange}
       />
-      <div className="mt-4 post-grid">
+      <div className="my-6 post-grid">
         {posts.length === 0 ? (
-          <h2 className="text-lg">No posts found for selected timeframe!</h2>
+          <h2 className="text-lg w-full h-full">
+            No posts found for selected timeframe!
+          </h2>
         ) : (
           posts.map((post) => (
             <div key={post.id} onClick={() => pushCollection(posts)}>
@@ -99,7 +101,7 @@ const Index = ({ initialPosts }) => {
             <h2 className="text-lg lg:text-left">
               Suggested category: <strong>Photography</strong>
             </h2>
-            <div className="mt-6 flex flex-wrap items-center justify-around leading-relaxed select-none">
+            <div className="post-grid my-6">
               {posts.slice(0, 3).map((post) => (
                 <div key={post.id} onClick={() => pushCollection(posts)}>
                   <PostThumb post={post} />
@@ -111,7 +113,7 @@ const Index = ({ initialPosts }) => {
             <h2 className="text-lg lg:text-left">
               Suggested tag: <strong>#modernism</strong>
             </h2>
-            <div className="mt-6 flex flex-wrap items-center justify-around leading-relaxed select-none">
+            <div className="post-grid my-6">
               {posts.slice(0, 3).map((post) => (
                 <div key={post.id} onClick={() => pushCollection(posts)}>
                   <PostThumb post={post} />

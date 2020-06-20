@@ -1,3 +1,4 @@
+# Reference types
 type S3Object {
   bucket: String!
   region: String!
@@ -10,6 +11,7 @@ type Image {
   thumb: String
 }
 
+# Models
 type User
   @model
   @key(fields: ["username"])
@@ -75,23 +77,6 @@ type Post
   totalScore: Int
 }
 
-type TaggedPost
-  @model
-  @auth(
-    rules: [
-      { allow: private, operations: [create, read, delete] }
-      { allow: public, provider: apiKey, operations: [read] }
-    ]
-  )
-  @key(name: "byPost", fields: ["postID", "tagName"])
-  @key(name: "byTag", fields: ["tagName", "postID"]) {
-  id: ID!
-  postID: ID!
-  tagName: ID!
-  post: Post @connection(fields: ["postID"])
-  tag: Tag @connection(fields: ["tagName"])
-}
-
 type Tag
   @model
   @auth(
@@ -114,24 +99,6 @@ type Tag
   totalViews: Int
 }
 
-type CuratedPost
-  @model
-  @auth(
-    rules: [
-      { allow: private }
-      { allow: public, provider: apiKey, operations: [read] }
-    ]
-  )
-  @key(name: "byPost", fields: ["postID", "curationID"])
-  @key(name: "byCuration", fields: ["curationID", "postID"]) {
-  id: ID!
-  order: Int
-  postID: ID!
-  curationID: ID!
-  post: Post @connection(fields: ["postID"])
-  curation: Curation @connection(fields: ["curationID"])
-}
-
 type Curation
   @model
   @auth(
@@ -148,8 +115,62 @@ type Curation
   description: String
   updatedAt: AWSDateTime
   posts: [CuratedPost] @connection(keyName: "byCuration", fields: ["id"])
+  tags: [TaggedCuration] @connection(keyName: "byCuration", fields: ["id"])
 
   totalViews: Int
+}
+
+# Intermediary m2ms
+type TaggedPost
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [create, read, delete] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @key(name: "byPost", fields: ["postID", "tagName"])
+  @key(name: "byTag", fields: ["tagName", "postID"]) {
+  id: ID!
+  postID: ID!
+  tagName: ID!
+  post: Post @connection(fields: ["postID"])
+  tag: Tag @connection(fields: ["tagName"])
+}
+
+type TaggedCuration
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [create, read, delete] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @key(name: "byCuration", fields: ["curationID", "tagName"])
+  @key(name: "byTag", fields: ["tagName", "curationID"]) {
+  id: ID!
+  curationID: ID!
+  tagName: ID!
+  curation: Curation @connection(fields: ["curationID"])
+  tag: Tag @connection(fields: ["tagName"])
+}
+
+type CuratedPost
+  @model
+  @auth(
+    rules: [
+      { allow: private }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @key(name: "byPost", fields: ["postID", "curationID"])
+  @key(name: "byCuration", fields: ["curationID", "postID"]) {
+  id: ID!
+  order: Int
+  postID: ID!
+  curationID: ID!
+  post: Post @connection(fields: ["postID"])
+  curation: Curation @connection(fields: ["curationID"])
 }
 
 # Custom resolvers

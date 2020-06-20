@@ -5,20 +5,17 @@ import { API, graphqlOperation } from 'aws-amplify';
 
 import Head from '../../components/Head';
 import Dropdown from '../../components/Dropdown';
-import Vote from '../../components/Vote';
-import useCognitoUser from '../../helpers/hooks/useCognitoUser';
-import { viewPost, viewTag } from '../../src/graphql/mutations';
 import AddToCuration from '../../components/AddToCuration';
+import Vote from '../../components/post/Vote';
+import useCognitoUser from '../../helpers/hooks/useCognitoUser';
+import { viewPost } from '../../src/graphql/mutations';
+import Tags from '../../components/Tags';
 
 const Post = ({ post }) => {
   const { id } = post;
   const canvasRef = React.useRef();
   const [resolutions, setResolutions] = React.useState([]);
   const user = useCognitoUser();
-
-  const tagNames = post?.tags?.items
-    ? post.tags.items.map((tag) => tag.tagName)
-    : [];
 
   // scale canvas and load image
   React.useEffect(() => {
@@ -44,12 +41,6 @@ const Post = ({ post }) => {
           variables: { id },
           authMode: 'API_KEY',
         });
-        for (const name of tagNames) {
-          await API.graphql({
-            ...graphqlOperation(viewTag, { name }),
-            authMode: 'API_KEY',
-          });
-        }
         await API.graphql({
           ...graphqlOperation(viewPost, { id }),
           authMode: 'API_KEY',
@@ -178,12 +169,10 @@ const Post = ({ post }) => {
         </div>
         <div className="flex flex-row justify-between w-full">
           <div className="flex-col">
-            <h1 className="text-2xl italic font-semibold">
-              {post && post.title}
-            </h1>
+            <h1 className="text-2xl italic font-semibold">{post.title}</h1>
             <span className="opacity-75">by </span>
             <Link href="/profile/[uid]" as={`/profile/${post.userID}`}>
-              <a className="opacity-100">{post && post.userID}</a>
+              <a className="opacity-100">{post.userID}</a>
             </Link>
           </div>
           <div className="flex-col select-none opacity-75 text-right w-48 md:w-auto">
@@ -205,20 +194,9 @@ const Post = ({ post }) => {
           </div>
         </div>
       </div>
-      <p className="opacity-75 mt-4">{post && post.description}</p>
+      <p className="opacity-75 mt-4">{post.description}</p>
       <nav className="mt-4">
-        <strong>Tags: </strong>
-        {tagNames.length
-          ? tagNames.map((tag) => (
-              <a
-                href="#"
-                key={tag}
-                className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-primary bg-accent uppercase last:mr-0 mr-1"
-              >
-                #{tag}
-              </a>
-            ))
-          : '(none)'}
+        <Tags tags={post.tags} />
       </nav>
       <div className="cursor-help  mt-4 opacity-75 md:hidden">
         <i className="fab fa-creative-commons-pd"></i> Public Domain

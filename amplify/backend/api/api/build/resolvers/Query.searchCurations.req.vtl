@@ -1,5 +1,5 @@
 #set( $indexPath = "/curation/doc/_search" )
-#set( $nonKeywordFields = ["updatedAt"] )
+#set( $nonKeywordFields = ["updatedAt", "totalViews"] )
 #if( $util.isNullOrEmpty($context.args.sort) )
   #set( $sortDirection = "desc" )
   #set( $sortField = "id" )

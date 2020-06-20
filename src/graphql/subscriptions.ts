@@ -120,6 +120,7 @@ export const onCreatePost = /* GraphQL */ `
       curations {
         items {
           id
+          order
           postID
           curationID
           createdAt
@@ -164,6 +165,7 @@ export const onUpdatePost = /* GraphQL */ `
       curations {
         items {
           id
+          order
           postID
           curationID
           createdAt
@@ -208,6 +210,184 @@ export const onDeletePost = /* GraphQL */ `
       curations {
         items {
           id
+          order
+          postID
+          curationID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onCreateTag = /* GraphQL */ `
+  subscription OnCreateTag {
+    onCreateTag {
+      name
+      description
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
+      totalViews
+      createdAt
+      updatedAt
+      posts {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onUpdateTag = /* GraphQL */ `
+  subscription OnUpdateTag {
+    onUpdateTag {
+      name
+      description
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
+      totalViews
+      createdAt
+      updatedAt
+      posts {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onDeleteTag = /* GraphQL */ `
+  subscription OnDeleteTag {
+    onDeleteTag {
+      name
+      description
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
+      totalViews
+      createdAt
+      updatedAt
+      posts {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onCreateCuration = /* GraphQL */ `
+  subscription OnCreateCuration($owner: String!) {
+    onCreateCuration(owner: $owner) {
+      id
+      owner
+      title
+      description
+      updatedAt
+      totalViews
+      createdAt
+      tags {
+        items {
+          id
+          curationID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      posts {
+        items {
+          id
+          order
+          postID
+          curationID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onUpdateCuration = /* GraphQL */ `
+  subscription OnUpdateCuration($owner: String!) {
+    onUpdateCuration(owner: $owner) {
+      id
+      owner
+      title
+      description
+      updatedAt
+      totalViews
+      createdAt
+      tags {
+        items {
+          id
+          curationID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      posts {
+        items {
+          id
+          order
+          postID
+          curationID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const onDeleteCuration = /* GraphQL */ `
+  subscription OnDeleteCuration($owner: String!) {
+    onDeleteCuration(owner: $owner) {
+      id
+      owner
+      title
+      description
+      updatedAt
+      totalViews
+      createdAt
+      tags {
+        items {
+          id
+          curationID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      posts {
+        items {
+          id
+          order
           postID
           curationID
           createdAt
@@ -356,77 +536,122 @@ export const onDeleteTaggedPost = /* GraphQL */ `
     }
   }
 `;
-export const onCreateTag = /* GraphQL */ `
-  subscription OnCreateTag {
-    onCreateTag {
-      name
-      description
-      dailyViews
-      weeklyViews
-      monthlyViews
-      yearlyViews
-      totalViews
+export const onCreateTaggedCuration = /* GraphQL */ `
+  subscription OnCreateTaggedCuration {
+    onCreateTaggedCuration {
+      id
+      curationID
+      tagName
       createdAt
       updatedAt
-      posts {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
+      tag {
+        name
+        description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
+        createdAt
+        updatedAt
+        posts {
+          nextToken
         }
-        nextToken
+      }
+      curation {
+        id
+        owner
+        title
+        description
+        updatedAt
+        totalViews
+        createdAt
+        tags {
+          nextToken
+        }
+        posts {
+          nextToken
+        }
       }
     }
   }
 `;
-export const onUpdateTag = /* GraphQL */ `
-  subscription OnUpdateTag {
-    onUpdateTag {
-      name
-      description
-      dailyViews
-      weeklyViews
-      monthlyViews
-      yearlyViews
-      totalViews
+export const onUpdateTaggedCuration = /* GraphQL */ `
+  subscription OnUpdateTaggedCuration {
+    onUpdateTaggedCuration {
+      id
+      curationID
+      tagName
       createdAt
       updatedAt
-      posts {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
+      tag {
+        name
+        description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
+        createdAt
+        updatedAt
+        posts {
+          nextToken
         }
-        nextToken
+      }
+      curation {
+        id
+        owner
+        title
+        description
+        updatedAt
+        totalViews
+        createdAt
+        tags {
+          nextToken
+        }
+        posts {
+          nextToken
+        }
       }
     }
   }
 `;
-export const onDeleteTag = /* GraphQL */ `
-  subscription OnDeleteTag {
-    onDeleteTag {
-      name
-      description
-      dailyViews
-      weeklyViews
-      monthlyViews
-      yearlyViews
-      totalViews
+export const onDeleteTaggedCuration = /* GraphQL */ `
+  subscription OnDeleteTaggedCuration {
+    onDeleteTaggedCuration {
+      id
+      curationID
+      tagName
       createdAt
       updatedAt
-      posts {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
+      tag {
+        name
+        description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
+        createdAt
+        updatedAt
+        posts {
+          nextToken
         }
-        nextToken
+      }
+      curation {
+        id
+        owner
+        title
+        description
+        updatedAt
+        totalViews
+        createdAt
+        tags {
+          nextToken
+        }
+        posts {
+          nextToken
+        }
       }
     }
   }
@@ -435,6 +660,7 @@ export const onCreateCuratedPost = /* GraphQL */ `
   subscription OnCreateCuratedPost {
     onCreateCuratedPost {
       id
+      order
       postID
       curationID
       createdAt
@@ -466,7 +692,11 @@ export const onCreateCuratedPost = /* GraphQL */ `
         title
         description
         updatedAt
+        totalViews
         createdAt
+        tags {
+          nextToken
+        }
         posts {
           nextToken
         }
@@ -478,6 +708,7 @@ export const onUpdateCuratedPost = /* GraphQL */ `
   subscription OnUpdateCuratedPost {
     onUpdateCuratedPost {
       id
+      order
       postID
       curationID
       createdAt
@@ -509,7 +740,11 @@ export const onUpdateCuratedPost = /* GraphQL */ `
         title
         description
         updatedAt
+        totalViews
         createdAt
+        tags {
+          nextToken
+        }
         posts {
           nextToken
         }
@@ -521,6 +756,7 @@ export const onDeleteCuratedPost = /* GraphQL */ `
   subscription OnDeleteCuratedPost {
     onDeleteCuratedPost {
       id
+      order
       postID
       curationID
       createdAt
@@ -552,76 +788,14 @@ export const onDeleteCuratedPost = /* GraphQL */ `
         title
         description
         updatedAt
+        totalViews
         createdAt
+        tags {
+          nextToken
+        }
         posts {
           nextToken
         }
-      }
-    }
-  }
-`;
-export const onCreateCuration = /* GraphQL */ `
-  subscription OnCreateCuration($owner: String!) {
-    onCreateCuration(owner: $owner) {
-      id
-      owner
-      title
-      description
-      updatedAt
-      createdAt
-      posts {
-        items {
-          id
-          postID
-          curationID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const onUpdateCuration = /* GraphQL */ `
-  subscription OnUpdateCuration($owner: String!) {
-    onUpdateCuration(owner: $owner) {
-      id
-      owner
-      title
-      description
-      updatedAt
-      createdAt
-      posts {
-        items {
-          id
-          postID
-          curationID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const onDeleteCuration = /* GraphQL */ `
-  subscription OnDeleteCuration($owner: String!) {
-    onDeleteCuration(owner: $owner) {
-      id
-      owner
-      title
-      description
-      updatedAt
-      createdAt
-      posts {
-        items {
-          id
-          postID
-          curationID
-          createdAt
-          updatedAt
-        }
-        nextToken
       }
     }
   }

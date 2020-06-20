@@ -205,6 +205,7 @@ export const getPost = /* GraphQL */ `
       curations {
         items {
           id
+          order
           postID
           curationID
           createdAt
@@ -246,6 +247,189 @@ export const searchPosts = /* GraphQL */ `
           nextToken
         }
         curations {
+          nextToken
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const listTags = /* GraphQL */ `
+  query ListTags(
+    $name: ID
+    $filter: ModelTagFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listTags(
+      name: $name
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        name
+        description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
+        createdAt
+        updatedAt
+        posts {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getTag = /* GraphQL */ `
+  query GetTag($name: ID!) {
+    getTag(name: $name) {
+      name
+      description
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
+      totalViews
+      createdAt
+      updatedAt
+      posts {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const searchTags = /* GraphQL */ `
+  query SearchTags(
+    $filter: SearchableTagFilterInput
+    $sort: SearchableTagSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchTags(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        name
+        description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
+        createdAt
+        updatedAt
+        posts {
+          nextToken
+        }
+      }
+      nextToken
+      total
+    }
+  }
+`;
+export const listCurations = /* GraphQL */ `
+  query ListCurations(
+    $filter: ModelCurationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        owner
+        title
+        description
+        updatedAt
+        totalViews
+        createdAt
+        tags {
+          nextToken
+        }
+        posts {
+          nextToken
+        }
+      }
+      nextToken
+    }
+  }
+`;
+export const getCuration = /* GraphQL */ `
+  query GetCuration($id: ID!) {
+    getCuration(id: $id) {
+      id
+      owner
+      title
+      description
+      updatedAt
+      totalViews
+      createdAt
+      tags {
+        items {
+          id
+          curationID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      posts {
+        items {
+          id
+          order
+          postID
+          curationID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const searchCurations = /* GraphQL */ `
+  query SearchCurations(
+    $filter: SearchableCurationFilterInput
+    $sort: SearchableCurationSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchCurations(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        owner
+        title
+        description
+        updatedAt
+        totalViews
+        createdAt
+        tags {
+          nextToken
+        }
+        posts {
           nextToken
         }
       }
@@ -340,22 +524,15 @@ export const listTaggedPosts = /* GraphQL */ `
     }
   }
 `;
-export const listTags = /* GraphQL */ `
-  query ListTags(
-    $name: ID
-    $filter: ModelTagFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listTags(
-      name: $name
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
+export const getTaggedCuration = /* GraphQL */ `
+  query GetTaggedCuration($id: ID!) {
+    getTaggedCuration(id: $id) {
+      id
+      curationID
+      tagName
+      createdAt
+      updatedAt
+      tag {
         name
         description
         dailyViews
@@ -369,64 +546,59 @@ export const listTags = /* GraphQL */ `
           nextToken
         }
       }
-      nextToken
+      curation {
+        id
+        owner
+        title
+        description
+        updatedAt
+        totalViews
+        createdAt
+        tags {
+          nextToken
+        }
+        posts {
+          nextToken
+        }
+      }
     }
   }
 `;
-export const getTag = /* GraphQL */ `
-  query GetTag($name: ID!) {
-    getTag(name: $name) {
-      name
-      description
-      dailyViews
-      weeklyViews
-      monthlyViews
-      yearlyViews
-      totalViews
-      createdAt
-      updatedAt
-      posts {
-        items {
-          id
-          postID
-          tagName
+export const listTaggedCurations = /* GraphQL */ `
+  query ListTaggedCurations(
+    $filter: ModelTaggedCurationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTaggedCurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        curationID
+        tagName
+        createdAt
+        updatedAt
+        tag {
+          name
+          description
+          dailyViews
+          weeklyViews
+          monthlyViews
+          yearlyViews
+          totalViews
           createdAt
           updatedAt
         }
-        nextToken
-      }
-    }
-  }
-`;
-export const searchTags = /* GraphQL */ `
-  query SearchTags(
-    $filter: SearchableTagFilterInput
-    $sort: SearchableTagSortInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    searchTags(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        name
-        description
-        dailyViews
-        weeklyViews
-        monthlyViews
-        yearlyViews
-        totalViews
-        createdAt
-        updatedAt
-        posts {
-          nextToken
+        curation {
+          id
+          owner
+          title
+          description
+          updatedAt
+          totalViews
+          createdAt
         }
       }
       nextToken
-      total
     }
   }
 `;
@@ -434,6 +606,7 @@ export const getCuratedPost = /* GraphQL */ `
   query GetCuratedPost($id: ID!) {
     getCuratedPost(id: $id) {
       id
+      order
       postID
       curationID
       createdAt
@@ -465,7 +638,11 @@ export const getCuratedPost = /* GraphQL */ `
         title
         description
         updatedAt
+        totalViews
         createdAt
+        tags {
+          nextToken
+        }
         posts {
           nextToken
         }
@@ -482,6 +659,7 @@ export const listCuratedPosts = /* GraphQL */ `
     listCuratedPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        order
         postID
         curationID
         createdAt
@@ -503,83 +681,11 @@ export const listCuratedPosts = /* GraphQL */ `
           title
           description
           updatedAt
+          totalViews
           createdAt
         }
       }
       nextToken
-    }
-  }
-`;
-export const listCurations = /* GraphQL */ `
-  query ListCurations(
-    $filter: ModelCurationFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCurations(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        owner
-        title
-        description
-        updatedAt
-        createdAt
-        posts {
-          nextToken
-        }
-      }
-      nextToken
-    }
-  }
-`;
-export const getCuration = /* GraphQL */ `
-  query GetCuration($id: ID!) {
-    getCuration(id: $id) {
-      id
-      owner
-      title
-      description
-      updatedAt
-      createdAt
-      posts {
-        items {
-          id
-          postID
-          curationID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const searchCurations = /* GraphQL */ `
-  query SearchCurations(
-    $filter: SearchableCurationFilterInput
-    $sort: SearchableCurationSortInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    searchCurations(
-      filter: $filter
-      sort: $sort
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        owner
-        title
-        description
-        updatedAt
-        createdAt
-        posts {
-          nextToken
-        }
-      }
-      nextToken
-      total
     }
   }
 `;

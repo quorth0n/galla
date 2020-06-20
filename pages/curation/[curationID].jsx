@@ -2,32 +2,141 @@ import React from 'react';
 import Error from 'next/error';
 import Link from 'next/link';
 import { API, graphqlOperation } from 'aws-amplify';
+import { useForm } from 'react-hook-form';
 
 import PostThumb from '../../components/PostThumb';
 import Head from '../../components/Head';
+import OwnerContext from '../../context/OwnerContext';
+import Editable from '../../components/Editable';
+import EditableTags from '../../components/EditableTags';
 
 const Curation = ({ curation }) => {
-  console.log(curation);
+  const { register, handleSubmit, watch, errors, reset, formState } = useForm({
+    mode: 'onBlur',
+  });
+
+  const tags =
+    watch('tags', curation.tags) === curation.tags
+      ? curation.tags
+      : watch('tags')
+          .split(',')
+          .map((tag) => tag.trim());
+  const tagString =
+    watch('tags', curation.tags) === curation.tags
+      ? curation.tags.items.map((tag) => tag.tagName).join(', ')
+      : watch('tags');
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   if (!curation) return <Error statusCode={404} />;
   return (
-    <div className="m-auto inline-flex flex-col justify-center text-left p-4 md:px-8">
+    <div className="m-auto flex flex-col justify-center text-left p-4 md:px-8">
       <Head title={curation.title} description={curation.description} />
-      <div className="flex flex-row">
-        <h1 className="text-2xl italic font-semibold">{curation.title}</h1>
-      </div>
-      <div>
-        <span className="opacity-75">by </span>
-        <Link href="/profile/[uid]" as={`/profile/${curation.owner}`}>
-          <a className="opacity-100">{curation.owner}</a>
-        </Link>
-      </div>
-      <div className="post-grid">
-        {curation.posts.items.map((curatedPost) => (
-          <div key={curatedPost.post.id}>
-            <PostThumb post={curatedPost.post} />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <OwnerContext.Provider value={curation.owner}>
+          <div className="flex flex-row justify-between">
+            <div>
+              <h1 className="text-2xl italic font-semibold">
+                <Editable
+                  text={watch('title', curation.title)}
+                  error={errors.title}
+                  type="input"
+                >
+                  <input
+                    type="text"
+                    name="title"
+                    defaultValue={watch('title', curation.title)}
+                    autoFocus={true}
+                    ref={register({
+                      maxLength: {
+                        value: 50,
+                        message: 'Cannot exceed 50 characters',
+                      },
+                    })}
+                  />
+                </Editable>
+              </h1>
+              <div>
+                <span className="opacity-75">by </span>
+                <Link href="/profile/[uid]" as={`/profile/${curation.owner}`}>
+                  <a className="opacity-100">{curation.owner}</a>
+                </Link>
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row opacity-75">
+              <div className="lg:mr-4 px-2 text-center">
+                <span className="text-lg font-bold block uppercase tracking-wide text-primary">
+                  {curation.posts.items.length}
+                </span>
+                <span className="text-sm text-primary opacity-75">Posts</span>
+              </div>
+              <div className="lg:mr-4 px-2 text-center">
+                <span className="text-lg font-bold block uppercase tracking-wide text-primary">
+                  0
+                </span>
+                <span className="text-sm text-primary opacity-75">
+                  Followers
+                </span>
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
+          <p className="mt-4 opacity-75">
+            <Editable
+              text={watch('description', curation.description)}
+              error={errors.description}
+              type="textarea"
+            >
+              <textarea
+                name="description"
+                defaultValue={watch('description', curation.description)}
+                autoFocus={true}
+                ref={register({
+                  maxLength: {
+                    value: 2000,
+                    message: 'Cannot exceed 2000 characters',
+                  },
+                })}
+                rows={10}
+                className="w-full"
+              />
+            </Editable>
+          </p>
+          <nav className="mt-4">
+            <EditableTags tags={tags} error={errors.tags}>
+              <input
+                type="text"
+                name="tags"
+                defaultValue={tagString}
+                autoFocus={true}
+                ref={register}
+              />
+            </EditableTags>
+          </nav>
+          <div className="font-bold text-xl space-x-4 mt-4">
+            {formState.dirty && (
+              <>
+                <button className="btn-primary" type="submit">
+                  Save
+                </button>
+                <button className="btn-secondary" onClick={reset}>
+                  Reset
+                </button>
+              </>
+            )}
+            <button className="far fa-heart" />
+            <button className="fas fa-share" />
+          </div>
+          <div className="post-grid mt-6">
+            {curation.posts.items.map((curatedPost) => (
+              <div key={curatedPost.post.id}>
+                <PostThumb post={curatedPost.post} />
+              </div>
+            ))}
+          </div>
+        </OwnerContext.Provider>
+      </form>
     </div>
   );
 };
@@ -53,6 +162,11 @@ export const getServerSideProps = async ({ query: { curationID }, res }) => {
                 }
               }
               nextToken
+            }
+            tags {
+              items {
+                tagName
+              }
             }
           }
         }

@@ -1,12 +1,15 @@
 import React from 'react';
-import EditingContext from '../../context/profile/EditingContext';
+import EditableItem from '../EditableItem';
 
-const EditableItem = ({ name, value, placeholder, icon, textarea }, ref) => {
-  const editing = React.useContext(EditingContext);
-  return (
-    <>
-      {(value || editing) &&
-        (textarea ? (
+const EditableProfileItem = (
+  { name, value, placeholder, icon, textarea },
+  ref
+) => (
+  <EditableItem
+    value={value}
+    render={(editing) => (
+      <>
+        {textarea ? (
           <div className="mt-10 py-10 border-t border-primary text-center bg-secondary-soft">
             <h4 className="text-2xl font-semibold leading-normal mb-8 text-primary mb-2">
               About
@@ -49,8 +52,9 @@ const EditableItem = ({ name, value, placeholder, icon, textarea }, ref) => {
               value
             )}
           </div>
-        ))}
-    </>
-  );
-};
-export default React.memo(React.forwardRef(EditableItem));
+        )}
+      </>
+    )}
+  />
+);
+export default React.memo(React.forwardRef(EditableProfileItem));

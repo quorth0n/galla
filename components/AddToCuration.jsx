@@ -120,6 +120,7 @@ const AddToCuration = ({ postID }) => {
         input: {
           id: nanoid(),
           title: 'Untitled curation',
+          description: `A curation by ${user.username}`,
         },
       })
     );

@@ -36,6 +36,7 @@ export const viewPost = /* GraphQL */ `
       curations {
         items {
           id
+          order
           postID
           curationID
           createdAt
@@ -105,6 +106,7 @@ export const upvotePost = /* GraphQL */ `
       curations {
         items {
           id
+          order
           postID
           curationID
           createdAt
@@ -149,6 +151,7 @@ export const downvotePost = /* GraphQL */ `
       curations {
         items {
           id
+          order
           postID
           curationID
           createdAt
@@ -260,6 +263,7 @@ export const createPost = /* GraphQL */ `
       curations {
         items {
           id
+          order
           postID
           curationID
           createdAt
@@ -307,6 +311,137 @@ export const deletePost = /* GraphQL */ `
       curations {
         items {
           id
+          order
+          postID
+          curationID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const createTag = /* GraphQL */ `
+  mutation CreateTag(
+    $input: CreateTagInput!
+    $condition: ModelTagConditionInput
+  ) {
+    createTag(input: $input, condition: $condition) {
+      name
+      description
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
+      totalViews
+      createdAt
+      updatedAt
+      posts {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const deleteTag = /* GraphQL */ `
+  mutation DeleteTag(
+    $input: DeleteTagInput!
+    $condition: ModelTagConditionInput
+  ) {
+    deleteTag(input: $input, condition: $condition) {
+      name
+      description
+      dailyViews
+      weeklyViews
+      monthlyViews
+      yearlyViews
+      totalViews
+      createdAt
+      updatedAt
+      posts {
+        items {
+          id
+          postID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const createCuration = /* GraphQL */ `
+  mutation CreateCuration(
+    $input: CreateCurationInput!
+    $condition: ModelCurationConditionInput
+  ) {
+    createCuration(input: $input, condition: $condition) {
+      id
+      owner
+      title
+      description
+      updatedAt
+      totalViews
+      createdAt
+      tags {
+        items {
+          id
+          curationID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      posts {
+        items {
+          id
+          order
+          postID
+          curationID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+    }
+  }
+`;
+export const deleteCuration = /* GraphQL */ `
+  mutation DeleteCuration(
+    $input: DeleteCurationInput!
+    $condition: ModelCurationConditionInput
+  ) {
+    deleteCuration(input: $input, condition: $condition) {
+      id
+      owner
+      title
+      description
+      updatedAt
+      totalViews
+      createdAt
+      tags {
+        items {
+          id
+          curationID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      posts {
+        items {
+          id
+          order
           postID
           curationID
           createdAt
@@ -464,58 +599,131 @@ export const deleteTaggedPost = /* GraphQL */ `
     }
   }
 `;
-export const createTag = /* GraphQL */ `
-  mutation CreateTag(
-    $input: CreateTagInput!
-    $condition: ModelTagConditionInput
+export const createTaggedCuration = /* GraphQL */ `
+  mutation CreateTaggedCuration(
+    $input: CreateTaggedCurationInput!
+    $condition: ModelTaggedCurationConditionInput
   ) {
-    createTag(input: $input, condition: $condition) {
-      name
-      description
-      dailyViews
-      weeklyViews
-      monthlyViews
-      yearlyViews
-      totalViews
+    createTaggedCuration(input: $input, condition: $condition) {
+      id
+      curationID
+      tagName
       createdAt
       updatedAt
-      posts {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
+      tag {
+        name
+        description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
+        createdAt
+        updatedAt
+        posts {
+          nextToken
         }
-        nextToken
+      }
+      curation {
+        id
+        owner
+        title
+        description
+        updatedAt
+        totalViews
+        createdAt
+        tags {
+          nextToken
+        }
+        posts {
+          nextToken
+        }
       }
     }
   }
 `;
-export const deleteTag = /* GraphQL */ `
-  mutation DeleteTag(
-    $input: DeleteTagInput!
-    $condition: ModelTagConditionInput
+export const updateTaggedCuration = /* GraphQL */ `
+  mutation UpdateTaggedCuration(
+    $input: UpdateTaggedCurationInput!
+    $condition: ModelTaggedCurationConditionInput
   ) {
-    deleteTag(input: $input, condition: $condition) {
-      name
-      description
-      dailyViews
-      weeklyViews
-      monthlyViews
-      yearlyViews
-      totalViews
+    updateTaggedCuration(input: $input, condition: $condition) {
+      id
+      curationID
+      tagName
       createdAt
       updatedAt
-      posts {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
+      tag {
+        name
+        description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
+        createdAt
+        updatedAt
+        posts {
+          nextToken
         }
-        nextToken
+      }
+      curation {
+        id
+        owner
+        title
+        description
+        updatedAt
+        totalViews
+        createdAt
+        tags {
+          nextToken
+        }
+        posts {
+          nextToken
+        }
+      }
+    }
+  }
+`;
+export const deleteTaggedCuration = /* GraphQL */ `
+  mutation DeleteTaggedCuration(
+    $input: DeleteTaggedCurationInput!
+    $condition: ModelTaggedCurationConditionInput
+  ) {
+    deleteTaggedCuration(input: $input, condition: $condition) {
+      id
+      curationID
+      tagName
+      createdAt
+      updatedAt
+      tag {
+        name
+        description
+        dailyViews
+        weeklyViews
+        monthlyViews
+        yearlyViews
+        totalViews
+        createdAt
+        updatedAt
+        posts {
+          nextToken
+        }
+      }
+      curation {
+        id
+        owner
+        title
+        description
+        updatedAt
+        totalViews
+        createdAt
+        tags {
+          nextToken
+        }
+        posts {
+          nextToken
+        }
       }
     }
   }
@@ -527,6 +735,7 @@ export const createCuratedPost = /* GraphQL */ `
   ) {
     createCuratedPost(input: $input, condition: $condition) {
       id
+      order
       postID
       curationID
       createdAt
@@ -558,7 +767,11 @@ export const createCuratedPost = /* GraphQL */ `
         title
         description
         updatedAt
+        totalViews
         createdAt
+        tags {
+          nextToken
+        }
         posts {
           nextToken
         }
@@ -573,6 +786,7 @@ export const updateCuratedPost = /* GraphQL */ `
   ) {
     updateCuratedPost(input: $input, condition: $condition) {
       id
+      order
       postID
       curationID
       createdAt
@@ -604,7 +818,11 @@ export const updateCuratedPost = /* GraphQL */ `
         title
         description
         updatedAt
+        totalViews
         createdAt
+        tags {
+          nextToken
+        }
         posts {
           nextToken
         }
@@ -619,6 +837,7 @@ export const deleteCuratedPost = /* GraphQL */ `
   ) {
     deleteCuratedPost(input: $input, condition: $condition) {
       id
+      order
       postID
       curationID
       createdAt
@@ -650,60 +869,14 @@ export const deleteCuratedPost = /* GraphQL */ `
         title
         description
         updatedAt
+        totalViews
         createdAt
+        tags {
+          nextToken
+        }
         posts {
           nextToken
         }
-      }
-    }
-  }
-`;
-export const createCuration = /* GraphQL */ `
-  mutation CreateCuration(
-    $input: CreateCurationInput!
-    $condition: ModelCurationConditionInput
-  ) {
-    createCuration(input: $input, condition: $condition) {
-      id
-      owner
-      title
-      description
-      updatedAt
-      createdAt
-      posts {
-        items {
-          id
-          postID
-          curationID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const deleteCuration = /* GraphQL */ `
-  mutation DeleteCuration(
-    $input: DeleteCurationInput!
-    $condition: ModelCurationConditionInput
-  ) {
-    deleteCuration(input: $input, condition: $condition) {
-      id
-      owner
-      title
-      description
-      updatedAt
-      createdAt
-      posts {
-        items {
-          id
-          postID
-          curationID
-          createdAt
-          updatedAt
-        }
-        nextToken
       }
     }
   }
@@ -783,6 +956,7 @@ export const updatePost = /* GraphQL */ `
       curations {
         items {
           id
+          order
           postID
           curationID
           createdAt
@@ -832,10 +1006,22 @@ export const updateCuration = /* GraphQL */ `
       title
       description
       updatedAt
+      totalViews
       createdAt
+      tags {
+        items {
+          id
+          curationID
+          tagName
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       posts {
         items {
           id
+          order
           postID
           curationID
           createdAt

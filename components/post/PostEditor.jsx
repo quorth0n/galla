@@ -4,18 +4,18 @@ import { useForm } from 'react-hook-form';
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 import { nanoid } from 'nanoid';
 
-import Head from './Head';
-import { getTag } from '../src/graphql/queries';
+import Head from '../Head';
+import { getTag } from '../../src/graphql/queries';
 import {
   createPost,
   createTaggedPost,
   createTag,
   updatePost,
   deleteTaggedPost,
-} from '../src/graphql/mutations';
-import withAmplifyData from '../helpers/hocs/withAmplifyData';
-import useCognitoUser from '../helpers/hooks/useCognitoUser';
-import useWarnIfChanged from '../helpers/hooks/useWarnIfChanged';
+} from '../../src/graphql/mutations';
+import withAmplifyData from '../../helpers/hocs/withAmplifyData';
+import useCognitoUser from '../../helpers/hooks/useCognitoUser';
+import useWarnIfChanged from '../../helpers/hooks/useWarnIfChanged';
 
 const PostEditor = ({ region, bucket, post }) => {
   const router = useRouter();

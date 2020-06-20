@@ -1,17 +1,17 @@
 import React from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 
-import SignInOpenContext from '../context/SignInOpenContext';
-import useCognitoUser from '../helpers/hooks/useCognitoUser';
-import { voteByPostByOwner } from '../src/graphql/queries';
+import SignInOpenContext from '../../context/SignInOpenContext';
+import useCognitoUser from '../../helpers/hooks/useCognitoUser';
+import { voteByPostByOwner } from '../../src/graphql/queries';
 import {
   upvotePost,
   downvotePost,
   createVote,
   updateVote,
   deleteVote,
-} from '../src/graphql/mutations';
-import SignInPopup from './SignInPopup';
+} from '../../src/graphql/mutations';
+import SignInPopup from '../SignInPopup';
 
 const Vote = ({ id, initialScore }) => {
   const [selectedVote, setSelectedVote] = React.useState({});

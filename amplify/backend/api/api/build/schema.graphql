@@ -47,16 +47,6 @@ type Post @aws_api_key @aws_iam @aws_cognito_user_pools {
   curations(curationID: ModelIDKeyConditionInput, filter: ModelCuratedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCuratedPostConnection @aws_api_key @aws_cognito_user_pools
 }
 
-type TaggedPost @aws_api_key @aws_cognito_user_pools {
-  id: ID!
-  postID: ID!
-  tagName: ID!
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-  post: Post @aws_api_key @aws_iam @aws_cognito_user_pools
-  tag: Tag @aws_api_key @aws_iam @aws_cognito_user_pools
-}
-
 type Tag @aws_api_key @aws_iam @aws_cognito_user_pools {
   name: ID!
   description: String
@@ -70,24 +60,47 @@ type Tag @aws_api_key @aws_iam @aws_cognito_user_pools {
   posts(postID: ModelIDKeyConditionInput, filter: ModelTaggedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools
 }
 
-type CuratedPost @aws_api_key @aws_cognito_user_pools {
-  id: ID!
-  postID: ID!
-  curationID: ID!
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-  post: Post @aws_api_key @aws_iam @aws_cognito_user_pools
-  curation: Curation @aws_api_key @aws_iam @aws_cognito_user_pools
-}
-
 type Curation @aws_api_key @aws_iam @aws_cognito_user_pools {
   id: ID!
   owner: ID
   title: String
   description: String
   updatedAt: AWSDateTime
+  totalViews: Int
   createdAt: AWSDateTime!
+  tags(tagName: ModelIDKeyConditionInput, filter: ModelTaggedCurationFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedCurationConnection @aws_api_key @aws_cognito_user_pools
   posts(postID: ModelIDKeyConditionInput, filter: ModelCuratedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCuratedPostConnection @aws_api_key @aws_cognito_user_pools
+}
+
+type TaggedPost @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  postID: ID!
+  tagName: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  post: Post @aws_api_key @aws_iam @aws_cognito_user_pools
+  tag: Tag @aws_api_key @aws_iam @aws_cognito_user_pools
+}
+
+type TaggedCuration @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  curationID: ID!
+  tagName: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  tag: Tag @aws_api_key @aws_iam @aws_cognito_user_pools
+  curation: Curation @aws_api_key @aws_iam @aws_cognito_user_pools
+}
+
+type CuratedPost @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  order: Int
+  postID: ID!
+  curationID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  post: Post @aws_api_key @aws_iam @aws_cognito_user_pools
+  curation: Curation @aws_api_key @aws_iam @aws_cognito_user_pools
 }
 
 type Mutation {
@@ -101,16 +114,19 @@ type Mutation {
   deleteVote(input: DeleteVoteInput!, condition: ModelVoteConditionInput): Vote
   createPost(input: CreatePostInput!, condition: ModelPostConditionInput): Post
   deletePost(input: DeletePostInput!, condition: ModelPostConditionInput): Post
+  createTag(input: CreateTagInput!, condition: ModelTagConditionInput): Tag
+  deleteTag(input: DeleteTagInput!, condition: ModelTagConditionInput): Tag
+  createCuration(input: CreateCurationInput!, condition: ModelCurationConditionInput): Curation
+  deleteCuration(input: DeleteCurationInput!, condition: ModelCurationConditionInput): Curation
   createTaggedPost(input: CreateTaggedPostInput!, condition: ModelTaggedPostConditionInput): TaggedPost
   updateTaggedPost(input: UpdateTaggedPostInput!, condition: ModelTaggedPostConditionInput): TaggedPost
   deleteTaggedPost(input: DeleteTaggedPostInput!, condition: ModelTaggedPostConditionInput): TaggedPost
-  createTag(input: CreateTagInput!, condition: ModelTagConditionInput): Tag
-  deleteTag(input: DeleteTagInput!, condition: ModelTagConditionInput): Tag
+  createTaggedCuration(input: CreateTaggedCurationInput!, condition: ModelTaggedCurationConditionInput): TaggedCuration
+  updateTaggedCuration(input: UpdateTaggedCurationInput!, condition: ModelTaggedCurationConditionInput): TaggedCuration
+  deleteTaggedCuration(input: DeleteTaggedCurationInput!, condition: ModelTaggedCurationConditionInput): TaggedCuration
   createCuratedPost(input: CreateCuratedPostInput!, condition: ModelCuratedPostConditionInput): CuratedPost
   updateCuratedPost(input: UpdateCuratedPostInput!, condition: ModelCuratedPostConditionInput): CuratedPost
   deleteCuratedPost(input: DeleteCuratedPostInput!, condition: ModelCuratedPostConditionInput): CuratedPost
-  createCuration(input: CreateCurationInput!, condition: ModelCurationConditionInput): Curation
-  deleteCuration(input: DeleteCurationInput!, condition: ModelCurationConditionInput): Curation
   createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User @aws_iam @aws_cognito_user_pools
   updateUser(input: UpdateUserInput!, condition: ModelUserConditionInput): User @aws_iam @aws_cognito_user_pools
   updatePost(input: UpdatePostInput!, condition: ModelPostConditionInput): Post @aws_iam @aws_cognito_user_pools
@@ -251,16 +267,18 @@ type Query {
   listPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection @aws_api_key @aws_iam @aws_cognito_user_pools
   getPost(id: ID!): Post @aws_api_key @aws_iam @aws_cognito_user_pools
   searchPosts(filter: SearchablePostFilterInput, sort: SearchablePostSortInput, limit: Int, nextToken: String): SearchablePostConnection @aws_api_key @aws_iam @aws_cognito_user_pools
-  getTaggedPost(id: ID!): TaggedPost @aws_api_key @aws_cognito_user_pools
-  listTaggedPosts(filter: ModelTaggedPostFilterInput, limit: Int, nextToken: String): ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools
   listTags(name: ID, filter: ModelTagFilterInput, limit: Int, nextToken: String, sortDirection: ModelSortDirection): ModelTagConnection @aws_api_key @aws_iam @aws_cognito_user_pools
   getTag(name: ID!): Tag @aws_api_key @aws_iam @aws_cognito_user_pools
   searchTags(filter: SearchableTagFilterInput, sort: SearchableTagSortInput, limit: Int, nextToken: String): SearchableTagConnection @aws_api_key @aws_iam @aws_cognito_user_pools
-  getCuratedPost(id: ID!): CuratedPost @aws_api_key @aws_cognito_user_pools
-  listCuratedPosts(filter: ModelCuratedPostFilterInput, limit: Int, nextToken: String): ModelCuratedPostConnection @aws_api_key @aws_cognito_user_pools
   listCurations(filter: ModelCurationFilterInput, limit: Int, nextToken: String): ModelCurationConnection @aws_api_key @aws_iam @aws_cognito_user_pools
   getCuration(id: ID!): Curation @aws_api_key @aws_iam @aws_cognito_user_pools
   searchCurations(filter: SearchableCurationFilterInput, sort: SearchableCurationSortInput, limit: Int, nextToken: String): SearchableCurationConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  getTaggedPost(id: ID!): TaggedPost @aws_api_key @aws_cognito_user_pools
+  listTaggedPosts(filter: ModelTaggedPostFilterInput, limit: Int, nextToken: String): ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools
+  getTaggedCuration(id: ID!): TaggedCuration @aws_api_key @aws_cognito_user_pools
+  listTaggedCurations(filter: ModelTaggedCurationFilterInput, limit: Int, nextToken: String): ModelTaggedCurationConnection @aws_api_key @aws_cognito_user_pools
+  getCuratedPost(id: ID!): CuratedPost @aws_api_key @aws_cognito_user_pools
+  listCuratedPosts(filter: ModelCuratedPostFilterInput, limit: Int, nextToken: String): ModelCuratedPostConnection @aws_api_key @aws_cognito_user_pools
 }
 
 input CreateUserInput {
@@ -312,18 +330,21 @@ type Subscription {
   onCreatePost(userID: String!): Post @aws_subscribe(mutations: ["createPost"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onUpdatePost(userID: String!): Post @aws_subscribe(mutations: ["updatePost"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onDeletePost(userID: String!): Post @aws_subscribe(mutations: ["deletePost"]) @aws_api_key @aws_iam @aws_cognito_user_pools
-  onCreateTaggedPost: TaggedPost @aws_subscribe(mutations: ["createTaggedPost"]) @aws_api_key @aws_cognito_user_pools
-  onUpdateTaggedPost: TaggedPost @aws_subscribe(mutations: ["updateTaggedPost"]) @aws_api_key @aws_cognito_user_pools
-  onDeleteTaggedPost: TaggedPost @aws_subscribe(mutations: ["deleteTaggedPost"]) @aws_api_key @aws_cognito_user_pools
   onCreateTag: Tag @aws_subscribe(mutations: ["createTag"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onUpdateTag: Tag @aws_subscribe(mutations: ["updateTag"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onDeleteTag: Tag @aws_subscribe(mutations: ["deleteTag"]) @aws_api_key @aws_iam @aws_cognito_user_pools
-  onCreateCuratedPost: CuratedPost @aws_subscribe(mutations: ["createCuratedPost"]) @aws_api_key @aws_cognito_user_pools
-  onUpdateCuratedPost: CuratedPost @aws_subscribe(mutations: ["updateCuratedPost"]) @aws_api_key @aws_cognito_user_pools
-  onDeleteCuratedPost: CuratedPost @aws_subscribe(mutations: ["deleteCuratedPost"]) @aws_api_key @aws_cognito_user_pools
   onCreateCuration(owner: String!): Curation @aws_subscribe(mutations: ["createCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onUpdateCuration(owner: String!): Curation @aws_subscribe(mutations: ["updateCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onDeleteCuration(owner: String!): Curation @aws_subscribe(mutations: ["deleteCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onCreateTaggedPost: TaggedPost @aws_subscribe(mutations: ["createTaggedPost"]) @aws_api_key @aws_cognito_user_pools
+  onUpdateTaggedPost: TaggedPost @aws_subscribe(mutations: ["updateTaggedPost"]) @aws_api_key @aws_cognito_user_pools
+  onDeleteTaggedPost: TaggedPost @aws_subscribe(mutations: ["deleteTaggedPost"]) @aws_api_key @aws_cognito_user_pools
+  onCreateTaggedCuration: TaggedCuration @aws_subscribe(mutations: ["createTaggedCuration"]) @aws_api_key @aws_cognito_user_pools
+  onUpdateTaggedCuration: TaggedCuration @aws_subscribe(mutations: ["updateTaggedCuration"]) @aws_api_key @aws_cognito_user_pools
+  onDeleteTaggedCuration: TaggedCuration @aws_subscribe(mutations: ["deleteTaggedCuration"]) @aws_api_key @aws_cognito_user_pools
+  onCreateCuratedPost: CuratedPost @aws_subscribe(mutations: ["createCuratedPost"]) @aws_api_key @aws_cognito_user_pools
+  onUpdateCuratedPost: CuratedPost @aws_subscribe(mutations: ["updateCuratedPost"]) @aws_api_key @aws_cognito_user_pools
+  onDeleteCuratedPost: CuratedPost @aws_subscribe(mutations: ["deleteCuratedPost"]) @aws_api_key @aws_cognito_user_pools
 }
 
 type ModelVoteConnection @aws_api_key @aws_cognito_user_pools {
@@ -438,44 +459,6 @@ input ModelPostConditionInput {
   not: ModelPostConditionInput
 }
 
-type ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools {
-  items: [TaggedPost]
-  nextToken: String
-}
-
-input ModelTaggedPostFilterInput {
-  id: ModelIDInput
-  postID: ModelIDInput
-  tagName: ModelIDInput
-  and: [ModelTaggedPostFilterInput]
-  or: [ModelTaggedPostFilterInput]
-  not: ModelTaggedPostFilterInput
-}
-
-input CreateTaggedPostInput {
-  id: ID
-  postID: ID!
-  tagName: ID!
-}
-
-input UpdateTaggedPostInput {
-  id: ID!
-  postID: ID
-  tagName: ID
-}
-
-input DeleteTaggedPostInput {
-  id: ID
-}
-
-input ModelTaggedPostConditionInput {
-  postID: ModelIDInput
-  tagName: ModelIDInput
-  and: [ModelTaggedPostConditionInput]
-  or: [ModelTaggedPostConditionInput]
-  not: ModelTaggedPostConditionInput
-}
-
 type ModelTagConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
   items: [Tag]
   nextToken: String
@@ -530,44 +513,6 @@ input ModelTagConditionInput {
   not: ModelTagConditionInput
 }
 
-type ModelCuratedPostConnection @aws_api_key @aws_cognito_user_pools {
-  items: [CuratedPost]
-  nextToken: String
-}
-
-input ModelCuratedPostFilterInput {
-  id: ModelIDInput
-  postID: ModelIDInput
-  curationID: ModelIDInput
-  and: [ModelCuratedPostFilterInput]
-  or: [ModelCuratedPostFilterInput]
-  not: ModelCuratedPostFilterInput
-}
-
-input CreateCuratedPostInput {
-  id: ID
-  postID: ID!
-  curationID: ID!
-}
-
-input UpdateCuratedPostInput {
-  id: ID!
-  postID: ID
-  curationID: ID
-}
-
-input DeleteCuratedPostInput {
-  id: ID
-}
-
-input ModelCuratedPostConditionInput {
-  postID: ModelIDInput
-  curationID: ModelIDInput
-  and: [ModelCuratedPostConditionInput]
-  or: [ModelCuratedPostConditionInput]
-  not: ModelCuratedPostConditionInput
-}
-
 type ModelCurationConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
   items: [Curation]
   nextToken: String
@@ -579,6 +524,7 @@ input ModelCurationFilterInput {
   title: ModelStringInput
   description: ModelStringInput
   updatedAt: ModelStringInput
+  totalViews: ModelIntInput
   and: [ModelCurationFilterInput]
   or: [ModelCurationFilterInput]
   not: ModelCurationFilterInput
@@ -590,6 +536,7 @@ input CreateCurationInput {
   title: String
   description: String
   updatedAt: AWSDateTime
+  totalViews: Int
 }
 
 input UpdateCurationInput {
@@ -598,6 +545,7 @@ input UpdateCurationInput {
   title: String
   description: String
   updatedAt: AWSDateTime
+  totalViews: Int
 }
 
 input DeleteCurationInput {
@@ -608,9 +556,128 @@ input ModelCurationConditionInput {
   title: ModelStringInput
   description: ModelStringInput
   updatedAt: ModelStringInput
+  totalViews: ModelIntInput
   and: [ModelCurationConditionInput]
   or: [ModelCurationConditionInput]
   not: ModelCurationConditionInput
+}
+
+type ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools {
+  items: [TaggedPost]
+  nextToken: String
+}
+
+input ModelTaggedPostFilterInput {
+  id: ModelIDInput
+  postID: ModelIDInput
+  tagName: ModelIDInput
+  and: [ModelTaggedPostFilterInput]
+  or: [ModelTaggedPostFilterInput]
+  not: ModelTaggedPostFilterInput
+}
+
+input CreateTaggedPostInput {
+  id: ID
+  postID: ID!
+  tagName: ID!
+}
+
+input UpdateTaggedPostInput {
+  id: ID!
+  postID: ID
+  tagName: ID
+}
+
+input DeleteTaggedPostInput {
+  id: ID
+}
+
+input ModelTaggedPostConditionInput {
+  postID: ModelIDInput
+  tagName: ModelIDInput
+  and: [ModelTaggedPostConditionInput]
+  or: [ModelTaggedPostConditionInput]
+  not: ModelTaggedPostConditionInput
+}
+
+type ModelTaggedCurationConnection @aws_api_key @aws_cognito_user_pools {
+  items: [TaggedCuration]
+  nextToken: String
+}
+
+input ModelTaggedCurationFilterInput {
+  id: ModelIDInput
+  curationID: ModelIDInput
+  tagName: ModelIDInput
+  and: [ModelTaggedCurationFilterInput]
+  or: [ModelTaggedCurationFilterInput]
+  not: ModelTaggedCurationFilterInput
+}
+
+input CreateTaggedCurationInput {
+  id: ID
+  curationID: ID!
+  tagName: ID!
+}
+
+input UpdateTaggedCurationInput {
+  id: ID!
+  curationID: ID
+  tagName: ID
+}
+
+input DeleteTaggedCurationInput {
+  id: ID
+}
+
+input ModelTaggedCurationConditionInput {
+  curationID: ModelIDInput
+  tagName: ModelIDInput
+  and: [ModelTaggedCurationConditionInput]
+  or: [ModelTaggedCurationConditionInput]
+  not: ModelTaggedCurationConditionInput
+}
+
+type ModelCuratedPostConnection @aws_api_key @aws_cognito_user_pools {
+  items: [CuratedPost]
+  nextToken: String
+}
+
+input ModelCuratedPostFilterInput {
+  id: ModelIDInput
+  order: ModelIntInput
+  postID: ModelIDInput
+  curationID: ModelIDInput
+  and: [ModelCuratedPostFilterInput]
+  or: [ModelCuratedPostFilterInput]
+  not: ModelCuratedPostFilterInput
+}
+
+input CreateCuratedPostInput {
+  id: ID
+  order: Int
+  postID: ID!
+  curationID: ID!
+}
+
+input UpdateCuratedPostInput {
+  id: ID!
+  order: Int
+  postID: ID
+  curationID: ID
+}
+
+input DeleteCuratedPostInput {
+  id: ID
+}
+
+input ModelCuratedPostConditionInput {
+  order: ModelIntInput
+  postID: ModelIDInput
+  curationID: ModelIDInput
+  and: [ModelCuratedPostConditionInput]
+  or: [ModelCuratedPostConditionInput]
+  not: ModelCuratedPostConditionInput
 }
 
 input ModelIDKeyConditionInput {
@@ -781,6 +848,7 @@ input SearchableCurationFilterInput {
   title: SearchableStringFilterInput
   description: SearchableStringFilterInput
   updatedAt: SearchableStringFilterInput
+  totalViews: SearchableIntFilterInput
   and: [SearchableCurationFilterInput]
   or: [SearchableCurationFilterInput]
   not: SearchableCurationFilterInput
@@ -792,6 +860,7 @@ enum SearchableCurationSortableFields {
   title
   description
   updatedAt
+  totalViews
 }
 
 input SearchableCurationSortInput {
