@@ -4,7 +4,7 @@ import Tags from './Tags';
 import OwnerContext from '../context/OwnerContext';
 import useCognitoUser from '../helpers/hooks/useCognitoUser';
 
-const EditableTags = ({ tags, children, error, ...props }) => {
+const EditableTags = ({ children, error, ...props }) => {
   const [isEditing, setEditing] = useState(false);
   const owner = useContext(OwnerContext);
   const user = useCognitoUser();
@@ -37,7 +37,7 @@ const EditableTags = ({ tags, children, error, ...props }) => {
           }`}
           onClick={() => setEditing(true)}
         >
-          <Tags tags={tags} />
+          <Tags />
           <div className="hidden">{children}</div>
         </div>
       )}
@@ -50,4 +50,4 @@ const EditableTags = ({ tags, children, error, ...props }) => {
   );
 };
 
-export default EditableTags;
+export default React.memo(EditableTags);

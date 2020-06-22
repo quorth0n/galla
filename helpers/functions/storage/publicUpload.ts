@@ -1,5 +1,5 @@
 import { Storage } from 'aws-amplify';
-import awsExports from '../../src/aws-exports';
+import awsExports from '../../../src/aws-exports';
 
 const {
   aws_user_files_s3_bucket_region: region,
@@ -8,13 +8,13 @@ const {
 
 export default async (
   file: File,
-  name: String,
-  maxSize: Number = 1 * 1000 * 1000
+  name: string,
+  maxSize: number = 1 * 1000 * 1000
 ) => {
   if (file) {
     // size validation
     if (file.size > maxSize) {
-      throw new Error(`Cannot be larger than ${+maxSize / (1000 * 1000)} MB`);
+      throw new Error(`Cannot be larger than ${maxSize / (1000 * 1000)} MB`);
     }
 
     const extension = file.name.split('.')[1];

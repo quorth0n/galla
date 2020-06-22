@@ -1,8 +1,13 @@
 import React from 'react';
-import { viewTag } from '../src/graphql/mutations';
 import { graphqlOperation, API } from 'aws-amplify';
 
-const Tags = ({ tags }) => {
+import TagsContext from '../context/TagsContext';
+import { viewTag } from '../src/graphql/mutations';
+
+const Tags = () => {
+  const { tags, dirty } = React.useContext(TagsContext);
+
+  // map tag response to tag names array if needed
   const tagNames = tags.items ? tags.items.map((tag) => tag.tagName) : tags;
 
   React.useEffect(() => {
@@ -15,8 +20,8 @@ const Tags = ({ tags }) => {
         });
       }
     };
-    viewTags();
-  }, [tagNames]);
+    if (!dirty) viewTags();
+  }, [tagNames, dirty]);
 
   return (
     <div className="space-x-1">
@@ -36,4 +41,4 @@ const Tags = ({ tags }) => {
   );
 };
 
-export default Tags;
+export default React.memo(Tags);

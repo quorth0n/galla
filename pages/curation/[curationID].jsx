@@ -1,6 +1,7 @@
 import React from 'react';
 import Error from 'next/error';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { API, graphqlOperation } from 'aws-amplify';
 import { useForm } from 'react-hook-form';
 
@@ -9,25 +10,48 @@ import Head from '../../components/Head';
 import OwnerContext from '../../context/OwnerContext';
 import Editable from '../../components/Editable';
 import EditableTags from '../../components/EditableTags';
+import { updateCuration } from '../../src/graphql/mutations';
+import updateIntermediaryTags from '../../helpers/functions/tags/updateIntermediaryTags';
+import TagsContext from '../../context/TagsContext';
 
 const Curation = ({ curation }) => {
   const { register, handleSubmit, watch, errors, reset, formState } = useForm({
     mode: 'onBlur',
   });
+  const router = useRouter();
 
   const tags =
     watch('tags', curation.tags) === curation.tags
       ? curation.tags
-      : watch('tags')
-          .split(',')
-          .map((tag) => tag.trim());
-  const tagString =
-    watch('tags', curation.tags) === curation.tags
-      ? curation.tags.items.map((tag) => tag.tagName).join(', ')
-      : watch('tags');
+      : Array.from(new Set(watch('tags').split(',')))
+          .map((tag) => tag.trim())
+          .filter((tag) => !!tag);
+  const tagString = watch(
+    'tags',
+    curation.tags.items.map((tag) => tag.tagName).join(', ')
+  );
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+    const dataForUpdate = ({ tags, ...rest }) => rest;
+    await API.graphql(
+      graphqlOperation(updateCuration, {
+        input: {
+          id: curation.id,
+          ...dataForUpdate(data),
+        },
+      })
+    );
+    // if tags changed
+    if (tags !== curation.tags) {
+      await updateIntermediaryTags(
+        'curation',
+        curation.id,
+        tags,
+        curation.tags
+      );
+      router.reload(); // TODO: save in place by resetting to default values
+    }
   };
 
   if (!curation) return <Error statusCode={404} />;
@@ -104,15 +128,17 @@ const Curation = ({ curation }) => {
             </Editable>
           </p>
           <nav className="mt-4">
-            <EditableTags tags={tags} error={errors.tags}>
-              <input
-                type="text"
-                name="tags"
-                defaultValue={tagString}
-                autoFocus={true}
-                ref={register}
-              />
-            </EditableTags>
+            <TagsContext.Provider value={{ tags, dirty: formState.dirty }}>
+              <EditableTags error={errors.tags}>
+                <input
+                  type="text"
+                  name="tags"
+                  defaultValue={tagString}
+                  autoFocus={true}
+                  ref={register}
+                />
+              </EditableTags>
+            </TagsContext.Provider>
           </nav>
           <div className="font-bold text-xl space-x-4 mt-4">
             {formState.dirty && (
@@ -165,6 +191,7 @@ export const getServerSideProps = async ({ query: { curationID }, res }) => {
             }
             tags {
               items {
+                id
                 tagName
               }
             }
@@ -175,8 +202,8 @@ export const getServerSideProps = async ({ query: { curationID }, res }) => {
     ),
     authMode: 'API_KEY',
   });
+
   const curation = fetchedCuration.data.getCuration;
-  console.log(curation);
   if (!curation) {
     res.statusCode = 404;
   }

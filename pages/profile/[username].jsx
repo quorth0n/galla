@@ -11,7 +11,7 @@ import Cover from '../../components/profile/Cover';
 import EditableProfileItem from '../../components/profile/EditableProfileItem';
 import EditingContext from '../../context/profile/EditingContext';
 import useCognitoUser from '../../helpers/hooks/useCognitoUser';
-import publicUpload from '../../helpers/functions/publicUpload';
+import publicUpload from '../../helpers/functions/storage/publicUpload';
 import { getUser, searchPosts } from '../../src/graphql/queries';
 import { updateUser } from '../../src/graphql/mutations';
 import CurationThumb from '../../components/CurationThumb';

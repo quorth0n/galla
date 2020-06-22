@@ -5,17 +5,16 @@ import { Storage, API, graphqlOperation } from 'aws-amplify';
 import { nanoid } from 'nanoid';
 
 import Head from '../Head';
-import { getTag } from '../../src/graphql/queries';
 import {
   createPost,
   createTaggedPost,
-  createTag,
   updatePost,
-  deleteTaggedPost,
 } from '../../src/graphql/mutations';
 import withAmplifyData from '../../helpers/hocs/withAmplifyData';
 import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 import useWarnIfChanged from '../../helpers/hooks/useWarnIfChanged';
+import updateIntermediaryTags from '../../helpers/functions/tags/updateIntermediaryTags';
+import createNewTags from '../../helpers/functions/tags/createNewTags';
 
 const PostEditor = ({ region, bucket, post }) => {
   const router = useRouter();
@@ -24,10 +23,6 @@ const PostEditor = ({ region, bucket, post }) => {
   const [warn, setWarn] = React.useState(true);
   const [saving, setSaving] = React.useState(false);
   useWarnIfChanged(warn);
-
-  // update-only data
-  const originalTagNames =
-    post && post.tags ? post.tags.items.map((tag) => tag.tagName) : [];
 
   // gets approximate resolution from vertical pixels
   const getResMode = (height) =>
@@ -61,19 +56,9 @@ const PostEditor = ({ region, bucket, post }) => {
       const id = post ? post.id : nanoid();
 
       const { title, description } = postData;
-      const tags = [...new Set(postData.tags.split(','))].map((tag) =>
+      const tags = Array.from(new Set(postData.tags.split(','))).map((tag) =>
         tag.trim()
       );
-      const newTags = await tags.reduce(async (accumP, tag) => {
-        const accumulator = await accumP;
-        const tagResponse = await API.graphql(
-          graphqlOperation(getTag, { name: tag })
-        );
-        if (!tagResponse.data.getTag) {
-          accumulator.push(tag);
-        }
-        return accumulator;
-      }, Promise.resolve([]));
 
       let postInput = {
         id,
@@ -132,58 +117,16 @@ const PostEditor = ({ region, bucket, post }) => {
       // create new tags and create/update post
       await Promise.all([
         API.graphql(
-          ...newTags.map((tag) =>
-            graphqlOperation(createTag, {
-              input: {
-                name: tag,
-                totalViews: 0,
-                yearlyViews: 0,
-                monthlyViews: 0,
-                weeklyViews: 0,
-                dailyViews: 0,
-              },
-            })
-          )
-        ),
-        API.graphql(
           graphqlOperation(post ? updatePost : createPost, {
             input: postInput,
           })
         ),
+        createNewTags(tags),
       ]);
 
       if (post) {
         // only update added / removed TaggedPosts on update
-        const addedTags = tags.filter((tag) => !originalTagNames.includes(tag));
-        const removedTags = originalTagNames.filter(
-          (tag) => !tags.includes(tag)
-        );
-        if (addedTags.length || removedTags.length) {
-          const removedTagIds = removedTags.map(
-            (tag) => post.tags.items.find((item) => item.tagName === tag).id
-          );
-          await Promise.all([
-            ...addedTags.map(
-              async (tag) =>
-                await API.graphql(
-                  graphqlOperation(createTaggedPost, {
-                    input: {
-                      postID: id,
-                      tagName: tag,
-                    },
-                  })
-                )
-            ),
-            ...removedTagIds.map(
-              async (tagId) =>
-                await API.graphql(
-                  graphqlOperation(deleteTaggedPost, {
-                    input: { id: tagId },
-                  })
-                )
-            ),
-          ]);
-        }
+        await updateIntermediaryTags('post', id, tags, post.tags);
       } else {
         // create all new TaggedPosts on create
         await Promise.all(
@@ -307,11 +250,7 @@ const PostEditor = ({ region, bucket, post }) => {
           className={`px-3 py-3 placeholder-gray-500 text-gray-700 relative bg-primary rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full ${
             errors.tags && 'border-2 border-red-500 placeholder-red-500'
           }`}
-          defaultValue={
-            post && post.tags && post.tags.items.length
-              ? originalTagNames.join(', ')
-              : ''
-          }
+          defaultValue={post.tags.items.map((tag) => tag.tagName).join(', ')}
         />
         <div className="flex flex-row justify-end">
           <button

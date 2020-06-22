@@ -11,11 +11,11 @@ const Editable = ({ text, type, children, error, ...props }) => {
 
   const handleKeyDown = (event) => {
     const { key } = event;
-    const keys = ['Escape', 'Tab'];
-    const allKeys = [...keys, 'Enter'];
+    const textKeys = ['Escape', 'Tab'];
+    const textareaKeys = [...textKeys, 'Enter'];
     if (
-      (type === 'textarea' && keys.indexOf(key) > -1) ||
-      (type !== 'textarea' && allKeys.indexOf(key) > -1)
+      (type === 'textarea' && textKeys.indexOf(key) > -1) ||
+      (type !== 'textarea' && textareaKeys.indexOf(key) > -1)
     ) {
       setEditing(false);
     }
@@ -74,4 +74,4 @@ const Editable = ({ text, type, children, error, ...props }) => {
   );
 };
 
-export default Editable;
+export default React.memo(Editable);
