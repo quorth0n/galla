@@ -2679,10 +2679,6 @@ export type OnDeleteVoteSubscription = {
   } | null,
 };
 
-export type OnCreatePostSubscriptionVariables = {
-  userID: string,
-};
-
 export type OnCreatePostSubscription = {
   onCreatePost:  {
     __typename: "Post",
@@ -2734,10 +2730,6 @@ export type OnCreatePostSubscription = {
   } | null,
 };
 
-export type OnUpdatePostSubscriptionVariables = {
-  userID: string,
-};
-
 export type OnUpdatePostSubscription = {
   onUpdatePost:  {
     __typename: "Post",
@@ -2787,10 +2779,6 @@ export type OnUpdatePostSubscription = {
       nextToken: string | null,
     } | null,
   } | null,
-};
-
-export type OnDeletePostSubscriptionVariables = {
-  userID: string,
 };
 
 export type OnDeletePostSubscription = {
@@ -2925,10 +2913,6 @@ export type OnDeleteTagSubscription = {
   } | null,
 };
 
-export type OnCreateCurationSubscriptionVariables = {
-  owner: string,
-};
-
 export type OnCreateCurationSubscription = {
   onCreateCuration:  {
     __typename: "Curation",
@@ -2967,10 +2951,6 @@ export type OnCreateCurationSubscription = {
   } | null,
 };
 
-export type OnUpdateCurationSubscriptionVariables = {
-  owner: string,
-};
-
 export type OnUpdateCurationSubscription = {
   onUpdateCuration:  {
     __typename: "Curation",
@@ -3007,10 +2987,6 @@ export type OnUpdateCurationSubscription = {
       nextToken: string | null,
     } | null,
   } | null,
-};
-
-export type OnDeleteCurationSubscriptionVariables = {
-  owner: string,
 };
 
 export type OnDeleteCurationSubscription = {

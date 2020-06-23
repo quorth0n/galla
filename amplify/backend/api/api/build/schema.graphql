@@ -327,15 +327,15 @@ type Subscription {
   onCreateVote(owner: String!): Vote @aws_subscribe(mutations: ["createVote"]) @aws_api_key @aws_cognito_user_pools
   onUpdateVote(owner: String!): Vote @aws_subscribe(mutations: ["updateVote"]) @aws_api_key @aws_cognito_user_pools
   onDeleteVote(owner: String!): Vote @aws_subscribe(mutations: ["deleteVote"]) @aws_api_key @aws_cognito_user_pools
-  onCreatePost(userID: String!): Post @aws_subscribe(mutations: ["createPost"]) @aws_api_key @aws_iam @aws_cognito_user_pools
-  onUpdatePost(userID: String!): Post @aws_subscribe(mutations: ["updatePost"]) @aws_api_key @aws_iam @aws_cognito_user_pools
-  onDeletePost(userID: String!): Post @aws_subscribe(mutations: ["deletePost"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onCreatePost: Post @aws_subscribe(mutations: ["createPost"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onUpdatePost: Post @aws_subscribe(mutations: ["updatePost"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onDeletePost: Post @aws_subscribe(mutations: ["deletePost"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onCreateTag: Tag @aws_subscribe(mutations: ["createTag"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onUpdateTag: Tag @aws_subscribe(mutations: ["updateTag"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onDeleteTag: Tag @aws_subscribe(mutations: ["deleteTag"]) @aws_api_key @aws_iam @aws_cognito_user_pools
-  onCreateCuration(owner: String!): Curation @aws_subscribe(mutations: ["createCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
-  onUpdateCuration(owner: String!): Curation @aws_subscribe(mutations: ["updateCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
-  onDeleteCuration(owner: String!): Curation @aws_subscribe(mutations: ["deleteCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onCreateCuration: Curation @aws_subscribe(mutations: ["createCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onUpdateCuration: Curation @aws_subscribe(mutations: ["updateCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onDeleteCuration: Curation @aws_subscribe(mutations: ["deleteCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onCreateTaggedPost: TaggedPost @aws_subscribe(mutations: ["createTaggedPost"]) @aws_api_key @aws_cognito_user_pools
   onUpdateTaggedPost: TaggedPost @aws_subscribe(mutations: ["updateTaggedPost"]) @aws_api_key @aws_cognito_user_pools
   onDeleteTaggedPost: TaggedPost @aws_subscribe(mutations: ["deleteTaggedPost"]) @aws_api_key @aws_cognito_user_pools

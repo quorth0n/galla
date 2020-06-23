@@ -58,6 +58,7 @@ type Post
   @auth(
     rules: [
       { allow: owner, ownerField: "userID" }
+      { allow: private, operations: [read] } # Needed for intermediary m2m creation
       { allow: private, provider: iam, operations: [read, update] }
       { allow: public, provider: apiKey, operations: [read] }
     ]
@@ -104,6 +105,7 @@ type Curation
   @auth(
     rules: [
       { allow: owner }
+      { allow: private, operations: [read] } # Needed for intermediary m2m creation
       { allow: private, provider: iam, operations: [read, update] }
       { allow: public, provider: apiKey, operations: [read] }
     ]

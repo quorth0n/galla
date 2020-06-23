@@ -65,10 +65,6 @@ const Index = ({ initialPosts }) => {
     }
   };
 
-  const pushCollection = (collection) => {
-    console.log(collection);
-  };
-
   return (
     <div className="p-4 px-8">
       <Head title="For artists, by artists" />
@@ -89,7 +85,7 @@ const Index = ({ initialPosts }) => {
           </h2>
         ) : (
           posts.map((post) => (
-            <div key={post.id} onClick={() => pushCollection(posts)}>
+            <div key={post.id}>
               <PostThumb post={post} />
             </div>
           ))
@@ -103,7 +99,7 @@ const Index = ({ initialPosts }) => {
             </h2>
             <div className="post-grid my-6">
               {posts.slice(0, 3).map((post) => (
-                <div key={post.id} onClick={() => pushCollection(posts)}>
+                <div key={post.id}>
                   <PostThumb post={post} />
                 </div>
               ))}
@@ -115,7 +111,7 @@ const Index = ({ initialPosts }) => {
             </h2>
             <div className="post-grid my-6">
               {posts.slice(0, 3).map((post) => (
-                <div key={post.id} onClick={() => pushCollection(posts)}>
+                <div key={post.id}>
                   <PostThumb post={post} />
                 </div>
               ))}

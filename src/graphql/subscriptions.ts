@@ -87,8 +87,8 @@ export const onDeleteVote = /* GraphQL */ `
   }
 `;
 export const onCreatePost = /* GraphQL */ `
-  subscription OnCreatePost($userID: String!) {
-    onCreatePost(userID: $userID) {
+  subscription OnCreatePost {
+    onCreatePost {
       id
       title
       description
@@ -132,8 +132,8 @@ export const onCreatePost = /* GraphQL */ `
   }
 `;
 export const onUpdatePost = /* GraphQL */ `
-  subscription OnUpdatePost($userID: String!) {
-    onUpdatePost(userID: $userID) {
+  subscription OnUpdatePost {
+    onUpdatePost {
       id
       title
       description
@@ -177,8 +177,8 @@ export const onUpdatePost = /* GraphQL */ `
   }
 `;
 export const onDeletePost = /* GraphQL */ `
-  subscription OnDeletePost($userID: String!) {
-    onDeletePost(userID: $userID) {
+  subscription OnDeletePost {
+    onDeletePost {
       id
       title
       description
@@ -297,8 +297,8 @@ export const onDeleteTag = /* GraphQL */ `
   }
 `;
 export const onCreateCuration = /* GraphQL */ `
-  subscription OnCreateCuration($owner: String!) {
-    onCreateCuration(owner: $owner) {
+  subscription OnCreateCuration {
+    onCreateCuration {
       id
       owner
       title
@@ -331,8 +331,8 @@ export const onCreateCuration = /* GraphQL */ `
   }
 `;
 export const onUpdateCuration = /* GraphQL */ `
-  subscription OnUpdateCuration($owner: String!) {
-    onUpdateCuration(owner: $owner) {
+  subscription OnUpdateCuration {
+    onUpdateCuration {
       id
       owner
       title
@@ -365,8 +365,8 @@ export const onUpdateCuration = /* GraphQL */ `
   }
 `;
 export const onDeleteCuration = /* GraphQL */ `
-  subscription OnDeleteCuration($owner: String!) {
-    onDeleteCuration(owner: $owner) {
+  subscription OnDeleteCuration {
+    onDeleteCuration {
       id
       owner
       title
