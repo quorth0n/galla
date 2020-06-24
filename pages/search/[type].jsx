@@ -16,7 +16,7 @@ const fetchResults = async (type, query, nextToken = undefined) => {
         ...graphqlOperation(searchPosts, {
           filter: {
             title: {
-              match: query,
+              matchPhrasePrefix: query,
             },
           },
           limit: 4,

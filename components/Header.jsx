@@ -57,7 +57,7 @@ const Header = () => {
             className="px-3 py-2 placeholder-gray-400 text-gray-700 relative bg-primary rounded text-base border border-gray-400 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
             defaultValue={query && query}
           />
-          <span className="cursor-pointer z-10 h-full leading-normal font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-lg items-center justify-center w-8 right-0 pr-3 py-2">
+          <span className="cursor-pointer z-10 h-full leading-normal font-normal text-center text-gray-400 absolute bg-transparent rounded text-lg items-center justify-center w-8 right-0 pr-3 py-2">
             <i className="fas fa-search"></i>
           </span>
         </div>

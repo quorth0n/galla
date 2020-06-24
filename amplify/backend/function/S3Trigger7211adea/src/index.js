@@ -1,4 +1,8 @@
-// eslint-disable-next-line
+/* Amplify Params - DO NOT EDIT
+	ENV
+	REGION
+	STORAGE_IMAGES_BUCKETNAME
+Amplify Params - DO NOT EDIT */ // eslint-disable-next-line
 const AWS = require('aws-sdk');
 const S3 = new AWS.S3({ signatureVersion: 'v4' });
 const sharp = require('sharp');
@@ -42,7 +46,10 @@ async function processRecord(record) {
   const postID = key.substr(key.lastIndexOf('/') + 1, key.lastIndexOf('.'));
   const thumbKey = `${keyPrefix}/thumbs/${postID}`;
 
+  console.log('got info', postID);
+
   try {
+    console.log('trying');
     await S3.headObject({
       Bucket: bucketName,
       Key: thumbKey,
@@ -71,8 +78,9 @@ exports.handler = async (event, context, callback) => {
 
   try {
     event.Records.forEach(processRecord);
+    return event;
   } catch (err) {
     console.error(err);
+    return event;
   }
-  return event;
 };
