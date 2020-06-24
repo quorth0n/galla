@@ -79,18 +79,18 @@ const PostEditor = ({ region, bucket, post }) => {
         const thumbDim = await getDimensions(thumb);
 
         // upload full res
-        const fullResMode = `${getResMode(thumbDim[1])}p`;
+        const fullResDim = await getDimensions(fullRes);
+        const fullResMode = `${getResMode(fullResDim[1])}p`;
         const fullResUrl = await publicUpload(
           fullRes,
           `posts/${id}.${fullResMode}`,
           10 * 1000 * 1000
         );
-        const fullResDim = await getDimensions(fullRes);
 
         // create resolutions arr
         const resolutions = [
           {
-            resMode: ``,
+            resMode: `${getResMode(thumbDim[1])}p`,
             url: thumbUrl,
             thumb: true,
           },

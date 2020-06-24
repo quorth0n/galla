@@ -57,27 +57,21 @@ const Post = ({ post }) => {
           canvas.height = image.height;
 
           const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(image, 0, 0, image.width, image.height);
         };
         image.src = imageSrc;
       }
     }
-  }, []);
-
-  const fetchResolution = (resVal) => {
-    const resData = resolutions.find((res) => res.resMode === resVal);
-    if (resData.thumb) {
-      setImageSrc(resData.thumb);
-    } else {
-      Storage.get;
-    }
-  };
+  }, [imageSrc]);
 
   const dropdownRes = resolutions.map((res) => ({
-    key: res.resMode,
-    value: res.image,
-    disabled: !!user,
+    key: res.url,
+    value: res.resMode,
+    disabled: false,
   }));
+  console.log(dropdownRes);
+  console.log(resolutions);
 
   if (!post) return <Error statusCode={404} />;
 
@@ -100,7 +94,7 @@ const Post = ({ post }) => {
                   { key: '1080p', value: '1080p' },
                 ]
           }
-          handleChange={fetchResolution}
+          handleChange={(url) => setImageSrc(url)}
         />
       </div>
       <div className="relative mt-4 text-center text-xl align-middle flex flex-row items-center md:space-x-4 md:text-3xl navigation">
