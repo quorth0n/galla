@@ -40,7 +40,7 @@ const Editable = ({ text, type, children, error, ...props }) => {
                 className="font-semibold"
                 rel="noopener noreferrer"
                 target="_blank"
-                href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+                href="https://commonmark.org/help/"
               >
                 Markdown
               </a>{' '}

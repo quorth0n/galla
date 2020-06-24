@@ -4,7 +4,9 @@ import { createPopper } from '@popperjs/core';
 const Dropdown = ({ options, handleChange, size }) => {
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const [selected, setSelected] = React.useState(options[0].value);
+  const [selected, setSelected] = React.useState(
+    options.find((opt) => opt.selected)?.value ?? options[0].value
+  );
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Error from 'next/error';
-import { API, graphqlOperation, Storage } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 
 import Head from '../../components/Head';
 import Dropdown from '../../components/Dropdown';

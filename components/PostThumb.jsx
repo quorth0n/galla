@@ -18,11 +18,7 @@ const PostThumb = ({ post }) => (
             {post.description}
           </p>
         </div>
-        <img
-          src={`/thumbs/${post.thumb}`}
-          alt={post.title}
-          className="m-auto"
-        />
+        <img src={post.thumb} alt={post.title} className="m-auto" />
       </div>
     </a>
   </Link>

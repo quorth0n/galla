@@ -155,11 +155,14 @@ const Curation = ({ curation }) => {
             <button className="fas fa-share" />
           </div>
           <div className="post-grid mt-6">
-            {curation.posts.items.map((curatedPost) => (
-              <div key={curatedPost.post.id}>
-                <PostThumb post={curatedPost.post} />
-              </div>
-            ))}
+            {curation.posts.items.map(
+              (curatedPost) =>
+                curatedPost?.post && (
+                  <div key={curatedPost.post.id}>
+                    <PostThumb post={curatedPost.post} />
+                  </div>
+                )
+            )}
           </div>
         </OwnerContext.Provider>
       </form>

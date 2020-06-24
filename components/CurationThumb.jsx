@@ -22,13 +22,16 @@ const CurationThumb = ({ curation }) => (
       <div className="flex flex-wrap">
         {curation.posts.items
           .map((curatedPost) => curatedPost.post)
-          .map((post) => (
-            <img
-              key={post.thumb}
-              src={`/thumbs/${post.thumb}`}
-              className="w-1/2 object-cover h-24"
-            />
-          ))}
+          .map(
+            (post) =>
+              post && (
+                <img
+                  key={post.thumb}
+                  src={post.thumb}
+                  className="w-1/2 object-cover h-24"
+                />
+              )
+          )}
       </div>
     </div>
   </Link>

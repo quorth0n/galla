@@ -62,7 +62,7 @@ const Profile = ({ user }) => {
     }
   };
 
-  // CSR posts
+  // CSR posts and curations
   React.useEffect(() => {
     const fetchCurations = async () => {
       const fetchedCurations = await API.graphql(
@@ -108,6 +108,7 @@ const Profile = ({ user }) => {
         )
       );
       setCurations(fetchedCurations.data.searchCurations.items);
+      console.log(curations);
       setCurationCount(fetchedCurations.data.searchCurations.total);
     };
     const fetchPosts = async () => {
@@ -133,7 +134,7 @@ const Profile = ({ user }) => {
       fetchPosts();
       fetchCurations();
     }
-  }, [user]);
+  }, [user, curations]);
   // display errors on submit
   React.useEffect(() => {
     Object.values(errors).map((error) =>
@@ -152,7 +153,7 @@ const Profile = ({ user }) => {
           <section className="relative py-16 bg-secondary-soft">
             <div className="container mx-auto px-4">
               <div
-                className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-xl rounded-lg -mt-64 border-solid border border-primary bg-secondary shadow-2xl"
+                className="relative flex flex-col min-w-0 break-words w-full mb-6 rounded-lg -mt-64 border-solid border border-primary bg-secondary shadow-2xl"
                 style={{
                   backgroundClip: 'padding-box',
                 }}
@@ -226,7 +227,7 @@ const Profile = ({ user }) => {
                   </div>
                 </div>
                 <div className="text-center pt-12">
-                  <h3 className="text-4xl font-semibold leading-normal mb-2 text-primary mb-2">
+                  <h3 className="text-4xl font-semibold leading-normal text-primary mb-2">
                     {user.username}
                   </h3>
                   <EditableProfileItem
@@ -276,9 +277,13 @@ const Profile = ({ user }) => {
                     Posts
                   </h4>
                   <div className="px-4 lg:px-8 post-grid">
-                    {posts.map((post) => (
-                      <PostThumb key={post.id} post={post} />
-                    ))}
+                    {posts.length ? (
+                      posts.map((post) => (
+                        <PostThumb key={post.id} post={post} />
+                      ))
+                    ) : (
+                      <h2 className="text-lg w-full h-full">No posts yet!</h2>
+                    )}
                   </div>
                   <div className="text-center bg-secondary-soft items-center">
                     <a
@@ -298,9 +303,15 @@ const Profile = ({ user }) => {
                     Curations
                   </h4>
                   <div className="px-4 lg:px-8 flex flex-row space-x-4">
-                    {curations.map((curation) => (
-                      <CurationThumb key={curation.id} curation={curation} />
-                    ))}
+                    {curations.length ? (
+                      curations.map((curation) => (
+                        <CurationThumb key={curation.id} curation={curation} />
+                      ))
+                    ) : (
+                      <h2 className="text-lg w-full h-full">
+                        No curations yet!
+                      </h2>
+                    )}
                   </div>
                   <div className="text-center bg-secondary-soft items-center">
                     <a

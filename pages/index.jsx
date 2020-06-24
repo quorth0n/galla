@@ -71,7 +71,7 @@ const Index = ({ initialPosts }) => {
       <Dropdown
         options={[
           { value: 'Trending: 24 hr', key: '1' },
-          { value: 'Trending: 1 week', key: '7' },
+          { value: 'Trending: 1 week', key: '7', selected: true },
           { value: 'Trending: 1 month', key: '30' },
           { value: 'Trending: All Time', key: 'all' },
           { value: 'Newest', key: 'new' },
