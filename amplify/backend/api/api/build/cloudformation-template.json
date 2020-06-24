@@ -228,7 +228,7 @@
                         {
                             "Ref": "APIKeyExpirationEpoch"
                         },
-                        1624472858
+                        1624508468
                     ]
                 }
             },
@@ -408,21 +408,7 @@
                                                     "ApiId"
                                                 ]
                                             },
-                                            "typeName": "Image"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "Fn::Sub": [
-                                        "arn:aws:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
-                                        {
-                                            "apiId": {
-                                                "Fn::GetAtt": [
-                                                    "GraphQLAPI",
-                                                    "ApiId"
-                                                ]
-                                            },
-                                            "typeName": "S3Object"
+                                            "typeName": "PublicImage"
                                         }
                                     ]
                                 },

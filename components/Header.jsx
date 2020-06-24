@@ -10,7 +10,7 @@ const Header = () => {
   const user = useCognitoUser();
 
   return (
-    <nav className="fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary mb-3 z-20 shadow-2xl">
+    <nav className="fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary z-20 shadow-2xl">
       <div
         className={`container mx-auto flex flex-wrap items-center lg:justify-between ${
           searchOpen ? 'justify-center' : '' // centers search bar on mobile

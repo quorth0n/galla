@@ -8,16 +8,13 @@ export const viewPost = /* GraphQL */ `
       id
       title
       description
+      license
       createdAt
       userID
       thumb
       resolutions {
         resMode
-        image {
-          bucket
-          region
-          key
-        }
+        url
         thumb
       }
       totalViews
@@ -78,16 +75,13 @@ export const upvotePost = /* GraphQL */ `
       id
       title
       description
+      license
       createdAt
       userID
       thumb
       resolutions {
         resMode
-        image {
-          bucket
-          region
-          key
-        }
+        url
         thumb
       }
       totalViews
@@ -123,16 +117,13 @@ export const downvotePost = /* GraphQL */ `
       id
       title
       description
+      license
       createdAt
       userID
       thumb
       resolutions {
         resMode
-        image {
-          bucket
-          region
-          key
-        }
+        url
         thumb
       }
       totalViews
@@ -235,16 +226,13 @@ export const createPost = /* GraphQL */ `
       id
       title
       description
+      license
       createdAt
       userID
       thumb
       resolutions {
         resMode
-        image {
-          bucket
-          region
-          key
-        }
+        url
         thumb
       }
       totalViews
@@ -283,16 +271,13 @@ export const deletePost = /* GraphQL */ `
       id
       title
       description
+      license
       createdAt
       userID
       thumb
       resolutions {
         resMode
-        image {
-          bucket
-          region
-          key
-        }
+        url
         thumb
       }
       totalViews
@@ -467,11 +452,13 @@ export const createTaggedPost = /* GraphQL */ `
         id
         title
         description
+        license
         createdAt
         userID
         thumb
         resolutions {
           resMode
+          url
           thumb
         }
         totalViews
@@ -516,11 +503,13 @@ export const updateTaggedPost = /* GraphQL */ `
         id
         title
         description
+        license
         createdAt
         userID
         thumb
         resolutions {
           resMode
+          url
           thumb
         }
         totalViews
@@ -565,11 +554,13 @@ export const deleteTaggedPost = /* GraphQL */ `
         id
         title
         description
+        license
         createdAt
         userID
         thumb
         resolutions {
           resMode
+          url
           thumb
         }
         totalViews
@@ -744,11 +735,13 @@ export const createCuratedPost = /* GraphQL */ `
         id
         title
         description
+        license
         createdAt
         userID
         thumb
         resolutions {
           resMode
+          url
           thumb
         }
         totalViews
@@ -795,11 +788,13 @@ export const updateCuratedPost = /* GraphQL */ `
         id
         title
         description
+        license
         createdAt
         userID
         thumb
         resolutions {
           resMode
+          url
           thumb
         }
         totalViews
@@ -846,11 +841,13 @@ export const deleteCuratedPost = /* GraphQL */ `
         id
         title
         description
+        license
         createdAt
         userID
         thumb
         resolutions {
           resMode
+          url
           thumb
         }
         totalViews
@@ -928,16 +925,13 @@ export const updatePost = /* GraphQL */ `
       id
       title
       description
+      license
       createdAt
       userID
       thumb
       resolutions {
         resMode
-        image {
-          bucket
-          region
-          key
-        }
+        url
         thumb
       }
       totalViews

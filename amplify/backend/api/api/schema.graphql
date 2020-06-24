@@ -5,10 +5,20 @@ type S3Object {
   key: String!
 }
 
-type Image {
+type PublicImage {
   resMode: String!
-  image: S3Object
-  thumb: String
+  url: String!
+  thumb: Boolean
+}
+
+enum License {
+  by
+  by_sa
+  by_nd
+  by_nc
+  zero
+  pdm
+  copyright
 }
 
 # Models
@@ -67,12 +77,13 @@ type Post
   id: ID!
   title: String!
   description: String
+  license: License!
   createdAt: AWSDateTime
   userID: ID!
   tags: [TaggedPost] @connection(keyName: "byPost", fields: ["id"])
   curations: [CuratedPost] @connection(keyName: "byPost", fields: ["id"])
   thumb: String!
-  resolutions: [Image]!
+  resolutions: [PublicImage]!
 
   totalViews: Int
   totalScore: Int

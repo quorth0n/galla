@@ -58,7 +58,6 @@ const Profile = ({ user }) => {
       );
       router.reload();
     } catch (err) {
-      console.error(err.message);
       setError('misc', 'notMatch', err.message);
     }
   };

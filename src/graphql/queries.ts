@@ -150,11 +150,13 @@ export const listPosts = /* GraphQL */ `
         id
         title
         description
+        license
         createdAt
         userID
         thumb
         resolutions {
           resMode
+          url
           thumb
         }
         totalViews
@@ -177,16 +179,13 @@ export const getPost = /* GraphQL */ `
       id
       title
       description
+      license
       createdAt
       userID
       thumb
       resolutions {
         resMode
-        image {
-          bucket
-          region
-          key
-        }
+        url
         thumb
       }
       totalViews
@@ -233,11 +232,13 @@ export const searchPosts = /* GraphQL */ `
         id
         title
         description
+        license
         createdAt
         userID
         thumb
         resolutions {
           resMode
+          url
           thumb
         }
         totalViews
@@ -450,11 +451,13 @@ export const getTaggedPost = /* GraphQL */ `
         id
         title
         description
+        license
         createdAt
         userID
         thumb
         resolutions {
           resMode
+          url
           thumb
         }
         totalViews
@@ -501,6 +504,7 @@ export const listTaggedPosts = /* GraphQL */ `
           id
           title
           description
+          license
           createdAt
           userID
           thumb
@@ -615,11 +619,13 @@ export const getCuratedPost = /* GraphQL */ `
         id
         title
         description
+        license
         createdAt
         userID
         thumb
         resolutions {
           resMode
+          url
           thumb
         }
         totalViews
@@ -668,6 +674,7 @@ export const listCuratedPosts = /* GraphQL */ `
           id
           title
           description
+          license
           createdAt
           userID
           thumb

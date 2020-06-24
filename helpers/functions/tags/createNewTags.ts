@@ -16,7 +16,6 @@ export default async (tags: string[]) => {
     }
     return accumulator;
   }, Promise.resolve([]));
-  debugger;
 
   const tagsPromise = newTags.map(
     async (tag) =>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Error from 'next/error';
-import { API, graphqlOperation } from 'aws-amplify';
+import { API, graphqlOperation, Storage } from 'aws-amplify';
 
 import Head from '../../components/Head';
 import Dropdown from '../../components/Dropdown';
@@ -10,11 +10,14 @@ import Vote from '../../components/post/Vote';
 import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 import { viewPost } from '../../src/graphql/mutations';
 import Tags from '../../components/Tags';
+import TagsContext from '../../context/TagsContext';
+import { licenses } from '../../helpers/constants';
 
 const Post = ({ post }) => {
   const { id } = post;
   const canvasRef = React.useRef();
   const [resolutions, setResolutions] = React.useState([]);
+  const [imageSrc, setImageSrc] = React.useState(post.thumb);
   const user = useCognitoUser();
 
   // scale canvas and load image
@@ -28,11 +31,7 @@ const Post = ({ post }) => {
               getPost(id: $id) {
                 resolutions {
                   resMode
-                  image {
-                    bucket
-                    region
-                    key
-                  }
+                  url
                   thumb
                 }
               }
@@ -53,28 +52,37 @@ const Post = ({ post }) => {
       if (canvas.offsetWidth !== 300) {
         const image = new Image();
         image.onload = () => {
-          // TODO find better ways to resample on low res
+          // TODO: find better ways to resample on low res
           canvas.width = image.width;
           canvas.height = image.height;
 
           const ctx = canvas.getContext('2d');
           ctx.drawImage(image, 0, 0, image.width, image.height);
         };
-        image.src = `/thumbs/${post.thumb}`;
+        image.src = imageSrc;
       }
     }
   }, []);
 
+  const fetchResolution = (resVal) => {
+    const resData = resolutions.find((res) => res.resMode === resVal);
+    if (resData.thumb) {
+      setImageSrc(resData.thumb);
+    } else {
+      Storage.get;
+    }
+  };
+
   const dropdownRes = resolutions.map((res) => ({
     key: res.resMode,
-    value: res.resMode,
+    value: res.image,
     disabled: !!user,
   }));
 
   if (!post) return <Error statusCode={404} />;
 
   return (
-    <div className="m-auto inline-flex flex-col justify-center text-left p-4 md:px-8">
+    <div className="inline-flex flex-col justify-center text-left p-4 md:px-8 w-full">
       <Head title={post.title} description={post.description} />
       <div className="flex flex-row justify-between">
         <Link href="/">
@@ -92,51 +100,31 @@ const Post = ({ post }) => {
                   { key: '1080p', value: '1080p' },
                 ]
           }
-          handleChange={(change) => console.log(change)}
+          handleChange={fetchResolution}
         />
       </div>
-      <div className="relative mt-4 text-center align-middle navigation">
+      <div className="relative mt-4 text-center text-xl align-middle flex flex-row items-center md:space-x-4 md:text-3xl navigation">
         {/* TODO: Add swiping support for mobile https://codesandbox.io/s/qq7759m3lq?module=/src/Carousel.js&file=/src/Carousel.js */}
         <Link href="#">
-          <a
-            className="block float-left absolute arrow"
-            style={{ top: '50%', bottom: '50%' }}
-          >
-            <i className="fas fa-chevron-left text-4xl"></i>
+          <a className="absolute left-0 bg-secondary rounded-r pr-1 md:static md:bg-transparent md:pr-0 arrow">
+            <i className="fas fa-chevron-left"></i>
           </a>
         </Link>
-        <canvas
-          ref={canvasRef}
-          className="inline img shadow-2xl"
-          onContextMenu={(e) => e.preventDefault()}
-        />
-        <div className="mt-4 px-3 py-1 text-center text-xs w-full flex flex-row justify-around">
-          <button>
-            <i className="fas fa-share mr-1"></i> Share
-          </button>
-          <AddToCuration postID={id} />
-          {user && user.username === post.userID && (
-            <Link href="/post/edit/[id]" as={`/post/edit/${id}`}>
-              <a>
-                <i className="fas fa-edit mr-1"></i> Edit
-              </a>
-            </Link>
-          )}
+        <div className="w-full">
+          <canvas
+            ref={canvasRef}
+            className="img shadow-2xl w-full"
+            onContextMenu={(e) => e.preventDefault()}
+          />
         </div>
         <Link href="#">
-          <a
-            className="block float-right absolute right-0 arrow"
-            style={{ top: '50%', bottom: '50%' }}
-          >
-            <i className="fas fa-chevron-right float-right text-4xl"></i>
+          <a className="absolute right-0 bg-secondary rounded-l pl-1 md:static md:bg-transparent md:pl-0 arrow">
+            <i className="fas fa-chevron-right"></i>
           </a>
         </Link>
         <style jsx>{`
           .navigation .arrow {
-            opacity: 0;
-          }
-          .navigation:hover .arrow {
-            opacity: 1;
+            opacity: 0.75;
           }
 
           .arrow:hover {
@@ -147,21 +135,32 @@ const Post = ({ post }) => {
             top: -1.5em;
           }
 
-          /* .img cannot be resized through tailwind because dep CSS loads after useEffect */
-          .img {
-            width: 100%;
-          }
-
           @media (min-width: 1024px) {
             .back {
               top: 0;
             }
 
-            .img {
-              width: 75%;
+            .navigation .arrow {
+              opacity: 0;
+            }
+            .navigation:hover .arrow {
+              opacity: 1;
             }
           }
         `}</style>
+      </div>
+      <div className="mt-4 px-3 py-1 text-center text-xs w-full flex flex-row justify-around">
+        <button>
+          <i className="fas fa-share mr-1"></i> Share
+        </button>
+        <AddToCuration postID={id} />
+        {user && user.username === post.userID && (
+          <Link href="/post/edit/[id]" as={`/post/edit/${id}`}>
+            <a>
+              <i className="fas fa-edit mr-1"></i> Edit
+            </a>
+          </Link>
+        )}
       </div>
       <div className="pt-8 justify-between flex flex-row">
         <div className="flex-col">
@@ -188,18 +187,53 @@ const Post = ({ post }) => {
             <div className="md:inline font-semibold px-3 py-1 text-sm ml-1">
               <i className="far fa-eye"></i> {post.totalViews}
             </div>
-            <div className="cursor-help px-3 py-1 text-lg text-center w-full hidden md:block">
-              <i className="fab fa-creative-commons-pd"></i> Public Domain
+            <div className="px-3 py-1 text-lg text-center w-full hidden md:block">
+              <a
+                href={
+                  post.license !== 'copyright' &&
+                  (licenses[post.license].link ??
+                    `https://creativecommons.org/licenses/${post.license.replace(
+                      '_',
+                      '-'
+                    )}/4.0/`)
+                }
+                className={
+                  post.license === 'copyright' &&
+                  'cursor-text hover:opacity-100 hover:shadow-none'
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className={licenses[post.license].icon} />{' '}
+                {licenses[post.license].name}
+              </a>
             </div>
           </div>
         </div>
       </div>
       <p className="opacity-75 mt-4">{post.description}</p>
       <nav className="mt-4">
-        <Tags tags={post.tags} />
+        {/* TODO: implement inline editing */}
+        <TagsContext.Provider value={{ tags: post.tags }}>
+          <Tags />
+        </TagsContext.Provider>
       </nav>
       <div className="cursor-help  mt-4 opacity-75 md:hidden">
-        <i className="fab fa-creative-commons-pd"></i> Public Domain
+        <a
+          href={
+            post.license !== 'copyright' &&
+            (licenses[post.license].link ??
+              `https://creativecommons.org/licenses/${post.license.replace(
+                '_',
+                '-'
+              )}/4.0/`)
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className={licenses[post.license].icon} />{' '}
+          {licenses[post.license].name}
+        </a>
       </div>
     </div>
   );
@@ -213,6 +247,7 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
           id
           title
           description
+          license
           createdAt
           userID
           thumb

@@ -1,13 +1,23 @@
-type S3Object @aws_api_key @aws_iam @aws_cognito_user_pools {
+type S3Object {
   bucket: String!
   region: String!
   key: String!
 }
 
-type Image @aws_api_key @aws_iam @aws_cognito_user_pools {
+type PublicImage @aws_api_key @aws_iam @aws_cognito_user_pools {
   resMode: String!
-  image: S3Object
-  thumb: String
+  url: String!
+  thumb: Boolean
+}
+
+enum License {
+  by
+  by_sa
+  by_nd
+  by_nc
+  zero
+  pdm
+  copyright
 }
 
 type User @aws_api_key @aws_iam @aws_cognito_user_pools {
@@ -36,10 +46,11 @@ type Post @aws_api_key @aws_iam @aws_cognito_user_pools {
   id: ID!
   title: String!
   description: String
+  license: License!
   createdAt: AWSDateTime
   userID: ID!
   thumb: String!
-  resolutions: [Image]!
+  resolutions: [PublicImage]!
   totalViews: Int
   totalScore: Int
   updatedAt: AWSDateTime!
@@ -388,16 +399,10 @@ input ModelVoteConditionInput {
   not: ModelVoteConditionInput
 }
 
-input ImageInput {
+input PublicImageInput {
   resMode: String!
-  image: S3ObjectInput
-  thumb: String
-}
-
-input S3ObjectInput {
-  bucket: String!
-  region: String!
-  key: String!
+  url: String!
+  thumb: Boolean
 }
 
 type ModelPostConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
@@ -405,10 +410,16 @@ type ModelPostConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
   nextToken: String
 }
 
+input ModelLicenseInput {
+  eq: License
+  ne: License
+}
+
 input ModelPostFilterInput {
   id: ModelIDInput
   title: ModelStringInput
   description: ModelStringInput
+  license: ModelLicenseInput
   createdAt: ModelStringInput
   userID: ModelIDInput
   thumb: ModelStringInput
@@ -423,10 +434,11 @@ input CreatePostInput {
   id: ID
   title: String!
   description: String
+  license: License!
   createdAt: AWSDateTime
   userID: ID!
   thumb: String!
-  resolutions: [ImageInput]!
+  resolutions: [PublicImageInput]!
   totalViews: Int
   totalScore: Int
 }
@@ -435,10 +447,11 @@ input UpdatePostInput {
   id: ID!
   title: String
   description: String
+  license: License
   createdAt: AWSDateTime
   userID: ID
   thumb: String
-  resolutions: [ImageInput]
+  resolutions: [PublicImageInput]
   totalViews: Int
   totalScore: Int
 }
@@ -450,6 +463,7 @@ input DeletePostInput {
 input ModelPostConditionInput {
   title: ModelStringInput
   description: ModelStringInput
+  license: ModelLicenseInput
   createdAt: ModelStringInput
   thumb: ModelStringInput
   totalViews: ModelIntInput

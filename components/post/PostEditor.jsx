@@ -1,20 +1,22 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { Storage, API, graphqlOperation } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import { nanoid } from 'nanoid';
 
 import Head from '../Head';
-import {
-  createPost,
-  createTaggedPost,
-  updatePost,
-} from '../../src/graphql/mutations';
+import { licenses } from '../../helpers/constants';
 import withAmplifyData from '../../helpers/hocs/withAmplifyData';
 import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 import useWarnIfChanged from '../../helpers/hooks/useWarnIfChanged';
 import updateIntermediaryTags from '../../helpers/functions/tags/updateIntermediaryTags';
 import createNewTags from '../../helpers/functions/tags/createNewTags';
+import publicUpload from '../../helpers/functions/storage/publicUpload';
+import {
+  createPost,
+  createTaggedPost,
+  updatePost,
+} from '../../src/graphql/mutations';
 
 const PostEditor = ({ region, bucket, post }) => {
   const router = useRouter();
@@ -55,7 +57,7 @@ const PostEditor = ({ region, bucket, post }) => {
     const upload = async (thumb, fullRes, postData) => {
       const id = post ? post.id : nanoid();
 
-      const { title, description } = postData;
+      const { title, description, license } = postData;
       const tags = Array.from(new Set(postData.tags.split(','))).map((tag) =>
         tag.trim()
       );
@@ -64,48 +66,47 @@ const PostEditor = ({ region, bucket, post }) => {
         id,
         title,
         description,
+        license,
       };
 
       if (!post) {
-        // upload thumbnail (public)
-        const thumbUploadData = new FormData();
-        thumbUploadData.append('thumb', thumb);
-        thumbUploadData.append('id', id);
-        const thumbKey = await fetch('/api/uploadThumb', {
-          method: 'POST',
-          body: thumbUploadData,
-        }).then((res) => res.json());
+        // upload thumbnail
+        const thumbUrl = await publicUpload(
+          thumb,
+          `thumbs/${id}`,
+          1 * 1000 * 1000
+        );
         const thumbDim = await getDimensions(thumb);
 
-        // upload 1080p (private to authenticated users)
-        const ext = fullRes.name.split('.')[1];
-        const { type: mimeType1080 } = fullRes;
-        const key1080 = `${id}.full.${ext}`;
-        await Storage.put(key1080, fullRes, { contentType: mimeType1080 });
-        const img1080ForUpload = {
-          bucket,
-          key: key1080,
-          region,
-        };
+        // upload full res
+        const fullResMode = `${getResMode(thumbDim[1])}p`;
+        const fullResUrl = await publicUpload(
+          fullRes,
+          `posts/${id}.${fullResMode}`,
+          10 * 1000 * 1000
+        );
         const fullResDim = await getDimensions(fullRes);
 
         // create resolutions arr
         const resolutions = [
           {
-            resMode: `${getResMode(thumbDim[1])}p`,
-            thumb: thumbKey.key,
+            resMode: ``,
+            url: thumbUrl,
+            thumb: true,
           },
         ];
         if (getResMode(thumbDim[1]) !== getResMode(fullResDim[1])) {
+          // add full res to beginning of resolutions arr
           resolutions.unshift({
-            resMode: `${getResMode(fullResDim[1])}p`,
-            image: img1080ForUpload,
+            resMode: fullResMode,
+            url: fullResUrl,
+            thumb: false,
           });
         }
 
         // extend postInput with create-only data
         postInput = {
-          thumb: thumbKey.key,
+          thumb: thumbUrl,
           resolutions,
           userID: user.username,
           totalViews: 0,
@@ -147,22 +148,12 @@ const PostEditor = ({ region, bucket, post }) => {
     };
 
     const { thumb, fullRes } = data;
-    // size constraints
-    if (thumb[0] && thumb[0].size > 250 * 1000) {
-      setError('thumb', 'notMatch', 'Max size is 1 MB');
+    if (!post && !thumb[0]) {
+      // TODO: resize
+      setError('thumb', 'notMatch', 'This field is required.');
       return;
     }
-    if (fullRes[0] && fullRes[0].size > 10 * 1000 * 1000) {
-      setError('fullRes', 'notMatch', 'Max size is 10 MB');
-      return;
-    }
-    // checks passed: upload
     try {
-      if (!post && !thumb[0]) {
-        // TODO: resize
-        setError('thumb', 'notMatch', 'This field is required.');
-        return;
-      }
       upload(thumb[0], fullRes[0], data);
     } catch (e) {
       console.error(e);
@@ -230,6 +221,17 @@ const PostEditor = ({ region, bucket, post }) => {
             </p>
           </div>
         </div>
+        <select
+          name="license"
+          ref={register}
+          className="p-3 text-gray-700 bg-primary rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full"
+        >
+          {Object.keys(licenses).map((license) => (
+            <option value={license} key={license}>
+              {licenses[license].name}
+            </option>
+          ))}
+        </select>
         <textarea
           name="description"
           placeholder="Description"
@@ -250,7 +252,9 @@ const PostEditor = ({ region, bucket, post }) => {
           className={`px-3 py-3 placeholder-gray-500 text-gray-700 relative bg-primary rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full ${
             errors.tags && 'border-2 border-red-500 placeholder-red-500'
           }`}
-          defaultValue={post.tags.items.map((tag) => tag.tagName).join(', ')}
+          defaultValue={
+            post ? post.tags.items.map((tag) => tag.tagName).join(', ') : ''
+          }
         />
         <div className="flex flex-row justify-end">
           <button

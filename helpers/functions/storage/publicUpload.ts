@@ -11,26 +11,26 @@ export default async (
   name: string,
   maxSize: number = 1 * 1000 * 1000
 ) => {
-  if (file) {
-    // size validation
-    if (file.size > maxSize) {
-      throw new Error(`Cannot be larger than ${maxSize / (1000 * 1000)} MB`);
-    }
-
-    const extension = file.name.split('.')[1];
-    const { type: mimeType } = file;
-    const key = `${name}.${extension}`;
-    const url = `https://${bucket}.s3.${region}.amazonaws.com/public/${key}`;
-    try {
-      await Storage.put(key, file, {
-        contentType: mimeType,
-      });
-      return url;
-    } catch (err) {
-      console.log('error: ', err);
-    }
-  } else {
+  if (!file) {
     console.log('no file, skipping');
     return null;
+  }
+
+  // size validation
+  if (file.size > maxSize) {
+    throw new Error(`Cannot be larger than ${maxSize / (1000 * 1000)} MB`);
+  }
+
+  const extension = file.name.split('.')[1];
+  const { type: mimeType } = file;
+  const key = `${name}.${extension}`;
+  const url = `https://${bucket}.s3.${region}.amazonaws.com/public/${key}`;
+  try {
+    await Storage.put(key, file, {
+      contentType: mimeType,
+    });
+    return url;
+  } catch (err) {
+    console.log('error: ', err);
   }
 };
