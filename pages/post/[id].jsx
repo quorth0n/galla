@@ -37,41 +37,46 @@ const Post = ({ post }) => {
               }
             }
           `,
-          variables: { id },
+          variables: { id: post.id },
           authMode: 'API_KEY',
         });
-        await API.graphql({
-          ...graphqlOperation(viewPost, { id }),
+        const res = fetchedResolutions.data.getPost.resolutions;
+        setImageSrc(res[res.length - 1].url);
+        setResolutions(res);
+
+        API.graphql({
+          ...graphqlOperation(viewPost, { id: post.id }),
           authMode: 'API_KEY',
         });
-        setResolutions(fetchedResolutions.data.getPost.resolutions);
       };
       fetchData();
+    }
+  }, [post]);
 
-      const canvas = canvasRef.current;
-      if (canvas.offsetWidth !== 300) {
-        const image = new Image();
-        image.onload = () => {
-          // TODO: find better ways to resample on low res
-          canvas.width = image.width;
-          canvas.height = image.height;
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (canvas.offsetWidth !== 300) {
+      const image = new Image();
+      image.onload = () => {
+        // TODO: find better ways to resample on low res
+        canvas.width = image.width;
+        canvas.height = image.height;
 
-          const ctx = canvas.getContext('2d');
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(image, 0, 0, image.width, image.height);
-        };
-        image.src = imageSrc;
-      }
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0, image.width, image.height);
+      };
+      image.src = imageSrc;
     }
   }, [imageSrc]);
 
-  const dropdownRes = resolutions.map((res) => ({
+  React.useEffect(() => {}, [id]);
+
+  const dropdownRes = resolutions.map((res, i) => ({
     key: res.url,
     value: res.resMode,
-    disabled: false,
+    selected: i === resolutions.length - 1,
   }));
-  console.log(dropdownRes);
-  console.log(resolutions);
 
   if (!post) return <Error statusCode={404} />;
 
@@ -84,18 +89,13 @@ const Post = ({ post }) => {
             <i className="fas fa-arrow-left"></i> Back
           </a>
         </Link>
-        <Dropdown
-          size="sm"
-          options={
-            dropdownRes.length
-              ? dropdownRes
-              : [
-                  { key: '360p', value: '360p' },
-                  { key: '1080p', value: '1080p' },
-                ]
-          }
-          handleChange={(url) => setImageSrc(url)}
-        />
+        {resolutions.length && (
+          <Dropdown
+            size="sm"
+            options={dropdownRes}
+            handleChange={(url) => setImageSrc(url)}
+          />
+        )}
       </div>
       <div className="relative mt-4 text-center text-xl align-middle flex flex-row items-center md:space-x-4 md:text-3xl navigation">
         {/* TODO: Add swiping support for mobile https://codesandbox.io/s/qq7759m3lq?module=/src/Carousel.js&file=/src/Carousel.js */}

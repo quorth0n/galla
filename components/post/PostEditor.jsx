@@ -17,6 +17,7 @@ import {
   createTaggedPost,
   updatePost,
 } from '../../src/graphql/mutations';
+import getUrlForPublicKey from '../../helpers/functions/storage/getUrlForPublicKey';
 
 const PostEditor = ({ region, bucket, post }) => {
   const router = useRouter();
@@ -54,7 +55,7 @@ const PostEditor = ({ region, bucket, post }) => {
   const onSubmit = (data) => {
     setWarn(false);
     setSaving(true);
-    const upload = async (thumb, fullRes, postData) => {
+    const upload = async (fullRes, postData) => {
       const id = post ? post.id : nanoid();
 
       const { title, description, license } = postData;
@@ -70,14 +71,6 @@ const PostEditor = ({ region, bucket, post }) => {
       };
 
       if (!post) {
-        // upload thumbnail
-        const thumbUrl = await publicUpload(
-          thumb,
-          `thumbs/${id}`,
-          1 * 1000 * 1000
-        );
-        const thumbDim = await getDimensions(thumb);
-
         // upload full res
         const fullResDim = await getDimensions(fullRes);
         const fullResMode = `${getResMode(fullResDim[1])}p`;
@@ -90,18 +83,25 @@ const PostEditor = ({ region, bucket, post }) => {
         // create resolutions arr
         const resolutions = [
           {
-            resMode: `${getResMode(thumbDim[1])}p`,
-            url: thumbUrl,
-            thumb: true,
-          },
-        ];
-        if (getResMode(thumbDim[1]) !== getResMode(fullResDim[1])) {
-          // add full res to beginning of resolutions arr
-          resolutions.unshift({
             resMode: fullResMode,
             url: fullResUrl,
             thumb: false,
-          });
+          },
+        ];
+
+        // thumb is handled by S3 trigger by default, grab reference here
+        let thumbUrl = getUrlForPublicKey(
+          `thumbs/${id}.${fullResUrl.substring(
+            fullResUrl.lastIndexOf('.') + 1
+          )}`
+        );
+        if (fullResDim[1] <= 480) {
+          // use full res as thumbnail
+          thumbUrl = await publicUpload(
+            fullRes,
+            `thumbs/${id}`,
+            10 * 1000 * 1000
+          );
         }
 
         // extend postInput with create-only data
@@ -147,14 +147,9 @@ const PostEditor = ({ region, bucket, post }) => {
       router.push(`/post/${id}`);
     };
 
-    const { thumb, fullRes } = data;
-    if (!post && !thumb[0]) {
-      // TODO: resize
-      setError('thumb', 'notMatch', 'This field is required.');
-      return;
-    }
+    const { fullRes } = data;
     try {
-      upload(thumb[0], fullRes[0], data);
+      upload(fullRes[0], data);
     } catch (e) {
       console.error(e);
     }
@@ -201,23 +196,6 @@ const PostEditor = ({ region, bucket, post }) => {
             />
             <p className="text-red-500">
               {errors.fullRes && errors.fullRes.message}
-            </p>
-          </div>
-          <div>
-            <label htmlFor="thumb" className="text-base">
-              Thumbnail:
-            </label>
-            <input
-              type="file"
-              accept="image/png,image/webp,image/jpeg,image/gif"
-              name="thumb"
-              ref={register()}
-              className={`opacity-75 text-gray-500 min-w-0 w-full ${
-                errors.thumb && 'border-2 border-red-500 placeholder-red-500'
-              }`}
-            />
-            <p className="text-red-500">
-              {errors.thumb && errors.thumb.message}
             </p>
           </div>
         </div>
