@@ -2,7 +2,7 @@ import React from 'react';
 import { ToastProvider } from 'react-toast-notifications';
 import Amplify from 'aws-amplify';
 
-import Layout from '../components/Layout';
+import Layout from '../components/layout/Layout';
 import awsconfig from '../src/aws-exports';
 
 import '../styles/index.css';

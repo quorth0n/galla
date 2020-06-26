@@ -1,16 +1,22 @@
 import React from 'react';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 
-import useCognitoUser from '../helpers/hooks/useCognitoUser';
+import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 
 const Header = () => {
-  const router = useRouter();
-  const { query } = router.query;
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
   const user = useCognitoUser();
+  const { handleSubmit, register } = useForm();
+  const router = useRouter();
+  const { query } = router.query;
+
+  const onSearch = ({ query }) => {
+    router.push(`/search/posts?query=${query}`);
+  };
 
   return (
     <nav className="fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary z-20 shadow-2xl">
@@ -46,27 +52,33 @@ const Header = () => {
             </button>
           </div>
         </div>
-        <div
+        <form
           className={`w-1/2 flex-wrap items-stretch justify-between relative ${
             searchOpen ? 'flex w-full' : 'hidden'
           } lg:flex`}
+          onSubmit={handleSubmit(onSearch)}
         >
           <input
             type="search"
+            name="query"
+            ref={register}
             placeholder="Enter a tag, artist, or collection"
             className="px-3 py-2 placeholder-gray-400 text-gray-700 relative bg-primary rounded text-base border border-gray-400 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
             defaultValue={query && query}
           />
-          <span className="cursor-pointer z-10 h-full leading-normal font-normal text-center text-gray-400 absolute bg-transparent rounded text-lg items-center justify-center w-8 right-0 pr-3 py-2">
+          <button
+            type="submit"
+            className="cursor-pointer z-10 h-full leading-normal font-normal text-center text-gray-400 absolute bg-transparent rounded text-lg items-center justify-center w-8 right-0 pr-3 py-2"
+          >
             <i className="fas fa-search"></i>
-          </span>
-        </div>
+          </button>
+        </form>
         <div
           className={`lg:flex items-center ${navbarOpen ? ' flex' : ' hidden'}`}
         >
           {user ? (
-            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto align-middle">
-              <li className="nav-item">
+            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+              <li className="nav-item self-center">
                 <Link
                   href="/profile/[username]"
                   as={`/profile/${user.username}`}
