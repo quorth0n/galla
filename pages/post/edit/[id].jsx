@@ -1,7 +1,7 @@
 import React from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 
-import PostEditor from '../../../components/PostEditor';
+import PostEditor from '../../../components/post/PostEditor';
 
 const EditPost = ({ post }) => <PostEditor post={post} />;
 
@@ -18,11 +18,7 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
             thumb
             resolutions {
               resMode
-              image {
-                bucket
-                region
-                key
-              }
+              url
               thumb
             }
             tags {

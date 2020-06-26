@@ -152,7 +152,6 @@ const Curation = ({ curation }) => {
               </>
             )}
             <button className="far fa-heart" />
-            <button className="fas fa-share" />
           </div>
           <div className="post-grid mt-6">
             {curation.posts.items.map(

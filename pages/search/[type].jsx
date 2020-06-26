@@ -19,13 +19,11 @@ const fetchResults = async (type, query, nextToken = undefined) => {
               matchPhrasePrefix: query,
             },
           },
-          limit: 4,
+          limit: 15,
           nextToken,
         }),
         authMode: 'API_KEY',
       });
-      console.log(fetchedResults);
-      console.log(fetchedResults.data.searchPosts.items.length);
       response = {
         items: fetchedResults.data.searchPosts.items,
         nextToken: fetchedResults.data.searchPosts.nextToken,
@@ -63,11 +61,10 @@ const Search = ({ initialPosts, initialNextToken, total }) => {
   const [posts, setPosts] = React.useState(initialPosts);
   const [nextToken, setNextToken] = React.useState(initialNextToken);
 
-  const loadMore = async (page) => {
-    const morePosts = await fetchResults(type, query, 4 * page);
+  const loadMore = async () => {
+    const morePosts = await fetchResults(type, query, nextToken);
     setPosts(posts.concat(morePosts.items));
-    console.log(4 * page);
-    //setNextToken(morePosts.nextToken);
+    setNextToken(morePosts.nextToken);
   };
 
   return (
@@ -84,7 +81,7 @@ const Search = ({ initialPosts, initialNextToken, total }) => {
                 Loading...
               </div>
             }
-            hasMore={posts.length !== total}
+            hasMore={posts.length < total}
           >
             {posts.map((post) => (
               <div key={post.id} onClick={() => console.log(posts)}>

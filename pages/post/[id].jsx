@@ -144,9 +144,6 @@ const Post = ({ post }) => {
         `}</style>
       </div>
       <div className="mt-4 px-3 py-1 text-center text-xs w-full flex flex-row justify-around">
-        <button>
-          <i className="fas fa-share mr-1"></i> Share
-        </button>
         <AddToCuration postID={id} />
         {user && user.username === post.userID && (
           <Link href="/post/edit/[id]" as={`/post/edit/${id}`}>
