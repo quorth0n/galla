@@ -42,8 +42,18 @@ jobs:
         npm install
         # build and test
         # npm run test
+
+    - name: deploy amplify
+      uses: ambientlight/amplify-cli-action@0.2.1
+      with:
+        amplify_command: push
+        amplify_env: prod
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: us-west-2
         
-    - name: deploy
+    - name: deploy vercel
       uses: amondnet/vercel-action@v19
       with:
         vercel-args: '--prod'
