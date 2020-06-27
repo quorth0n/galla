@@ -77,8 +77,15 @@ const Header = () => {
           className={`lg:flex items-center ${navbarOpen ? ' flex' : ' hidden'}`}
         >
           {user ? (
-            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-              <li className="nav-item self-center">
+            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto items-center">
+              <li className="nav-item text-lg">
+                <Link href="/post/new">
+                  <a>
+                    <i className="fas fa-plus"></i>
+                  </a>
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link
                   href="/profile/[username]"
                   as={`/profile/${user.username}`}

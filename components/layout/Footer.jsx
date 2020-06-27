@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Footer = () => (
-  <footer className="opacity-50 flex justify-around text-primary p-4 border-t border-primary items-center">
+  <footer className="opacity-50 flex justify-around text-primary p-4 mt-16 border-t border-primary items-center">
     <div className="text-xl">
       <a href="https://github.com/quorth0n/artify">
         <i className="fab fa-github" />
