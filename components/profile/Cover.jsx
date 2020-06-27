@@ -38,7 +38,7 @@ const Cover = ({ defaultCover }) => {
         >
           <polygon
             className="fill-current"
-            style={{ color: '#2b3d4f' }}
+            style={{ color: '#293849' }}
             points="2560 0 2560 100 0 100"
           ></polygon>
         </svg>

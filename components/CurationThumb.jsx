@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const CurationThumb = ({ curation }) => (
   <Link href="/curation/[id]" as={`/curation/${curation.id}`} key={curation.id}>
-    <div className="relative w-48 h-48 text-center mb-8 cursor-pointer shadow hover:shadow-xl">
+    <div className="relative w-48 h-48 text-center cursor-pointer shadow hover:shadow-xl">
       <div className="absolute inset-0 w-full h-full block p-1 bg-black opacity-0 hover:opacity-75 transition duration-500 ease pl-0">
         <em className="relative top-0 text-lg font-semibold">
           {curation.title}

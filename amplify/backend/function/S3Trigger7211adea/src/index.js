@@ -42,7 +42,7 @@ async function processRecord(record) {
   const bucketName = record.s3.bucket.name;
   const key = decodeURIComponent(record.s3.object.key.replace(/\+/g, ' '));
 
-  if (record.eventName !== 'ObjectCreated:Put') {
+  if (!record.eventName.includes('ObjectCreated')) {
     console.log('not a new file');
     return;
   }

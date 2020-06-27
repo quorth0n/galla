@@ -70,7 +70,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-artify-staging-134046-deployment",
-					"S3Key": "amplify-builds/S3Trigger7211adea-6d686d7378354139594e-build.zip"
+					"S3Key": "amplify-builds/S3Trigger7211adea-4b7a5449303043534132-build.zip"
 				}
 			}
 		},

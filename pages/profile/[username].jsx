@@ -108,7 +108,7 @@ const Profile = ({ user }) => {
         ),
         authMode: 'API_KEY',
       });
-      setCurationCount(fetchedCurations.data.searchCurations.total);
+      setCurationCount(fetchedCurations.data.searchCurations.total ?? 0);
       setCurations(fetchedCurations.data.searchCurations.items);
     };
     const fetchPosts = async () => {
@@ -127,7 +127,7 @@ const Profile = ({ user }) => {
         }),
         authMode: 'API_KEY',
       });
-      setPostCount(fetchPosts.data.searchPosts.total);
+      setPostCount(fetchPosts.data.searchPosts.total ?? 0);
       setPosts(fetchPosts.data.searchPosts.items);
     };
     if (user) {
@@ -150,7 +150,7 @@ const Profile = ({ user }) => {
       <FormContext {...methods}>
         <form onSubmit={handleSubmit(onProfileSubmit)}>
           <Cover defaultCover={user.bg} />
-          <section className="relative py-16">
+          <section className="relative pt-16">
             <div className="container mx-auto px-4">
               <div
                 className="relative flex flex-col min-w-0 break-words w-full mb-6 rounded-lg -mt-64 border-solid border border-primary bg-secondary shadow-2xl"
@@ -163,7 +163,9 @@ const Profile = ({ user }) => {
                     <Avatar user={user} />
                   </div>
                   <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                    <div className="py-6 px-3 mt-32 lg:mt-0">
+                    <div
+                      className={`pt-6 px-3 ${user.avatar && 'mt-20'} lg:mt-0`}
+                    >
                       {!canEdit && (
                         <button className="btn-primary" type="button">
                           Follow
@@ -198,7 +200,7 @@ const Profile = ({ user }) => {
                     </div>
                   </div>
                   <div className="w-full lg:w-4/12 px-4 lg:order-1">
-                    <div className="flex py-4 lg:pt-4 pt-8">
+                    <div className="flex py-4 justify-center lg:justify-start">
                       <div className="mr-4 p-3 text-center">
                         <span className="text-xl font-bold block uppercase tracking-wide text-primary">
                           {user.monthlyViews}
@@ -226,7 +228,7 @@ const Profile = ({ user }) => {
                     </div>
                   </div>
                 </div>
-                <div className="text-center pt-12">
+                <div className="text-center">
                   <h3 className="text-4xl font-semibold leading-normal text-primary mb-2">
                     {user.username}
                   </h3>
@@ -284,20 +286,18 @@ const Profile = ({ user }) => {
                         <PostThumb key={post.id} post={post} />
                       ))
                     ) : (
-                      <h2 className="text-lg w-full h-full opacity-75 mb-2">
+                      <h2 className="text-lg w-full h-full opacity-75">
                         No posts yet!
                       </h2>
                     )}
                   </div>
-                  <div className="text-center bg-secondary-soft items-center">
-                    <a
-                      href="#posts"
-                      className="font-semibold text-accent"
-                      onClick={(e) => e.target.classList.add('hidden')}
-                    >
-                      View all
-                    </a>
-                  </div>
+                  <a
+                    href="#posts"
+                    className="font-semibold text-accent mt-3 block"
+                    onClick={(e) => e.target.classList.add('hidden')}
+                  >
+                    View all
+                  </a>
                 </div>
                 <div
                   id="curations"
@@ -312,7 +312,7 @@ const Profile = ({ user }) => {
                         <CurationThumb key={curation.id} curation={curation} />
                       ))
                     ) : (
-                      <h2 className="text-lg w-full h-full opacity-75 mb-2">
+                      <h2 className="text-lg w-full h-full opacity-75">
                         No curations yet!
                       </h2>
                     )}
@@ -320,7 +320,7 @@ const Profile = ({ user }) => {
                   <div className="text-center bg-secondary-soft items-center">
                     <a
                       href="#posts"
-                      className="font-semibold text-accent"
+                      className="font-semibold text-accent mt-3"
                       onClick={(e) => e.target.classList.add('hidden')}
                     >
                       View all

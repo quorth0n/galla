@@ -166,8 +166,11 @@ const Post = ({ post }) => {
             </Link>
           </div>
           <div className="flex-col select-none opacity-75 text-right w-48 md:w-auto">
-            <div className="md:inline font-semibold px-3 py-1 text-sm">
-              <i className="far fa-heart"></i> 34
+            <div
+              className="cusror-help md:inline font-semibold px-3 py-1 text-sm"
+              title="Coming soon!"
+            >
+              <i className="far fa-heart"></i> 0
             </div>
             <div
               className="cursor-help md:inline font-semibold px-3 py-1 text-sm ml-1"
@@ -187,7 +190,7 @@ const Post = ({ post }) => {
                         '_',
                         '-'
                       )}/4.0/`
-                    : ''
+                    : undefined
                 }
                 className={
                   post.license === 'copyright' &&

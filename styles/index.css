@@ -33,8 +33,11 @@ input:focus {
 
 a:hover,
 button:hover {
-  @apply shadow-lg;
   opacity: 0.75;
+}
+
+button:hover {
+  @apply shadow-lg;
 }
 
 .btn-primary {
