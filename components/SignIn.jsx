@@ -7,9 +7,7 @@ import {
 
 const SignIn = () => (
   <AmplifyAuthenticator usernameAlias="username">
-    <AmplifySignIn slot="sign-in">
-      <div slot="secondary-footer-content">Signup is currently invite-only</div>
-    </AmplifySignIn>
+    <AmplifySignIn slot="sign-in"></AmplifySignIn>
     <AmplifySignUp
       formFields={[
         {

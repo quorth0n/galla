@@ -181,12 +181,13 @@ const Post = ({ post }) => {
             <div className="px-3 py-1 text-lg text-center w-full hidden md:block">
               <a
                 href={
-                  post.license !== 'copyright' &&
-                  (licenses[post.license].link ??
-                    `https://creativecommons.org/licenses/${post.license.replace(
-                      '_',
-                      '-'
-                    )}/4.0/`)
+                  post.license !== 'copyright'
+                    ? licenses[post.license].link ??
+                      `https://creativecommons.org/licenses/${post.license.replace(
+                        '_',
+                        '-'
+                      )}/4.0/`
+                    : ''
                 }
                 className={
                   post.license === 'copyright' &&
