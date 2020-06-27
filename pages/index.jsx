@@ -70,10 +70,10 @@ const Index = ({ initialPosts }) => {
       <Head title="For artists, by artists" />
       <Dropdown
         options={[
-          { value: 'Trending: 24 hr', key: '1' },
-          { value: 'Trending: 1 week', key: '7', selected: true },
-          { value: 'Trending: 1 month', key: '30' },
-          { value: 'Trending: All Time', key: 'all' },
+          { value: 'Trending: past day', key: '1' },
+          { value: 'Trending: past week', key: '7', selected: true },
+          { value: 'Trending: past month', key: '30' },
+          { value: 'Top: all time', key: 'all' },
           { value: 'Newest', key: 'new' },
         ]}
         handleChange={postFilterChange}
@@ -91,34 +91,6 @@ const Index = ({ initialPosts }) => {
           ))
         )}
       </div>
-      {posts.length > 0 && posts.length <= 8 && (
-        <>
-          <div className="pt-4 border-primary border-t">
-            <h2 className="text-lg lg:text-left">
-              Suggested category: <strong>Photography</strong>
-            </h2>
-            <div className="post-grid my-6">
-              {posts.slice(0, 3).map((post) => (
-                <div key={post.id}>
-                  <PostThumb post={post} />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="pt-4 border-primary border-t">
-            <h2 className="text-lg lg:text-left">
-              Suggested tag: <strong>#modernism</strong>
-            </h2>
-            <div className="post-grid my-6">
-              {posts.slice(0, 3).map((post) => (
-                <div key={post.id}>
-                  <PostThumb post={post} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
     </div>
   );
 };
