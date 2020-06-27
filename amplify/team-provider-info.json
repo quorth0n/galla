@@ -21,7 +21,37 @@
                     "GROUP": ""
                 },
                 "AdminQueriesd9cd5725": {},
-                "S3Trigger7211adea": {}
+                "S3Trigger7211adea": {},
+                "monthlyOperations": {}
+            }
+        }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-artify-prod-210318-authRole",
+            "UnauthRoleArn": "arn:aws:iam::069069176526:role/amplify-artify-prod-210318-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::069069176526:role/amplify-artify-prod-210318-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-artify-prod-210318-deployment",
+            "UnauthRoleName": "amplify-artify-prod-210318-unauthRole",
+            "StackName": "amplify-artify-prod-210318",
+            "StackId": "arn:aws:cloudformation:us-west-2:069069176526:stack/amplify-artify-prod-210318/2322d010-b82b-11ea-945e-027d9accbf80",
+            "AmplifyAppId": "dwkw7o53ko03f"
+        },
+        "categories": {
+            "auth": {
+                "artify93216dc7": {},
+                "userPoolGroups": {}
+            },
+            "function": {
+                "AdminQueriesd9cd5725": {},
+                "artify93216dc7PostConfirmation": {
+                    "GROUP": ""
+                },
+                "monthlyOperations": {},
+                "S3Trigger7211adea": {},
+                "artify93216dc7": {},
+                "api": {}
             }
         }
     }
