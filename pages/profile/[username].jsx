@@ -65,8 +65,8 @@ const Profile = ({ user }) => {
   // CSR posts and curations
   React.useEffect(() => {
     const fetchCurations = async () => {
-      const fetchedCurations = await API.graphql(
-        graphqlOperation(
+      const fetchedCurations = await API.graphql({
+        ...graphqlOperation(
           /* GraphQL */ `
             query SearchCurations(
               $filter: SearchableCurationFilterInput
@@ -105,11 +105,11 @@ const Profile = ({ user }) => {
             },
             postLimit: 4,
           }
-        )
-      );
-      setCurations(fetchedCurations.data.searchCurations.items);
-      console.log(curations);
+        ),
+        authMode: 'API_KEY',
+      });
       setCurationCount(fetchedCurations.data.searchCurations.total);
+      setCurations(fetchedCurations.data.searchCurations.items);
     };
     const fetchPosts = async () => {
       const fetchPosts = await API.graphql({
@@ -134,7 +134,7 @@ const Profile = ({ user }) => {
       fetchPosts();
       fetchCurations();
     }
-  }, [user, curations]);
+  }, [user]);
   // display errors on submit
   React.useEffect(() => {
     Object.values(errors).map((error) =>
@@ -150,7 +150,7 @@ const Profile = ({ user }) => {
       <FormContext {...methods}>
         <form onSubmit={handleSubmit(onProfileSubmit)}>
           <Cover defaultCover={user.bg} />
-          <section className="relative py-16 bg-secondary-soft">
+          <section className="relative py-16">
             <div className="container mx-auto px-4">
               <div
                 className="relative flex flex-col min-w-0 break-words w-full mb-6 rounded-lg -mt-64 border-solid border border-primary bg-secondary shadow-2xl"
@@ -276,13 +276,17 @@ const Profile = ({ user }) => {
                   <h4 className="text-2xl font-semibold leading-normal mb-6 text-primary">
                     Posts
                   </h4>
-                  <div className="px-4 lg:px-8 post-grid">
+                  <div
+                    className={`px-4 lg:px-8 ${posts.length && 'post-grid'}`}
+                  >
                     {posts.length ? (
                       posts.map((post) => (
                         <PostThumb key={post.id} post={post} />
                       ))
                     ) : (
-                      <h2 className="text-lg w-full h-full">No posts yet!</h2>
+                      <h2 className="text-lg w-full h-full opacity-75 mb-2">
+                        No posts yet!
+                      </h2>
                     )}
                   </div>
                   <div className="text-center bg-secondary-soft items-center">
@@ -308,7 +312,7 @@ const Profile = ({ user }) => {
                         <CurationThumb key={curation.id} curation={curation} />
                       ))
                     ) : (
-                      <h2 className="text-lg w-full h-full">
+                      <h2 className="text-lg w-full h-full opacity-75 mb-2">
                         No curations yet!
                       </h2>
                     )}

@@ -19,10 +19,10 @@ import {
 } from '../../src/graphql/mutations';
 import getUrlForPublicKey from '../../helpers/functions/storage/getUrlForPublicKey';
 
-const PostEditor = ({ region, bucket, post }) => {
+const PostEditor = ({ post }) => {
   const router = useRouter();
   const user = useCognitoUser();
-  const { register, handleSubmit, errors, setError } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const [warn, setWarn] = React.useState(true);
   const [saving, setSaving] = React.useState(false);
   useWarnIfChanged(warn);
@@ -181,23 +181,21 @@ const PostEditor = ({ region, bucket, post }) => {
             post && 'hidden'
           }`}
         >
-          <div>
-            <label htmlFor="fullRes" className="text-base">
-              Full Resolution: (required)
-            </label>
-            <input
-              type="file"
-              accept="image/png,image/webp,image/jpeg,image/gif"
-              name="fullRes"
-              ref={register({ required: !post })}
-              className={`opacity-75 text-gray-500 min-w-0 w-full ${
-                errors.fullRes && 'border-2 border-red-500 placeholder-red-500'
-              }`}
-            />
-            <p className="text-red-500">
-              {errors.fullRes && errors.fullRes.message}
-            </p>
-          </div>
+          <label htmlFor="fullRes" className="text-base mr-2">
+            Image:
+          </label>
+          <input
+            type="file"
+            accept="image/png,image/webp,image/jpeg,image/gif"
+            name="fullRes"
+            ref={register({ required: !post })}
+            className={`opacity-75 text-gray-500 min-w-0 w-full ${
+              errors.fullRes && 'border-2 border-red-500 placeholder-red-500'
+            }`}
+          />
+          <p className="text-red-500">
+            {errors.fullRes && errors.fullRes.message}
+          </p>
         </div>
         <select
           name="license"
@@ -254,4 +252,4 @@ const PostEditor = ({ region, bucket, post }) => {
     </div>
   );
 };
-export default withAmplifyData(PostEditor);
+export default PostEditor;
