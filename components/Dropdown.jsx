@@ -35,7 +35,7 @@ const Dropdown = ({ options, handleChange, size }) => {
           }}
         >
           <span className="flex flex-row justify-between align-middle">
-            <span className={size === 'sm' && 'mr-2'}>{selected}</span>
+            <span className={size === 'sm' ? 'mr-2' : ''}>{selected}</span>
             <i className="fas fa-angle-down"></i>
           </span>
         </button>
