@@ -6,7 +6,6 @@ import { nanoid } from 'nanoid';
 
 import Head from '../Head';
 import { licenses } from '../../helpers/constants';
-import withAmplifyData from '../../helpers/hocs/withAmplifyData';
 import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 import useWarnIfChanged from '../../helpers/hooks/useWarnIfChanged';
 import updateIntermediaryTags from '../../helpers/functions/tags/updateIntermediaryTags';
@@ -90,18 +89,22 @@ const PostEditor = ({ post }) => {
         ];
 
         // thumb is handled by S3 trigger by default, grab reference here
-        let thumbUrl = getUrlForPublicKey(
-          `thumbs/${id}.${fullResUrl.substring(
-            fullResUrl.lastIndexOf('.') + 1
-          )}`
-        );
-        if (fullResDim[1] <= 480) {
+        const ext = fullResUrl.substring(fullResUrl.lastIndexOf('.') + 1);
+        let thumbUrl = getUrlForPublicKey(`thumbs/${id}.${ext}`);
+        if (getResMode(fullResDim[1]) <= 360) {
           // use full res as thumbnail
           thumbUrl = await publicUpload(
             fullRes,
             `thumbs/${id}`,
             10 * 1000 * 1000
           );
+        } else {
+          // add thumb to resolutions
+          resolutions.unshift({
+            resMode: '360p',
+            url: thumbUrl,
+            thumb: true,
+          });
         }
 
         // extend postInput with create-only data

@@ -10,7 +10,7 @@ const S3 = new AWS.S3({
 });
 const sharp = require('sharp');
 
-const THUMBNAIL_HEIGHT = parseInt(process.env.THUMBNAIL_HEIGHT || 480);
+const THUMBNAIL_HEIGHT = parseInt(process.env.THUMBNAIL_HEIGHT || 360);
 
 function makeThumbnail(photo) {
   return sharp(photo)
@@ -24,8 +24,8 @@ function makeThumbnail(photo) {
 async function resize(photoBody, bucketName, key) {
   const originalPostDimensions = await sharp(photoBody).metadata();
 
-  if (originalPostDimensions.height <= 480) {
-    console.log('original post <= 480p, thumbnail already uploaded');
+  if (originalPostDimensions.height <= 360) {
+    console.log('original post <= 360p, thumbnail already uploaded');
     return;
   }
 
