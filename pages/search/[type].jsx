@@ -9,15 +9,21 @@ import PostThumb from '../../components/PostThumb';
 import { searchPosts } from '../../src/graphql/queries';
 
 const fetchResults = async (type, query, nextToken = undefined) => {
+  const joinedQuery = query.split(' ').flatMap((part) => [
+    {
+      title: { regexp: `.*${part}.*` },
+    },
+    {
+      description: { regexp: `.*${part}.*` },
+    },
+  ]);
   let response = {};
   switch (type) {
     case 'posts': {
       const fetchedResults = await API.graphql({
         ...graphqlOperation(searchPosts, {
           filter: {
-            title: {
-              matchPhrasePrefix: query,
-            },
+            or: joinedQuery,
           },
           limit: 15,
           nextToken,
