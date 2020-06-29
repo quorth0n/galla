@@ -41,7 +41,7 @@ button:hover {
 }
 
 .btn-primary {
-  @apply bg-accent border-2 border-accent uppercase text-white font-bold shadow text-xs px-4 py-2 rounded outline-none mb-1;
+  @apply bg-accent border-2 border-accent uppercase text-primary font-bold shadow text-xs px-4 py-2 rounded outline-none mb-1;
 }
 
 .btn-secondary {

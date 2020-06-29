@@ -73,6 +73,8 @@ const AddToCuration = ({ postID }) => {
     if (user) fetchCurations();
   }, [user]);
 
+  if (!user) return null;
+
   const handleCurationClick = async (id) => {
     const curation = curations.find((curation) => curation.id === id);
     const curatedPost = curation.posts.items.find(

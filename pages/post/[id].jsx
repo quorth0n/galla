@@ -14,10 +14,9 @@ import TagsContext from '../../context/TagsContext';
 import { licenses } from '../../helpers/constants';
 
 const Post = ({ post }) => {
-  const { id } = post;
   const canvasRef = React.useRef();
   const [resolutions, setResolutions] = React.useState([]);
-  const [imageSrc, setImageSrc] = React.useState(post.thumb);
+  const [imageSrc, setImageSrc] = React.useState(post?.thumb);
   const user = useCognitoUser();
 
   // scale canvas and load image
@@ -55,7 +54,7 @@ const Post = ({ post }) => {
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
-    if (canvas.offsetWidth !== 300) {
+    if (canvas && canvas.offsetWidth !== 300) {
       const image = new Image();
       image.onload = () => {
         // TODO: find better ways to resample on low res
@@ -70,15 +69,14 @@ const Post = ({ post }) => {
     }
   }, [imageSrc]);
 
-  React.useEffect(() => {}, [id]);
+  if (!post) return <Error statusCode={404} />;
 
+  const { id } = post;
   const dropdownRes = resolutions.map((res, i) => ({
     key: res.url,
     value: res.resMode,
     selected: i === resolutions.length - 1,
   }));
-
-  if (!post) return <Error statusCode={404} />;
 
   return (
     <div className="inline-flex flex-col justify-center text-left p-4 md:px-8 w-full">
