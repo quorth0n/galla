@@ -18,7 +18,7 @@ const AddToCuration = ({ postID }) => {
   });
   const btnRef = React.createRef();
   const popoverRef = React.createRef();
-  const [popoverShow, openPopover, closePopover] = usePopper(
+  const [popoverShowing, openPopover, closePopover] = usePopper(
     btnRef,
     popoverRef
   );
@@ -151,7 +151,7 @@ const AddToCuration = ({ postID }) => {
       <button
         ref={btnRef}
         onClick={() => {
-          popoverShow ? closePopover() : openPopover();
+          popoverShowing ? closePopover() : openPopover();
         }}
       >
         <i className={`fas fa-${status.icon} mr-1`} /> {status.text}
@@ -159,7 +159,7 @@ const AddToCuration = ({ postID }) => {
       <div
         ref={popoverRef}
         className={
-          (popoverShow ? 'block' : 'hidden') +
+          (popoverShowing ? 'block' : 'hidden') +
           ' bg-primary text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1'
         }
         style={{ minWidth: '5rem' }}
