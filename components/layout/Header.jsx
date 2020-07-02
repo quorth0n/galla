@@ -114,7 +114,7 @@ const Header = () => {
             type="search"
             name="query"
             ref={register}
-            placeholder="Enter a tag, artist, or collection"
+            placeholder="Search for a post"
             className="px-3 py-2 placeholder-gray-400 text-gray-700 relative bg-primary rounded text-base border border-gray-400 outline-none focus:outline-none focus:shadow-outline w-full pr-10"
             defaultValue={query && query}
           />
