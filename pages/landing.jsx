@@ -1,0 +1,217 @@
+import React from 'react';
+import Link from 'next/link';
+
+export default function Landing() {
+  return (
+    <main>
+      <div
+        className="relative pt-16 pb-32 flex content-center items-center justify-center"
+        style={{
+          minHeight: '75vh',
+        }}
+      >
+        <div
+          className="absolute top-0 w-full h-full bg-center bg-cover"
+          style={{
+            backgroundImage: "url('./img/landingBg.jpg')",
+          }}
+        >
+          <span
+            id="blackOverlay"
+            className="w-full h-full absolute inset-0 opacity-75 bg-black"
+          ></span>
+        </div>
+        <div className="container relative mx-auto">
+          <div className="items-center flex flex-wrap">
+            <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
+              <div className="pr-12">
+                <h1 className="text-primary font-semibold text-5xl">
+                  The future of art is here
+                </h1>
+                <p className="mt-4 text-lg text-gray-300">
+                  Galla is revolutionizing the way artists and curators work, by
+                  giving the community an update for the digital age.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
+          style={{ height: '70px', transform: 'translateZ(0)' }}
+        >
+          <svg
+            className="absolute bottom-0 overflow-hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            version="1.1"
+            viewBox="0 0 2560 100"
+            x="0"
+            y="0"
+          >
+            <polygon
+              className="text-secondary-soft fill-current"
+              points="2560 0 2560 100 0 100"
+            ></polygon>
+          </svg>
+        </div>
+      </div>
+
+      <section className="pb-20 bg-secondary-soft -mt-24">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap">
+            <div className="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
+              <div className="relative flex flex-col min-w-0 break-words bg-primary w-full mb-8 shadow-lg rounded-lg">
+                <div className="px-4 py-5 flex-auto">
+                  <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
+                    <i className="fas fa-shield-alt text-lg"></i>
+                  </div>
+                  <h6 className="text-xl font-semibold text-gray-800">
+                    Protect Your Work
+                  </h6>
+                  <p className="mt-2 mb-4 text-gray-600">
+                    <a
+                      href="https://medium.com/blockchain-art-collective/heres-how-artists-can-play-an-active-part-in-preventing-art-theft-bce53315d460"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      64%
+                    </a>{' '}
+                    of photographers have had their work stolen over 200 times.
+                    Galla is tightly-integrated with protection against bots and
+                    content scrapers.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full md:w-4/12 px-4 text-center">
+              <div className="relative flex flex-col min-w-0 break-words bg-primary w-full mb-8 shadow-lg rounded-lg">
+                <div className="px-4 py-5 flex-auto">
+                  <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-blue-400">
+                    <i className="fas fa-money-bill-wave text-lg"></i>
+                  </div>
+                  <h6 className="text-xl font-semibold text-gray-800">
+                    Earn More
+                  </h6>
+                  <p className="mt-2 mb-4 text-gray-600">
+                    Sell prints, earn comissions, and collect royalties whenever
+                    your work is viewed &ndash; all in one place.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-6 w-full md:w-4/12 px-4 text-center">
+              <div className="relative flex flex-col min-w-0 break-words bg-primary w-full mb-8 shadow-lg rounded-lg">
+                <div className="px-4 py-5 flex-auto">
+                  <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-green-400">
+                    <i className="fas fa-stream text-lg"></i>
+                  </div>
+                  <h6 className="text-xl font-semibold text-gray-800">
+                    Curate Content
+                  </h6>
+                  <p className="mt-2 mb-4 text-gray-600">
+                    Digitize your exhibitions, galleries, or private collections
+                    for the internet, and stream to any device you can imagine.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="my-20 text-center">
+          <h3 className="font-semibold text-3xl italic">
+            How much should you really be earning?
+          </h3>
+        </div>
+      </section>
+
+      <section className="relative block bg-gray-900">
+        <div
+          className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
+          style={{ height: '80px', transform: 'translateZ(0)' }}
+        >
+          <svg
+            className="absolute bottom-0 overflow-hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            version="1.1"
+            viewBox="0 0 2560 100"
+            x="0"
+            y="0"
+          >
+            <polygon
+              className="text-gray-900 fill-current"
+              points="2560 0 2560 100 0 100"
+            ></polygon>
+          </svg>
+        </div>
+
+        <div className="container mx-auto px-4 lg:py-24">
+          <div className="flex flex-wrap text-center justify-center">
+            <div className="w-full lg:w-6/12 px-4">
+              <h2 className="text-4xl font-semibold text-primary">
+                Be a part of something greater
+              </h2>
+              <p className="text-lg leading-relaxed mt-4 mb-4 text-gray-500">
+                Galla is currently under active development, and we're looking
+                for all the help we can get. If you're as excited about the
+                project as we are, get in touch using one of the methods below:
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap mt-12 justify-center">
+            <div className="w-full lg:w-3/12 px-4 text-center">
+              <a
+                href="https://discord.gg/ujvNJcr"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-gray-900 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
+                  <i className="fab fa-discord text-xl"></i>
+                </div>
+                <h5 className="text-xl mt-5 font-semibold text-white">
+                  Discord
+                </h5>
+                <p className="mt-2 mb-4 text-gray-500">
+                  Follow along with site progress, developer updates, and
+                  provide feedback or feature requests.
+                </p>
+              </a>
+            </div>
+            <div className="w-full lg:w-3/12 px-4 text-center">
+              <a
+                href="https://github.com/quorth0n/galla"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-gray-900 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
+                  <i className="fab fa-github text-xl"></i>
+                </div>
+                <h5 className="text-xl mt-5 font-semibold text-white">
+                  GitHub
+                </h5>
+                <p className="mt-2 mb-4 text-gray-500">
+                  Galla is a{' '}
+                  <a href="https://www.gnu.org/philosophy/free-sw.html">
+                    Free and Open Source
+                  </a>{' '}
+                  project. If you have development experience, you can help us
+                  work on new features.
+                </p>
+              </a>
+            </div>
+          </div>
+          <div className="text-center mt-12">
+            <Link href="/">
+              <a className="btn-primary text-xl normal-case">
+                Take me to the beta!
+              </a>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}

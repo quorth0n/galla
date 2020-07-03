@@ -11,6 +11,6 @@ export default (props) => (
     >
       {props.children}
     </div>
-    <Footer />
+    {!props.noFooter && <Footer />}
   </>
 );

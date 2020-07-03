@@ -21,7 +21,14 @@ Analytics({
 });
 
 // This default export is required in a new `pages/_app.js` file.
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps, router }) {
+  if (router.pathname.startsWith('/landing')) {
+    return (
+      <Layout noFooter={true}>
+        <Component {...pageProps} />
+      </Layout>
+    );
+  }
   return (
     <ToastProvider autoDismiss={true} placement="bottom-left">
       <Layout>
