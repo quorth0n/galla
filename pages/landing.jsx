@@ -24,15 +24,13 @@ export default function Landing() {
         <div className="container relative mx-auto">
           <div className="items-center flex flex-wrap">
             <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-              <div className="pr-12">
-                <h1 className="text-primary font-semibold text-5xl">
-                  The future of art is here
-                </h1>
-                <p className="mt-4 text-lg text-gray-300">
-                  Galla is revolutionizing the way artists and curators work, by
-                  giving the community an update for the digital age.
-                </p>
-              </div>
+              <h1 className="text-primary font-semibold text-5xl">
+                The future of art is here
+              </h1>
+              <p className="mt-4 text-lg text-gray-300">
+                Galla is revolutionizing the way artists and curators work, by
+                giving the community an update for the digital age.
+              </p>
             </div>
           </div>
         </div>
@@ -70,22 +68,15 @@ export default function Landing() {
                     Protect Your Work
                   </h6>
                   <p className="mt-2 mb-4 text-gray-600">
-                    <a
-                      href="https://medium.com/blockchain-art-collective/heres-how-artists-can-play-an-active-part-in-preventing-art-theft-bce53315d460"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      64%
-                    </a>{' '}
-                    of photographers have had their work stolen over 200 times.
-                    Galla is tightly-integrated with protection against bots and
-                    content scrapers.
+                    64% of photographers have had their online work stolen{' '}
+                    <b>over 200 times</b>. Galla is integrated with protection
+                    against bots and content scrapers.
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="w-full md:w-4/12 px-4 text-center">
+            <div className="w-full md:w-4/12 px-4 text-center pt-6 md:pt-0">
               <div className="relative flex flex-col min-w-0 break-words bg-primary w-full mb-8 shadow-lg rounded-lg">
                 <div className="px-4 py-5 flex-auto">
                   <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-blue-400">
@@ -95,8 +86,9 @@ export default function Landing() {
                     Earn More
                   </h6>
                   <p className="mt-2 mb-4 text-gray-600">
-                    Sell prints, earn comissions, and collect royalties whenever
-                    your work is viewed &ndash; all in one place.
+                    Sell prints, earn comissions, and collect royalties{' '}
+                    <b>whenever your work is viewed</b> &ndash; all in one
+                    place.
                   </p>
                 </div>
               </div>
@@ -113,7 +105,8 @@ export default function Landing() {
                   </h6>
                   <p className="mt-2 mb-4 text-gray-600">
                     Digitize your exhibitions, galleries, or private collections
-                    for the internet, and stream to any device you can imagine.
+                    for the internet, and <b>stream to any device</b> you can
+                    imagine.
                   </p>
                 </div>
               </div>
@@ -148,9 +141,9 @@ export default function Landing() {
           </svg>
         </div>
 
-        <div className="container mx-auto px-4 lg:py-24">
+        <div className="container mx-auto px-4 py-24">
           <div className="flex flex-wrap text-center justify-center">
-            <div className="w-full lg:w-6/12 px-4">
+            <div className="w-full lg:w-6/12 md:px-4">
               <h2 className="text-4xl font-semibold text-primary">
                 Be a part of something greater
               </h2>
@@ -162,7 +155,7 @@ export default function Landing() {
             </div>
           </div>
           <div className="flex flex-wrap mt-12 justify-center">
-            <div className="w-full lg:w-3/12 px-4 text-center">
+            <div className="w-full lg:w-3/12 px-4 pb-8 text-center">
               <a
                 href="https://discord.gg/ujvNJcr"
                 target="_blank"
