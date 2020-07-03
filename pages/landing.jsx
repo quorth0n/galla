@@ -1,9 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 
+import Head from '../components/Head';
+
 export default function Landing() {
   return (
     <main>
+      <Head />
       <div
         className="relative pt-16 pb-32 flex content-center items-center justify-center"
         style={{

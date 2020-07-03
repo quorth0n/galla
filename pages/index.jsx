@@ -67,7 +67,7 @@ const Index = ({ initialPosts }) => {
 
   return (
     <div className="p-4 px-8">
-      <Head title="For artists, by artists" />
+      <Head />
       <Dropdown
         options={[
           { value: 'Trending: past day', key: '1' },
