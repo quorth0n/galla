@@ -71,9 +71,9 @@ export default function Landing() {
                     Protect Your Work
                   </h6>
                   <p className="mt-2 mb-4 text-gray-600">
-                    64% of photographers have had their online work stolen{' '}
+                    64% of professionals have had their online work stolen{' '}
                     <b>over 200 times</b>. Galla is integrated with protection
-                    against bots and content scrapers.
+                    against content scraping and bots.
                   </p>
                 </div>
               </div>
