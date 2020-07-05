@@ -26,17 +26,19 @@ const Tags = () => {
   return (
     <div className="space-x-1">
       <span>Tags: </span>
-      {tagNames.length
-        ? tagNames.map((tag) => (
-            <a
-              href="#"
-              key={tag}
-              className="text-xs inline-block py-1 px-2 uppercase rounded-full text-primary bg-accent uppercase font-semibold"
-            >
-              #{tag}
-            </a>
-          ))
-        : '(none)'}
+      {tagNames.length ? (
+        tagNames.map((tag) => (
+          <a
+            href="#"
+            key={tag}
+            className="text-xs inline-block py-1 px-2 uppercase rounded-full text-primary bg-accent uppercase font-semibold"
+          >
+            #{tag}
+          </a>
+        ))
+      ) : (
+        <span className="opacity-75">(none)</span>
+      )}
     </div>
   );
 };

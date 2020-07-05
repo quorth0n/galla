@@ -166,12 +166,7 @@ const Profile = ({ user }) => {
                     <div
                       className={`pt-6 px-3 ${user.avatar && 'mt-20'} lg:mt-0`}
                     >
-                      {!canEdit && (
-                        <button className="btn-primary" type="button">
-                          Follow
-                        </button>
-                      )}
-                      {canEdit && (
+                      {canEdit ? (
                         <button
                           className={editing ? 'btn-secondary' : 'btn-primary'}
                           type="button"
@@ -179,6 +174,15 @@ const Profile = ({ user }) => {
                           disabled={saving}
                         >
                           {editing ? 'Discard' : 'Edit'}
+                        </button>
+                      ) : (
+                        <button
+                          className="btn-primary"
+                          type="button"
+                          disabled={true}
+                          title="Coming soon!"
+                        >
+                          Follow
                         </button>
                       )}
                       {editing && (

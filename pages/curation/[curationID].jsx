@@ -106,7 +106,7 @@ const Curation = ({ curation }) => {
               </div>
             </div>
           </div>
-          <p className="mt-4 opacity-75">
+          <p className="mt-4">
             <Editable
               text={watch('description', curation.description)}
               error={errors.description}
@@ -151,7 +151,6 @@ const Curation = ({ curation }) => {
                 </button>
               </>
             )}
-            <button className="far fa-heart" />
           </div>
           <div className="post-grid mt-6">
             {curation.posts.items.map(

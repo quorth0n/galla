@@ -50,19 +50,25 @@ const Editable = ({ text, type, children, error, ...props }) => {
         </>
       ) : (
         <div
-          className={`${error && 'border-2 border-red-600'} ${
-            user?.username === owner && 'p-2 hover:shadow-outline'
-          }`}
+          className={`flex space-x-4 items-center ${
+            error && 'border-2 border-red-600'
+          } ${user?.username === owner && 'p-2 hover:shadow-outline'}`}
           onClick={() => setEditing(true)}
         >
           <span className={!text ? 'text-gray-500' : ''}>
             {type === 'textarea' ? (
-              <ReactMarkdown source={text || 'Editable content'} />
+              <ReactMarkdown
+                source={text || 'Editable content'}
+                className="opacity-75"
+              />
             ) : (
               text || 'Editable content'
             )}
           </span>
           <div className="hidden">{children}</div>
+          {user?.username === owner && (
+            <i className="fas fa-edit opacity-75 text-base" />
+          )}
         </div>
       )}
       {error && (

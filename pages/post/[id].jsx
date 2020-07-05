@@ -165,7 +165,7 @@ const Post = ({ post }) => {
           </div>
           <div className="flex-col select-none opacity-75 text-right w-48 md:w-auto">
             <div
-              className="cusror-help md:inline font-semibold px-3 py-1 text-sm"
+              className="cursor-help md:inline font-semibold px-3 py-1 text-sm"
               title="Coming soon!"
             >
               <i className="far fa-heart"></i> 0

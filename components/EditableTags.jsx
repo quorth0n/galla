@@ -32,13 +32,16 @@ const EditableTags = ({ children, error, ...props }) => {
         </>
       ) : (
         <div
-          className={`${error && 'border-2 border-red-600'} ${
-            user?.username === owner && 'p-2 hover:shadow-outline'
-          }`}
+          className={`flex space-x-4 items-center ${
+            error && 'border-2 border-red-600'
+          } ${user?.username === owner && 'p-2 hover:shadow-outline'}`}
           onClick={() => setEditing(true)}
         >
           <Tags />
           <div className="hidden">{children}</div>
+          {user?.username === owner && (
+            <i className="fas fa-edit opacity-75 text-base" />
+          )}
         </div>
       )}
       {error && (
