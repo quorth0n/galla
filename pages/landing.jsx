@@ -34,15 +34,18 @@ export default function Landing() {
                 Galla is revolutionizing the way artists and curators work, by
                 giving the community an update for the digital age.
               </p>
+              <div className="mt-6 text-xl">
+                <p className="mb-4">
+                  Sign up during the Beta and get an extra 10% royalties,
+                  forever
+                </p>
+                <Link href="/signup">
+                  <a className="btn-primary text-lg normal-case">
+                    Start earning
+                  </a>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="mt-6 text-xl m-auto">
-            <p className="mb-4">
-              Sign up during the beta and earn an extra 10%, forever
-            </p>
-            <Link href="/signup">
-              <a className="btn-primary text-lg normal-case">Start Earning</a>
-            </Link>
           </div>
         </div>
         <div
@@ -227,7 +230,7 @@ export default function Landing() {
           </div>
           <div className="text-center mt-12">
             <Link href="/signup">
-              <a className="btn-primary text-xl normal-case">Start Earning</a>
+              <a className="btn-primary text-xl normal-case">Start earning</a>
             </Link>
           </div>
         </div>

@@ -85,6 +85,9 @@ const Header = () => {
               onClick={closeAll}
             >
               Galla
+              <sub className="font-normal text-xs opacity-75 ml-1 lowercase">
+                beta
+              </sub>
             </a>
           </Link>
           <div className="flex flex-row">
