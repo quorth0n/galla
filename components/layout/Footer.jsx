@@ -17,6 +17,13 @@ const Footer = () => (
       >
         <i className="fab fa-github" />
       </a>
+      <a
+        href="https://www.instagram.com/galla.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i className="fab fa-instagram" />
+      </a>
     </div>
     <div>
       <p>Galla Closed Beta v1.0</p>

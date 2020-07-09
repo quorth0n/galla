@@ -26,15 +26,23 @@ export default function Landing() {
         </div>
         <div className="container relative mx-auto">
           <div className="items-center flex flex-wrap">
-            <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
+            <div className="w-full lg:w-6/12 px-4 m-auto text-center">
               <h1 className="text-primary font-semibold text-5xl">
                 The future of art is here
               </h1>
-              <p className="mt-4 text-lg text-gray-300">
+              <p className="mt-4 text-lg opacity-75">
                 Galla is revolutionizing the way artists and curators work, by
                 giving the community an update for the digital age.
               </p>
             </div>
+          </div>
+          <div className="mt-6 text-xl m-auto">
+            <p className="mb-4">
+              Sign up during the beta and earn an extra 10%, forever
+            </p>
+            <Link href="/signup">
+              <a className="btn-primary text-lg normal-case">Start Earning</a>
+            </Link>
           </div>
         </div>
         <div
@@ -198,12 +206,28 @@ export default function Landing() {
                 </p>
               </a>
             </div>
+            <div className="w-full lg:w-3/12 px-4 text-center">
+              <a
+                href="https://github.com/quorth0n/galla"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="text-gray-900 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
+                  <i className="fab fa-instagram text-xl"></i>
+                </div>
+                <h5 className="text-xl mt-5 font-semibold text-white">
+                  Instagram
+                </h5>
+                <p className="mt-2 mb-4 text-gray-500">
+                  Help the community grow. Pass our account along to someone who
+                  wants an art platform that caters to them.
+                </p>
+              </a>
+            </div>
           </div>
           <div className="text-center mt-12">
-            <Link href="/">
-              <a className="btn-primary text-xl normal-case">
-                Take me to the beta!
-              </a>
+            <Link href="/signup">
+              <a className="btn-primary text-xl normal-case">Start Earning</a>
             </Link>
           </div>
         </div>
