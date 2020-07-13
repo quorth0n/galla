@@ -160,6 +160,8 @@ const PostEditor = ({ post }) => {
     }
   };
 
+  console.log(post.quantity);
+
   return (
     <div className="m-auto p-4 md:px-8 w-full lg:w-1/2 text-left">
       <style jsx>{`
@@ -301,8 +303,8 @@ const PostEditor = ({ post }) => {
                 type="number"
                 name="quantity"
                 ref={register}
-                defaultValue={post?.quantity ?? 1}
-                min={1}
+                defaultValue={parseInt(post?.quantity) > -1 ? post.quantity : 1}
+                min={0}
                 max={99}
               />
             </label>

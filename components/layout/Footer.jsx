@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => (
   <footer className="opacity-50 flex justify-around text-primary p-4 mt-16 border-t border-primary items-center">
-    <div className="text-3xl space-x-4">
+    <div className="text-2xl space-x-4">
       <a
         href="https://discord.gg/ujvNJcr"
         target="_blank"
