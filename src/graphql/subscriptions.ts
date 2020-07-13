@@ -101,6 +101,8 @@ export const onCreatePost = /* GraphQL */ `
         url
         thumb
       }
+      quantity
+      price
       totalViews
       totalScore
       updatedAt
@@ -143,6 +145,8 @@ export const onUpdatePost = /* GraphQL */ `
         url
         thumb
       }
+      quantity
+      price
       totalViews
       totalScore
       updatedAt
@@ -185,6 +189,8 @@ export const onDeletePost = /* GraphQL */ `
         url
         thumb
       }
+      quantity
+      price
       totalViews
       totalScore
       updatedAt
@@ -410,6 +416,8 @@ export const onCreateTaggedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -458,6 +466,8 @@ export const onUpdateTaggedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -506,6 +516,8 @@ export const onDeleteTaggedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -675,6 +687,8 @@ export const onCreateCuratedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -725,6 +739,8 @@ export const onUpdateCuratedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -775,6 +791,8 @@ export const onDeleteCuratedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt

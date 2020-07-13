@@ -36,8 +36,8 @@ button:hover {
   opacity: 0.75;
 }
 
-button:hover {
-  @apply shadow-lg;
+button:disabled {
+  opacity: 0.5;
 }
 
 .btn-primary {
@@ -48,15 +48,21 @@ button:hover {
   @apply bg-transparent border-2 border-primary uppercase text-primary font-bold shadow text-xs px-4 py-2 rounded outline-none mb-1 whitespace-no-wrap;
 }
 
-button:disabled {
-  opacity: 0.5;
+.btn-primary:hover,
+.btn-secondary:hover {
+  @apply shadow-lg;
 }
 
 /* Textboxes */
 
-input[type='text'],
+input,
 textarea {
   @apply px-3 py-2 text-gray-700 relative bg-primary rounded text-base border border-gray-400 outline-none;
+}
+
+input:focus,
+textarea:focus {
+  @apply shadow-outline;
 }
 
 ::placeholder {

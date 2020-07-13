@@ -163,23 +163,23 @@ const Post = ({ post }) => {
               <a className="opacity-100">{post.userID}</a>
             </Link>
           </div>
-          <div className="flex-col select-none opacity-75 text-right w-48 md:w-auto">
+          <div className="flex-col select-none text-right w-48 md:w-auto">
             <div
-              className="cursor-help md:inline font-semibold px-3 py-1 text-sm"
+              className="opacity-75 cursor-help md:inline font-semibold px-3 py-1 text-sm"
               title="Coming soon!"
             >
               <i className="far fa-heart"></i> 0
             </div>
             <div
-              className="cursor-help md:inline font-semibold px-3 py-1 text-sm ml-1"
+              className="opacity-75 cursor-help md:inline font-semibold px-3 py-1 text-sm ml-1"
               title="Coming soon!"
             >
               <i className="far fa-comments"></i> 0
             </div>
-            <div className="md:inline font-semibold px-3 py-1 text-sm ml-1">
+            <div className="opacity-75 md:inline font-semibold px-3 py-1 text-sm ml-1">
               <i className="far fa-eye"></i> {post.totalViews}
             </div>
-            <div className="px-3 py-1 text-lg text-center w-full hidden md:block">
+            <div className="opacity-75 px-3 py-1 text-lg text-center w-full hidden md:block">
               <a
                 href={
                   post.license !== 'copyright'
@@ -201,10 +201,40 @@ const Post = ({ post }) => {
                 {licenses[post.license].name}
               </a>
             </div>
+            <div className="px-3 py-1 text-lg text-center w-full hidden md:block">
+              {post.quantity > -1 && (
+                <div className="flex justify-center items-center space-x-4">
+                  <span className="text-xl">${post.price}</span>
+                  <button
+                    className="btn-primary"
+                    disabled={post.quantity === 0}
+                    onClick={() => alert('Purchase link in description!')}
+                  >
+                    {post.quantity === 0 ? 'Sold out' : 'Buy now'}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
       <p className="opacity-75 mt-4">{post.description}</p>
+      <div className="mt-4">
+        {post.quantity > -1 ? (
+          <div className="flex justify-center items-center space-x-4 md:hidden">
+            <span className="text-xl">$29.99</span>
+            <button
+              disabled={post.quantity === 0}
+              className="btn-primary w-1/3"
+              onClick={() => alert('Purchase link in description!')}
+            >
+              {post.quantity === 0 ? 'Sold out' : 'Buy now'}
+            </button>
+          </div>
+        ) : (
+          <p className="opacity-75 text-sm">Not for sale</p>
+        )}
+      </div>
       <nav className="mt-4">
         {/* TODO: implement inline editing */}
         <TagsContext.Provider value={{ tags: post.tags }}>
@@ -244,6 +274,8 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
           createdAt
           userID
           thumb
+          quantity
+          price
           totalViews
           totalScore
           tags {

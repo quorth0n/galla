@@ -159,6 +159,8 @@ export const listPosts = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -188,6 +190,8 @@ export const getPost = /* GraphQL */ `
         url
         thumb
       }
+      quantity
+      price
       totalViews
       totalScore
       updatedAt
@@ -241,6 +245,8 @@ export const searchPosts = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -460,6 +466,8 @@ export const getTaggedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -508,6 +516,8 @@ export const listTaggedPosts = /* GraphQL */ `
           createdAt
           userID
           thumb
+          quantity
+          price
           totalViews
           totalScore
           updatedAt
@@ -628,6 +638,8 @@ export const getCuratedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -678,6 +690,8 @@ export const listCuratedPosts = /* GraphQL */ `
           createdAt
           userID
           thumb
+          quantity
+          price
           totalViews
           totalScore
           updatedAt

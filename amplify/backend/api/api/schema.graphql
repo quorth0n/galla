@@ -79,11 +79,14 @@ type Post
   description: String
   license: License!
   createdAt: AWSDateTime
+  nsfw: Boolean
   userID: ID!
   tags: [TaggedPost] @connection(keyName: "byPost", fields: ["id"])
   curations: [CuratedPost] @connection(keyName: "byPost", fields: ["id"])
   thumb: String!
   resolutions: [PublicImage]!
+  quantity: Int
+  price: Float
 
   totalViews: Int
   totalScore: Int

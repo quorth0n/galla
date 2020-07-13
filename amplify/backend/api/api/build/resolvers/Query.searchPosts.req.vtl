@@ -1,5 +1,5 @@
 #set( $indexPath = "/post/doc/_search" )
-#set( $nonKeywordFields = ["createdAt", "totalViews", "totalScore"] )
+#set( $nonKeywordFields = ["createdAt", "quantity", "price", "totalViews", "totalScore"] )
 #if( $util.isNullOrEmpty($context.args.sort) )
   #set( $sortDirection = "desc" )
   #set( $sortField = "id" )

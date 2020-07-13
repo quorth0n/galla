@@ -17,6 +17,8 @@ export const viewPost = /* GraphQL */ `
         url
         thumb
       }
+      quantity
+      price
       totalViews
       totalScore
       updatedAt
@@ -84,6 +86,8 @@ export const upvotePost = /* GraphQL */ `
         url
         thumb
       }
+      quantity
+      price
       totalViews
       totalScore
       updatedAt
@@ -126,6 +130,8 @@ export const downvotePost = /* GraphQL */ `
         url
         thumb
       }
+      quantity
+      price
       totalViews
       totalScore
       updatedAt
@@ -235,6 +241,8 @@ export const createPost = /* GraphQL */ `
         url
         thumb
       }
+      quantity
+      price
       totalViews
       totalScore
       updatedAt
@@ -280,6 +288,8 @@ export const deletePost = /* GraphQL */ `
         url
         thumb
       }
+      quantity
+      price
       totalViews
       totalScore
       updatedAt
@@ -461,6 +471,8 @@ export const createTaggedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -512,6 +524,8 @@ export const updateTaggedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -563,6 +577,8 @@ export const deleteTaggedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -744,6 +760,8 @@ export const createCuratedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -797,6 +815,8 @@ export const updateCuratedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -850,6 +870,8 @@ export const deleteCuratedPost = /* GraphQL */ `
           url
           thumb
         }
+        quantity
+        price
         totalViews
         totalScore
         updatedAt
@@ -934,6 +956,8 @@ export const updatePost = /* GraphQL */ `
         url
         thumb
       }
+      quantity
+      price
       totalViews
       totalScore
       updatedAt

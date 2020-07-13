@@ -51,6 +51,8 @@ type Post @aws_api_key @aws_iam @aws_cognito_user_pools {
   userID: ID!
   thumb: String!
   resolutions: [PublicImage]!
+  quantity: Int
+  price: Float
   totalViews: Int
   totalScore: Int
   updatedAt: AWSDateTime!
@@ -423,6 +425,8 @@ input ModelPostFilterInput {
   createdAt: ModelStringInput
   userID: ModelIDInput
   thumb: ModelStringInput
+  quantity: ModelIntInput
+  price: ModelFloatInput
   totalViews: ModelIntInput
   totalScore: ModelIntInput
   and: [ModelPostFilterInput]
@@ -439,6 +443,8 @@ input CreatePostInput {
   userID: ID!
   thumb: String!
   resolutions: [PublicImageInput]!
+  quantity: Int
+  price: Float
   totalViews: Int
   totalScore: Int
 }
@@ -452,6 +458,8 @@ input UpdatePostInput {
   userID: ID
   thumb: String
   resolutions: [PublicImageInput]
+  quantity: Int
+  price: Float
   totalViews: Int
   totalScore: Int
 }
@@ -466,6 +474,8 @@ input ModelPostConditionInput {
   license: ModelLicenseInput
   createdAt: ModelStringInput
   thumb: ModelStringInput
+  quantity: ModelIntInput
+  price: ModelFloatInput
   totalViews: ModelIntInput
   totalScore: ModelIntInput
   and: [ModelPostConditionInput]
@@ -793,6 +803,8 @@ input SearchablePostFilterInput {
   createdAt: SearchableStringFilterInput
   userID: SearchableIDFilterInput
   thumb: SearchableStringFilterInput
+  quantity: SearchableIntFilterInput
+  price: SearchableFloatFilterInput
   totalViews: SearchableIntFilterInput
   totalScore: SearchableIntFilterInput
   and: [SearchablePostFilterInput]
@@ -807,6 +819,8 @@ enum SearchablePostSortableFields {
   createdAt
   userID
   thumb
+  quantity
+  price
   totalViews
   totalScore
 }

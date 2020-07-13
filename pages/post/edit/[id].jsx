@@ -16,6 +16,8 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
             description
             userID
             thumb
+            quantity
+            price
             resolutions {
               resMode
               url
