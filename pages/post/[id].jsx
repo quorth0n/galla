@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Error from 'next/error';
+import { useRouter } from 'next/router';
 import { API, graphqlOperation } from 'aws-amplify';
 
 import Head from '../../components/Head';
@@ -17,6 +18,7 @@ const Post = ({ post }) => {
   const canvasRef = React.useRef();
   const [resolutions, setResolutions] = React.useState([]);
   const [imageSrc, setImageSrc] = React.useState(post?.thumb);
+  const { back } = useRouter();
   const user = useCognitoUser();
 
   // scale canvas and load image
@@ -82,11 +84,9 @@ const Post = ({ post }) => {
     <div className="inline-flex flex-col justify-center text-left p-4 md:px-8 w-full">
       <Head title={post.title} description={post.description} />
       <div className="flex flex-row justify-between">
-        <Link href="/">
-          <a className="opacity-75 hover:opacity-50 back">
-            <i className="fas fa-arrow-left"></i> Back
-          </a>
-        </Link>
+        <button className="back" onClick={back}>
+          <i className="fas fa-arrow-left"></i> Back
+        </button>
         {resolutions.length && (
           <Dropdown
             size="sm"
@@ -97,11 +97,6 @@ const Post = ({ post }) => {
       </div>
       <div className="relative mt-4 text-center text-xl align-middle flex flex-row items-center md:space-x-4 md:text-3xl navigation">
         {/* TODO: Add swiping support for mobile https://codesandbox.io/s/qq7759m3lq?module=/src/Carousel.js&file=/src/Carousel.js */}
-        <Link href="#">
-          <a className="absolute left-0 bg-secondary rounded-r pr-1 md:static md:bg-transparent md:pr-0 arrow">
-            <i className="fas fa-chevron-left"></i>
-          </a>
-        </Link>
         <div className="w-full">
           <canvas
             ref={canvasRef}
@@ -109,11 +104,6 @@ const Post = ({ post }) => {
             onContextMenu={(e) => e.preventDefault()}
           />
         </div>
-        <Link href="#">
-          <a className="absolute right-0 bg-secondary rounded-l pl-1 md:static md:bg-transparent md:pl-0 arrow">
-            <i className="fas fa-chevron-right"></i>
-          </a>
-        </Link>
         <style jsx>{`
           .navigation .arrow {
             opacity: 0.75;
@@ -160,7 +150,7 @@ const Post = ({ post }) => {
             <h1 className="text-2xl italic font-semibold">{post.title}</h1>
             <span className="opacity-75">by </span>
             <Link href="/profile/[uid]" as={`/profile/${post.userID}`}>
-              <a className="opacity-100">{post.userID}</a>
+              <a>{post.userID}</a>
             </Link>
           </div>
           <div className="flex-col select-none text-right md:text-center w-48 md:w-auto">
