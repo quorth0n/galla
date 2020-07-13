@@ -152,18 +152,18 @@ const Post = ({ post }) => {
         )}
       </div>
       <div className="pt-8 justify-between flex flex-row">
-        <div className="flex-col">
+        <div>
           <Vote id={id} initialScore={post.totalScore} />
         </div>
         <div className="flex flex-row justify-between w-full">
-          <div className="flex-col">
+          <div>
             <h1 className="text-2xl italic font-semibold">{post.title}</h1>
             <span className="opacity-75">by </span>
             <Link href="/profile/[uid]" as={`/profile/${post.userID}`}>
               <a className="opacity-100">{post.userID}</a>
             </Link>
           </div>
-          <div className="flex-col select-none text-right w-48 md:w-auto">
+          <div className="flex-col select-none text-right md:text-center w-48 md:w-auto">
             <div
               className="opacity-75 cursor-help md:inline font-semibold px-3 py-1 text-sm"
               title="Coming soon!"
@@ -202,7 +202,7 @@ const Post = ({ post }) => {
               </a>
             </div>
             <div className="px-3 py-1 text-lg text-center w-full hidden md:block">
-              {post.quantity > -1 && (
+              {parseInt(post.quantity) > -1 && (
                 <div className="flex justify-center items-center space-x-4">
                   <span className="text-xl">${post.price}</span>
                   <button
@@ -220,9 +220,9 @@ const Post = ({ post }) => {
       </div>
       <p className="opacity-75 mt-4">{post.description}</p>
       <div className="mt-4">
-        {post.quantity > -1 ? (
+        {parseInt(post.quantity) > -1 ? (
           <div className="flex justify-center items-center space-x-4 md:hidden">
-            <span className="text-xl">$29.99</span>
+            <span className="text-xl">${post.price}</span>
             <button
               disabled={post.quantity === 0}
               className="btn-primary w-1/3"
@@ -290,6 +290,7 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
     authMode: 'API_KEY',
   });
   const post = fetchData.data.getPost;
+  console.log(post.quantity);
   if (!post) {
     res.statusCode = 404;
   }
