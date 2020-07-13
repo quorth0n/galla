@@ -2,13 +2,13 @@ import React from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { nanoid } from 'nanoid';
 
-import useCognitoUser from '../helpers/hooks/useCognitoUser';
-import usePopper from '../helpers/hooks/usePopper';
+import useCognitoUser from '../../helpers/hooks/useCognitoUser';
+import usePopper from '../../helpers/hooks/usePopper';
 import {
   createCuration,
   createCuratedPost,
   deleteCuratedPost,
-} from '../src/graphql/mutations';
+} from '../../src/graphql/mutations';
 
 const AddToCuration = ({ postID }) => {
   const [curations, setCurations] = React.useState([]);

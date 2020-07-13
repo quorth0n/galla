@@ -48,6 +48,7 @@ type Post @aws_api_key @aws_iam @aws_cognito_user_pools {
   description: String
   license: License!
   createdAt: AWSDateTime
+  nsfw: Boolean
   userID: ID!
   thumb: String!
   resolutions: [PublicImage]!
@@ -423,6 +424,7 @@ input ModelPostFilterInput {
   description: ModelStringInput
   license: ModelLicenseInput
   createdAt: ModelStringInput
+  nsfw: ModelBooleanInput
   userID: ModelIDInput
   thumb: ModelStringInput
   quantity: ModelIntInput
@@ -440,6 +442,7 @@ input CreatePostInput {
   description: String
   license: License!
   createdAt: AWSDateTime
+  nsfw: Boolean
   userID: ID!
   thumb: String!
   resolutions: [PublicImageInput]!
@@ -455,6 +458,7 @@ input UpdatePostInput {
   description: String
   license: License
   createdAt: AWSDateTime
+  nsfw: Boolean
   userID: ID
   thumb: String
   resolutions: [PublicImageInput]
@@ -473,6 +477,7 @@ input ModelPostConditionInput {
   description: ModelStringInput
   license: ModelLicenseInput
   createdAt: ModelStringInput
+  nsfw: ModelBooleanInput
   thumb: ModelStringInput
   quantity: ModelIntInput
   price: ModelFloatInput
@@ -801,6 +806,7 @@ input SearchablePostFilterInput {
   title: SearchableStringFilterInput
   description: SearchableStringFilterInput
   createdAt: SearchableStringFilterInput
+  nsfw: SearchableBooleanFilterInput
   userID: SearchableIDFilterInput
   thumb: SearchableStringFilterInput
   quantity: SearchableIntFilterInput
@@ -817,6 +823,7 @@ enum SearchablePostSortableFields {
   title
   description
   createdAt
+  nsfw
   userID
   thumb
   quantity

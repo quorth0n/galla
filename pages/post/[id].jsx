@@ -6,11 +6,12 @@ import { API, graphqlOperation } from 'aws-amplify';
 
 import Head from '../../components/Head';
 import Dropdown from '../../components/Dropdown';
-import AddToCuration from '../../components/AddToCuration';
+import AddToCuration from '../../components/post/AddToCuration';
+import Tags from '../../components/Tags';
 import Vote from '../../components/post/Vote';
+import DeletePost from '../../components/post/DeletePost';
 import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 import { viewPost } from '../../src/graphql/mutations';
-import Tags from '../../components/Tags';
 import TagsContext from '../../context/TagsContext';
 import { licenses } from '../../helpers/constants';
 
@@ -33,7 +34,6 @@ const Post = ({ post }) => {
                 resolutions {
                   resMode
                   url
-                  thumb
                 }
               }
             }
@@ -136,10 +136,11 @@ const Post = ({ post }) => {
         {user && user.username === post.userID && (
           <Link href="/post/edit/[id]" as={`/post/edit/${id}`}>
             <a>
-              <i className="fas fa-edit mr-1"></i> Edit
+              <i className="fas fa-edit mr-1" /> Edit
             </a>
           </Link>
         )}
+        <DeletePost id={id} resolutions={resolutions} />
       </div>
       <div className="pt-8 justify-between flex flex-row">
         <div>
@@ -280,7 +281,6 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
     authMode: 'API_KEY',
   });
   const post = fetchData.data.getPost;
-  console.log(post.quantity);
   if (!post) {
     res.statusCode = 404;
   }

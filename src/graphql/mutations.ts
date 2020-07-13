@@ -10,6 +10,7 @@ export const viewPost = /* GraphQL */ `
       description
       license
       createdAt
+      nsfw
       userID
       thumb
       resolutions {
@@ -79,6 +80,7 @@ export const upvotePost = /* GraphQL */ `
       description
       license
       createdAt
+      nsfw
       userID
       thumb
       resolutions {
@@ -123,6 +125,7 @@ export const downvotePost = /* GraphQL */ `
       description
       license
       createdAt
+      nsfw
       userID
       thumb
       resolutions {
@@ -234,6 +237,7 @@ export const createPost = /* GraphQL */ `
       description
       license
       createdAt
+      nsfw
       userID
       thumb
       resolutions {
@@ -281,6 +285,7 @@ export const deletePost = /* GraphQL */ `
       description
       license
       createdAt
+      nsfw
       userID
       thumb
       resolutions {
@@ -464,6 +469,7 @@ export const createTaggedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -517,6 +523,7 @@ export const updateTaggedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -570,6 +577,7 @@ export const deleteTaggedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -753,6 +761,7 @@ export const createCuratedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -808,6 +817,7 @@ export const updateCuratedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -863,6 +873,7 @@ export const deleteCuratedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -949,6 +960,7 @@ export const updatePost = /* GraphQL */ `
       description
       license
       createdAt
+      nsfw
       userID
       thumb
       resolutions {

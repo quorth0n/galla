@@ -212,7 +212,7 @@ const PostEditor = ({ post }) => {
               className="opacity-75 text-gray-500 p-0 border-0"
             />
           </label>
-          <p className="text-red-500">
+          <p className="text-red-600">
             {errors.fullRes && errors.fullRes.message}
           </p>
         </div>
@@ -242,8 +242,7 @@ const PostEditor = ({ post }) => {
           type="text"
           placeholder="Tags (comma-separated)"
           name="tags"
-          ref={register({ required: true, maxLength: 70 })}
-          maxLength={70}
+          ref={register({ required: true })}
           className={`${
             errors.tags && 'border-2 border-red-500 placeholder-red-500'
           }`}

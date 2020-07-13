@@ -130,6 +130,7 @@ export type CreatePostInput = {
   description?: string | null,
   license: License,
   createdAt?: string | null,
+  nsfw?: boolean | null,
   userID: string,
   thumb: string,
   resolutions: Array< PublicImageInput | null >,
@@ -150,6 +151,7 @@ export type ModelPostConditionInput = {
   description?: ModelStringInput | null,
   license?: ModelLicenseInput | null,
   createdAt?: ModelStringInput | null,
+  nsfw?: ModelBooleanInput | null,
   thumb?: ModelStringInput | null,
   quantity?: ModelIntInput | null,
   price?: ModelFloatInput | null,
@@ -163,6 +165,13 @@ export type ModelPostConditionInput = {
 export type ModelLicenseInput = {
   eq?: License | null,
   ne?: License | null,
+};
+
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
 export type ModelFloatInput = {
@@ -333,6 +342,7 @@ export type UpdatePostInput = {
   description?: string | null,
   license?: License | null,
   createdAt?: string | null,
+  nsfw?: boolean | null,
   userID?: string | null,
   thumb?: string | null,
   resolutions?: Array< PublicImageInput | null > | null,
@@ -483,6 +493,7 @@ export type ModelPostFilterInput = {
   description?: ModelStringInput | null,
   license?: ModelLicenseInput | null,
   createdAt?: ModelStringInput | null,
+  nsfw?: ModelBooleanInput | null,
   userID?: ModelIDInput | null,
   thumb?: ModelStringInput | null,
   quantity?: ModelIntInput | null,
@@ -499,6 +510,7 @@ export type SearchablePostFilterInput = {
   title?: SearchableStringFilterInput | null,
   description?: SearchableStringFilterInput | null,
   createdAt?: SearchableStringFilterInput | null,
+  nsfw?: SearchableBooleanFilterInput | null,
   userID?: SearchableIDFilterInput | null,
   thumb?: SearchableStringFilterInput | null,
   quantity?: SearchableIntFilterInput | null,
@@ -508,6 +520,11 @@ export type SearchablePostFilterInput = {
   and?: Array< SearchablePostFilterInput | null > | null,
   or?: Array< SearchablePostFilterInput | null > | null,
   not?: SearchablePostFilterInput | null,
+};
+
+export type SearchableBooleanFilterInput = {
+  eq?: boolean | null,
+  ne?: boolean | null,
 };
 
 export type SearchableFloatFilterInput = {
@@ -530,6 +547,7 @@ export enum SearchablePostSortableFields {
   title = "title",
   description = "description",
   createdAt = "createdAt",
+  nsfw = "nsfw",
   userID = "userID",
   thumb = "thumb",
   quantity = "quantity",
@@ -660,6 +678,7 @@ export type ViewPostMutation = {
     description: string | null,
     license: License,
     createdAt: string | null,
+    nsfw: boolean | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -744,6 +763,7 @@ export type UpvotePostMutation = {
     description: string | null,
     license: License,
     createdAt: string | null,
+    nsfw: boolean | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -797,6 +817,7 @@ export type DownvotePostMutation = {
     description: string | null,
     license: License,
     createdAt: string | null,
+    nsfw: boolean | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -923,6 +944,7 @@ export type CreatePostMutation = {
     description: string | null,
     license: License,
     createdAt: string | null,
+    nsfw: boolean | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -977,6 +999,7 @@ export type DeletePostMutation = {
     description: string | null,
     license: License,
     createdAt: string | null,
+    nsfw: boolean | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -1188,6 +1211,7 @@ export type CreateTaggedPostMutation = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1249,6 +1273,7 @@ export type UpdateTaggedPostMutation = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1310,6 +1335,7 @@ export type DeleteTaggedPostMutation = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1522,6 +1548,7 @@ export type CreateCuratedPostMutation = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1586,6 +1613,7 @@ export type UpdateCuratedPostMutation = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1650,6 +1678,7 @@ export type DeleteCuratedPostMutation = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -1748,6 +1777,7 @@ export type UpdatePostMutation = {
     description: string | null,
     license: License,
     createdAt: string | null,
+    nsfw: boolean | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -2019,6 +2049,7 @@ export type ListPostsQuery = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -2057,6 +2088,7 @@ export type GetPostQuery = {
     description: string | null,
     license: License,
     createdAt: string | null,
+    nsfw: boolean | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -2115,6 +2147,7 @@ export type SearchPostsQuery = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -2360,6 +2393,7 @@ export type GetTaggedPostQuery = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -2424,6 +2458,7 @@ export type ListTaggedPostsQuery = {
         description: string | null,
         license: License,
         createdAt: string | null,
+        nsfw: boolean | null,
         userID: string,
         thumb: string,
         quantity: number | null,
@@ -2561,6 +2596,7 @@ export type GetCuratedPostQuery = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -2628,6 +2664,7 @@ export type ListCuratedPostsQuery = {
         description: string | null,
         license: License,
         createdAt: string | null,
+        nsfw: boolean | null,
         userID: string,
         thumb: string,
         quantity: number | null,
@@ -2767,6 +2804,7 @@ export type OnCreatePostSubscription = {
     description: string | null,
     license: License,
     createdAt: string | null,
+    nsfw: boolean | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -2816,6 +2854,7 @@ export type OnUpdatePostSubscription = {
     description: string | null,
     license: License,
     createdAt: string | null,
+    nsfw: boolean | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -2865,6 +2904,7 @@ export type OnDeletePostSubscription = {
     description: string | null,
     license: License,
     createdAt: string | null,
+    nsfw: boolean | null,
     userID: string,
     thumb: string,
     resolutions:  Array< {
@@ -3116,6 +3156,7 @@ export type OnCreateTaggedPostSubscription = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -3172,6 +3213,7 @@ export type OnUpdateTaggedPostSubscription = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -3228,6 +3270,7 @@ export type OnDeleteTaggedPostSubscription = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -3420,6 +3463,7 @@ export type OnCreateCuratedPostSubscription = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -3479,6 +3523,7 @@ export type OnUpdateCuratedPostSubscription = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {
@@ -3538,6 +3583,7 @@ export type OnDeleteCuratedPostSubscription = {
       description: string | null,
       license: License,
       createdAt: string | null,
+      nsfw: boolean | null,
       userID: string,
       thumb: string,
       resolutions:  Array< {

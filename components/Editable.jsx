@@ -34,7 +34,7 @@ const Editable = ({ text, type, children, error, ...props }) => {
             {children}
           </div>
           {type === 'textarea' && (
-            <>
+            <p className="opacity-75">
               Use{' '}
               <a
                 className="font-semibold"
@@ -45,14 +45,14 @@ const Editable = ({ text, type, children, error, ...props }) => {
                 Markdown
               </a>{' '}
               for formatting
-            </>
+            </p>
           )}
         </>
       ) : (
         <div
-          className={`flex space-x-4 items-center ${
-            error && 'border-2 border-red-600'
-          } ${user?.username === owner && 'p-2 hover:shadow-outline'}`}
+          className={`flex space-x-4 ${error && 'border-2 border-red-600'} ${
+            user?.username === owner && 'p-2 hover:shadow-outline'
+          }`}
           onClick={() => setEditing(true)}
         >
           <span className={!text ? 'text-gray-500' : ''}>

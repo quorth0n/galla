@@ -152,6 +152,7 @@ export const listPosts = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -183,6 +184,7 @@ export const getPost = /* GraphQL */ `
       description
       license
       createdAt
+      nsfw
       userID
       thumb
       resolutions {
@@ -238,6 +240,7 @@ export const searchPosts = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -459,6 +462,7 @@ export const getTaggedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -514,6 +518,7 @@ export const listTaggedPosts = /* GraphQL */ `
           description
           license
           createdAt
+          nsfw
           userID
           thumb
           quantity
@@ -631,6 +636,7 @@ export const getCuratedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -688,6 +694,7 @@ export const listCuratedPosts = /* GraphQL */ `
           description
           license
           createdAt
+          nsfw
           userID
           thumb
           quantity

@@ -94,6 +94,7 @@ export const onCreatePost = /* GraphQL */ `
       description
       license
       createdAt
+      nsfw
       userID
       thumb
       resolutions {
@@ -138,6 +139,7 @@ export const onUpdatePost = /* GraphQL */ `
       description
       license
       createdAt
+      nsfw
       userID
       thumb
       resolutions {
@@ -182,6 +184,7 @@ export const onDeletePost = /* GraphQL */ `
       description
       license
       createdAt
+      nsfw
       userID
       thumb
       resolutions {
@@ -409,6 +412,7 @@ export const onCreateTaggedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -459,6 +463,7 @@ export const onUpdateTaggedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -509,6 +514,7 @@ export const onDeleteTaggedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -680,6 +686,7 @@ export const onCreateCuratedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -732,6 +739,7 @@ export const onUpdateCuratedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
@@ -784,6 +792,7 @@ export const onDeleteCuratedPost = /* GraphQL */ `
         description
         license
         createdAt
+        nsfw
         userID
         thumb
         resolutions {
