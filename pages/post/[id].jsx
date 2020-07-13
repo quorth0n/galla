@@ -133,14 +133,14 @@ const Post = ({ post }) => {
       </div>
       <div className="mt-4 px-3 py-1 text-center text-xs w-full flex flex-row justify-around">
         <AddToCuration postID={id} />
-        {user && user.username === post.userID && (
+        {user?.username === post.userID && (
           <Link href="/post/edit/[id]" as={`/post/edit/${id}`}>
             <a>
               <i className="fas fa-edit mr-1" /> Edit
             </a>
           </Link>
         )}
-        <DeletePost id={id} resolutions={resolutions} />
+        <DeletePost id={id} resolutions={resolutions} owner={post.userID} />
       </div>
       <div className="pt-8 justify-between flex flex-row">
         <div>

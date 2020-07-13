@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 
 import {
@@ -6,8 +7,13 @@ import {
   deleteCuratedPost,
   deletePost,
 } from '../../src/graphql/mutations';
+import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 
-const DeletePost = ({ id, resolutions }) => {
+const DeletePost = ({ id, resolutions, owner }) => {
+  const { back } = useRouter();
+  const user = useCognitoUser();
+  if (user?.username !== owner) return null;
+
   const delPost = async () => {
     if (confirm('Delete this post?')) {
       const fetchedPostRelations = await API.graphql({
@@ -58,6 +64,7 @@ const DeletePost = ({ id, resolutions }) => {
         }),
       ]);
       await API.graphql(graphqlOperation(deletePost, { input: { id } }));
+      back();
     }
   };
 
