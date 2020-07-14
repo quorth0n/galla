@@ -160,8 +160,6 @@ const PostEditor = ({ post }) => {
     }
   };
 
-  console.log(post.quantity);
-
   return (
     <div className="m-auto p-4 md:px-8 w-full lg:w-1/2 text-left">
       <style jsx>{`
