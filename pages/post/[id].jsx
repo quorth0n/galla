@@ -185,6 +185,9 @@ const Post = ({ post }) => {
                   post.license === 'copyright' &&
                   'cursor-text hover:opacity-100 hover:shadow-none'
                 }
+                style={{
+                  borderBottom: post.license === 'copyright' ? 0 : undefined,
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -120,6 +120,21 @@
             "service": "Lambda",
             "providerPlugin": "awscloudformation",
             "build": true
+        },
+        "vote": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "api",
+                    "attributes": [
+                        "GraphQLAPIIdOutput",
+                        "GraphQLAPIEndpointOutput"
+                    ]
+                }
+            ]
         }
     },
     "iam": {

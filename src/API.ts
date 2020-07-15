@@ -138,6 +138,7 @@ export type CreatePostInput = {
   price?: number | null,
   totalViews?: number | null,
   totalScore?: number | null,
+  rank?: number | null,
 };
 
 export type PublicImageInput = {
@@ -157,6 +158,7 @@ export type ModelPostConditionInput = {
   price?: ModelFloatInput | null,
   totalViews?: ModelIntInput | null,
   totalScore?: ModelIntInput | null,
+  rank?: ModelFloatInput | null,
   and?: Array< ModelPostConditionInput | null > | null,
   or?: Array< ModelPostConditionInput | null > | null,
   not?: ModelPostConditionInput | null,
@@ -350,6 +352,7 @@ export type UpdatePostInput = {
   price?: number | null,
   totalViews?: number | null,
   totalScore?: number | null,
+  rank?: number | null,
 };
 
 export type UpdateTagInput = {
@@ -500,6 +503,7 @@ export type ModelPostFilterInput = {
   price?: ModelFloatInput | null,
   totalViews?: ModelIntInput | null,
   totalScore?: ModelIntInput | null,
+  rank?: ModelFloatInput | null,
   and?: Array< ModelPostFilterInput | null > | null,
   or?: Array< ModelPostFilterInput | null > | null,
   not?: ModelPostFilterInput | null,
@@ -517,6 +521,7 @@ export type SearchablePostFilterInput = {
   price?: SearchableFloatFilterInput | null,
   totalViews?: SearchableIntFilterInput | null,
   totalScore?: SearchableIntFilterInput | null,
+  rank?: SearchableFloatFilterInput | null,
   and?: Array< SearchablePostFilterInput | null > | null,
   or?: Array< SearchablePostFilterInput | null > | null,
   not?: SearchablePostFilterInput | null,
@@ -554,6 +559,7 @@ export enum SearchablePostSortableFields {
   price = "price",
   totalViews = "totalViews",
   totalScore = "totalScore",
+  rank = "rank",
 }
 
 
@@ -691,6 +697,7 @@ export type ViewPostMutation = {
     price: number | null,
     totalViews: number | null,
     totalScore: number | null,
+    rank: number | null,
     updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
@@ -751,12 +758,13 @@ export type ViewTagMutation = {
   } | null,
 };
 
-export type UpvotePostMutationVariables = {
+export type VotePostMutationVariables = {
   id: string,
+  vote: number,
 };
 
-export type UpvotePostMutation = {
-  upvotePost:  {
+export type VotePostMutation = {
+  votePost:  {
     __typename: "Post",
     id: string,
     title: string,
@@ -776,60 +784,7 @@ export type UpvotePostMutation = {
     price: number | null,
     totalViews: number | null,
     totalScore: number | null,
-    updatedAt: string,
-    tags:  {
-      __typename: "ModelTaggedPostConnection",
-      items:  Array< {
-        __typename: "TaggedPost",
-        id: string,
-        postID: string,
-        tagName: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-    curations:  {
-      __typename: "ModelCuratedPostConnection",
-      items:  Array< {
-        __typename: "CuratedPost",
-        id: string,
-        order: number | null,
-        postID: string,
-        curationID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
-  } | null,
-};
-
-export type DownvotePostMutationVariables = {
-  id: string,
-};
-
-export type DownvotePostMutation = {
-  downvotePost:  {
-    __typename: "Post",
-    id: string,
-    title: string,
-    description: string | null,
-    license: License,
-    createdAt: string | null,
-    nsfw: boolean | null,
-    userID: string,
-    thumb: string,
-    resolutions:  Array< {
-      __typename: "PublicImage",
-      resMode: string,
-      url: string,
-      thumb: boolean | null,
-    } | null >,
-    quantity: number | null,
-    price: number | null,
-    totalViews: number | null,
-    totalScore: number | null,
+    rank: number | null,
     updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
@@ -957,6 +912,7 @@ export type CreatePostMutation = {
     price: number | null,
     totalViews: number | null,
     totalScore: number | null,
+    rank: number | null,
     updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
@@ -1012,6 +968,7 @@ export type DeletePostMutation = {
     price: number | null,
     totalViews: number | null,
     totalScore: number | null,
+    rank: number | null,
     updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
@@ -1224,6 +1181,7 @@ export type CreateTaggedPostMutation = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -1286,6 +1244,7 @@ export type UpdateTaggedPostMutation = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -1348,6 +1307,7 @@ export type DeleteTaggedPostMutation = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -1561,6 +1521,7 @@ export type CreateCuratedPostMutation = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -1626,6 +1587,7 @@ export type UpdateCuratedPostMutation = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -1691,6 +1653,7 @@ export type DeleteCuratedPostMutation = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -1790,6 +1753,7 @@ export type UpdatePostMutation = {
     price: number | null,
     totalViews: number | null,
     totalScore: number | null,
+    rank: number | null,
     updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
@@ -2062,6 +2026,7 @@ export type ListPostsQuery = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -2101,6 +2066,7 @@ export type GetPostQuery = {
     price: number | null,
     totalViews: number | null,
     totalScore: number | null,
+    rank: number | null,
     updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
@@ -2160,6 +2126,7 @@ export type SearchPostsQuery = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -2406,6 +2373,7 @@ export type GetTaggedPostQuery = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -2465,6 +2433,7 @@ export type ListTaggedPostsQuery = {
         price: number | null,
         totalViews: number | null,
         totalScore: number | null,
+        rank: number | null,
         updatedAt: string,
       } | null,
       tag:  {
@@ -2609,6 +2578,7 @@ export type GetCuratedPostQuery = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -2671,6 +2641,7 @@ export type ListCuratedPostsQuery = {
         price: number | null,
         totalViews: number | null,
         totalScore: number | null,
+        rank: number | null,
         updatedAt: string,
       } | null,
       curation:  {
@@ -2817,6 +2788,7 @@ export type OnCreatePostSubscription = {
     price: number | null,
     totalViews: number | null,
     totalScore: number | null,
+    rank: number | null,
     updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
@@ -2867,6 +2839,7 @@ export type OnUpdatePostSubscription = {
     price: number | null,
     totalViews: number | null,
     totalScore: number | null,
+    rank: number | null,
     updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
@@ -2917,6 +2890,7 @@ export type OnDeletePostSubscription = {
     price: number | null,
     totalViews: number | null,
     totalScore: number | null,
+    rank: number | null,
     updatedAt: string,
     tags:  {
       __typename: "ModelTaggedPostConnection",
@@ -3169,6 +3143,7 @@ export type OnCreateTaggedPostSubscription = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -3226,6 +3201,7 @@ export type OnUpdateTaggedPostSubscription = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -3283,6 +3259,7 @@ export type OnDeleteTaggedPostSubscription = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -3476,6 +3453,7 @@ export type OnCreateCuratedPostSubscription = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -3536,6 +3514,7 @@ export type OnUpdateCuratedPostSubscription = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",
@@ -3596,6 +3575,7 @@ export type OnDeleteCuratedPostSubscription = {
       price: number | null,
       totalViews: number | null,
       totalScore: number | null,
+      rank: number | null,
       updatedAt: string,
       tags:  {
         __typename: "ModelTaggedPostConnection",

@@ -56,6 +56,7 @@ type Post @aws_api_key @aws_iam @aws_cognito_user_pools {
   price: Float
   totalViews: Int
   totalScore: Int
+  rank: Float
   updatedAt: AWSDateTime!
   tags(tagName: ModelIDKeyConditionInput, filter: ModelTaggedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools
   curations(curationID: ModelIDKeyConditionInput, filter: ModelCuratedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCuratedPostConnection @aws_api_key @aws_cognito_user_pools
@@ -120,8 +121,7 @@ type CuratedPost @aws_api_key @aws_cognito_user_pools {
 type Mutation {
   viewPost(id: ID!): Post @aws_api_key
   viewTag(name: ID!): Tag @aws_api_key
-  upvotePost(id: ID!): Post @aws_cognito_user_pools
-  downvotePost(id: ID!): Post @aws_cognito_user_pools
+  votePost(id: ID!, vote: Int!): Post @aws_cognito_user_pools
   deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User
   createVote(input: CreateVoteInput!, condition: ModelVoteConditionInput): Vote
   updateVote(input: UpdateVoteInput!, condition: ModelVoteConditionInput): Vote
@@ -431,6 +431,7 @@ input ModelPostFilterInput {
   price: ModelFloatInput
   totalViews: ModelIntInput
   totalScore: ModelIntInput
+  rank: ModelFloatInput
   and: [ModelPostFilterInput]
   or: [ModelPostFilterInput]
   not: ModelPostFilterInput
@@ -450,6 +451,7 @@ input CreatePostInput {
   price: Float
   totalViews: Int
   totalScore: Int
+  rank: Float
 }
 
 input UpdatePostInput {
@@ -466,6 +468,7 @@ input UpdatePostInput {
   price: Float
   totalViews: Int
   totalScore: Int
+  rank: Float
 }
 
 input DeletePostInput {
@@ -483,6 +486,7 @@ input ModelPostConditionInput {
   price: ModelFloatInput
   totalViews: ModelIntInput
   totalScore: ModelIntInput
+  rank: ModelFloatInput
   and: [ModelPostConditionInput]
   or: [ModelPostConditionInput]
   not: ModelPostConditionInput
@@ -813,6 +817,7 @@ input SearchablePostFilterInput {
   price: SearchableFloatFilterInput
   totalViews: SearchableIntFilterInput
   totalScore: SearchableIntFilterInput
+  rank: SearchableFloatFilterInput
   and: [SearchablePostFilterInput]
   or: [SearchablePostFilterInput]
   not: SearchablePostFilterInput
@@ -830,6 +835,7 @@ enum SearchablePostSortableFields {
   price
   totalViews
   totalScore
+  rank
 }
 
 input SearchablePostSortInput {

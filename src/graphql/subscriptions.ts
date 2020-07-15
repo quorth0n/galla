@@ -106,6 +106,7 @@ export const onCreatePost = /* GraphQL */ `
       price
       totalViews
       totalScore
+      rank
       updatedAt
       tags {
         items {
@@ -151,6 +152,7 @@ export const onUpdatePost = /* GraphQL */ `
       price
       totalViews
       totalScore
+      rank
       updatedAt
       tags {
         items {
@@ -196,6 +198,7 @@ export const onDeletePost = /* GraphQL */ `
       price
       totalViews
       totalScore
+      rank
       updatedAt
       tags {
         items {
@@ -424,6 +427,7 @@ export const onCreateTaggedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -475,6 +479,7 @@ export const onUpdateTaggedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -526,6 +531,7 @@ export const onDeleteTaggedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -698,6 +704,7 @@ export const onCreateCuratedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -751,6 +758,7 @@ export const onUpdateCuratedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -804,6 +812,7 @@ export const onDeleteCuratedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken

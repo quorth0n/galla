@@ -295,13 +295,13 @@ const Profile = ({ user }) => {
                       </h2>
                     )}
                   </div>
-                  <a
-                    href="#posts"
-                    className="font-semibold text-accent mt-3 block"
+                  <button
+                    type="button"
+                    className="inline font-semibold text-accent mt-3"
                     onClick={(e) => e.target.classList.add('hidden')}
                   >
                     View all
-                  </a>
+                  </button>
                 </div>
                 <div
                   id="curations"
@@ -322,13 +322,13 @@ const Profile = ({ user }) => {
                     )}
                   </div>
                   <div className="text-center bg-secondary-soft items-center">
-                    <a
-                      href="#posts"
+                    <button
+                      type="button"
                       className="font-semibold text-accent mt-3"
                       onClick={(e) => e.target.classList.add('hidden')}
                     >
                       View all
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>

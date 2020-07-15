@@ -228,7 +228,7 @@
                         {
                             "Ref": "APIKeyExpirationEpoch"
                         },
-                        1626205648
+                        1626388790
                     ]
                 }
             },
@@ -1639,6 +1639,111 @@
                 "NoneDataSource"
             ]
         },
+        "FunctionDirectiveStack": {
+            "Type": "AWS::CloudFormation::Stack",
+            "Properties": {
+                "Parameters": {
+                    "AppSyncApiId": {
+                        "Fn::GetAtt": [
+                            "GraphQLAPI",
+                            "ApiId"
+                        ]
+                    },
+                    "DynamoDBModelTableReadIOPS": {
+                        "Ref": "DynamoDBModelTableReadIOPS"
+                    },
+                    "DynamoDBModelTableWriteIOPS": {
+                        "Ref": "DynamoDBModelTableWriteIOPS"
+                    },
+                    "DynamoDBBillingMode": {
+                        "Ref": "DynamoDBBillingMode"
+                    },
+                    "DynamoDBEnablePointInTimeRecovery": {
+                        "Ref": "DynamoDBEnablePointInTimeRecovery"
+                    },
+                    "DynamoDBEnableServerSideEncryption": {
+                        "Ref": "DynamoDBEnableServerSideEncryption"
+                    },
+                    "ElasticSearchAccessIAMRoleName": {
+                        "Ref": "ElasticSearchAccessIAMRoleName"
+                    },
+                    "ElasticSearchStreamingLambdaHandlerName": {
+                        "Ref": "ElasticSearchStreamingLambdaHandlerName"
+                    },
+                    "ElasticSearchStreamingLambdaRuntime": {
+                        "Ref": "ElasticSearchStreamingLambdaRuntime"
+                    },
+                    "ElasticSearchStreamingFunctionName": {
+                        "Ref": "ElasticSearchStreamingFunctionName"
+                    },
+                    "ElasticSearchStreamingIAMRoleName": {
+                        "Ref": "ElasticSearchStreamingIAMRoleName"
+                    },
+                    "ElasticSearchDebugStreamingLambda": {
+                        "Ref": "ElasticSearchDebugStreamingLambda"
+                    },
+                    "ElasticSearchInstanceCount": {
+                        "Ref": "ElasticSearchInstanceCount"
+                    },
+                    "ElasticSearchInstanceType": {
+                        "Ref": "ElasticSearchInstanceType"
+                    },
+                    "ElasticSearchEBSVolumeGB": {
+                        "Ref": "ElasticSearchEBSVolumeGB"
+                    },
+                    "AppSyncApiName": {
+                        "Ref": "AppSyncApiName"
+                    },
+                    "APIKeyExpirationEpoch": {
+                        "Ref": "APIKeyExpirationEpoch"
+                    },
+                    "CreateAPIKey": {
+                        "Ref": "CreateAPIKey"
+                    },
+                    "AuthCognitoUserPoolId": {
+                        "Ref": "AuthCognitoUserPoolId"
+                    },
+                    "authRoleName": {
+                        "Ref": "authRoleName"
+                    },
+                    "env": {
+                        "Ref": "env"
+                    },
+                    "S3DeploymentBucket": {
+                        "Ref": "S3DeploymentBucket"
+                    },
+                    "S3DeploymentRootKey": {
+                        "Ref": "S3DeploymentRootKey"
+                    },
+                    "GetAttGraphQLAPIApiId": {
+                        "Fn::GetAtt": [
+                            "GraphQLAPI",
+                            "ApiId"
+                        ]
+                    }
+                },
+                "TemplateURL": {
+                    "Fn::Join": [
+                        "/",
+                        [
+                            "https://s3.amazonaws.com",
+                            {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            {
+                                "Ref": "S3DeploymentRootKey"
+                            },
+                            "stacks",
+                            "FunctionDirectiveStack.json"
+                        ]
+                    ]
+                }
+            },
+            "DependsOn": [
+                "GraphQLSchema",
+                "NoneDataSource"
+            ]
+        },
         "ConnectionStack": {
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
@@ -1910,116 +2015,7 @@
                 "TaggedPost",
                 "TaggedCuration",
                 "CuratedPost",
-                "ConnectionStack",
-                "SearchableStack"
-            ]
-        },
-        "DownvotePostjson": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-                "Parameters": {
-                    "AppSyncApiId": {
-                        "Fn::GetAtt": [
-                            "GraphQLAPI",
-                            "ApiId"
-                        ]
-                    },
-                    "AppSyncApiName": {
-                        "Ref": "AppSyncApiName"
-                    },
-                    "env": {
-                        "Ref": "env"
-                    },
-                    "S3DeploymentBucket": {
-                        "Ref": "S3DeploymentBucket"
-                    },
-                    "S3DeploymentRootKey": {
-                        "Ref": "S3DeploymentRootKey"
-                    }
-                },
-                "TemplateURL": {
-                    "Fn::Join": [
-                        "/",
-                        [
-                            "https://s3.amazonaws.com",
-                            {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "stacks",
-                            "DownvotePost.json"
-                        ]
-                    ]
-                }
-            },
-            "DependsOn": [
-                "GraphQLAPI",
-                "GraphQLSchema",
-                "User",
-                "Vote",
-                "Post",
-                "Tag",
-                "Curation",
-                "TaggedPost",
-                "TaggedCuration",
-                "CuratedPost",
-                "ConnectionStack",
-                "SearchableStack"
-            ]
-        },
-        "UpvotePostjson": {
-            "Type": "AWS::CloudFormation::Stack",
-            "Properties": {
-                "Parameters": {
-                    "AppSyncApiId": {
-                        "Fn::GetAtt": [
-                            "GraphQLAPI",
-                            "ApiId"
-                        ]
-                    },
-                    "AppSyncApiName": {
-                        "Ref": "AppSyncApiName"
-                    },
-                    "env": {
-                        "Ref": "env"
-                    },
-                    "S3DeploymentBucket": {
-                        "Ref": "S3DeploymentBucket"
-                    },
-                    "S3DeploymentRootKey": {
-                        "Ref": "S3DeploymentRootKey"
-                    }
-                },
-                "TemplateURL": {
-                    "Fn::Join": [
-                        "/",
-                        [
-                            "https://s3.amazonaws.com",
-                            {
-                                "Ref": "S3DeploymentBucket"
-                            },
-                            {
-                                "Ref": "S3DeploymentRootKey"
-                            },
-                            "stacks",
-                            "UpvotePost.json"
-                        ]
-                    ]
-                }
-            },
-            "DependsOn": [
-                "GraphQLAPI",
-                "GraphQLSchema",
-                "User",
-                "Vote",
-                "Post",
-                "Tag",
-                "Curation",
-                "TaggedPost",
-                "TaggedCuration",
-                "CuratedPost",
+                "FunctionDirectiveStack",
                 "ConnectionStack",
                 "SearchableStack"
             ]
@@ -2075,6 +2071,7 @@
                 "TaggedPost",
                 "TaggedCuration",
                 "CuratedPost",
+                "FunctionDirectiveStack",
                 "ConnectionStack",
                 "SearchableStack"
             ]
@@ -2130,6 +2127,7 @@
                 "TaggedPost",
                 "TaggedCuration",
                 "CuratedPost",
+                "FunctionDirectiveStack",
                 "ConnectionStack",
                 "SearchableStack"
             ]

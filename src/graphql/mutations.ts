@@ -22,6 +22,7 @@ export const viewPost = /* GraphQL */ `
       price
       totalViews
       totalScore
+      rank
       updatedAt
       tags {
         items {
@@ -72,9 +73,9 @@ export const viewTag = /* GraphQL */ `
     }
   }
 `;
-export const upvotePost = /* GraphQL */ `
-  mutation UpvotePost($id: ID!) {
-    upvotePost(id: $id) {
+export const votePost = /* GraphQL */ `
+  mutation VotePost($id: ID!, $vote: Int!) {
+    votePost(id: $id, vote: $vote) {
       id
       title
       description
@@ -92,51 +93,7 @@ export const upvotePost = /* GraphQL */ `
       price
       totalViews
       totalScore
-      updatedAt
-      tags {
-        items {
-          id
-          postID
-          tagName
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      curations {
-        items {
-          id
-          order
-          postID
-          curationID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-    }
-  }
-`;
-export const downvotePost = /* GraphQL */ `
-  mutation DownvotePost($id: ID!) {
-    downvotePost(id: $id) {
-      id
-      title
-      description
-      license
-      createdAt
-      nsfw
-      userID
-      thumb
-      resolutions {
-        resMode
-        url
-        thumb
-      }
-      quantity
-      price
-      totalViews
-      totalScore
+      rank
       updatedAt
       tags {
         items {
@@ -249,6 +206,7 @@ export const createPost = /* GraphQL */ `
       price
       totalViews
       totalScore
+      rank
       updatedAt
       tags {
         items {
@@ -297,6 +255,7 @@ export const deletePost = /* GraphQL */ `
       price
       totalViews
       totalScore
+      rank
       updatedAt
       tags {
         items {
@@ -481,6 +440,7 @@ export const createTaggedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -535,6 +495,7 @@ export const updateTaggedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -589,6 +550,7 @@ export const deleteTaggedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -773,6 +735,7 @@ export const createCuratedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -829,6 +792,7 @@ export const updateCuratedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -885,6 +849,7 @@ export const deleteCuratedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -972,6 +937,7 @@ export const updatePost = /* GraphQL */ `
       price
       totalViews
       totalScore
+      rank
       updatedAt
       tags {
         items {

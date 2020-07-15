@@ -164,6 +164,7 @@ export const listPosts = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -196,6 +197,7 @@ export const getPost = /* GraphQL */ `
       price
       totalViews
       totalScore
+      rank
       updatedAt
       tags {
         items {
@@ -252,6 +254,7 @@ export const searchPosts = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -474,6 +477,7 @@ export const getTaggedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -525,6 +529,7 @@ export const listTaggedPosts = /* GraphQL */ `
           price
           totalViews
           totalScore
+          rank
           updatedAt
         }
         tag {
@@ -648,6 +653,7 @@ export const getCuratedPost = /* GraphQL */ `
         price
         totalViews
         totalScore
+        rank
         updatedAt
         tags {
           nextToken
@@ -701,6 +707,7 @@ export const listCuratedPosts = /* GraphQL */ `
           price
           totalViews
           totalScore
+          rank
           updatedAt
         }
         curation {

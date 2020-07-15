@@ -13,6 +13,20 @@ const Index = ({ initialPosts }) => {
     if (isNaN(key)) {
       // for non date range filters
       switch (key) {
+        case 'hot': {
+          const fetchPosts = await API.graphql({
+            ...graphqlOperation(searchPosts, {
+              sort: {
+                field: 'rank',
+                direction: 'desc',
+              },
+              limit: 30,
+            }),
+            authMode: 'API_KEY',
+          });
+          setPosts(fetchPosts.data.searchPosts.items);
+          break;
+        }
         case 'all': {
           const fetchPosts = await API.graphql({
             ...graphqlOperation(searchPosts, {
@@ -70,9 +84,10 @@ const Index = ({ initialPosts }) => {
       <Head />
       <Dropdown
         options={[
-          { value: 'Trending: past day', key: '1' },
-          { value: 'Trending: past week', key: '7', selected: true },
-          { value: 'Trending: past month', key: '30' },
+          { value: 'Trending', key: 'hot' },
+          { value: 'Top: past day', key: '1' },
+          { value: 'Top: past week', key: '7' },
+          { value: 'Top: past month', key: '30' },
           { value: 'Top: all time', key: 'all' },
           { value: 'Newest', key: 'new' },
         ]}
@@ -101,13 +116,8 @@ export const getServerSideProps = async () => {
   start.setDate(today.getDate() - 7); // should change to - 1 as site activity grows
   const topPosts = await API.graphql({
     ...graphqlOperation(searchPosts, {
-      filter: {
-        createdAt: {
-          range: [start.toISOString(), today.toISOString()],
-        },
-      },
       sort: {
-        field: 'totalScore',
+        field: 'rank',
         direction: 'desc',
       },
       limit: 8,

@@ -5,8 +5,7 @@ import SignInOpenContext from '../../context/SignInOpenContext';
 import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 import { voteByPostByOwner } from '../../src/graphql/queries';
 import {
-  upvotePost,
-  downvotePost,
+  votePost,
   createVote,
   updateVote,
   deleteVote,
@@ -55,8 +54,9 @@ const Vote = ({ id, initialScore }) => {
           );
           // undo previous totalScore operation
           await API.graphql(
-            graphqlOperation(selectedVote.upvote ? downvotePost : upvotePost, {
+            graphqlOperation(votePost, {
               id,
+              vote: selectedVote.upvote ? -1 : 1,
             })
           );
           setScore(score + (selectedVote.upvote ? -1 : 1));
@@ -71,12 +71,12 @@ const Vote = ({ id, initialScore }) => {
               },
             })
           );
-          // perform totalScore operation twice, not working in same request...
-          for (let i = 0; i < 2; i++) {
-            await API.graphql(
-              graphqlOperation(upvote ? upvotePost : downvotePost, { id })
-            );
-          }
+          await API.graphql(
+            graphqlOperation(votePost, {
+              id,
+              vote: upvote ? 2 : -2,
+            })
+          );
           setScore(score + (upvote ? 2 : -2));
           setSelectedVote({ ...selectedVote, upvote });
         }
@@ -93,7 +93,10 @@ const Vote = ({ id, initialScore }) => {
         );
         const newVote = fetchNewVote.data.createVote;
         await API.graphql(
-          graphqlOperation(upvote ? upvotePost : downvotePost, { id })
+          graphqlOperation(votePost, {
+            id,
+            vote: upvote ? 1 : -1,
+          })
         );
         setScore(score + (upvote ? 1 : -1));
         setSelectedVote({ id: newVote.id, upvote });
@@ -107,7 +110,7 @@ const Vote = ({ id, initialScore }) => {
 
   return (
     <div className="text-center justify-center mr-4 md:mr-6">
-      <a
+      <button
         className={`fas fa-arrow-up text-xl block ${
           selectedVote.upvote === 1 && 'text-accent'
         }`}
@@ -121,7 +124,7 @@ const Vote = ({ id, initialScore }) => {
       >
         {score}
       </strong>
-      <a
+      <button
         className={`fas fa-arrow-down text-xl block ${
           selectedVote.upvote === 0 && 'text-accent'
         }`}
