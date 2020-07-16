@@ -82,7 +82,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-artify-dev-111447-deployment",
-					"S3Key": "amplify-builds/vote-564444516b552f525a76-build.zip"
+					"S3Key": "amplify-builds/vote-666946622f6966783650-build.zip"
 				}
 			}
 		},

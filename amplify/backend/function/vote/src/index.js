@@ -91,8 +91,9 @@ const getRank = (score, time) => {
   } else if (score < 0) {
     sign = -1;
   }
-  const deltaSeconds = new Date(time).getTime() - 1594783167165;
-  return parseFloat((sign * order + deltaSeconds / 45000).toFixed(7));
+  const deltaMs = new Date(time).getTime() - 1594783167165;
+  const deltaSec = Math.abs(deltaMs / 1000);
+  return parseFloat((sign * order + deltaSec / 45000).toFixed(7));
 };
 
 const resolvers = {
