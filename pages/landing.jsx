@@ -100,9 +100,8 @@ export default function Landing() {
                     Earn More
                   </h6>
                   <p className="mt-2 mb-4 text-gray-600">
-                    Sell prints, earn comissions, and collect royalties{' '}
-                    <b>whenever your work is viewed</b> &ndash; all in one
-                    place.
+                    Sell your work, earn comissions, and collect royalties{' '}
+                    <b>every time you're viewed</b> &ndash; all in one place.
                   </p>
                 </div>
               </div>

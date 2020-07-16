@@ -17,7 +17,11 @@ const PostThumb = ({ post }) => (
           {post.description}
         </p>
       </div>
-      <img src={post.thumb} alt={post.title} className="w-full h-full" />
+      <img
+        src={post.thumb}
+        alt={post.title}
+        className="w-full h-full object-cover"
+      />
     </a>
   </Link>
 );
