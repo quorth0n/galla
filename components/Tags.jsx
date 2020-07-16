@@ -31,7 +31,7 @@ const Tags = () => {
           <a
             href="#"
             key={tag}
-            className="text-xs inline-block py-1 px-2 uppercase rounded-full text-primary bg-accent uppercase font-semibold"
+            className="text-xs inline-block py-1 px-2 rounded-full text-primary bg-accent uppercase font-semibold link-off"
           >
             #{tag}
           </a>

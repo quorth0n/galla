@@ -135,7 +135,7 @@ const Post = ({ post }) => {
         <AddToCuration postID={id} />
         {user?.username === post.userID && (
           <Link href="/post/edit/[id]" as={`/post/edit/${id}`}>
-            <a>
+            <a className="link-off">
               <i className="fas fa-edit mr-1" /> Edit
             </a>
           </Link>

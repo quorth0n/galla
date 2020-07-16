@@ -164,7 +164,7 @@ const Header = () => {
               <li className="nav-item">
                 <Link href="/post/new">
                   <a
-                    className="flex leading-snug lg:ml-4 lg:bg-accent uppercase font-semibold text-white hover:shadow-lg lg:shadow px-4 py-2 lg:rounded outline-none focus:outline-none"
+                    className="flex leading-snug lg:ml-4 lg:bg-accent uppercase font-semibold text-white hover:shadow-lg lg:shadow px-4 py-2 lg:rounded outline-none focus:outline-none link-off"
                     onClick={closeAll}
                   >
                     Submit
@@ -181,20 +181,22 @@ const Header = () => {
               </li>
             </ul>
           ) : (
-            <Link href="/login">
-              <ul className="flex flex-col lg:flex-row list-none lg:ml-auto align-middle">
-                <li className="nav-item">
-                  <a className="px-4 py-2 flex items-center text-xs uppercase font-bold leading-snug">
+            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto align-middle">
+              <li className="nav-item">
+                <Link href="/login">
+                  <a className="px-4 py-2 flex items-center text-xs uppercase font-bold leading-snug link-off">
                     <span>Log In</span>
                   </a>
-                </li>
-                <li className="nav-item">
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link href="/signup">
                   <a className="flex leading-snug lg:ml-4 lg:bg-accent uppercase text-white font-bold hover:shadow-lg lg:shadow text-xs px-4 py-2 lg:rounded outline-none focus:outline-none">
                     Sign Up
                   </a>
-                </li>
-              </ul>
-            </Link>
+                </Link>
+              </li>
+            </ul>
           )}
         </div>
       </div>
