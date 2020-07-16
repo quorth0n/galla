@@ -88,10 +88,10 @@ textarea:focus {
 
 .post-grid {
   /* Prevent vertical gaps */
-  @apply leading-none select-none grid-flow-row;
+  @apply leading-none select-none;
 
   column-count: 5;
-  column-gap: 1rem;
+  grid-gap: 1rem;
 }
 
 .post-grid > div {

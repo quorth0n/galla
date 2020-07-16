@@ -99,11 +99,7 @@ const Index = ({ initialPosts }) => {
             No posts found for selected timeframe!
           </h2>
         ) : (
-          posts.map((post) => (
-            <div key={post.id}>
-              <PostThumb post={post} />
-            </div>
-          ))
+          posts.map((post) => <PostThumb post={post} key={post} />)
         )}
       </div>
     </div>
