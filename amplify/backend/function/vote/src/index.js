@@ -92,7 +92,7 @@ const getRank = (score, time) => {
     sign = -1;
   }
   const deltaMs = new Date(time).getTime() - 1594783167165;
-  const deltaSec = Math.abs(deltaMs / 1000);
+  const deltaSec = deltaMs / 1000;
   return parseFloat((sign * order + deltaSec / 45000).toFixed(7));
 };
 
