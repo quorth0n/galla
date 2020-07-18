@@ -45,7 +45,7 @@ const Vote = ({ id, initialScore }) => {
         // user changed their vote
         if (selectedVote.upvote === upvote) {
           // user did not also select a new vote
-          await API.graphql(
+          API.graphql(
             graphqlOperation(deleteVote, {
               input: {
                 id: selectedVote.id,
@@ -53,7 +53,7 @@ const Vote = ({ id, initialScore }) => {
             })
           );
           // undo previous totalScore operation
-          await API.graphql(
+          API.graphql(
             graphqlOperation(votePost, {
               id,
               vote: selectedVote.upvote ? -1 : 1,
@@ -63,7 +63,7 @@ const Vote = ({ id, initialScore }) => {
           setSelectedVote({});
         } else {
           // user also selected a new vote
-          await API.graphql(
+          API.graphql(
             graphqlOperation(updateVote, {
               input: {
                 id: selectedVote.id,
@@ -71,7 +71,7 @@ const Vote = ({ id, initialScore }) => {
               },
             })
           );
-          await API.graphql(
+          API.graphql(
             graphqlOperation(votePost, {
               id,
               vote: upvote ? 2 : -2,
@@ -92,7 +92,7 @@ const Vote = ({ id, initialScore }) => {
           })
         );
         const newVote = fetchNewVote.data.createVote;
-        await API.graphql(
+        API.graphql(
           graphqlOperation(votePost, {
             id,
             vote: upvote ? 1 : -1,
