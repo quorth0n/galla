@@ -328,4 +328,4 @@ const PostEditor = ({ post }) => {
     </div>
   );
 };
-export default PostEditor;
+export default React.memo(PostEditor);

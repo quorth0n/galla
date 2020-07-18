@@ -46,4 +46,4 @@ const Cover = ({ defaultCover }) => {
     </section>
   );
 };
-export default Cover;
+export default React.memo(Cover);

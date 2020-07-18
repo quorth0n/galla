@@ -27,4 +27,4 @@ const SignIn = () => (
     />
   </AmplifyAuthenticator>
 );
-export default SignIn;
+export default React.memo(SignIn);

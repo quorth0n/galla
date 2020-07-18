@@ -22,4 +22,4 @@ const Alert = ({ handleClose, render }) => (
   </>
 );
 
-export default Alert;
+export default React.memo(Alert);

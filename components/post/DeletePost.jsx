@@ -74,4 +74,4 @@ const DeletePost = ({ id, resolutions, owner }) => {
     </button>
   );
 };
-export default DeletePost;
+export default React.memo(DeletePost);
