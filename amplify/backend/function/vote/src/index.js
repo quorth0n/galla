@@ -84,7 +84,7 @@ async function gqlRequest(body) {
 }
 
 const getRank = (score, time) => {
-  const order = Math.log10(Math.max(Math.abs(score), 1));
+  const order = Math.log2(Math.max(Math.abs(score), 1));
   let sign = 0;
   if (score > 0) {
     sign = 1;

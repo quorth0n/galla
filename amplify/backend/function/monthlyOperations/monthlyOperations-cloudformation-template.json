@@ -81,7 +81,7 @@
 				"Runtime": "nodejs12.x",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "amplify-artify-dev-111447-deployment",
+					"S3Bucket": "amplify-artify-staging-134046-deployment",
 					"S3Key": "amplify-builds/monthlyOperations-616c596d567151544163-build.zip"
 				}
 			}
