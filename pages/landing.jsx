@@ -40,7 +40,7 @@ export default function Landing() {
                   forever
                 </p>
                 <Link href="/signup">
-                  <a className="btn-primary text-lg normal-case">
+                  <a className="btn-primary text-lg normal-case link-off">
                     Start earning
                   </a>
                 </Link>
@@ -133,7 +133,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="relative block bg-gray-900">
+      <section className="relative block bg-primary">
         <div
           className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
           style={{ height: '80px', transform: 'translateZ(0)' }}
@@ -148,7 +148,7 @@ export default function Landing() {
             y="0"
           >
             <polygon
-              className="text-gray-900 fill-current"
+              className="text-primary fill-current"
               points="2560 0 2560 100 0 100"
             ></polygon>
           </svg>
@@ -157,48 +157,46 @@ export default function Landing() {
         <div className="container mx-auto px-4 py-24">
           <div className="flex flex-wrap text-center justify-center">
             <div className="w-full lg:w-6/12 md:px-4">
-              <h2 className="text-4xl font-semibold text-primary">
+              <h2 className="text-4xl font-semibold text-secondary-soft">
                 Be a part of something greater
               </h2>
-              <p className="text-lg leading-relaxed mt-4 mb-4 text-gray-500">
+              <p className="text-lg leading-relaxed mt-4 text-secondary-soft opacity-75">
                 Galla is currently under active development, and we're looking
                 for all the help we can get. If you're as excited about the
-                project as we are, get in touch using one of the methods below:
+                project as we are, get in touch using one of the methods below
               </p>
             </div>
           </div>
-          <div className="flex flex-wrap mt-12 justify-center">
-            <div className="w-full lg:w-3/12 px-4 pb-8 text-center">
+          <div className="flex flex-wrap my-16 justify-center text-primary space-y-6 lg:space-x-4 lg:space-y-0">
+            <div className="w-full lg:w-3/12 px-4 py-8 bg-secondary-soft rounded-lg opacity-75">
               <a
                 href="https://discord.gg/ujvNJcr"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="link-off"
               >
-                <div className="text-gray-900 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
+                <div className="p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center text-secondary-soft">
                   <i className="fab fa-discord text-xl"></i>
                 </div>
-                <h5 className="text-xl mt-5 font-semibold text-white">
-                  Discord
-                </h5>
-                <p className="mt-2 mb-4 text-gray-500">
+                <h5 className="text-xl mt-5 font-semibold">Discord</h5>
+                <p className="mt-2 mb-4 opacity-75">
                   Follow along with site progress, developer updates, and
                   provide feedback or feature requests.
                 </p>
               </a>
             </div>
-            <div className="w-full lg:w-3/12 px-4 text-center">
+            <div className="w-full lg:w-3/12 px-4 py-8 bg-secondary-soft rounded-lg opacity-75">
               <a
                 href="https://github.com/quorth0n/galla"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="link-off"
               >
-                <div className="text-gray-900 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
+                <div className="p-3 w-12 h-12 shadow-lg rounded-full bg-primary inline-flex items-center justify-center text-secondary-soft">
                   <i className="fab fa-github text-xl"></i>
                 </div>
-                <h5 className="text-xl mt-5 font-semibold text-white">
-                  GitHub
-                </h5>
-                <p className="mt-2 mb-4 text-gray-500">
+                <h5 className="text-xl mt-5 font-semibold">GitHub</h5>
+                <p className="mt-2 mb-4 opacity-75">
                   Galla is a{' '}
                   <a href="https://www.gnu.org/philosophy/free-sw.html">
                     Free and Open Source
@@ -208,28 +206,29 @@ export default function Landing() {
                 </p>
               </a>
             </div>
-            <div className="w-full lg:w-3/12 px-4 text-center">
+            <div className="w-full lg:w-3/12 px-4 py-8 bg-secondary-soft rounded-lg opacity-75">
               <a
                 href="https://github.com/quorth0n/galla"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="link-off"
               >
-                <div className="text-gray-900 p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center">
+                <div className="p-3 w-12 h-12 shadow-lg rounded-full bg-white inline-flex items-center justify-center text-secondary-soft">
                   <i className="fab fa-instagram text-xl"></i>
                 </div>
-                <h5 className="text-xl mt-5 font-semibold text-white">
-                  Instagram
-                </h5>
-                <p className="mt-2 mb-4 text-gray-500">
+                <h5 className="text-xl mt-5 font-semibold">Instagram</h5>
+                <p className="mt-2 mb-4">
                   Help the community grow. Pass our account along to someone who
                   wants an art platform that caters to them.
                 </p>
               </a>
             </div>
           </div>
-          <div className="text-center mt-12">
+          <div className="text-center">
             <Link href="/signup">
-              <a className="btn-primary text-xl normal-case">Start earning</a>
+              <a className="btn-primary text-xl normal-case link-off">
+                Start earning
+              </a>
             </Link>
           </div>
         </div>

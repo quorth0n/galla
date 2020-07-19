@@ -1,10 +1,10 @@
 @tailwind base;
 
 :root {
-  --color-primary: #ececec;
-  --color-secondary: #222831;
-  --color-secondary-soft: #30475e;
-  --color-accent: #c1a57b;
+  --color-primary: #f7fafc;
+  --color-secondary: #000;
+  --color-secondary-soft: #1e1d1f;
+  --color-accent: #99775b;
 
   --amplify-primary-color: var(--color-accent);
   --amplify-primary-tint: var(--color-accent);
@@ -84,7 +84,7 @@ textarea:focus {
   z-index: -1;
 }
 
-/* Post Grid */
+/* Grids */
 
 .post-grid {
   /* Prevent vertical gaps */
@@ -127,10 +127,7 @@ html {
   min-height: 100%;
   background-size: cover;
   background-repeat: no-repeat;
-  background: linear-gradient(
-    var(--color-secondary-soft),
-    var(--color-secondary)
-  );
+  background: var(--color-secondary-soft);
 }
 
 @tailwind components;

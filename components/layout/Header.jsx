@@ -13,6 +13,7 @@ const Header = () => {
   const userBtnRef = React.useRef();
   const userPopoverRef = React.useRef();
 
+  const [scrolled, setScrolled] = React.useState(false);
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
 
@@ -30,10 +31,22 @@ const Header = () => {
         closeAll();
       }
     }
+    function handleScroll() {
+      if (
+        document.body.scrollTop > 80 ||
+        document.documentElement.scrollTop > 80
+      ) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    }
 
     document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('scroll', handleScroll);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('scroll', handleScroll);
     };
   });
 
@@ -69,7 +82,9 @@ const Header = () => {
 
   return (
     <nav
-      className="fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary z-20 shadow-2xl focus:outline-none"
+      className={`fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary z-20 shadow-2xl focus:outline-none transition duration-100 ${
+        scrolled && 'opacity-75 hover:opacity-100'
+      }`}
       tabIndex="0"
       ref={parentRef}
     >
@@ -156,7 +171,7 @@ const Header = () => {
                   href="/profile/[username]"
                   as={`/profile/${user.username}`}
                 >
-                  <a className="px-4 py-2 flex leading-snug font-semibold uppercase">
+                  <a className="link-off px-4 py-2 flex leading-snug font-semibold uppercase">
                     View profile
                   </a>
                 </Link>
@@ -191,7 +206,7 @@ const Header = () => {
               </li>
               <li className="nav-item">
                 <Link href="/signup">
-                  <a className="flex leading-snug lg:ml-4 lg:bg-accent uppercase text-white font-bold hover:shadow-lg lg:shadow text-xs px-4 py-2 lg:rounded outline-none focus:outline-none">
+                  <a className="flex leading-snug lg:ml-4 lg:bg-accent uppercase text-white font-bold hover:shadow-lg lg:shadow text-xs px-4 py-2 lg:rounded outline-none focus:outline-none link-off">
                     Sign Up
                   </a>
                 </Link>
