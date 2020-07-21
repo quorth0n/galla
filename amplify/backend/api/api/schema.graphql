@@ -1,0 +1,214 @@
+# Reference types
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type PublicImage {
+  resMode: String!
+  url: String!
+  thumb: Boolean
+}
+
+enum License {
+  by
+  by_sa
+  by_nd
+  by_nc
+  zero
+  pdm
+  copyright
+}
+
+# Models
+type User
+  @model
+  @key(fields: ["username"])
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "username" }
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, provider: iam, operations: [create, read, update] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @searchable {
+  username: ID!
+  avatar: String
+  bg: String
+  realName: String
+  location: String
+  description: String
+  website: String
+  monthlyViews: Int
+}
+
+type Vote
+  @model
+  @key(
+    name: "byPostByOwner"
+    fields: ["postID", "owner"]
+    queryField: "voteByPostByOwner"
+  )
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  postID: ID!
+  owner: ID
+  upvote: Int! # 0 or 1, bools cannot be sort keys
+}
+
+type Post
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "userID" }
+      { allow: private, operations: [read] } # Needed for intermediary m2m creation
+      { allow: private, provider: iam, operations: [read, update] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @searchable {
+  id: ID!
+  title: String!
+  description: String
+  license: License!
+  createdAt: AWSDateTime
+  nsfw: Boolean
+  userID: ID!
+  tags: [TaggedPost] @connection(keyName: "byPost", fields: ["id"])
+  curations: [CuratedPost] @connection(keyName: "byPost", fields: ["id"])
+  thumb: String!
+  resolutions: [PublicImage]!
+  quantity: Int
+  price: Float
+
+  totalViews: Int
+  totalScore: Int
+  rank: Float
+}
+
+type Tag
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [create, read] }
+      { allow: private, provider: iam, operations: [read, update] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @key(fields: ["name"])
+  @searchable {
+  name: ID!
+  description: String
+  posts: [TaggedPost] @connection(keyName: "byTag", fields: ["name"])
+
+  dailyViews: Int
+  weeklyViews: Int
+  monthlyViews: Int
+  yearlyViews: Int
+  totalViews: Int
+}
+
+type Curation
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private, operations: [read] } # Needed for intermediary m2m creation
+      { allow: private, provider: iam, operations: [read, update] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @searchable {
+  id: ID!
+  owner: ID
+  title: String
+  description: String
+  updatedAt: AWSDateTime
+  posts: [CuratedPost] @connection(keyName: "byCuration", fields: ["id"])
+  tags: [TaggedCuration] @connection(keyName: "byCuration", fields: ["id"])
+
+  totalViews: Int
+}
+
+# Intermediary m2ms
+type TaggedPost
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [create, read, delete] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @key(name: "byPost", fields: ["postID", "tagName"])
+  @key(name: "byTag", fields: ["tagName", "postID"]) {
+  id: ID!
+  postID: ID!
+  tagName: ID!
+  post: Post @connection(fields: ["postID"])
+  tag: Tag @connection(fields: ["tagName"])
+}
+
+type TaggedCuration
+  @model
+  @auth(
+    rules: [
+      { allow: private, operations: [create, read, delete] }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @key(name: "byCuration", fields: ["curationID", "tagName"])
+  @key(name: "byTag", fields: ["tagName", "curationID"]) {
+  id: ID!
+  curationID: ID!
+  tagName: ID!
+  curation: Curation @connection(fields: ["curationID"])
+  tag: Tag @connection(fields: ["tagName"])
+}
+
+type CuratedPost
+  @model
+  @auth(
+    rules: [
+      { allow: private }
+      { allow: public, provider: apiKey, operations: [read] }
+    ]
+  )
+  @key(name: "byPost", fields: ["postID", "curationID"])
+  @key(name: "byCuration", fields: ["curationID", "postID"]) {
+  id: ID!
+  order: Int
+  postID: ID!
+  curationID: ID!
+  post: Post @connection(fields: ["postID"])
+  curation: Curation @connection(fields: ["curationID"])
+}
+
+# Custom resolvers
+type Mutation {
+  viewPost(id: ID!): Post @aws_api_key
+  viewTag(name: ID!): Tag @aws_api_key
+  votePost(id: ID!, vote: Int!): Post
+    @function(name: "vote-${env}")
+    @aws_cognito_user_pools
+}
+
+# Overridden to allow range query for AWSDate* scalars
+input SearchableStringFilterInput {
+  ne: String
+  eq: String
+  range: [String]
+  match: String
+  matchPhrase: String
+  matchPhrasePrefix: String
+  multiMatch: String
+  exists: Boolean
+  wildcard: String
+  regexp: String
+}

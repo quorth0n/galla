@@ -1,0 +1,14 @@
+{
+  "apiapiGraphQLAPIEndpointOutput": {
+    "Fn::GetAtt": ["api", "Outputs.GraphQLAPIEndpointOutput"]
+  },
+  "apiapiGraphQLAPIIdOutput": {
+    "Fn::GetAtt": ["api", "Outputs.GraphQLAPIIdOutput"]
+  },
+  "functionartify93216dc7PostConfirmationLambdaExecutionRole": {
+    "Fn::GetAtt": [
+      "artify93216dc7PostConfirmation",
+      "Outputs.LambdaExecutionRole"
+    ]
+  }
+}

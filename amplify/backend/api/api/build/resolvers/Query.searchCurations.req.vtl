@@ -1,0 +1,34 @@
+#set( $indexPath = "/curation/doc/_search" )
+#set( $nonKeywordFields = ["updatedAt", "totalViews"] )
+#if( $util.isNullOrEmpty($context.args.sort) )
+  #set( $sortDirection = "desc" )
+  #set( $sortField = "id" )
+#else
+  #set( $sortDirection = $util.defaultIfNull($context.args.sort.direction, "desc") )
+  #set( $sortField = $util.defaultIfNull($context.args.sort.field, "id") )
+#end
+#if( $nonKeywordFields.contains($sortField) )
+  #set( $sortField0 = $util.toJson($sortField) )
+#else
+  #set( $sortField0 = $util.toJson("${sortField}.keyword") )
+#end
+{
+  "version": "2018-05-29",
+  "operation": "GET",
+  "path": "$indexPath",
+  "params": {
+      "body":     {
+                #if( $context.args.nextToken )"search_after": [$util.toJson($context.args.nextToken)], #end
+                "size": #if( $context.args.limit ) $context.args.limit #else 100 #end,
+                "sort": [{$sortField0: { "order" : $util.toJson($sortDirection) }}],
+                "version": false,
+                "query": #if( $context.args.filter )
+$util.transform.toElasticsearchQueryDSL($ctx.args.filter)
+#else
+{
+      "match_all": {}
+  }
+#end
+                }
+  }
+}
