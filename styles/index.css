@@ -121,6 +121,43 @@ textarea:focus {
   }
 }
 
+.grid-even {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+/* Tabs */
+
+.tab-item {
+  display: inline-block;
+}
+
+.tab-item::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 1px;
+  background: var(--color-primary);
+  transition: width 0.3s;
+  margin-top: 2px;
+}
+
+.tab-item:hover::after {
+  width: 100%;
+}
+
+.tab-item.active::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: width 0.3s;
+  margin-top: 2px;
+  width: 100%;
+}
+
 /* Global */
 
 html {

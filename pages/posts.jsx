@@ -4,7 +4,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { searchPosts } from '../src/graphql/queries';
 import PostGrid from '../components/PostGrid';
 
-const Index = ({ initialPosts }) => <PostGrid initialPosts={initialPosts} />;
+const Posts = ({ initialPosts }) => <PostGrid initialPosts={initialPosts} />;
 
 export const getServerSideProps = async () => {
   const fetchedPosts = await API.graphql({
@@ -29,4 +29,4 @@ export const getServerSideProps = async () => {
   };
 };
 
-export default Index;
+export default Posts;

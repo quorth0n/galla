@@ -1,10 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
 
-const CurationThumb = ({ curation }) => (
-  <Link href="/curation/[id]" as={`/curation/${curation.id}`} key={curation.id}>
-    <a className="link-off">
-      <div className="relative w-48 h-48 text-center cursor-pointer shadow hover:shadow-xl">
+const CurationThumb = ({ curation }) => {
+  if (!curation.posts.items.length) {
+    return null;
+  }
+
+  return (
+    <Link
+      href="/curation/[id]"
+      as={`/curation/${curation.id}`}
+      key={curation.id}
+    >
+      <a
+        className="link-off w-full h-full relative text-center cursor-pointer shadow hover:shadow-xl block"
+        style={{ maxHeight: '360px', maxWidth: '360px' }}
+      >
         <div className="absolute inset-0 w-full h-full block p-1 bg-black opacity-0 hover:opacity-75 transition duration-300 ease pl-0">
           <em className="relative top-0 text-lg font-semibold">
             {curation.title}
@@ -20,7 +31,11 @@ const CurationThumb = ({ curation }) => (
             {curation.description}
           </p>
         </div>
-        <div className="flex flex-wrap">
+        <div
+          className={`w-full h-full grid grid-cols-${
+            curation.posts.items.length > 1 ? 2 : 1
+          } grid-rows-${curation.posts.items.length > 2 ? 2 : 1}`}
+        >
           {curation.posts.items
             .map((curatedPost) => curatedPost.post)
             .map(
@@ -29,13 +44,13 @@ const CurationThumb = ({ curation }) => (
                   <img
                     key={post.thumb}
                     src={post.thumb}
-                    className="w-1/2 object-cover h-24"
+                    className="object-cover w-full h-full"
                   />
                 )
             )}
         </div>
-      </div>
-    </a>
-  </Link>
-);
-export default React.memo(CurationThumb);
+      </a>
+    </Link>
+  );
+};
+export default CurationThumb;

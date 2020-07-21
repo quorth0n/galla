@@ -24,7 +24,7 @@ const Dropdown = ({ options, handleChange, size }) => {
     <div className={size !== 'sm' ? 'w-full lg:w-64' : undefined}>
       <div className="relative inline-flex align-middle w-full">
         <button
-          className={`w-full text-primary font-bold uppercase text-sm outline-none focus:outline-none mr-1 mb-1 border-primary border-b-2 ${
+          className={`w-full text-primary uppercase text-sm outline-none focus:outline-none mr-1 mb-1 border-primary border-b ${
             size === 'sm' ? 'p-2' : 'p-3'
           }`}
           ref={btnDropdownRef}
