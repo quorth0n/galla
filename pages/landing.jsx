@@ -39,6 +39,11 @@ export default function Landing() {
                   Sign up during the Beta and get an extra 10% royalties,
                   forever
                 </p>
+                <Link href="/">
+                  <a className="btn-secondary text-lg normal-case link-off mr-4">
+                    See the Beta
+                  </a>
+                </Link>
                 <Link href="/signup">
                   <a className="btn-primary text-lg normal-case link-off">
                     Start earning
@@ -208,7 +213,7 @@ export default function Landing() {
             </div>
             <div className="w-full lg:w-3/12 px-4 py-8 bg-secondary-soft rounded-lg opacity-75">
               <a
-                href="https://github.com/quorth0n/galla"
+                href="https://www.instagram.com/galla.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="link-off"
