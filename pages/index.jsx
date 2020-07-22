@@ -18,7 +18,7 @@ export const getServerSideProps = async () => {
         field: 'rank',
         direction: 'desc',
       },
-      limit: 30,
+      limit: 9,
     }),
     authMode: 'API_KEY',
   });

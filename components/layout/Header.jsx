@@ -82,7 +82,7 @@ const Header = () => {
 
   return (
     <nav
-      className={`fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary z-20 shadow-2xl focus:outline-none transition duration-100 ${
+      className={`fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary z-20 shadow-2xl focus:outline-none transition duration-300 ${
         scrolled && 'opacity-75 hover:opacity-100'
       }`}
       tabIndex="0"
