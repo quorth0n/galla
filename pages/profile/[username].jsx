@@ -71,6 +71,7 @@ const Profile = ({ user }) => {
             query SearchCurations(
               $filter: SearchableCurationFilterInput
               $sort: SearchableCurationSortInput
+              $limit: Int
               $postLimit: Int
               $nextToken: String
             ) {
@@ -78,6 +79,7 @@ const Profile = ({ user }) => {
                 filter: $filter
                 sort: $sort
                 nextToken: $nextToken
+                limit: $limit
               ) {
                 items {
                   id
@@ -103,6 +105,7 @@ const Profile = ({ user }) => {
                 eq: user.username,
               },
             },
+            limit: 4,
             postLimit: 4,
           }
         ),
@@ -283,12 +286,12 @@ const Profile = ({ user }) => {
                     Posts
                   </h4>
                   <div
-                    className={`px-4 lg:px-8 ${posts.length && 'post-grid'}`}
+                    className={`px-4 lg:px-8 ${
+                      posts.length && 'post-grid user-grid'
+                    }`}
                   >
                     {posts.length ? (
-                      posts.map((post) => (
-                        <PostThumb key={post.id} post={post} />
-                      ))
+                      posts.map((post) => <PostThumb key={post} post={post} />)
                     ) : (
                       <h2 className="text-lg w-full h-full opacity-75">
                         No posts yet!
@@ -310,7 +313,7 @@ const Profile = ({ user }) => {
                   <h4 className="text-2xl font-semibold leading-normal mb-6 text-primary">
                     Curations
                   </h4>
-                  <div className="px-4 lg:px-8 flex flex-row space-x-4">
+                  <div className="px-4 lg:px-8 post-grid grid-even">
                     {curations.length ? (
                       curations.map((curation) => (
                         <CurationThumb key={curation.id} curation={curation} />

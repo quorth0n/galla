@@ -100,6 +100,10 @@ textarea:focus {
   height: auto !important;
 }
 
+.user-grid {
+  column-count: 4;
+}
+
 @media (max-width: 1200px) {
   .post-grid {
     column-count: 4;
