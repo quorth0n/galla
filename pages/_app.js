@@ -28,7 +28,8 @@ export default function App({ Component, pageProps, router }) {
         noFooter={router.pathname.includes('landing')}
         noHeader={
           router.pathname.includes('landing') ||
-          router.pathname.includes('waitlist')
+          router.pathname.includes('waitlist') ||
+          router.pathname.includes('login')
         }
       >
         <Component {...pageProps} />

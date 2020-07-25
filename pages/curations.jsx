@@ -5,8 +5,10 @@ import Head from '../components/Head';
 import Dropdown from '../components/Dropdown';
 import FilterTabs from '../components/index/FilterTabs';
 import CurationThumb from '../components/CurationThumb';
+import useProtectedView from '../helpers/hooks/useProtectedView';
 
 const Curations = ({ initialCurations }) => {
+  useProtectedView();
   const curations = initialCurations; // Todo: useState and add more filter options
 
   return (

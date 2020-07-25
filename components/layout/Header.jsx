@@ -205,13 +205,6 @@ const Header = () => {
                   </a>
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link href="/signup">
-                  <a className="flex leading-snug lg:ml-4 lg:bg-accent uppercase text-white font-bold hover:shadow-lg lg:shadow text-xs px-4 py-2 lg:rounded outline-none focus:outline-none link-off">
-                    Sign Up
-                  </a>
-                </Link>
-              </li>
             </ul>
           )}
         </div>

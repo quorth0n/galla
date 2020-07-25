@@ -3,8 +3,12 @@ import { API, graphqlOperation } from 'aws-amplify';
 
 import { searchPosts } from '../src/graphql/queries';
 import PostGrid from '../components/PostGrid';
+import useProtectedView from '../helpers/hooks/useProtectedView';
 
-const Posts = ({ initialPosts }) => <PostGrid initialPosts={initialPosts} />;
+const Posts = ({ initialPosts }) => {
+  useProtectedView();
+  return <PostGrid initialPosts={initialPosts} />;
+};
 
 export const getServerSideProps = async () => {
   const fetchedPosts = await API.graphql({
