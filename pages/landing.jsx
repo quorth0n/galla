@@ -1,15 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { nanoid } from 'nanoid';
 import { API, graphqlOperation } from 'aws-amplify';
 
+import useLocalStorage from '../helpers/hooks/useLocalStorage';
 import Head from '../components/Head';
 import { searchWaitlists } from '../src/graphql/queries';
 import { createWaitlist } from '../src/graphql/mutations';
-import { useRouter } from 'next/router';
 
 const Landing = () => {
+  const [refCode, setRefCode] = useLocalStorage('refCode');
   const { register, handleSubmit, errors } = useForm();
   const router = useRouter();
 
@@ -37,6 +39,7 @@ const Landing = () => {
       }),
       authMode: 'API_KEY',
     });
+    setRefCode(id);
     router.push('/waitlist/[waitlistID]', `/waitlist/${id}`);
   };
 
@@ -71,23 +74,34 @@ const Landing = () => {
                 giving the community an update for the digital age.
               </p>
               <div className="mt-6">
-                <form
-                  onSubmit={handleSubmit(submitWaitlist)}
-                  className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-1"
-                >
-                  <input
-                    type="email"
-                    name="email"
-                    className={`flex-grow ${
-                      errors.email && 'border-red-600 placeholder-red-600'
-                    }`}
-                    placeholder="Enter your email address"
-                    ref={register({ required: true })}
-                  />
-                  <button className="btn-primary text-sm" type="submit">
-                    Get early access
-                  </button>
-                </form>
+                {refCode ? (
+                  <Link
+                    href="/waitlist/[waitlistID]"
+                    as={`/waitlist/${refCode}`}
+                  >
+                    <a className="btn-primary text-xl normal-case link-off">
+                      Check Your Spot
+                    </a>
+                  </Link>
+                ) : (
+                  <form
+                    onSubmit={handleSubmit(submitWaitlist)}
+                    className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-1"
+                  >
+                    <input
+                      type="email"
+                      name="email"
+                      className={`flex-grow ${
+                        errors.email && 'border-red-600 placeholder-red-600'
+                      }`}
+                      placeholder="Enter your email address"
+                      ref={register({ required: true })}
+                    />
+                    <button className="btn-primary text-sm" type="submit">
+                      Get early access
+                    </button>
+                  </form>
+                )}
               </div>
             </div>
           </div>
