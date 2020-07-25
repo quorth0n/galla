@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { nanoid } from 'nanoid';
-import { API, graphqlOperation, Auth } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 
 import Head from '../components/Head';
 import { searchWaitlists } from '../src/graphql/queries';
@@ -32,6 +32,7 @@ const Landing = () => {
           email,
           position:
             fetchLastPos.data.searchWaitlists.items[0]?.position + 1 ?? 1,
+          referrals: 0,
         },
       }),
       authMode: 'API_KEY',
