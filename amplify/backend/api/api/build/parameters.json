@@ -13,5 +13,5 @@
         "Ref": "AuthRoleName"
     },
     "S3DeploymentBucket": "amplify-artify-staging-134046-deployment",
-    "S3DeploymentRootKey": "amplify-appsync-files/461613211d771412ce66d5f5872bc670e86f944c"
+    "S3DeploymentRootKey": "amplify-appsync-files/eeb4c19fec77c1abe89038d5a7304a89b75380b4"
 }

@@ -1,9 +1,44 @@
 import React from 'react';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { nanoid } from 'nanoid';
+import { API, graphqlOperation, Auth } from 'aws-amplify';
 
 import Head from '../components/Head';
+import { searchWaitlists } from '../src/graphql/queries';
+import { createWaitlist } from '../src/graphql/mutations';
+import { useRouter } from 'next/router';
 
-export default function Landing() {
+const Landing = () => {
+  const { register, handleSubmit, errors } = useForm();
+  const router = useRouter();
+
+  const submitWaitlist = async ({ email }) => {
+    const fetchLastPos = await API.graphql({
+      ...graphqlOperation(searchWaitlists, {
+        sort: {
+          field: 'position',
+          direction: 'desc',
+        },
+        limit: 1,
+      }),
+      authMode: 'API_KEY',
+    });
+    const id = nanoid(6);
+    await API.graphql({
+      ...graphqlOperation(createWaitlist, {
+        input: {
+          id,
+          email,
+          position:
+            fetchLastPos.data.searchWaitlists.items[0]?.position + 1 ?? 1,
+        },
+      }),
+      authMode: 'API_KEY',
+    });
+    router.push('/waitlist/[waitlistID]', `/waitlist/${id}`);
+  };
+
   return (
     <main>
       <Head />
@@ -14,7 +49,7 @@ export default function Landing() {
         }}
       >
         <div
-          className="absolute top-0 w-full h-full bg-center bg-cover"
+          className="absolute top-0 w-full h-full bg-center bg-cover -mt-4"
           style={{
             backgroundImage: "url('./img/landingBg.jpg')",
           }}
@@ -34,21 +69,24 @@ export default function Landing() {
                 Galla is revolutionizing the way artists and curators work, by
                 giving the community an update for the digital age.
               </p>
-              <div className="mt-6 text-xl">
-                <p className="mb-4">
-                  Sign up during the Beta and get an extra 10% royalties,
-                  forever
-                </p>
-                <Link href="/">
-                  <a className="btn-secondary text-lg normal-case link-off mr-4">
-                    See the Beta
-                  </a>
-                </Link>
-                <Link href="/signup">
-                  <a className="btn-primary text-lg normal-case link-off">
-                    Start earning
-                  </a>
-                </Link>
+              <div className="mt-6">
+                <form
+                  onSubmit={handleSubmit(submitWaitlist)}
+                  className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-1"
+                >
+                  <input
+                    type="email"
+                    name="email"
+                    className={`flex-grow ${
+                      errors.email && 'border-red-600 placeholder-red-600'
+                    }`}
+                    placeholder="Enter your email address"
+                    ref={register({ required: true })}
+                  />
+                  <button className="btn-primary text-sm" type="submit">
+                    Get early access
+                  </button>
+                </form>
               </div>
             </div>
           </div>
@@ -240,4 +278,5 @@ export default function Landing() {
       </section>
     </main>
   );
-}
+};
+export default Landing;

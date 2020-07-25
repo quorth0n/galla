@@ -176,19 +176,17 @@
         }
     },
     "Resources": {
-        "ElasticSearchAccessIAMRole": {
-            "Type": "AWS::IAM::Role",
+        "WaitlistTable": {
+            "Type": "AWS::DynamoDB::Table",
             "Properties": {
-                "RoleName": {
+                "TableName": {
                     "Fn::If": [
                         "HasEnvironmentParameter",
                         {
                             "Fn::Join": [
                                 "-",
                                 [
-                                    {
-                                        "Ref": "ElasticSearchAccessIAMRoleName"
-                                    },
+                                    "Waitlist",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
                                     },
@@ -202,9 +200,105 @@
                             "Fn::Join": [
                                 "-",
                                 [
+                                    "Waitlist",
                                     {
-                                        "Ref": "ElasticSearchAccessIAMRoleName"
+                                        "Ref": "GetAttGraphQLAPIApiId"
+                                    }
+                                ]
+                            ]
+                        }
+                    ]
+                },
+                "KeySchema": [
+                    {
+                        "AttributeName": "id",
+                        "KeyType": "HASH"
+                    }
+                ],
+                "AttributeDefinitions": [
+                    {
+                        "AttributeName": "id",
+                        "AttributeType": "S"
+                    }
+                ],
+                "StreamSpecification": {
+                    "StreamViewType": "NEW_AND_OLD_IMAGES"
+                },
+                "BillingMode": {
+                    "Fn::If": [
+                        "ShouldUsePayPerRequestBilling",
+                        "PAY_PER_REQUEST",
+                        {
+                            "Ref": "AWS::NoValue"
+                        }
+                    ]
+                },
+                "ProvisionedThroughput": {
+                    "Fn::If": [
+                        "ShouldUsePayPerRequestBilling",
+                        {
+                            "Ref": "AWS::NoValue"
+                        },
+                        {
+                            "ReadCapacityUnits": {
+                                "Ref": "DynamoDBModelTableReadIOPS"
+                            },
+                            "WriteCapacityUnits": {
+                                "Ref": "DynamoDBModelTableWriteIOPS"
+                            }
+                        }
+                    ]
+                },
+                "SSESpecification": {
+                    "SSEEnabled": {
+                        "Fn::If": [
+                            "ShouldUseServerSideEncryption",
+                            true,
+                            false
+                        ]
+                    }
+                },
+                "PointInTimeRecoverySpecification": {
+                    "Fn::If": [
+                        "ShouldUsePointInTimeRecovery",
+                        {
+                            "PointInTimeRecoveryEnabled": true
+                        },
+                        {
+                            "Ref": "AWS::NoValue"
+                        }
+                    ]
+                }
+            },
+            "DeletionPolicy": "Delete"
+        },
+        "WaitlistIAMRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "RoleName": {
+                    "Fn::If": [
+                        "HasEnvironmentParameter",
+                        {
+                            "Fn::Join": [
+                                "-",
+                                [
+                                    "Waitlist5e2e9e",
+                                    "role",
+                                    {
+                                        "Ref": "GetAttGraphQLAPIApiId"
                                     },
+                                    {
+                                        "Ref": "env"
+                                    }
+                                ]
+                            ]
+                        },
+                        {
+                            "Fn::Join": [
+                                "-",
+                                [
+                                    "Waitlist4aa8b0",
+                                    "role",
                                     {
                                         "Ref": "GetAttGraphQLAPIApiId"
                                     }
@@ -227,416 +321,160 @@
                 },
                 "Policies": [
                     {
-                        "PolicyName": "ElasticsearchAccess",
+                        "PolicyName": "DynamoDBAccess",
                         "PolicyDocument": {
                             "Version": "2012-10-17",
                             "Statement": [
                                 {
-                                    "Action": [
-                                        "es:ESHttpPost",
-                                        "es:ESHttpDelete",
-                                        "es:ESHttpHead",
-                                        "es:ESHttpGet",
-                                        "es:ESHttpPost",
-                                        "es:ESHttpPut"
-                                    ],
                                     "Effect": "Allow",
-                                    "Resource": {
-                                        "Fn::Join": [
-                                            "",
-                                            [
-                                                {
-                                                    "Fn::GetAtt": [
-                                                        "ElasticSearchDomain",
-                                                        "DomainArn"
-                                                    ]
-                                                },
-                                                "/*"
-                                            ]
-                                        ]
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }
-        },
-        "ElasticSearchDataSource": {
-            "Type": "AWS::AppSync::DataSource",
-            "Properties": {
-                "ApiId": {
-                    "Ref": "GetAttGraphQLAPIApiId"
-                },
-                "Name": "ElasticSearchDomain",
-                "Type": "AMAZON_ELASTICSEARCH",
-                "ServiceRoleArn": {
-                    "Fn::GetAtt": [
-                        "ElasticSearchAccessIAMRole",
-                        "Arn"
-                    ]
-                },
-                "ElasticsearchConfig": {
-                    "AwsRegion": {
-                        "Fn::Select": [
-                            3,
-                            {
-                                "Fn::Split": [
-                                    ":",
-                                    {
-                                        "Fn::GetAtt": [
-                                            "ElasticSearchDomain",
-                                            "DomainArn"
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "Endpoint": {
-                        "Fn::Join": [
-                            "",
-                            [
-                                "https://",
-                                {
-                                    "Fn::GetAtt": [
-                                        "ElasticSearchDomain",
-                                        "DomainEndpoint"
-                                    ]
-                                }
-                            ]
-                        ]
-                    }
-                }
-            },
-            "DependsOn": "ElasticSearchDomain"
-        },
-        "ElasticSearchDomain": {
-            "Type": "AWS::Elasticsearch::Domain",
-            "Properties": {
-                "DomainName": {
-                    "Fn::If": [
-                        "HasEnvironmentParameter",
-                        {
-                            "Ref": "AWS::NoValue"
-                        },
-                        {
-                            "Fn::Join": [
-                                "-",
-                                [
-                                    "d",
-                                    {
-                                        "Ref": "GetAttGraphQLAPIApiId"
-                                    }
-                                ]
-                            ]
-                        }
-                    ]
-                },
-                "ElasticsearchVersion": "6.2",
-                "ElasticsearchClusterConfig": {
-                    "ZoneAwarenessEnabled": false,
-                    "InstanceCount": {
-                        "Ref": "ElasticSearchInstanceCount"
-                    },
-                    "InstanceType": {
-                        "Ref": "ElasticSearchInstanceType"
-                    }
-                },
-                "EBSOptions": {
-                    "EBSEnabled": true,
-                    "VolumeType": "gp2",
-                    "VolumeSize": {
-                        "Ref": "ElasticSearchEBSVolumeGB"
-                    }
-                }
-            }
-        },
-        "ElasticSearchStreamingLambdaIAMRole": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-                "RoleName": {
-                    "Fn::If": [
-                        "HasEnvironmentParameter",
-                        {
-                            "Fn::Join": [
-                                "-",
-                                [
-                                    {
-                                        "Ref": "ElasticSearchStreamingIAMRoleName"
-                                    },
-                                    {
-                                        "Ref": "GetAttGraphQLAPIApiId"
-                                    },
-                                    {
-                                        "Ref": "env"
-                                    }
-                                ]
-                            ]
-                        },
-                        {
-                            "Fn::Join": [
-                                "-",
-                                [
-                                    {
-                                        "Ref": "ElasticSearchStreamingIAMRoleName"
-                                    },
-                                    {
-                                        "Ref": "GetAttGraphQLAPIApiId"
-                                    }
-                                ]
-                            ]
-                        }
-                    ]
-                },
-                "AssumeRolePolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Principal": {
-                                "Service": "lambda.amazonaws.com"
-                            },
-                            "Action": "sts:AssumeRole"
-                        }
-                    ]
-                },
-                "Policies": [
-                    {
-                        "PolicyName": "ElasticsearchAccess",
-                        "PolicyDocument": {
-                            "Version": "2012-10-17",
-                            "Statement": [
-                                {
                                     "Action": [
-                                        "es:ESHttpPost",
-                                        "es:ESHttpDelete",
-                                        "es:ESHttpHead",
-                                        "es:ESHttpGet",
-                                        "es:ESHttpPost",
-                                        "es:ESHttpPut"
+                                        "dynamodb:BatchGetItem",
+                                        "dynamodb:BatchWriteItem",
+                                        "dynamodb:PutItem",
+                                        "dynamodb:DeleteItem",
+                                        "dynamodb:GetItem",
+                                        "dynamodb:Scan",
+                                        "dynamodb:Query",
+                                        "dynamodb:UpdateItem"
                                     ],
-                                    "Effect": "Allow",
-                                    "Resource": {
-                                        "Fn::Join": [
-                                            "",
-                                            [
-                                                {
-                                                    "Fn::GetAtt": [
-                                                        "ElasticSearchDomain",
-                                                        "DomainArn"
-                                                    ]
-                                                },
-                                                "/*"
-                                            ]
-                                        ]
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "PolicyName": "DynamoDBStreamAccess",
-                        "PolicyDocument": {
-                            "Version": "2012-10-17",
-                            "Statement": [
-                                {
-                                    "Action": [
-                                        "dynamodb:DescribeStream",
-                                        "dynamodb:GetRecords",
-                                        "dynamodb:GetShardIterator",
-                                        "dynamodb:ListStreams"
-                                    ],
-                                    "Effect": "Allow",
                                     "Resource": [
-                                        "*"
-                                    ]
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        "PolicyName": "CloudWatchLogsAccess",
-                        "PolicyDocument": {
-                            "Version": "2012-10-17",
-                            "Statement": [
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "logs:CreateLogGroup",
-                                        "logs:CreateLogStream",
-                                        "logs:PutLogEvents"
-                                    ],
-                                    "Resource": "arn:aws:logs:*:*:*"
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }
-        },
-        "ElasticSearchStreamingLambdaFunction": {
-            "Type": "AWS::Lambda::Function",
-            "Properties": {
-                "Code": {
-                    "S3Bucket": {
-                        "Ref": "S3DeploymentBucket"
-                    },
-                    "S3Key": {
-                        "Fn::Join": [
-                            "/",
-                            [
-                                {
-                                    "Ref": "S3DeploymentRootKey"
-                                },
-                                "functions",
-                                {
-                                    "Fn::Join": [
-                                        ".",
-                                        [
-                                            "ElasticSearchStreamingLambdaFunction",
-                                            "zip"
-                                        ]
-                                    ]
-                                }
-                            ]
-                        ]
-                    }
-                },
-                "FunctionName": {
-                    "Fn::If": [
-                        "HasEnvironmentParameter",
-                        {
-                            "Fn::Join": [
-                                "-",
-                                [
-                                    {
-                                        "Ref": "ElasticSearchStreamingFunctionName"
-                                    },
-                                    {
-                                        "Ref": "GetAttGraphQLAPIApiId"
-                                    },
-                                    {
-                                        "Ref": "env"
-                                    }
-                                ]
-                            ]
-                        },
-                        {
-                            "Fn::Join": [
-                                "-",
-                                [
-                                    {
-                                        "Ref": "ElasticSearchStreamingFunctionName"
-                                    },
-                                    {
-                                        "Ref": "GetAttGraphQLAPIApiId"
-                                    }
-                                ]
-                            ]
-                        }
-                    ]
-                },
-                "Handler": {
-                    "Ref": "ElasticSearchStreamingLambdaHandlerName"
-                },
-                "Role": {
-                    "Fn::GetAtt": [
-                        "ElasticSearchStreamingLambdaIAMRole",
-                        "Arn"
-                    ]
-                },
-                "Runtime": {
-                    "Ref": "ElasticSearchStreamingLambdaRuntime"
-                },
-                "Layers": [
-                    {
-                        "Fn::FindInMap": [
-                            "LayerResourceMapping",
-                            {
-                                "Ref": "AWS::Region"
-                            },
-                            "layerRegion"
-                        ]
-                    }
-                ],
-                "Environment": {
-                    "Variables": {
-                        "ES_ENDPOINT": {
-                            "Fn::Join": [
-                                "",
-                                [
-                                    "https://",
-                                    {
-                                        "Fn::GetAtt": [
-                                            "ElasticSearchDomain",
-                                            "DomainEndpoint"
-                                        ]
-                                    }
-                                ]
-                            ]
-                        },
-                        "ES_REGION": {
-                            "Fn::Select": [
-                                3,
-                                {
-                                    "Fn::Split": [
-                                        ":",
                                         {
-                                            "Fn::GetAtt": [
-                                                "ElasticSearchDomain",
-                                                "DomainArn"
+                                            "Fn::Sub": [
+                                                "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}",
+                                                {
+                                                    "tablename": {
+                                                        "Fn::If": [
+                                                            "HasEnvironmentParameter",
+                                                            {
+                                                                "Fn::Join": [
+                                                                    "-",
+                                                                    [
+                                                                        "Waitlist",
+                                                                        {
+                                                                            "Ref": "GetAttGraphQLAPIApiId"
+                                                                        },
+                                                                        {
+                                                                            "Ref": "env"
+                                                                        }
+                                                                    ]
+                                                                ]
+                                                            },
+                                                            {
+                                                                "Fn::Join": [
+                                                                    "-",
+                                                                    [
+                                                                        "Waitlist",
+                                                                        {
+                                                                            "Ref": "GetAttGraphQLAPIApiId"
+                                                                        }
+                                                                    ]
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "Fn::Sub": [
+                                                "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}/*",
+                                                {
+                                                    "tablename": {
+                                                        "Fn::If": [
+                                                            "HasEnvironmentParameter",
+                                                            {
+                                                                "Fn::Join": [
+                                                                    "-",
+                                                                    [
+                                                                        "Waitlist",
+                                                                        {
+                                                                            "Ref": "GetAttGraphQLAPIApiId"
+                                                                        },
+                                                                        {
+                                                                            "Ref": "env"
+                                                                        }
+                                                                    ]
+                                                                ]
+                                                            },
+                                                            {
+                                                                "Fn::Join": [
+                                                                    "-",
+                                                                    [
+                                                                        "Waitlist",
+                                                                        {
+                                                                            "Ref": "GetAttGraphQLAPIApiId"
+                                                                        }
+                                                                    ]
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                }
                                             ]
                                         }
                                     ]
                                 }
                             ]
-                        },
-                        "DEBUG": {
-                            "Ref": "ElasticSearchDebugStreamingLambda"
-                        },
-                        "ES_USE_EXTERNAL_VERSIONING": "false"
+                        }
+                    }
+                ]
+            }
+        },
+        "WaitlistDataSource": {
+            "Type": "AWS::AppSync::DataSource",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "GetAttGraphQLAPIApiId"
+                },
+                "Name": "WaitlistTable",
+                "Type": "AMAZON_DYNAMODB",
+                "ServiceRoleArn": {
+                    "Fn::GetAtt": [
+                        "WaitlistIAMRole",
+                        "Arn"
+                    ]
+                },
+                "DynamoDBConfig": {
+                    "AwsRegion": {
+                        "Ref": "AWS::Region"
+                    },
+                    "TableName": {
+                        "Fn::If": [
+                            "HasEnvironmentParameter",
+                            {
+                                "Fn::Join": [
+                                    "-",
+                                    [
+                                        "Waitlist",
+                                        {
+                                            "Ref": "GetAttGraphQLAPIApiId"
+                                        },
+                                        {
+                                            "Ref": "env"
+                                        }
+                                    ]
+                                ]
+                            },
+                            {
+                                "Fn::Join": [
+                                    "-",
+                                    [
+                                        "Waitlist",
+                                        {
+                                            "Ref": "GetAttGraphQLAPIApiId"
+                                        }
+                                    ]
+                                ]
+                            }
+                        ]
                     }
                 }
             },
             "DependsOn": [
-                "ElasticSearchStreamingLambdaIAMRole",
-                "ElasticSearchDomain"
+                "WaitlistIAMRole"
             ]
         },
-        "SearchableUserLambdaMapping": {
-            "Type": "AWS::Lambda::EventSourceMapping",
-            "Properties": {
-                "BatchSize": 1,
-                "Enabled": true,
-                "EventSourceArn": {
-                    "Fn::ImportValue": {
-                        "Fn::Join": [
-                            ":",
-                            [
-                                {
-                                    "Ref": "AppSyncApiId"
-                                },
-                                "GetAtt",
-                                "UserTable",
-                                "StreamArn"
-                            ]
-                        ]
-                    }
-                },
-                "FunctionName": {
-                    "Fn::GetAtt": [
-                        "ElasticSearchStreamingLambdaFunction",
-                        "Arn"
-                    ]
-                },
-                "StartingPosition": "LATEST"
-            },
-            "DependsOn": [
-                "ElasticSearchStreamingLambdaFunction"
-            ]
-        },
-        "SearchUserResolver": {
+        "GetWaitlistResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -644,11 +482,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "ElasticSearchDataSource",
+                        "WaitlistDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "searchUsers",
+                "FieldName": "getWaitlist",
                 "TypeName": "Query",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -665,7 +503,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "searchUsers",
+                                        "getWaitlist",
                                         "req",
                                         "vtl"
                                     ]
@@ -689,7 +527,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "searchUsers",
+                                        "getWaitlist",
                                         "res",
                                         "vtl"
                                     ]
@@ -698,44 +536,9 @@
                         }
                     ]
                 }
-            },
-            "DependsOn": [
-                "ElasticSearchDataSource"
-            ]
+            }
         },
-        "SearchablePostLambdaMapping": {
-            "Type": "AWS::Lambda::EventSourceMapping",
-            "Properties": {
-                "BatchSize": 1,
-                "Enabled": true,
-                "EventSourceArn": {
-                    "Fn::ImportValue": {
-                        "Fn::Join": [
-                            ":",
-                            [
-                                {
-                                    "Ref": "AppSyncApiId"
-                                },
-                                "GetAtt",
-                                "PostTable",
-                                "StreamArn"
-                            ]
-                        ]
-                    }
-                },
-                "FunctionName": {
-                    "Fn::GetAtt": [
-                        "ElasticSearchStreamingLambdaFunction",
-                        "Arn"
-                    ]
-                },
-                "StartingPosition": "LATEST"
-            },
-            "DependsOn": [
-                "ElasticSearchStreamingLambdaFunction"
-            ]
-        },
-        "SearchPostResolver": {
+        "ListWaitlistResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -743,11 +546,11 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "ElasticSearchDataSource",
+                        "WaitlistDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "searchPosts",
+                "FieldName": "listWaitlists",
                 "TypeName": "Query",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
@@ -764,7 +567,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "searchPosts",
+                                        "listWaitlists",
                                         "req",
                                         "vtl"
                                     ]
@@ -788,7 +591,7 @@
                                     ".",
                                     [
                                         "Query",
-                                        "searchPosts",
+                                        "listWaitlists",
                                         "res",
                                         "vtl"
                                     ]
@@ -797,44 +600,9 @@
                         }
                     ]
                 }
-            },
-            "DependsOn": [
-                "ElasticSearchDataSource"
-            ]
+            }
         },
-        "SearchableTagLambdaMapping": {
-            "Type": "AWS::Lambda::EventSourceMapping",
-            "Properties": {
-                "BatchSize": 1,
-                "Enabled": true,
-                "EventSourceArn": {
-                    "Fn::ImportValue": {
-                        "Fn::Join": [
-                            ":",
-                            [
-                                {
-                                    "Ref": "AppSyncApiId"
-                                },
-                                "GetAtt",
-                                "TagTable",
-                                "StreamArn"
-                            ]
-                        ]
-                    }
-                },
-                "FunctionName": {
-                    "Fn::GetAtt": [
-                        "ElasticSearchStreamingLambdaFunction",
-                        "Arn"
-                    ]
-                },
-                "StartingPosition": "LATEST"
-            },
-            "DependsOn": [
-                "ElasticSearchStreamingLambdaFunction"
-            ]
-        },
-        "SearchTagResolver": {
+        "CreateWaitlistResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -842,12 +610,12 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "ElasticSearchDataSource",
+                        "WaitlistDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "searchTags",
-                "TypeName": "Query",
+                "FieldName": "createWaitlist",
+                "TypeName": "Mutation",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
                         "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
@@ -862,8 +630,8 @@
                                 "Fn::Join": [
                                     ".",
                                     [
-                                        "Query",
-                                        "searchTags",
+                                        "Mutation",
+                                        "createWaitlist",
                                         "req",
                                         "vtl"
                                     ]
@@ -886,8 +654,8 @@
                                 "Fn::Join": [
                                     ".",
                                     [
-                                        "Query",
-                                        "searchTags",
+                                        "Mutation",
+                                        "createWaitlist",
                                         "res",
                                         "vtl"
                                     ]
@@ -896,44 +664,9 @@
                         }
                     ]
                 }
-            },
-            "DependsOn": [
-                "ElasticSearchDataSource"
-            ]
+            }
         },
-        "SearchableCurationLambdaMapping": {
-            "Type": "AWS::Lambda::EventSourceMapping",
-            "Properties": {
-                "BatchSize": 1,
-                "Enabled": true,
-                "EventSourceArn": {
-                    "Fn::ImportValue": {
-                        "Fn::Join": [
-                            ":",
-                            [
-                                {
-                                    "Ref": "AppSyncApiId"
-                                },
-                                "GetAtt",
-                                "CurationTable",
-                                "StreamArn"
-                            ]
-                        ]
-                    }
-                },
-                "FunctionName": {
-                    "Fn::GetAtt": [
-                        "ElasticSearchStreamingLambdaFunction",
-                        "Arn"
-                    ]
-                },
-                "StartingPosition": "LATEST"
-            },
-            "DependsOn": [
-                "ElasticSearchStreamingLambdaFunction"
-            ]
-        },
-        "SearchCurationResolver": {
+        "UpdateWaitlistResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -941,12 +674,12 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "ElasticSearchDataSource",
+                        "WaitlistDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "searchCurations",
-                "TypeName": "Query",
+                "FieldName": "updateWaitlist",
+                "TypeName": "Mutation",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
                         "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
@@ -961,8 +694,8 @@
                                 "Fn::Join": [
                                     ".",
                                     [
-                                        "Query",
-                                        "searchCurations",
+                                        "Mutation",
+                                        "updateWaitlist",
                                         "req",
                                         "vtl"
                                     ]
@@ -985,8 +718,8 @@
                                 "Fn::Join": [
                                     ".",
                                     [
-                                        "Query",
-                                        "searchCurations",
+                                        "Mutation",
+                                        "updateWaitlist",
                                         "res",
                                         "vtl"
                                     ]
@@ -995,44 +728,9 @@
                         }
                     ]
                 }
-            },
-            "DependsOn": [
-                "ElasticSearchDataSource"
-            ]
+            }
         },
-        "SearchableWaitlistLambdaMapping": {
-            "Type": "AWS::Lambda::EventSourceMapping",
-            "Properties": {
-                "BatchSize": 1,
-                "Enabled": true,
-                "EventSourceArn": {
-                    "Fn::ImportValue": {
-                        "Fn::Join": [
-                            ":",
-                            [
-                                {
-                                    "Ref": "AppSyncApiId"
-                                },
-                                "GetAtt",
-                                "WaitlistTable",
-                                "StreamArn"
-                            ]
-                        ]
-                    }
-                },
-                "FunctionName": {
-                    "Fn::GetAtt": [
-                        "ElasticSearchStreamingLambdaFunction",
-                        "Arn"
-                    ]
-                },
-                "StartingPosition": "LATEST"
-            },
-            "DependsOn": [
-                "ElasticSearchStreamingLambdaFunction"
-            ]
-        },
-        "SearchWaitlistResolver": {
+        "DeleteWaitlistResolver": {
             "Type": "AWS::AppSync::Resolver",
             "Properties": {
                 "ApiId": {
@@ -1040,12 +738,12 @@
                 },
                 "DataSourceName": {
                     "Fn::GetAtt": [
-                        "ElasticSearchDataSource",
+                        "WaitlistDataSource",
                         "Name"
                     ]
                 },
-                "FieldName": "searchWaitlists",
-                "TypeName": "Query",
+                "FieldName": "deleteWaitlist",
+                "TypeName": "Mutation",
                 "RequestMappingTemplateS3Location": {
                     "Fn::Sub": [
                         "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/${ResolverFileName}",
@@ -1060,8 +758,8 @@
                                 "Fn::Join": [
                                     ".",
                                     [
-                                        "Query",
-                                        "searchWaitlists",
+                                        "Mutation",
+                                        "deleteWaitlist",
                                         "req",
                                         "vtl"
                                     ]
@@ -1084,8 +782,8 @@
                                 "Fn::Join": [
                                     ".",
                                     [
-                                        "Query",
-                                        "searchWaitlists",
+                                        "Mutation",
+                                        "deleteWaitlist",
                                         "res",
                                         "vtl"
                                     ]
@@ -1094,19 +792,16 @@
                         }
                     ]
                 }
-            },
-            "DependsOn": [
-                "ElasticSearchDataSource"
-            ]
+            }
         }
     },
     "Outputs": {
-        "ElasticsearchDomainArn": {
-            "Description": "Elasticsearch instance Domain ARN.",
+        "GetAttWaitlistTableStreamArn": {
+            "Description": "Your DynamoDB table StreamArn.",
             "Value": {
                 "Fn::GetAtt": [
-                    "ElasticSearchDomain",
-                    "DomainArn"
+                    "WaitlistTable",
+                    "StreamArn"
                 ]
             },
             "Export": {
@@ -1118,27 +813,19 @@
                                 "Ref": "AppSyncApiId"
                             },
                             "GetAtt",
-                            "Elasticsearch",
-                            "DomainArn"
+                            "WaitlistTable",
+                            "StreamArn"
                         ]
                     ]
                 }
             }
         },
-        "ElasticsearchDomainEndpoint": {
-            "Description": "Elasticsearch instance Domain Endpoint.",
+        "GetAttWaitlistDataSourceName": {
+            "Description": "Your model DataSource name.",
             "Value": {
-                "Fn::Join": [
-                    "",
-                    [
-                        "https://",
-                        {
-                            "Fn::GetAtt": [
-                                "ElasticSearchDomain",
-                                "DomainEndpoint"
-                            ]
-                        }
-                    ]
+                "Fn::GetAtt": [
+                    "WaitlistDataSource",
+                    "Name"
                 ]
             },
             "Export": {
@@ -1150,84 +837,36 @@
                                 "Ref": "AppSyncApiId"
                             },
                             "GetAtt",
-                            "Elasticsearch",
-                            "DomainEndpoint"
+                            "WaitlistDataSource",
+                            "Name"
+                        ]
+                    ]
+                }
+            }
+        },
+        "GetAttWaitlistTableName": {
+            "Description": "Your DynamoDB table name.",
+            "Value": {
+                "Ref": "WaitlistTable"
+            },
+            "Export": {
+                "Name": {
+                    "Fn::Join": [
+                        ":",
+                        [
+                            {
+                                "Ref": "AppSyncApiId"
+                            },
+                            "GetAtt",
+                            "WaitlistTable",
+                            "Name"
                         ]
                     ]
                 }
             }
         }
     },
-    "Mappings": {
-        "LayerResourceMapping": {
-            "ap-northeast-1": {
-                "layerRegion": "arn:aws:lambda:ap-northeast-1:249908578461:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "us-east-1": {
-                "layerRegion": "arn:aws:lambda:us-east-1:668099181075:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "ap-southeast-1": {
-                "layerRegion": "arn:aws:lambda:ap-southeast-1:468957933125:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "eu-west-1": {
-                "layerRegion": "arn:aws:lambda:eu-west-1:399891621064:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "us-west-1": {
-                "layerRegion": "arn:aws:lambda:us-west-1:325793726646:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "ap-east-1": {
-                "layerRegion": "arn:aws:lambda:ap-east-1:118857876118:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "ap-northeast-2": {
-                "layerRegion": "arn:aws:lambda:ap-northeast-2:296580773974:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "ap-northeast-3": {
-                "layerRegion": "arn:aws:lambda:ap-northeast-3:961244031340:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "ap-south-1": {
-                "layerRegion": "arn:aws:lambda:ap-south-1:631267018583:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "ap-southeast-2": {
-                "layerRegion": "arn:aws:lambda:ap-southeast-2:817496625479:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "ca-central-1": {
-                "layerRegion": "arn:aws:lambda:ca-central-1:778625758767:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "eu-central-1": {
-                "layerRegion": "arn:aws:lambda:eu-central-1:292169987271:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "eu-north-1": {
-                "layerRegion": "arn:aws:lambda:eu-north-1:642425348156:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "eu-west-2": {
-                "layerRegion": "arn:aws:lambda:eu-west-2:142628438157:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "eu-west-3": {
-                "layerRegion": "arn:aws:lambda:eu-west-3:959311844005:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "sa-east-1": {
-                "layerRegion": "arn:aws:lambda:sa-east-1:640010853179:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "us-east-2": {
-                "layerRegion": "arn:aws:lambda:us-east-2:259788987135:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "us-west-2": {
-                "layerRegion": "arn:aws:lambda:us-west-2:420165488524:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "cn-north-1": {
-                "layerRegion": "arn:aws-cn:lambda:cn-north-1:683298794825:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "cn-northwest-1": {
-                "layerRegion": "arn:aws-cn:lambda:cn-northwest-1:382066503313:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "us-gov-west-1": {
-                "layerRegion": "arn:aws-us-gov:lambda:us-gov-west-1:556739011827:layer:AWSLambda-Python-AWS-SDK:1"
-            },
-            "us-gov-east-1": {
-                "layerRegion": "arn:aws-us-gov:lambda:us-gov-east-1:138526772879:layer:AWSLambda-Python-AWS-SDK:1"
-            }
-        }
-    },
+    "Mappings": {},
     "Conditions": {
         "ShouldUsePayPerRequestBilling": {
             "Fn::Equals": [

@@ -401,6 +401,39 @@ export const onDeleteCuration = /* GraphQL */ `
     }
   }
 `;
+export const onCreateWaitlist = /* GraphQL */ `
+  subscription OnCreateWaitlist {
+    onCreateWaitlist {
+      id
+      email
+      position
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateWaitlist = /* GraphQL */ `
+  subscription OnUpdateWaitlist {
+    onUpdateWaitlist {
+      id
+      email
+      position
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteWaitlist = /* GraphQL */ `
+  subscription OnDeleteWaitlist {
+    onDeleteWaitlist {
+      id
+      email
+      position
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateTaggedPost = /* GraphQL */ `
   subscription OnCreateTaggedPost {
     onCreateTaggedPost {

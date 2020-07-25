@@ -87,6 +87,14 @@ type Curation @aws_api_key @aws_iam @aws_cognito_user_pools {
   posts(postID: ModelIDKeyConditionInput, filter: ModelCuratedPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCuratedPostConnection @aws_api_key @aws_cognito_user_pools
 }
 
+type Waitlist @aws_api_key {
+  id: ID!
+  email: String!
+  position: Int!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
 type TaggedPost @aws_api_key @aws_cognito_user_pools {
   id: ID!
   postID: ID!
@@ -132,6 +140,7 @@ type Mutation {
   deleteTag(input: DeleteTagInput!, condition: ModelTagConditionInput): Tag
   createCuration(input: CreateCurationInput!, condition: ModelCurationConditionInput): Curation
   deleteCuration(input: DeleteCurationInput!, condition: ModelCurationConditionInput): Curation
+  deleteWaitlist(input: DeleteWaitlistInput!, condition: ModelWaitlistConditionInput): Waitlist
   createTaggedPost(input: CreateTaggedPostInput!, condition: ModelTaggedPostConditionInput): TaggedPost
   updateTaggedPost(input: UpdateTaggedPostInput!, condition: ModelTaggedPostConditionInput): TaggedPost
   deleteTaggedPost(input: DeleteTaggedPostInput!, condition: ModelTaggedPostConditionInput): TaggedPost
@@ -146,6 +155,8 @@ type Mutation {
   updatePost(input: UpdatePostInput!, condition: ModelPostConditionInput): Post @aws_iam @aws_cognito_user_pools
   updateTag(input: UpdateTagInput!, condition: ModelTagConditionInput): Tag @aws_iam
   updateCuration(input: UpdateCurationInput!, condition: ModelCurationConditionInput): Curation @aws_iam @aws_cognito_user_pools
+  createWaitlist(input: CreateWaitlistInput!, condition: ModelWaitlistConditionInput): Waitlist @aws_api_key
+  updateWaitlist(input: UpdateWaitlistInput!, condition: ModelWaitlistConditionInput): Waitlist @aws_api_key
 }
 
 input SearchableStringFilterInput {
@@ -287,6 +298,9 @@ type Query {
   listCurations(filter: ModelCurationFilterInput, limit: Int, nextToken: String): ModelCurationConnection @aws_api_key @aws_iam @aws_cognito_user_pools
   getCuration(id: ID!): Curation @aws_api_key @aws_iam @aws_cognito_user_pools
   searchCurations(filter: SearchableCurationFilterInput, sort: SearchableCurationSortInput, limit: Int, nextToken: String): SearchableCurationConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  getWaitlist(id: ID!): Waitlist @aws_api_key
+  listWaitlists(filter: ModelWaitlistFilterInput, limit: Int, nextToken: String): ModelWaitlistConnection @aws_api_key
+  searchWaitlists(filter: SearchableWaitlistFilterInput, sort: SearchableWaitlistSortInput, limit: Int, nextToken: String): SearchableWaitlistConnection @aws_api_key
   getTaggedPost(id: ID!): TaggedPost @aws_api_key @aws_cognito_user_pools
   listTaggedPosts(filter: ModelTaggedPostFilterInput, limit: Int, nextToken: String): ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools
   getTaggedCuration(id: ID!): TaggedCuration @aws_api_key @aws_cognito_user_pools
@@ -350,6 +364,9 @@ type Subscription {
   onCreateCuration: Curation @aws_subscribe(mutations: ["createCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onUpdateCuration: Curation @aws_subscribe(mutations: ["updateCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
   onDeleteCuration: Curation @aws_subscribe(mutations: ["deleteCuration"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onCreateWaitlist: Waitlist @aws_subscribe(mutations: ["createWaitlist"]) @aws_api_key
+  onUpdateWaitlist: Waitlist @aws_subscribe(mutations: ["updateWaitlist"]) @aws_api_key
+  onDeleteWaitlist: Waitlist @aws_subscribe(mutations: ["deleteWaitlist"]) @aws_api_key
   onCreateTaggedPost: TaggedPost @aws_subscribe(mutations: ["createTaggedPost"]) @aws_api_key @aws_cognito_user_pools
   onUpdateTaggedPost: TaggedPost @aws_subscribe(mutations: ["updateTaggedPost"]) @aws_api_key @aws_cognito_user_pools
   onDeleteTaggedPost: TaggedPost @aws_subscribe(mutations: ["deleteTaggedPost"]) @aws_api_key @aws_cognito_user_pools
@@ -593,6 +610,44 @@ input ModelCurationConditionInput {
   and: [ModelCurationConditionInput]
   or: [ModelCurationConditionInput]
   not: ModelCurationConditionInput
+}
+
+type ModelWaitlistConnection @aws_api_key {
+  items: [Waitlist]
+  nextToken: String
+}
+
+input ModelWaitlistFilterInput {
+  id: ModelIDInput
+  email: ModelStringInput
+  position: ModelIntInput
+  and: [ModelWaitlistFilterInput]
+  or: [ModelWaitlistFilterInput]
+  not: ModelWaitlistFilterInput
+}
+
+input CreateWaitlistInput {
+  id: ID
+  email: String!
+  position: Int!
+}
+
+input UpdateWaitlistInput {
+  id: ID!
+  email: String
+  position: Int
+}
+
+input DeleteWaitlistInput {
+  id: ID
+}
+
+input ModelWaitlistConditionInput {
+  email: ModelStringInput
+  position: ModelIntInput
+  and: [ModelWaitlistConditionInput]
+  or: [ModelWaitlistConditionInput]
+  not: ModelWaitlistConditionInput
 }
 
 type ModelTaggedPostConnection @aws_api_key @aws_cognito_user_pools {
@@ -911,6 +966,32 @@ input SearchableCurationSortInput {
 
 type SearchableCurationConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
   items: [Curation]
+  nextToken: String
+  total: Int
+}
+
+input SearchableWaitlistFilterInput {
+  id: SearchableIDFilterInput
+  email: SearchableStringFilterInput
+  position: SearchableIntFilterInput
+  and: [SearchableWaitlistFilterInput]
+  or: [SearchableWaitlistFilterInput]
+  not: SearchableWaitlistFilterInput
+}
+
+enum SearchableWaitlistSortableFields {
+  id
+  email
+  position
+}
+
+input SearchableWaitlistSortInput {
+  field: SearchableWaitlistSortableFields
+  direction: SearchableSortDirection
+}
+
+type SearchableWaitlistConnection @aws_api_key {
+  items: [Waitlist]
   nextToken: String
   total: Int
 }

@@ -11,10 +11,10 @@ const Login = () => {
   if (user) router.back();
 
   return (
-    <div className="mt-4">
+    <>
       <Head title="Login" />
       <SignIn />
-    </div>
+    </>
   );
 };
 

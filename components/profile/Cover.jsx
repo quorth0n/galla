@@ -5,7 +5,7 @@ import UploadIcon from './UploadIcon';
 const Cover = ({ defaultCover }) => {
   const [coverURL, setCoverURL] = React.useState();
   return (
-    <section className="relative block" style={{ height: '500px' }}>
+    <section className="relative block -mt-4" style={{ height: '500px' }}>
       <UploadIcon
         name="bg"
         style={{ zIndex: 40, right: '1rem' }}

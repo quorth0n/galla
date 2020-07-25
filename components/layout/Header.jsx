@@ -64,6 +64,7 @@ const Header = () => {
     setNavbarOpen(false);
     closePopover();
   };
+
   const handleProfileAction = (action) => {
     closeAll();
     switch (action) {

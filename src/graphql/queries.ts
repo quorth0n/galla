@@ -451,6 +451,60 @@ export const searchCurations = /* GraphQL */ `
     }
   }
 `;
+export const getWaitlist = /* GraphQL */ `
+  query GetWaitlist($id: ID!) {
+    getWaitlist(id: $id) {
+      id
+      email
+      position
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listWaitlists = /* GraphQL */ `
+  query ListWaitlists(
+    $filter: ModelWaitlistFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listWaitlists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        email
+        position
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const searchWaitlists = /* GraphQL */ `
+  query SearchWaitlists(
+    $filter: SearchableWaitlistFilterInput
+    $sort: SearchableWaitlistSortInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    searchWaitlists(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        email
+        position
+        createdAt
+        updatedAt
+      }
+      nextToken
+      total
+    }
+  }
+`;
 export const getTaggedPost = /* GraphQL */ `
   query GetTaggedPost($id: ID!) {
     getTaggedPost(id: $id) {

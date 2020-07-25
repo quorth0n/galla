@@ -137,6 +137,21 @@ type Curation
   totalViews: Int
 }
 
+# Early access
+type Waitlist
+  @model
+  @auth(
+    rules: [
+      { allow: public, provider: apiKey, operations: [create, read, update] }
+    ]
+  )
+  @searchable {
+  id: ID!
+  email: String!
+  position: Int!
+  referrals: Int!
+}
+
 # Intermediary m2ms
 type TaggedPost
   @model

@@ -411,6 +411,20 @@ export const deleteCuration = /* GraphQL */ `
     }
   }
 `;
+export const deleteWaitlist = /* GraphQL */ `
+  mutation DeleteWaitlist(
+    $input: DeleteWaitlistInput!
+    $condition: ModelWaitlistConditionInput
+  ) {
+    deleteWaitlist(input: $input, condition: $condition) {
+      id
+      email
+      position
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createTaggedPost = /* GraphQL */ `
   mutation CreateTaggedPost(
     $input: CreateTaggedPostInput!
@@ -1025,6 +1039,34 @@ export const updateCuration = /* GraphQL */ `
         }
         nextToken
       }
+    }
+  }
+`;
+export const createWaitlist = /* GraphQL */ `
+  mutation CreateWaitlist(
+    $input: CreateWaitlistInput!
+    $condition: ModelWaitlistConditionInput
+  ) {
+    createWaitlist(input: $input, condition: $condition) {
+      id
+      email
+      position
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateWaitlist = /* GraphQL */ `
+  mutation UpdateWaitlist(
+    $input: UpdateWaitlistInput!
+    $condition: ModelWaitlistConditionInput
+  ) {
+    updateWaitlist(input: $input, condition: $condition) {
+      id
+      email
+      position
+      createdAt
+      updatedAt
     }
   }
 `;

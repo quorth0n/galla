@@ -241,6 +241,18 @@ export type DeleteCurationInput = {
   id?: string | null,
 };
 
+export type DeleteWaitlistInput = {
+  id?: string | null,
+};
+
+export type ModelWaitlistConditionInput = {
+  email?: ModelStringInput | null,
+  position?: ModelIntInput | null,
+  and?: Array< ModelWaitlistConditionInput | null > | null,
+  or?: Array< ModelWaitlistConditionInput | null > | null,
+  not?: ModelWaitlistConditionInput | null,
+};
+
 export type CreateTaggedPostInput = {
   id?: string | null,
   postID: string,
@@ -372,6 +384,18 @@ export type UpdateCurationInput = {
   description?: string | null,
   updatedAt?: string | null,
   totalViews?: number | null,
+};
+
+export type CreateWaitlistInput = {
+  id?: string | null,
+  email: string,
+  position: number,
+};
+
+export type UpdateWaitlistInput = {
+  id: string,
+  email?: string | null,
+  position?: number | null,
 };
 
 export type ModelUserFilterInput = {
@@ -641,6 +665,36 @@ export enum SearchableCurationSortableFields {
   description = "description",
   updatedAt = "updatedAt",
   totalViews = "totalViews",
+}
+
+
+export type ModelWaitlistFilterInput = {
+  id?: ModelIDInput | null,
+  email?: ModelStringInput | null,
+  position?: ModelIntInput | null,
+  and?: Array< ModelWaitlistFilterInput | null > | null,
+  or?: Array< ModelWaitlistFilterInput | null > | null,
+  not?: ModelWaitlistFilterInput | null,
+};
+
+export type SearchableWaitlistFilterInput = {
+  id?: SearchableIDFilterInput | null,
+  email?: SearchableStringFilterInput | null,
+  position?: SearchableIntFilterInput | null,
+  and?: Array< SearchableWaitlistFilterInput | null > | null,
+  or?: Array< SearchableWaitlistFilterInput | null > | null,
+  not?: SearchableWaitlistFilterInput | null,
+};
+
+export type SearchableWaitlistSortInput = {
+  field?: SearchableWaitlistSortableFields | null,
+  direction?: SearchableSortDirection | null,
+};
+
+export enum SearchableWaitlistSortableFields {
+  id = "id",
+  email = "email",
+  position = "position",
 }
 
 
@@ -1145,6 +1199,22 @@ export type DeleteCurationMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type DeleteWaitlistMutationVariables = {
+  input: DeleteWaitlistInput,
+  condition?: ModelWaitlistConditionInput | null,
+};
+
+export type DeleteWaitlistMutation = {
+  deleteWaitlist:  {
+    __typename: "Waitlist",
+    id: string,
+    email: string,
+    position: number,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -1858,6 +1928,38 @@ export type UpdateCurationMutation = {
   } | null,
 };
 
+export type CreateWaitlistMutationVariables = {
+  input: CreateWaitlistInput,
+  condition?: ModelWaitlistConditionInput | null,
+};
+
+export type CreateWaitlistMutation = {
+  createWaitlist:  {
+    __typename: "Waitlist",
+    id: string,
+    email: string,
+    position: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateWaitlistMutationVariables = {
+  input: UpdateWaitlistInput,
+  condition?: ModelWaitlistConditionInput | null,
+};
+
+export type UpdateWaitlistMutation = {
+  updateWaitlist:  {
+    __typename: "Waitlist",
+    id: string,
+    email: string,
+    position: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type GetUserQueryVariables = {
   username: string,
 };
@@ -2335,6 +2437,65 @@ export type SearchCurationsQuery = {
         __typename: "ModelCuratedPostConnection",
         nextToken: string | null,
       } | null,
+    } | null > | null,
+    nextToken: string | null,
+    total: number | null,
+  } | null,
+};
+
+export type GetWaitlistQueryVariables = {
+  id: string,
+};
+
+export type GetWaitlistQuery = {
+  getWaitlist:  {
+    __typename: "Waitlist",
+    id: string,
+    email: string,
+    position: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListWaitlistsQueryVariables = {
+  filter?: ModelWaitlistFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListWaitlistsQuery = {
+  listWaitlists:  {
+    __typename: "ModelWaitlistConnection",
+    items:  Array< {
+      __typename: "Waitlist",
+      id: string,
+      email: string,
+      position: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type SearchWaitlistsQueryVariables = {
+  filter?: SearchableWaitlistFilterInput | null,
+  sort?: SearchableWaitlistSortInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type SearchWaitlistsQuery = {
+  searchWaitlists:  {
+    __typename: "SearchableWaitlistConnection",
+    items:  Array< {
+      __typename: "Waitlist",
+      id: string,
+      email: string,
+      position: number,
+      createdAt: string,
+      updatedAt: string,
     } | null > | null,
     nextToken: string | null,
     total: number | null,
@@ -3112,6 +3273,39 @@ export type OnDeleteCurationSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type OnCreateWaitlistSubscription = {
+  onCreateWaitlist:  {
+    __typename: "Waitlist",
+    id: string,
+    email: string,
+    position: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateWaitlistSubscription = {
+  onUpdateWaitlist:  {
+    __typename: "Waitlist",
+    id: string,
+    email: string,
+    position: number,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteWaitlistSubscription = {
+  onDeleteWaitlist:  {
+    __typename: "Waitlist",
+    id: string,
+    email: string,
+    position: number,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 

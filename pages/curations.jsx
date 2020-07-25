@@ -10,7 +10,7 @@ const Curations = ({ initialCurations }) => {
   const curations = initialCurations; // Todo: useState and add more filter options
 
   return (
-    <div className="p-4 px-8">
+    <div className="px-8">
       <Head />
       <div className="flex flex-col lg:flex-row justify-between">
         <FilterTabs />

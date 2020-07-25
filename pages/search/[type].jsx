@@ -74,7 +74,7 @@ const Search = ({ initialPosts, initialNextToken, total }) => {
   };
 
   return (
-    <div className="p-4 px-8">
+    <div className="px-8">
       <Head title={query} />
       <div className="mt-4 flex flex-wrap items-center justify-around leading-relaxed select-none">
         {posts.length === 0 ? (

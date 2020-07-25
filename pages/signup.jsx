@@ -11,7 +11,7 @@ const Login = () => {
   if (user) router.push('/');
 
   return (
-    <div className="mt-4">
+    <>
       <Head title="Sign Up" />
       <AmplifyAuthenticator usernameAlias="username" initialAuthState="signup">
         <AmplifySignUp
@@ -33,7 +33,7 @@ const Login = () => {
           slot="sign-up"
         />
       </AmplifyAuthenticator>
-    </div>
+    </>
   );
 };
 

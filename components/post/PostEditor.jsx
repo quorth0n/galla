@@ -161,7 +161,7 @@ const PostEditor = ({ post }) => {
   };
 
   return (
-    <div className="m-auto p-4 md:px-8 w-full lg:w-1/2 text-left">
+    <div className="m-auto px-4 md:px-8 w-full lg:w-1/2 text-left">
       <style jsx>{`
         input:not(input[type='file']):not(input[type='checkbox']),
         textarea {

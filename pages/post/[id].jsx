@@ -81,7 +81,7 @@ const Post = ({ post }) => {
   }));
 
   return (
-    <div className="inline-flex flex-col justify-center text-left p-4 md:px-8 w-full">
+    <div className="inline-flex flex-col justify-center text-left px-4 md:px-8 w-full">
       <Head title={post.title} description={post.description} />
       <div className="flex flex-row justify-between">
         <button className="back" onClick={back}>

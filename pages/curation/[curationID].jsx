@@ -56,7 +56,7 @@ const Curation = ({ curation }) => {
 
   if (!curation) return <Error statusCode={404} />;
   return (
-    <div className="m-auto flex flex-col justify-center text-left p-4 md:px-8">
+    <div className="m-auto flex flex-col justify-center text-left px-4 md:px-8">
       <Head title={curation.title} description={curation.description} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <OwnerContext.Provider value={curation.owner}>
