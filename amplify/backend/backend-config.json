@@ -177,10 +177,5 @@
 			]
 		}
 	},
-	"analytics": {
-		"analytics": {
-			"service": "Pinpoint",
-			"providerPlugin": "awscloudformation"
-		}
-	}
+	"analytics": {}
 }
