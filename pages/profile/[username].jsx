@@ -29,7 +29,7 @@ const Profile = ({ user }) => {
   const methods = useForm();
   const { register, handleSubmit, errors, setError } = methods;
   const { addToast } = useToasts();
-  const currentUser = useCognitoUser();
+  const [currentUser] = useCognitoUser();
 
   const onProfileSubmit = async (data) => {
     setSaving(true);
