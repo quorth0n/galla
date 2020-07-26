@@ -17,7 +17,7 @@ const Header = () => {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [searchOpen, setSearchOpen] = React.useState(false);
 
-  const user = useCognitoUser();
+  const [user] = useCognitoUser();
   const [popoverShowing, openPopover, closePopover] = usePopper(
     userBtnRef,
     userPopoverRef

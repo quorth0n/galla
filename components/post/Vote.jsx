@@ -17,7 +17,7 @@ const Vote = ({ id, initialScore }) => {
   const [score, setScore] = React.useState(initialScore);
   const [showSignInPopup, setShowSignInPopup] = React.useState(false);
   const voteRef = React.useRef();
-  const user = useCognitoUser();
+  const [user] = useCognitoUser();
 
   React.useEffect(() => {
     // get vote status

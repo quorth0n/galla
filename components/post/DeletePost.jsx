@@ -11,7 +11,7 @@ import useCognitoUser from '../../helpers/hooks/useCognitoUser';
 
 const DeletePost = ({ id, resolutions, owner }) => {
   const { back } = useRouter();
-  const user = useCognitoUser();
+  const [user] = useCognitoUser();
   if (user?.username !== owner) return null;
 
   const delPost = async () => {

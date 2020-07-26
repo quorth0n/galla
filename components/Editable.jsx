@@ -7,7 +7,7 @@ import useCognitoUser from '../helpers/hooks/useCognitoUser';
 const Editable = ({ text, type, children, error, ...props }) => {
   const [isEditing, setEditing] = useState(false);
   const owner = useContext(OwnerContext);
-  const user = useCognitoUser();
+  const [user] = useCognitoUser();
 
   const handleKeyDown = (event) => {
     const { key } = event;

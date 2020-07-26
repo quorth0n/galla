@@ -3,8 +3,16 @@ import { Auth, Hub } from 'aws-amplify';
 
 const useCognitoUser = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const fetchUser = async () => {
-    setUser(await Auth.currentAuthenticatedUser());
+    try {
+      setUser(await Auth.currentAuthenticatedUser());
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
   };
   const onAuthChanged = ({ payload: { event } }) => {
     if (event === 'signIn') {
@@ -12,6 +20,7 @@ const useCognitoUser = () => {
     }
     if (event === 'signOut') {
       setUser(null);
+      setLoading(false);
     }
   };
 
@@ -30,7 +39,7 @@ const useCognitoUser = () => {
     fetchUser();
   }, []);
 
-  return user;
+  return [user, loading];
 };
 
 export default useCognitoUser;

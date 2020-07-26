@@ -22,7 +22,7 @@ const AddToCuration = ({ postID }) => {
     btnRef,
     popoverRef
   );
-  const user = useCognitoUser();
+  const [user] = useCognitoUser();
 
   React.useEffect(() => {
     const fetchCurations = async () => {

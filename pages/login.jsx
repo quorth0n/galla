@@ -7,7 +7,7 @@ import SignIn from '../components/SignIn';
 
 const Login = () => {
   const router = useRouter();
-  const user = useCognitoUser();
+  const [user] = useCognitoUser();
   if (user) router.back();
 
   return (

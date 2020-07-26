@@ -25,7 +25,7 @@ const PostEditor = ({ post }) => {
   const [advanced, setAdvanced] = React.useState(false);
 
   const router = useRouter();
-  const user = useCognitoUser();
+  const [user] = useCognitoUser();
   const { register, handleSubmit, errors } = useForm();
   useWarnIfChanged(warn);
 

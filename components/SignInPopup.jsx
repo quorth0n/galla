@@ -5,7 +5,7 @@ import useCognitoUser from '../helpers/hooks/useCognitoUser';
 
 const SignInPopup = () => {
   const { open, toggleOpen } = React.useContext(SignInOpenContext);
-  const user = useCognitoUser();
+  const [user] = useCognitoUser();
 
   if (user || !open) {
     return null;

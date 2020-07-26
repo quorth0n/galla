@@ -20,7 +20,7 @@ const Post = ({ post }) => {
   const [resolutions, setResolutions] = React.useState([]);
   const [imageSrc, setImageSrc] = React.useState(post?.thumb);
   const { back } = useRouter();
-  const user = useCognitoUser();
+  const [user] = useCognitoUser();
 
   // scale canvas and load image
   React.useEffect(() => {
