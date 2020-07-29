@@ -26,12 +26,11 @@ const Landing = () => (
       <div className="container relative mx-auto">
         <div className="items-center flex flex-wrap">
           <div className="w-full lg:w-6/12 px-4 m-auto text-center">
-            <h1 className="text-primary font-semibold text-5xl">
-              The future of art is here
-            </h1>
+            <h1 className="text-white font-semibold text-6xl mb-4">GALLA</h1>
+            <h2 className="text-4xl">Sculpture for the Digital Age</h2>
             <p className="mt-4 text-lg opacity-75">
-              Galla is revolutionizing the way artists and curators work, by
-              giving the community an update for the digital age.
+              Galla is empowering 3-D artists to showcase their work, earn more,
+              and protect their intellectual property.
             </p>
             <div className="mt-6">
               <Waitlist />
@@ -74,8 +73,8 @@ const Landing = () => (
                 </h6>
                 <p className="mt-2 mb-4 text-gray-600">
                   64% of professionals have had their online work stolen{' '}
-                  <b>over 200 times</b>.Galla is integrated with protection
-                  against content scraping and bots.
+                  <strong>over 200 times</strong>. Galla is integrated with
+                  protection against content scraping and bots.
                 </p>
               </div>
             </div>
@@ -92,7 +91,8 @@ const Landing = () => (
                 </h6>
                 <p className="mt-2 mb-4 text-gray-600">
                   Sell your work, earn comissions, and collect royalties{' '}
-                  <b>every time you're viewed</b> &ndash; all in one place.
+                  <strong>every time you're viewed</strong> &ndash; all in one
+                  place.
                 </p>
               </div>
             </div>
@@ -105,11 +105,12 @@ const Landing = () => (
                   <i className="fas fa-stream text-lg"></i>
                 </div>
                 <h6 className="text-xl font-semibold text-gray-800">
-                  Curate Content
+                  Interact
                 </h6>
                 <p className="mt-2 mb-4 text-gray-600">
-                  gitize your exhibitions, galleries, or private collections for
-                  the internet, and <b>stream to any device</b> you can imagine.
+                  Using Galla is a social experience. Discuss pieces with other
+                  artists and fans, and{' '}
+                  <strong>bring your work directly to its audience.</strong>
                 </p>
               </div>
             </div>
@@ -152,8 +153,8 @@ const Landing = () => (
             </h2>
             <p className="text-lg leading-relaxed mt-4 text-secondary-soft opacity-75">
               Galla is currently under active development, and we're looking all
-              the help we can get.If you're as excited about the project as we
-              are, get in touch using one of the methods below
+              the help we can get. If you're as excited about the project as we
+              are, get in touch using one of the methods below.
             </p>
           </div>
         </div>
@@ -170,7 +171,7 @@ const Landing = () => (
               </div>
               <h5 className="text-xl mt-5 font-semibold">Discord</h5>
               <p className="mt-2 mb-4 opacity-75">
-                llow along with site progress, developer updates, and provide
+                Follow along with site progress, developer updates, and provide
                 feedback or feature requests.
               </p>
             </a>
@@ -191,8 +192,8 @@ const Landing = () => (
                 <a href="https://www.gnu.org/philosophy/free-sw.html">
                   Free and Open Source
                 </a>{' '}
-                project.If you have development experience, you can help us work
-                on new features.
+                project. If you have development experience, you can help us
+                work on new features.
               </p>
             </a>
           </div>
@@ -207,9 +208,10 @@ const Landing = () => (
                 <i className="fab fa-instagram text-xl"></i>
               </div>
               <h5 className="text-xl mt-5 font-semibold">Instagram</h5>
-              <p className="mt-2 mb-4">
-                lp the community grow.Pass our account along to someone who
-                wants an art platform that caters to them.
+              <p className="mt-2 mb-4 opacity-75">
+                Help the community grow. Pass our account along to someone
+                interested in the world's first platform deisgned specifically
+                for sculptors.
               </p>
             </a>
           </div>
