@@ -26,7 +26,7 @@ const PostEditor = ({ post }) => {
 
   const router = useRouter();
   const [user] = useCognitoUser();
-  const { register, handleSubmit, errors, control } = useForm();
+  const { register, handleSubmit, errors, setError, control } = useForm();
   useWarnIfChanged(warn);
 
   // gets approximate resolution from vertical pixels
@@ -55,6 +55,12 @@ const PostEditor = ({ post }) => {
     });
 
   const onSubmit = async (data) => {
+    debugger;
+    if (!post && !data.fullRes.length) {
+      setError('fullRes', 'required');
+      return;
+    }
+
     setWarn(false);
     setSaving(true);
 

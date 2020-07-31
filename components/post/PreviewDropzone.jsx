@@ -64,6 +64,7 @@ const PreviewDropzone = ({ onChange }) => {
                 const fileIndex = filePreviews.indexOf(file);
                 setFiles(files.filter((_, i) => i !== fileIndex));
                 setFilePreviews(filePreviews.filter((_, i) => i !== fileIndex));
+                onChange(files.filter((_, i) => i !== fileIndex));
               }}
             >
               x
