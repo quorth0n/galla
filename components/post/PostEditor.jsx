@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { API, graphqlOperation } from 'aws-amplify';
 import { nanoid } from 'nanoid';
 
@@ -17,16 +17,16 @@ import {
   updatePost,
 } from '../../src/graphql/mutations';
 import getUrlForPublicKey from '../../helpers/functions/storage/getUrlForPublicKey';
+import PreviewDropzone from './PreviewDropzone';
 
 const PostEditor = ({ post }) => {
-  console.log(post);
   const [warn, setWarn] = React.useState(true);
   const [saving, setSaving] = React.useState(false);
   const [advanced, setAdvanced] = React.useState(false);
 
   const router = useRouter();
   const [user] = useCognitoUser();
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, control } = useForm();
   useWarnIfChanged(warn);
 
   // gets approximate resolution from vertical pixels
@@ -196,22 +196,18 @@ const PostEditor = ({ post }) => {
           defaultValue={post ? post.title : ''}
         />
         <div
-          className={`flex flex-col md:flex-row text-sm rounded bg-primary text-gray-700 p-3 ${
+          className={`flex flex-col md:flex-row rounded bg-primary text-gray-700 p-3 ${
             post && 'hidden'
           } ${
             errors.fullRes && 'border-2 border-red-500 placeholder-red-500'
           } `}
         >
-          <label>
-            <span className="mr-1 text-base">Image:</span>
-            <input
-              type="file"
-              accept="image/png,image/webp,image/jpeg,image/gif"
-              name="fullRes"
-              ref={register({ required: !post })}
-              className="opacity-75 text-gray-500 p-0 border-0"
-            />
-          </label>
+          <Controller
+            name="fullRes"
+            control={control}
+            as={<PreviewDropzone />}
+            rules={{ required: true }}
+          />
           <p className="text-red-600">
             {errors.fullRes && errors.fullRes.message}
           </p>
