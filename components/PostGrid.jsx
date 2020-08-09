@@ -128,7 +128,7 @@ const PostGrid = ({ initialPosts }) => {
       </div>
       <div className="my-6 post-grid">
         {posts.length === 0 ? (
-          <h2 className="text-lg text-left opacity-75">No posts found!</h2>
+          <h2 className="text-lg text-left opacity-75">No pieces found!</h2>
         ) : (
           posts.map((post) => <PostThumb post={post} key={post} />)
         )}
