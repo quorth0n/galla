@@ -143,7 +143,7 @@ export type CreatePostInput = {
 
 export type PublicImageInput = {
   resMode: string,
-  url: string,
+  urls?: Array< string | null > | null,
   thumb?: boolean | null,
 };
 
@@ -248,6 +248,7 @@ export type DeleteWaitlistInput = {
 export type ModelWaitlistConditionInput = {
   email?: ModelStringInput | null,
   position?: ModelIntInput | null,
+  referrals?: ModelIntInput | null,
   and?: Array< ModelWaitlistConditionInput | null > | null,
   or?: Array< ModelWaitlistConditionInput | null > | null,
   not?: ModelWaitlistConditionInput | null,
@@ -390,12 +391,14 @@ export type CreateWaitlistInput = {
   id?: string | null,
   email: string,
   position: number,
+  referrals: number,
 };
 
 export type UpdateWaitlistInput = {
   id: string,
   email?: string | null,
   position?: number | null,
+  referrals?: number | null,
 };
 
 export type ModelUserFilterInput = {
@@ -672,6 +675,7 @@ export type ModelWaitlistFilterInput = {
   id?: ModelIDInput | null,
   email?: ModelStringInput | null,
   position?: ModelIntInput | null,
+  referrals?: ModelIntInput | null,
   and?: Array< ModelWaitlistFilterInput | null > | null,
   or?: Array< ModelWaitlistFilterInput | null > | null,
   not?: ModelWaitlistFilterInput | null,
@@ -681,6 +685,7 @@ export type SearchableWaitlistFilterInput = {
   id?: SearchableIDFilterInput | null,
   email?: SearchableStringFilterInput | null,
   position?: SearchableIntFilterInput | null,
+  referrals?: SearchableIntFilterInput | null,
   and?: Array< SearchableWaitlistFilterInput | null > | null,
   or?: Array< SearchableWaitlistFilterInput | null > | null,
   not?: SearchableWaitlistFilterInput | null,
@@ -695,6 +700,7 @@ export enum SearchableWaitlistSortableFields {
   id = "id",
   email = "email",
   position = "position",
+  referrals = "referrals",
 }
 
 
@@ -744,7 +750,7 @@ export type ViewPostMutation = {
     resolutions:  Array< {
       __typename: "PublicImage",
       resMode: string,
-      url: string,
+      urls: Array< string | null > | null,
       thumb: boolean | null,
     } | null >,
     quantity: number | null,
@@ -831,7 +837,7 @@ export type VotePostMutation = {
     resolutions:  Array< {
       __typename: "PublicImage",
       resMode: string,
-      url: string,
+      urls: Array< string | null > | null,
       thumb: boolean | null,
     } | null >,
     quantity: number | null,
@@ -959,7 +965,7 @@ export type CreatePostMutation = {
     resolutions:  Array< {
       __typename: "PublicImage",
       resMode: string,
-      url: string,
+      urls: Array< string | null > | null,
       thumb: boolean | null,
     } | null >,
     quantity: number | null,
@@ -1015,7 +1021,7 @@ export type DeletePostMutation = {
     resolutions:  Array< {
       __typename: "PublicImage",
       resMode: string,
-      url: string,
+      urls: Array< string | null > | null,
       thumb: boolean | null,
     } | null >,
     quantity: number | null,
@@ -1213,6 +1219,7 @@ export type DeleteWaitlistMutation = {
     id: string,
     email: string,
     position: number,
+    referrals: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1244,7 +1251,7 @@ export type CreateTaggedPostMutation = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -1307,7 +1314,7 @@ export type UpdateTaggedPostMutation = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -1370,7 +1377,7 @@ export type DeleteTaggedPostMutation = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -1584,7 +1591,7 @@ export type CreateCuratedPostMutation = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -1650,7 +1657,7 @@ export type UpdateCuratedPostMutation = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -1716,7 +1723,7 @@ export type DeleteCuratedPostMutation = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -1816,7 +1823,7 @@ export type UpdatePostMutation = {
     resolutions:  Array< {
       __typename: "PublicImage",
       resMode: string,
-      url: string,
+      urls: Array< string | null > | null,
       thumb: boolean | null,
     } | null >,
     quantity: number | null,
@@ -1939,6 +1946,7 @@ export type CreateWaitlistMutation = {
     id: string,
     email: string,
     position: number,
+    referrals: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1955,6 +1963,7 @@ export type UpdateWaitlistMutation = {
     id: string,
     email: string,
     position: number,
+    referrals: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2121,7 +2130,7 @@ export type ListPostsQuery = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -2161,7 +2170,7 @@ export type GetPostQuery = {
     resolutions:  Array< {
       __typename: "PublicImage",
       resMode: string,
-      url: string,
+      urls: Array< string | null > | null,
       thumb: boolean | null,
     } | null >,
     quantity: number | null,
@@ -2221,7 +2230,7 @@ export type SearchPostsQuery = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -2453,6 +2462,7 @@ export type GetWaitlistQuery = {
     id: string,
     email: string,
     position: number,
+    referrals: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2472,6 +2482,7 @@ export type ListWaitlistsQuery = {
       id: string,
       email: string,
       position: number,
+      referrals: number,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -2494,6 +2505,7 @@ export type SearchWaitlistsQuery = {
       id: string,
       email: string,
       position: number,
+      referrals: number,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -2527,7 +2539,7 @@ export type GetTaggedPostQuery = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -2732,7 +2744,7 @@ export type GetCuratedPostQuery = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -2942,7 +2954,7 @@ export type OnCreatePostSubscription = {
     resolutions:  Array< {
       __typename: "PublicImage",
       resMode: string,
-      url: string,
+      urls: Array< string | null > | null,
       thumb: boolean | null,
     } | null >,
     quantity: number | null,
@@ -2993,7 +3005,7 @@ export type OnUpdatePostSubscription = {
     resolutions:  Array< {
       __typename: "PublicImage",
       resMode: string,
-      url: string,
+      urls: Array< string | null > | null,
       thumb: boolean | null,
     } | null >,
     quantity: number | null,
@@ -3044,7 +3056,7 @@ export type OnDeletePostSubscription = {
     resolutions:  Array< {
       __typename: "PublicImage",
       resMode: string,
-      url: string,
+      urls: Array< string | null > | null,
       thumb: boolean | null,
     } | null >,
     quantity: number | null,
@@ -3282,6 +3294,7 @@ export type OnCreateWaitlistSubscription = {
     id: string,
     email: string,
     position: number,
+    referrals: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3293,6 +3306,7 @@ export type OnUpdateWaitlistSubscription = {
     id: string,
     email: string,
     position: number,
+    referrals: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3304,6 +3318,7 @@ export type OnDeleteWaitlistSubscription = {
     id: string,
     email: string,
     position: number,
+    referrals: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3330,7 +3345,7 @@ export type OnCreateTaggedPostSubscription = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -3388,7 +3403,7 @@ export type OnUpdateTaggedPostSubscription = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -3446,7 +3461,7 @@ export type OnDeleteTaggedPostSubscription = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -3640,7 +3655,7 @@ export type OnCreateCuratedPostSubscription = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -3701,7 +3716,7 @@ export type OnUpdateCuratedPostSubscription = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,
@@ -3762,7 +3777,7 @@ export type OnDeleteCuratedPostSubscription = {
       resolutions:  Array< {
         __typename: "PublicImage",
         resMode: string,
-        url: string,
+        urls: Array< string | null > | null,
         thumb: boolean | null,
       } | null >,
       quantity: number | null,

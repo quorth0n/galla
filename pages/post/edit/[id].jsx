@@ -18,11 +18,6 @@ export const getServerSideProps = async ({ query: { id }, res }) => {
             thumb
             quantity
             price
-            resolutions {
-              resMode
-              url
-              thumb
-            }
             tags {
               items {
                 id

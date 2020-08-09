@@ -42,10 +42,15 @@ const DeletePost = ({ id, resolutions, owner }) => {
       } = fetchedPostRelations.data.getPost;
 
       await Promise.all([
-        ...resolutions.map(async (res) => {
-          const key = res.url.substring(res.url.indexOf('.com/'));
-          await Storage.remove(key);
-        }),
+        ...resolutions.map(
+          async (res) =>
+            await Promise.all(
+              res.urls.map(async (url) => {
+                const key = url.substring(res.url.indexOf('.com/'));
+                await Storage.remove(key);
+              })
+            )
+        ),
         ...tagRelations.map(async ({ id: intId }) => {
           console.log(intId);
           await API.graphql(

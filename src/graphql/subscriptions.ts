@@ -99,7 +99,7 @@ export const onCreatePost = /* GraphQL */ `
       thumb
       resolutions {
         resMode
-        url
+        urls
         thumb
       }
       quantity
@@ -145,7 +145,7 @@ export const onUpdatePost = /* GraphQL */ `
       thumb
       resolutions {
         resMode
-        url
+        urls
         thumb
       }
       quantity
@@ -191,7 +191,7 @@ export const onDeletePost = /* GraphQL */ `
       thumb
       resolutions {
         resMode
-        url
+        urls
         thumb
       }
       quantity
@@ -407,6 +407,7 @@ export const onCreateWaitlist = /* GraphQL */ `
       id
       email
       position
+      referrals
       createdAt
       updatedAt
     }
@@ -418,6 +419,7 @@ export const onUpdateWaitlist = /* GraphQL */ `
       id
       email
       position
+      referrals
       createdAt
       updatedAt
     }
@@ -429,6 +431,7 @@ export const onDeleteWaitlist = /* GraphQL */ `
       id
       email
       position
+      referrals
       createdAt
       updatedAt
     }
@@ -453,7 +456,7 @@ export const onCreateTaggedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -505,7 +508,7 @@ export const onUpdateTaggedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -557,7 +560,7 @@ export const onDeleteTaggedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -730,7 +733,7 @@ export const onCreateCuratedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -784,7 +787,7 @@ export const onUpdateCuratedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -838,7 +841,7 @@ export const onDeleteCuratedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity

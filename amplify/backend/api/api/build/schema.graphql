@@ -6,7 +6,7 @@ type S3Object {
 
 type PublicImage @aws_api_key @aws_iam @aws_cognito_user_pools {
   resMode: String!
-  url: String!
+  urls: [String]
   thumb: Boolean
 }
 
@@ -91,6 +91,7 @@ type Waitlist @aws_api_key {
   id: ID!
   email: String!
   position: Int!
+  referrals: Int!
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
@@ -421,7 +422,7 @@ input ModelVoteConditionInput {
 
 input PublicImageInput {
   resMode: String!
-  url: String!
+  urls: [String]
   thumb: Boolean
 }
 
@@ -621,6 +622,7 @@ input ModelWaitlistFilterInput {
   id: ModelIDInput
   email: ModelStringInput
   position: ModelIntInput
+  referrals: ModelIntInput
   and: [ModelWaitlistFilterInput]
   or: [ModelWaitlistFilterInput]
   not: ModelWaitlistFilterInput
@@ -630,12 +632,14 @@ input CreateWaitlistInput {
   id: ID
   email: String!
   position: Int!
+  referrals: Int!
 }
 
 input UpdateWaitlistInput {
   id: ID!
   email: String
   position: Int
+  referrals: Int
 }
 
 input DeleteWaitlistInput {
@@ -645,6 +649,7 @@ input DeleteWaitlistInput {
 input ModelWaitlistConditionInput {
   email: ModelStringInput
   position: ModelIntInput
+  referrals: ModelIntInput
   and: [ModelWaitlistConditionInput]
   or: [ModelWaitlistConditionInput]
   not: ModelWaitlistConditionInput
@@ -974,6 +979,7 @@ input SearchableWaitlistFilterInput {
   id: SearchableIDFilterInput
   email: SearchableStringFilterInput
   position: SearchableIntFilterInput
+  referrals: SearchableIntFilterInput
   and: [SearchableWaitlistFilterInput]
   or: [SearchableWaitlistFilterInput]
   not: SearchableWaitlistFilterInput
@@ -983,6 +989,7 @@ enum SearchableWaitlistSortableFields {
   id
   email
   position
+  referrals
 }
 
 input SearchableWaitlistSortInput {

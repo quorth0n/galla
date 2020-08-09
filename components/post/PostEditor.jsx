@@ -55,7 +55,6 @@ const PostEditor = ({ post }) => {
     });
 
   const onSubmit = async (data) => {
-    debugger;
     if (!post && !data.fullRes.length) {
       setError('fullRes', 'required');
       return;
@@ -67,8 +66,15 @@ const PostEditor = ({ post }) => {
     try {
       const id = post ? post.id : nanoid();
 
-      const { title, description, license, forSale, price, quantity } = data;
-      const fullRes = data.fullRes[0];
+      const {
+        title,
+        description,
+        license,
+        forSale,
+        price,
+        quantity,
+        fullRes,
+      } = data;
       const tags = Array.from(new Set(data.tags.split(','))).map((tag) =>
         tag.trim()
       );
@@ -84,30 +90,37 @@ const PostEditor = ({ post }) => {
 
       if (!post) {
         // upload full res
-        const fullResDim = await getDimensions(fullRes);
+        const fullResDim = await getDimensions(fullRes[0]);
         const fullResMode = `${getResMode(fullResDim[1])}p`;
-        const fullResUrl = await publicUpload(
-          fullRes,
-          `posts/${id}.${fullResMode}`,
-          10 * 1000 * 1000
+        const fullResUrls = await Promise.all(
+          fullRes.map(
+            async (img, i) =>
+              await publicUpload(
+                img,
+                `posts/${id}/${fullResMode}/${i}`,
+                10 * 1000 * 1000
+              )
+          )
         );
 
         // create resolutions arr
         const resolutions = [
           {
             resMode: fullResMode,
-            url: fullResUrl,
+            urls: fullResUrls,
             thumb: false,
           },
         ];
 
         // thumb is handled by S3 trigger by default, grab reference here
-        const ext = fullResUrl.substring(fullResUrl.lastIndexOf('.') + 1);
+        const ext = fullResUrls[0].substring(
+          fullResUrls[0].lastIndexOf('.') + 1
+        );
         let thumbUrl = getUrlForPublicKey(`thumbs/${id}.${ext}`);
         if (getResMode(fullResDim[1]) <= 360) {
           // use full res as thumbnail
           thumbUrl = await publicUpload(
-            fullRes,
+            fullRes[0],
             `thumbs/${id}`,
             10 * 1000 * 1000
           );
@@ -115,7 +128,7 @@ const PostEditor = ({ post }) => {
           // add thumb to resolutions
           resolutions.unshift({
             resMode: '360p',
-            url: thumbUrl,
+            urls: [thumbUrl],
             thumb: true,
           });
         }

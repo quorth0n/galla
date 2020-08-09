@@ -52,10 +52,18 @@ async function processRecord(record) {
   }
 
   const keyPrefix = key.substring(0, key.indexOf('/posts/'));
-  const postID = key.substring(key.lastIndexOf('/') + 1, key.indexOf('.'));
+  const keySplit = key
+    .substring(key.indexOf('/posts/') + '/posts/'.length)
+    .split('/');
+  const postID = keySplit[0];
+  const index = parseInt(keySplit[2]);
+  if (index !== 0) {
+    console.log('not first post, thumbnail already created');
+    return;
+  }
+
   const ext = key.substring(key.lastIndexOf('.') + 1);
   const thumbKey = `${keyPrefix}/thumbs/${postID}.${ext}`;
-
   console.log('thumb key: ', thumbKey);
 
   const originalPost = await S3.getObject({

@@ -33,7 +33,7 @@ const Post = ({ post }) => {
               getPost(id: $id) {
                 resolutions {
                   resMode
-                  url
+                  urls
                 }
               }
             }
@@ -42,7 +42,7 @@ const Post = ({ post }) => {
           authMode: 'API_KEY',
         });
         const res = fetchedResolutions.data.getPost.resolutions;
-        setImageSrc(res[res.length - 1].url);
+        setImageSrc(res[res.length - 1].urls[0]);
         setResolutions(res);
 
         API.graphql({
@@ -75,7 +75,7 @@ const Post = ({ post }) => {
 
   const { id } = post;
   const dropdownRes = resolutions.map((res, i) => ({
-    key: res.url,
+    key: res.urls[0],
     value: res.resMode,
     selected: i === resolutions.length - 1,
   }));

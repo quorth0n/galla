@@ -15,7 +15,7 @@ export const viewPost = /* GraphQL */ `
       thumb
       resolutions {
         resMode
-        url
+        urls
         thumb
       }
       quantity
@@ -86,7 +86,7 @@ export const votePost = /* GraphQL */ `
       thumb
       resolutions {
         resMode
-        url
+        urls
         thumb
       }
       quantity
@@ -199,7 +199,7 @@ export const createPost = /* GraphQL */ `
       thumb
       resolutions {
         resMode
-        url
+        urls
         thumb
       }
       quantity
@@ -248,7 +248,7 @@ export const deletePost = /* GraphQL */ `
       thumb
       resolutions {
         resMode
-        url
+        urls
         thumb
       }
       quantity
@@ -420,6 +420,7 @@ export const deleteWaitlist = /* GraphQL */ `
       id
       email
       position
+      referrals
       createdAt
       updatedAt
     }
@@ -447,7 +448,7 @@ export const createTaggedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -502,7 +503,7 @@ export const updateTaggedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -557,7 +558,7 @@ export const deleteTaggedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -742,7 +743,7 @@ export const createCuratedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -799,7 +800,7 @@ export const updateCuratedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -856,7 +857,7 @@ export const deleteCuratedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -944,7 +945,7 @@ export const updatePost = /* GraphQL */ `
       thumb
       resolutions {
         resMode
-        url
+        urls
         thumb
       }
       quantity
@@ -1051,6 +1052,7 @@ export const createWaitlist = /* GraphQL */ `
       id
       email
       position
+      referrals
       createdAt
       updatedAt
     }
@@ -1065,6 +1067,7 @@ export const updateWaitlist = /* GraphQL */ `
       id
       email
       position
+      referrals
       createdAt
       updatedAt
     }

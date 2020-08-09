@@ -313,7 +313,11 @@ const Profile = ({ user }) => {
                   <h4 className="text-2xl font-semibold leading-normal mb-6 text-primary">
                     Curations
                   </h4>
-                  <div className="px-4 lg:px-8 post-grid grid-even">
+                  <div
+                    className={`px-4 lg:px-8 ${
+                      curations.length && 'post-grid grid-even'
+                    }`}
+                  >
                     {curations.length ? (
                       curations.map((curation) => (
                         <CurationThumb key={curation.id} curation={curation} />

@@ -7,7 +7,7 @@ type S3Object {
 
 type PublicImage {
   resMode: String!
-  url: String!
+  urls: [String]
   thumb: Boolean
 }
 

@@ -1,5 +1,5 @@
 #set( $indexPath = "/waitlist/doc/_search" )
-#set( $nonKeywordFields = ["position"] )
+#set( $nonKeywordFields = ["position", "referrals"] )
 #if( $util.isNullOrEmpty($context.args.sort) )
   #set( $sortDirection = "desc" )
   #set( $sortField = "id" )

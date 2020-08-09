@@ -157,7 +157,7 @@ export const listPosts = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -190,7 +190,7 @@ export const getPost = /* GraphQL */ `
       thumb
       resolutions {
         resMode
-        url
+        urls
         thumb
       }
       quantity
@@ -247,7 +247,7 @@ export const searchPosts = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -457,6 +457,7 @@ export const getWaitlist = /* GraphQL */ `
       id
       email
       position
+      referrals
       createdAt
       updatedAt
     }
@@ -473,6 +474,7 @@ export const listWaitlists = /* GraphQL */ `
         id
         email
         position
+        referrals
         createdAt
         updatedAt
       }
@@ -497,6 +499,7 @@ export const searchWaitlists = /* GraphQL */ `
         id
         email
         position
+        referrals
         createdAt
         updatedAt
       }
@@ -524,7 +527,7 @@ export const getTaggedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
@@ -700,7 +703,7 @@ export const getCuratedPost = /* GraphQL */ `
         thumb
         resolutions {
           resMode
-          url
+          urls
           thumb
         }
         quantity
