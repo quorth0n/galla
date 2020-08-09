@@ -83,7 +83,7 @@ const Header = () => {
 
   return (
     <nav
-      className={`fixed w-full flex flex-wrap items-center justify-between px-4 py-3 navbar-expand-lg bg-secondary text-primary z-20 shadow-2xl focus:outline-none transition duration-300 ${
+      className={`fixed w-full flex flex-wrap items-center justify-between px-8 py-3 navbar-expand-lg bg-secondary text-primary z-20 shadow-2xl focus:outline-none transition duration-300 ${
         scrolled && 'opacity-75 hover:opacity-100'
       }`}
       tabIndex="0"
@@ -97,13 +97,55 @@ const Header = () => {
         <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
           <Link href="/">
             <a
-              className="text-2xl font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase hover:opacity-100 link-off"
+              className="relative text-2xl leading-relaxed mr-4 py-2 whitespace-no-wrap uppercase hover:opacity-100 link-off"
               onClick={closeAll}
             >
-              Galla
-              <sub className="font-normal text-xs opacity-75 ml-1 lowercase">
-                beta
-              </sub>
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="currentColor"
+                shapeRendering="geometricPrecision"
+                className="text-primary inline mr-2"
+              >
+                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+              </svg>
+              <div
+                className="inline absolute"
+                style={{
+                  width: '75px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                }}
+              >
+                <span
+                  className="inline-block overflow-hidden absolute"
+                  style={{
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                  }}
+                >
+                  Galla
+                </span>
+              </div>
+              <style jsx>
+                {`
+                  span {
+                    transition: width 0.15s linear;
+                    visibility: hidden;
+                    width: 0;
+                  }
+
+                  a:hover span {
+                    width: 75px;
+                    visibility: visible;
+                  }
+                `}
+              </style>
             </a>
           </Link>
           <div className="flex flex-row">
@@ -145,10 +187,12 @@ const Header = () => {
           </button>
         </form>
         <div
-          className={`lg:flex items-center ${navbarOpen ? 'flex' : 'hidden'}`}
+          className={`lg:flex items-center w-full lg:w-auto ${
+            navbarOpen ? 'flex' : 'hidden'
+          }`}
         >
           {user ? (
-            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto items-center text-xs">
+            <ul className="flex flex-col lg:flex-row list-none lg:ml-auto items-center text-xs w-full">
               <li
                 className="nav-item hidden lg:inline"
                 onMouseEnter={openPopover}
