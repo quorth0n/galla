@@ -46,7 +46,7 @@ const DeletePost = ({ id, resolutions, owner }) => {
           async (res) =>
             await Promise.all(
               res.urls.map(async (url) => {
-                const key = url.substring(res.url.indexOf('.com/'));
+                const key = url.substring(res.urls[0].indexOf('.com/'));
                 await Storage.remove(key);
               })
             )
