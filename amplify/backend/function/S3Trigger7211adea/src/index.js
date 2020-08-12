@@ -14,6 +14,7 @@ const THUMBNAIL_HEIGHT = parseInt(process.env.THUMBNAIL_HEIGHT || 360);
 
 function makeThumbnail(photo) {
   return sharp(photo)
+    .rotate() // rotates according to EXIF
     .resize({
       fit: sharp.fit.inside,
       height: THUMBNAIL_HEIGHT,
