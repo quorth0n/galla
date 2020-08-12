@@ -45,7 +45,7 @@ const updatePost = gql`
       updatedAt
       resolutions {
         resMode
-        url
+        urls
       }
     }
   }
