@@ -5,7 +5,7 @@ const PageHead = ({ title, description }) => (
   <Head>
     <meta charSet="UTF-8" />
     <title>
-      {title ? `${title} | Galla` : 'Galla | The Future of Visual Art'}
+      {title ? `${title} | Galla` : 'Galla | Sculpture for the Digital Age'}
     </title>
     <meta
       name="description"

@@ -24,7 +24,7 @@ const Tags = () => {
   }, [tagNames, dirty]);
 
   return (
-    <div className="space-x-1">
+    <div className="space-x-1 opacity-75">
       <span>Tags: </span>
       {tagNames.length ? (
         tagNames.map((tag) => (
