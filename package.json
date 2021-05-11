@@ -16,7 +16,7 @@
     "aws-amplify": "^3.0.10",
     "cookie": "^0.4.1",
     "formidable": "^1.2.2",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "lodash-es": "^4.17.15",
     "nanoid": "^3.1.6",
     "next": "9.3.6",
